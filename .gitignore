@@ -3,6 +3,7 @@
 
 # 清单与说明
 !.gitignore
+!.gitattributes
 !manifest.json
 !manifest.md
 
@@ -12,12 +13,23 @@
 !/showcase/data/
 !/showcase/data/**
 
-# 离线站点：仅入库构建好的单文件产物
+# 站点：入库构建产物 + 可复现构建所需的源码与配置
 !/showcase/app/
 /showcase/app/*
 !/showcase/app/dist/
-/showcase/app/dist/*
+!/showcase/app/dist/*
 !/showcase/app/dist/index.html
+!/showcase/app/src/
+!/showcase/app/src/**
+!/showcase/app/scripts/
+!/showcase/app/scripts/**
+!/showcase/app/index.html
+!/showcase/app/package.json
+!/showcase/app/package-lock.json
+!/showcase/app/tsconfig.json
+!/showcase/app/vite.config.ts
+!/showcase/app/vitest.config.ts
+!/showcase/app/eslint.config.js
 
 # 站点截图与文档
 !/showcase/shots/
