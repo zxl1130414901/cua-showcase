@@ -1,0 +1,90 @@
+{
+  "id": "TurixAI__TuriX-CUA",
+  "taglineZh": "视觉驱动的桌面操作智能体",
+  "summaryZh": "TuriX-CUA 是一个开源的计算机操作智能体，默认自带一套在 OSWorld 风格基准上表现较强的视觉策略，打开浏览器、邮件与办公软件就能用自然语言下指令。它不依赖应用 API，也不绑定特定软件，像人一样看屏幕、点按钮、敲字；策略、反思与记忆模型在 config.json 里可热替换。与同类最本质的区别是工程完成度：有安装脚本、权限引导、技能库、MCP 客户端、定时任务与本地动作录制，把研究模型包成了可日常使用的桌面应用。",
+  "whatItDoesZh": "执行 install 脚本后启动应用，先完成辅助功能、屏幕录制与 Safari 自动化等权限授权；之后在输入框里写目标，agent 循环截屏、决策、执行并自我反思。它内置技能库可复用常见流程，支持定时任务与本地动作录制，也能作为 MCP 客户端接入外部工具。模型侧可在配置里一键换掉策略、反思与嵌入模型，不写代码即可对比不同组合。",
+  "useCasesZh": [
+    "用自然语言指挥桌面完成跨应用任务",
+    "在 macOS 上做浏览器与办公软件操作",
+    "对比不同视觉策略模型的实际表现",
+    "把常用流程录成技能复用",
+    "通过 MCP 接入外部工具扩展能力"
+  ],
+  "appsZh": [
+    "macOS 上的 Safari、Chrome 与邮件客户端",
+    "Excel、Word 等办公软件界面",
+    "WhatsApp、Outlook 与自研内部工具",
+    "桌面任意可见窗口的截图界面",
+    "不限具体应用：只要人能点，视觉 agent 就能点"
+  ],
+  "platformsZh": [
+    "macOS"
+  ],
+  "techApproachZh": "纯视觉闭环：截图进入视觉语言策略模型，输出坐标级点击、输入与滚动，由系统输入层执行；每一到若干步插入反思模型判断进展，记忆模块保留任务上下文。配置层把策略、反思与嵌入模型解耦，可热替换；应用壳负责权限、技能检索、定时调度与 MCP 接入，动作与截图形成可回放轨迹。",
+  "requirementsZh": [
+    "macOS 15 以上，Python 3.12，需 Xcode 命令行工具",
+    "需授予辅助功能、屏幕录制与自动化权限",
+    "Safari 与 Chrome 需开启允许 Apple 事件与自动化",
+    "需准备模型服务或使用项目默认配置",
+    "Windows 与 Linux 分支未验证，不计入平台标注，宿主以 macOS 为主"
+  ],
+  "prosZh": [
+    "默认模型在自建 Mac 基准上达八成",
+    "OSWorld 上自述 64.2%，排名靠前",
+    "模型可热替换，便于横向对比",
+    "配技能库、定时任务与动作录制",
+    "安装脚本与权限引导较完整"
+  ],
+  "consZh": [
+    "纯视觉点击对缩放与高 DPI 敏感",
+    "主线只支持 macOS，其他平台滞后",
+    "默认模型需另行部署或联网",
+    "manifest 平台标注为 Web，与实际不符"
+  ],
+  "limitsZh": "manifest 只标 Web，但项目实际是 macOS 桌面应用，其他平台以分支形式存在，成熟度不一。纯视觉路线在密集界面、小字号与高缩放下容易点偏，长任务会因步数上限中断。已知失败模式包括权限未授予时输入被系统静默丢弃、弹窗遮挡导致误点、跨应用切换后上下文丢失，以及模型服务不可达时整轮卡住。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可在 macOS 上驱动企微客户端：把「搜索某外部群并发送消息」写成目标，agent 截屏决策并执行点击输入，发送前也可要求它回读会话标题确认。但外部客户名单、分批策略与失败重试要自建，且纯视觉对企微网页式界面稳定性一般，因此记为 partial。",
+  "maturityZh": "2026 年 7 月创建，三个月内到 1.9k 星 206 fork，2026 年 8 月仍在推送，许可为 NOASSERTION，需核对 LICENSE。带安装脚本、技能库与多平台分支，社区反馈积极，但主线仍以 macOS 为主。",
+  "evidence": [
+    {
+      "claim": "自带较强的计算机操作智能体，自述 Mac 基准 80%、OSWorld 64.2%",
+      "source": "README.md",
+      "quote": "It ships with a **state‑of‑the‑art computer‑use agent** (achieves 80% success rate on our OSWorld‑style Mac benchmark and 64.2% success rate on OSWorld)"
+    },
+    {
+      "claim": "在 OSWorld 全量基准上自述 64.2%，总排名第三",
+      "source": "README.md",
+      "quote": "TuriX scores **64.2% (229.88 / 358)** on the full OSWorld benchmark, ranking **3rd overall** among all submitted agents."
+    },
+    {
+      "claim": "模型策略可在配置中热替换",
+      "source": "README.md",
+      "quote": "| **Hot‑swappable \"brains\"** | Replace the VLM policy without touching code (`config.json`) |"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "bytedance__UI-TARS-desktop",
+      "microsoft__Hybrid-Computer-Use",
+      "ghostwright__ghost-os"
+    ],
+    "whenZh": "要 macOS 上开箱可用且成功率有公开数字的视觉 agent，TuriX 最直接；要跨平台成熟产品选 UI-TARS-desktop；要给编码 agent 加语义化桌面工具选 Hybrid-Computer-Use；要用配方复用稳定流程选 Ghost OS。"
+  },
+  "stepsZh": [
+    "在 macOS 15 上装 Xcode 工具并执行安装脚本，启动应用",
+    "完成辅助功能、屏幕录制与浏览器自动化授权",
+    "在配置里确认策略与反思模型可用，先跑只读任务",
+    "目标写成「打开企微，进入某外部群，发送指定消息」",
+    "要求它在发送前回读会话标题，核对后再执行发送",
+    "失败时查看轨迹与反思记录，缩短任务或换模型重试"
+  ],
+  "successRateZh": "项目自述在自建 OSWorld 风格 Mac 基准上达 80%，在 OSWorld 全量基准得 64.2%、排名第三，均属作者自报，第三方独立复现未见公开记录，也未给失败率与方差。可自测：对同一企微发送任务连跑 50 次，按点偏、找错会话、输入未生效、超步数四类统计。",
+  "scores": {
+    "coverage": 5,
+    "usability": 4,
+    "docs": 4,
+    "maintenance": 4,
+    "performance": 4,
+    "stability": 4
+  }
+}

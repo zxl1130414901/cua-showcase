@@ -1,0 +1,84 @@
+{
+  "id": "lacassef__computeruse",
+  "taglineZh": "跨平台语义定位的 computer-use 框架",
+  "summaryZh": "cua_agent 是一个 Python 多包工作区：cua_agent 放与系统无关的规划器、编排循环、记忆与策略，macos_cua_agent 与 windows_cua_agent 只保留平台驱动。它先把无障碍树或 UIA 树转成带编号的 Set-of-Mark 视图，语义树不可用时退回 OCR 与检测器；规划器产出动作后由适配器执行，再用前后截图比对校验。与同类最本质的区别是把人类审批做成流程的一部分：高风险动作要在终端或看板上批准，截图送模型前还会对敏感区域做打码。",
+  "whatItDoesZh": "python -m cua_agent 按系统自动选适配器，或显式指定 windows 或 macos。桌面控制台提供实时会话视图、任务启动器、人工审批卡片、记忆整理、逐轮回放、基准运行与健康检查，设置页可直接写 .env。终端模式适合脚本化运行。执行档位分 local_gui、remote_cli 与 hybrid，分别允许 GUI、shell 或两者；基准套件是 JSON 文件，任务只要声明 done 即算通过。",
+  "useCasesZh": [
+    "给跨平台桌面 agent 搭统一编排内核",
+    "在 Windows 上做 UIA 语义定位与 CDP 浏览器操作",
+    "用人工审批闸门管控高风险桌面动作",
+    "把历史 episode 与技能做成可检索记忆",
+    "跑自定义基准套件做回归对比"
+  ],
+  "appsZh": [
+    "macOS 原生应用（辅助功能树加 AppleScript）",
+    "Windows 应用（UIA 语义树与 SendInput）",
+    "Chrome 与 Edge 页面（CDP 通道）",
+    "终端与沙箱内 shell（受执行档位限制）",
+    "不限具体应用：语义树优先，读不到时退到 OCR 与检测"
+  ],
+  "platformsZh": ["Windows", "macOS", "Web"],
+  "techApproachZh": "语义优先的分层定位：把辅助功能树或 UIA 树编号成 Set-of-Mark 覆盖层交给规划器选编号，语义不可用时用 OCR、blob 提议与可选检测器兜底；变化检测用 pHash 与 SSIM 在逻辑分辨率上比对。动作由适配器分流到语义操作、HID 注入、浏览器或沙箱 shell；安全层按 YAML 规则拦截高风险动作并转人工审批。",
+  "requirementsZh": [
+    "Python 3.11+，先装 requirements.txt 基础依赖",
+    "需 OpenRouter 账号与 Key 驱动规划、认知与反思模型",
+    "可选 tesseract 提升 OCR 回退精度",
+    "macOS 需辅助功能与屏幕录制权限，Windows 部分场景需提权",
+    "可选包分别对应向量检索、控制台与检测器，按需安装"
+  ],
+  "prosZh": [
+    "内核与平台适配器分层，便于扩展",
+    "语义树加编号视图，减少坐标猜测",
+    "高风险动作强制人工审批",
+    "送模型前对敏感区域打码",
+    "带控制台、回放与基准运行器"
+  ],
+  "consZh": [
+    "依赖 OpenRouter，模型不可替换",
+    "1 星 1 fork，社区几乎为零",
+    "模块多、配置项密，上手成本高",
+    "主流程仍需自写基准与任务集"
+  ],
+  "limitsZh": "语义定位依赖目标应用是否暴露辅助功能树，自绘界面只能走 OCR 与检测器，准确率明显下降。已知失败模式包括 UIA 与辅助功能树同名元素冲突、pHash 变化检测在动画界面误判、审批超时自动拒绝导致任务中断，以及执行档位配置错误时工具被静默禁用。README 未给出端到端成功率。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可在 Windows 或 macOS 上驱动企微客户端：UIA 或辅助功能树给出会话与输入框编号，规划器选编号后由适配器点击与输入，发送前后用截图比对确认。若开启严格校验还能检查状态变化。但客户筛选、消息内容与重试策略要自建，因此记为 partial。",
+  "maturityZh": "2025 年 11 月创建、2026 年 7 月仍有推送，1 星 1 fork，许可为 NOASSERTION，带 backlog、修复记录与基准套件，工程组织认真但使用面极小。风险在于单人维护与对单一模型服务的依赖。",
+  "evidence": [
+    {
+      "claim": "仓库按核心与平台适配器分包",
+      "source": "README.md",
+      "quote": "This repo is organized as a small multi-package workspace:"
+    },
+    {
+      "claim": "定位基于无障碍树加编号 Set-of-Mark 覆盖层",
+      "source": "README.md",
+      "quote": "Grounding from an accessibility/UI tree with numbered Set-of-Mark overlays"
+    },
+    {
+      "claim": "高风险动作需人工确认",
+      "source": "README.md",
+      "quote": "HITL confirmations for policy-marked high-risk actions:"
+    }
+  ],
+  "compareTips": {
+    "vs": ["xa11y__xa11y", "microsoft__Hybrid-Computer-Use", "ComputerUseAgent__AutoCua"],
+    "whenZh": "要一套自带审批、记忆与基准运行器的完整 agent 框架，cua_agent 结构最全；只要稳定的无障碍驱动库选 xa11y；要轻量 MCP 接口选 Hybrid-Computer-Use；要多端统一且不装内核驱动，AutoCua 更省事。"
+  },
+  "stepsZh": [
+    "安装基础依赖并在 .env 填入 OpenRouter Key，跑健康检查",
+    "启动控制台并把执行档位设为 local_gui，确认能截屏",
+    "布置任务「打开企微，搜索某外部客户并输入消息」",
+    "在审批卡片里核对高风险动作的目标窗口后再放行",
+    "发送前用严格状态校验确认界面变化符合预期",
+    "失败时查看回放与认知轨迹，调整提示或缩小步骤后重试"
+  ],
+  "successRateZh": "无公开成功率数据。README 提供基准运行器与 custom-smoke 示例，但未给出任何任务通过率、重试分布或延迟数据；通过判定是 agent 自行声明 done，属功能演示口径。自测可对同一企微发送任务连跑 50 次，按语义元素找不到、审批超时、状态未变化三类统计。",
+  "scores": {
+    "coverage": 4,
+    "usability": 3,
+    "docs": 4,
+    "maintenance": 2,
+    "performance": 3,
+    "stability": 3
+  }
+}

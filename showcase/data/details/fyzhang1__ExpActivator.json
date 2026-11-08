@@ -1,0 +1,87 @@
+{
+  "id": "fyzhang1__ExpActivator",
+  "taglineZh": "训练无关的个性化 GUI 经验激活方法",
+  "summaryZh": "ExpActivator 是论文《Relevance Does Not Imply Applicability》的官方实现，研究个人化 GUI agent 如何真正用上用户历史。它不把检索到的历史直接拼进上下文，而是分两层激活：新屏幕先在冻结主干的隐空间里与历史状态匹配，命中后把历史动作作为参考交给策略，由策略采纳、改写或拒绝；任务层面只在时间与场景合适时才主动提议，否则放弃。方法 training-free，主干保持冻结。与同类最大的区别是把「相关」和「适用」拆开评估。",
+  "whatItDoesZh": "仓库提供可复现的评测流水线：先在交互日志上编译应用标签、构建执行索引，并只用历史数据做校准；随后在 Qwen3-VL-8B、MAI-UI-8B、Qwen3.5-9B、GUI-Owl-1.5-8B 四个主干上跑个性化执行评测，覆盖 775 条 episode；另有主动建议评测，含 215 个正例与 100 个负例状态。脚本支持历史规模、刷新频率、主动敏感度等消融，并附单测校验切分是否泄漏。它输出指标与命中分析，不接管真实桌面。",
+  "useCasesZh": [
+    "研究个人化 GUI agent 的历史利用效率与误用边界",
+    "在 PersonalAlign 基准上复现论文主表与消融结果",
+    "对比四个 GUI 主干模型的经验激活增益差异",
+    "验证历史记忆切分是否与测试集发生泄漏",
+    "为主动式助手设计「何时该主动开口」的判据"
+  ],
+  "appsZh": [
+    "PersonalAlign 基准中的模拟手机/桌面应用界面",
+    "Fingertip20k 历史交互截图覆盖的移动应用",
+    "论文示例中的天气建议等主动服务场景",
+    "不限具体应用：评测基于离线样本回放，不连接真实客户端"
+  ],
+  "platformsZh": [
+    "Windows",
+    "macOS",
+    "Linux"
+  ],
+  "techApproachZh": "核心是隐空间匹配加策略参考。冻结的 Qwen3-VL 主干同时提供屏幕表征与动作预测；文本嵌入模型 paraphrase-multilingual-MiniLM-L12-v2 把历史动作描述向量化，faiss 做近邻检索；历史索引取前 80% 构建，校准阶段只看历史不看答案。执行时把匹配到的历史动作作为可采纳的参考放进提示，主动建议层再用时间与场景条件判断是否 abstain，全程无梯度更新。",
+  "requirementsZh": [
+    "Python 3.10 的 conda 环境，按 requirements.txt 安装依赖",
+    "需要 vLLM 与 CUDA GPU 跑主干推理，显存按模型规模自备",
+    "需自行下载 PersonalAlign 的 Fingertip20k 历史截图并设置 HISTORY_ROOT",
+    "需准备四个主干模型权重，或至少其一才能跑完整脚本"
+  ],
+  "prosZh": [
+    "训练无关，无需微调即可换用不同 GUI 主干",
+    "提供消融与切分完整性测试，可复核结论",
+    "四个主干同一套脚本，横向对比成本低",
+    "显式区分相关性与适用性，问题定义清楚"
+  ],
+  "consZh": [
+    "只做离线评测，不含可上手的桌面控制程序",
+    "历史截图需另行下载，开箱即跑门槛高",
+    "依赖 vLLM 与多模型权重，单机资源要求重",
+    "演示视频为模拟界面，非真实应用录屏"
+  ],
+  "limitsZh": "能力边界在于它是评测与方法代码，不是产品：没有截图采集、没有输入注入、没有真实应用适配层，所有指标都建立在 PersonalAlign 的离线样本上。已知失败模式包括历史截图缺失导致索引构建失败、跨用户历史误配、以及主干模型不支持图像输入时的静默降级。论文本身也承认检索相关不等于动作适用，匹配成功仍可能给出错误建议。",
+  "wecomRelevance": "none",
+  "wecomUseZh": "与企业微信外部客户或外部群发消息无关。它既不能驱动企微客户端，也不处理消息内容，只做 GUI 历史经验的匹配与指标评估。若硬要借用，只能把企微聊天界面的操作录屏当作历史样本，用于研究「上次类似界面点了哪里」，仍无法完成实际发送，因此判定为 none。",
+  "maturityZh": "2026 年 9 月创建、10 月仍有提交，89 星、0 fork，属于典型的小体量论文仓库；许可为 NOASSERTION，商用前需自行确认授权。维护风险集中在依赖版本快速漂移与外部数据集不可得，作者未必长期跟进 issue。",
+  "evidence": [
+    {
+      "claim": "方法为训练无关，主干模型保持冻结",
+      "source": "README.md",
+      "quote": "It is training-free: no model or prediction parameter is fitted, and the backbone stays frozen."
+    },
+    {
+      "claim": "屏幕与历史状态在冻结主干的隐空间中进行匹配",
+      "source": "README.md",
+      "quote": "Each new screen is matched to historical states in the latent space of the frozen GUI backbone"
+    },
+    {
+      "claim": "评测覆盖四个 GUI 主干与 PersonalAlign 两个任务",
+      "source": "README.md",
+      "quote": "with four GUI backbones (Qwen3-VL-8B, MAI-UI-8B, Qwen3.5-9B, GUI-Owl-1.5-8B)"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "microsoft__OmniParser",
+      "bytedance__UI-TARS-desktop"
+    ],
+    "whenZh": "选 ExpActivator 是想要一套可复现的「历史经验如何被使用」的评测方法，适合写论文或做消融；选 OmniParser 是要把截图解析成可点击元素的生产级感知层；选 UI-TARS-desktop 是要能直接装上就用的桌面智能体客户端。三者层次不同，前者是方法论，后两者是组件与产品。"
+  },
+  "stepsZh": [
+    "创建 Python 3.10 环境，装 requirements 与 vllm，确认 GPU 显存够跑 8B 模型",
+    "下载 PersonalAlign 的 Fingertip20k 历史截图，设置 HISTORY_ROOT 指向该目录",
+    "先跑 compile_history_app_labels 与 build_execution_index 构建历史索引",
+    "只用历史数据跑 calibrate_execution，确认未打开任何测试答案",
+    "执行 eval_expactivator_grounded.sh 得到分主干指标，再跑 pytest 校验切分"
+  ],
+  "successRateZh": "无公开成功率数据。论文报告的是基准分数而非任务成功率：在 PersonalAlign 的个性化执行与主动建议上按四个主干给出指标，仓库未给逐次运行的失败率或方差，均为作者自述的离线结果。自测可固定同一批 episode 连跑 50 次，统计匹配未命中、动作被拒、超时三类占比。",
+  "scores": {
+    "coverage": 2,
+    "usability": 1,
+    "docs": 3,
+    "maintenance": 2,
+    "performance": 2,
+    "stability": 3
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "id": "agent-sh__computer-use-linux",
+  "taglineZh": "Wayland 可用的 Linux 桌面 MCP",
+  "summaryZh": "computer-use-linux 给 AI agent 提供本地 Linux 桌面的结构化控制：优先读 AT-SPI 无障碍树做语义选择，必要时才用像素坐标；窗口定位感知合成器，在 GNOME、KDE、Hyprland、niri 等环境找到目标窗口；Wayland 下通过 uinput 或远程桌面门户注入输入。提供 MCP 服务与命令行两种用法，每个动作都在同一次往返里完成执行与事后校验。与同类本质的区别是把 Wayland 当作主线：多数同类工具在 Wayland 上只能截屏不能注入输入。",
+  "whatItDoesZh": "配置 MCP 客户端后可直接调用工具，也可用 CLI 交互式探索：列出应用与窗口、按角色与名称定位元素、点击、输入文本、按键、滚动、拖放、调整窗口大小与位置、截取全屏或指定窗口。doctor 命令检查系统依赖与权限，列出探测到的合成器与可用后端；会话期间会在屏幕上显示活动指示，让使用者知道 agent 正在操作。动作结果会回读界面状态，避免「已发送」被当成已完成。",
+  "useCasesZh": [
+    "在 Wayland 桌面上给 agent 加可靠的点击与输入",
+    "用 AT-SPI 语义定位避免分辨率变化失效",
+    "在多个合成器环境下统一自动化脚本",
+    "用 CLI 手工探索并调试桌面自动化",
+    "给 MCP 客户端接上本地 Linux 桌面控制"
+  ],
+  "appsZh": [
+    "GNOME、KDE、Hyprland、niri、Sway 等桌面会话",
+    "暴露 AT-SPI 无障碍树的 GTK 与 Qt 应用",
+    "X11 与 Wayland 下的原生窗口",
+    "不暴露无障碍树但可截图的界面",
+    "不限具体应用：语义优先，坐标兜底"
+  ],
+  "platformsZh": [
+    "Linux"
+  ],
+  "techApproachZh": "Rust 实现的 MCP 服务加 CLI：无障碍层走 AT-SPI 读取控件树并支持语义选择器，输入层在 X11 用传统注入，在 Wayland 用 /dev/uinput 或 org.freedesktop.portal.RemoteDesktop 门户；窗口管理按合成器协议适配，支持定位、移动与缩放；截图与动作在同一次请求内完成并回读校验，同时维护屏幕活动指示。",
+  "requirementsZh": [
+    "glibc 2.28 以上的 Linux 发行版",
+    "自源码构建需 Rust 1.89 以上",
+    "需 AT-SPI 无障碍服务运行，GNOME 等默认已启",
+    "Wayland 输入需 /dev/uinput 权限或远程桌面门户授权",
+    "无需 GPU，也无需模型 API Key"
+  ],
+  "prosZh": [
+    "Wayland 下能真正注入输入，不只能截图",
+    "语义选择器优先，分辨率变化不易失效",
+    "覆盖多种合成器，窗口定位不靠猜",
+    "动作与事后校验在同一往返完成",
+    "提供 doctor 与活动指示，便于排障"
+  ],
+  "consZh": [
+    "只支持 Linux，跨平台为零",
+    "AT-SPI 树质量取决于目标应用",
+    "uinput 需要额外权限配置",
+    "项目较新，合成器适配仍在补齐"
+  ],
+  "limitsZh": "仅 Linux 可用；无障碍覆盖不足的应用只能退回坐标，缩放与多屏布局变化时需重新校准。已知失败模式包括合成器版本差异导致窗口定位失败、uinput 权限缺失时输入被静默丢弃、AT-SPI 元素在解析与执行之间被销毁，以及活动指示在无合成器环境不显示。仓库未给出任务成功率，只有 doctor 自检。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可在 Linux 版企微上做窗口定位与控件操作：用 AT-SPI 语义找到搜索框与会话项，用 Wayland 输入注入点击与键入，动作后回读界面确认。但企微 Linux 客户端的无障碍树覆盖需实测，外部客户名单与发送校验仍要自建，因此记为 partial。",
+  "maturityZh": "2026 年 2 月创建，2026 年 7 月仍在推送，1.6k 星 142 fork，MIT 许可，带安装脚本、发布包与合成器矩阵说明。维护活跃，风险在于 Linux 桌面碎片化带来的适配长尾。",
+  "evidence": [
+    {
+      "claim": "提供语义无障碍树、截图、窗口定位、Wayland 输入与单次往返校验",
+      "source": "README.md",
+      "quote": "`computer-use-linux` gives AI agents real, structured control of a local Linux desktop: semantic AT-SPI accessibility trees, bounded screenshots, compositor-aware window targeting, Wayland/X11 input synthesis, and single-round-trip post-action verification"
+    },
+    {
+      "claim": "Wayland 下通过 uinput 或远程桌面门户注入指针",
+      "source": "README.md",
+      "quote": "- **Wayland actually works.** On Wayland, pointer actions use `/dev/uinput` or `org.freedesktop.portal.RemoteDesktop`."
+    },
+    {
+      "claim": "语义选择器优先，像素坐标作为补充",
+      "source": "README.md",
+      "quote": "- **Semantic selectors first, pixel coordinates when needed.**"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "microsoft__Hybrid-Computer-Use",
+      "xa11y__xa11y",
+      "ComputerUseAgent__AutoCua"
+    ],
+    "whenZh": "桌面是 Linux 且尤其跑 Wayland，本项目几乎是唯一顺手的 MCP 方案；要三平台统一接口选 Hybrid-Computer-Use；要自己写测试与嵌入逻辑选 xa11y；要跨手机与桌面的统一 agent 则看 AutoCua。"
+  },
+  "stepsZh": [
+    "运行 doctor 检查 AT-SPI、合成器与 uinput 权限是否就绪",
+    "配置 MCP 客户端或直接用 CLI 列出当前窗口",
+    "定位企微窗口，用语义选择器找到搜索框并输入客户名",
+    "进入会话后定位输入框，写入消息但先不发送",
+    "发送前再读一次界面，核对会话标题与输入内容",
+    "失败时按错误码区分权限与定位问题，重试最多三次"
+  ],
+  "successRateZh": "无公开成功率数据。README 只说明动作会在同一往返内做事后校验，并建议用 doctor 自查环境，未给出任务成功率、失败率或延迟统计。自测可对同一企微发送流程连跑 50 次，按窗口定位失败、语义未命中、输入被丢弃、状态未变化四类记录。",
+  "scores": {
+    "coverage": 4,
+    "usability": 5,
+    "docs": 4,
+    "maintenance": 5,
+    "performance": 5,
+    "stability": 4
+  }
+}

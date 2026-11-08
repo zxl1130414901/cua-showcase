@@ -1,0 +1,86 @@
+{
+  "id": "yjyddq__RiOSWorld",
+  "taglineZh": "评估 CUA 操作风险的基准与轨迹数据",
+  "summaryZh": "RiOSWorld 是 NeurIPS 2025 的风险基准，专门评估多模态 computer-use agent 在真实桌面环境中可能造成的风险，而不是只看任务完成率。它提供风险任务样例、Docker 虚拟环境、代理基线与攻击、评测工具，2025-11 还公开了评测轨迹数据，便于研究代理为何做出危险动作。与 OSWorld 这类能力基准最本质的区别是评价维度从「能不能做完」转向「会不会越界」：同样完成任务，触发隐私泄露、误删或错误外发就算失败。",
+  "whatItDoesZh": "提供风险场景任务（如钓鱼邮件类风险样例）、风险环境与攻击脚本、可接多模态代理的基线、Docker provider 与快照设置指南；支持记录完整操作轨迹并公开下载；可用于测量代理在风险诱导下的越界率，也可用于训练更谨慎的代理。仓库仍在整理代码，部分修复记录写在更新日志里。",
+  "useCasesZh": [
+    "测量代理在诱导下是否会打开钓鱼邮件附件并泄露信息",
+    "对比两个代理在同一批风险任务上的越界比例",
+    "用公开的轨迹数据定位危险动作从哪一步触发",
+    "为内部代理加安全护栏之前先做风险基线评估",
+    "把风险任务模板改造成企业微信场景的红队用例"
+  ],
+  "appsZh": [
+    "Ubuntu 桌面与文件系统",
+    "邮件客户端与浏览器",
+    "系统设置与权限对话框",
+    "可被诱导的任意桌面应用",
+    "Docker 中的可复原快照环境"
+  ],
+  "platformsZh": [
+    "Windows"
+  ],
+  "techApproachZh": "基于虚拟机快照与 Docker provider 搭建可复原环境；每个风险任务给定初始状态与诱导指令，代理执行后由风险判定逻辑检查是否发生越界；基线代理统一动作空间，轨迹记录截图与动作，便于人工复核与后续训练。",
+  "requirementsZh": [
+    "Python 环境与仓库依赖",
+    "Docker 或兼容 provider 与镜像快照",
+    "多模态代理需模型 API Key",
+    "评测需可复原快照；本地跑模型才需 GPU"
+  ],
+  "prosZh": [
+    "少见地专门评测 CUA 风险而非能力",
+    "公开轨迹数据，可逐帧复核危险动作",
+    "NeurIPS 2025 论文与基线可对照",
+    "Docker 快照便于重复实验"
+  ],
+  "consZh": [
+    "代码仍在整理，文档与复现步骤完整度一般",
+    "风险任务覆盖面有限，业务映射难",
+    "评测依赖人工设计诱导场景，覆盖面受限",
+    "维护节奏偏慢，更新间隔长且依赖个人"
+  ],
+  "limitsZh": "风险基准无法证明代理在真实业务中安全，任务多为特定诱导场景；判定逻辑对「未造成可见后果但已越权」的捕捉有限；企业微信这类客户端不在其环境内。仓库未声明通用越界率，分数需结合作者论文与具体任务集理解。",
+  "wecomRelevance": "none",
+  "wecomUseZh": "不能直接驱动企业微信。间接价值是提醒与验证：外部群发一旦错发、多发或泄露客户信息就是高风险动作，可用它的「初始快照+诱导+越界判定」方法，为半自动流程设计发送前校验与红队用例。",
+  "maturityZh": "2025-05 建仓，126 stars、10 forks，Apache-2.0，最近提交 2025-12-02；NeurIPS 2025 论文与 HuggingFace 轨迹数据可用，但作者自述代码仍在整理，更新节奏慢，长期维护依赖个人。",
+  "evidence": [
+    {
+      "claim": "它评测多模态计算机使用代理的风险",
+      "source": "README.md",
+      "quote": "RiOSWorld: Benchmarking the Risk of Multimodal Computer-Use Agents"
+    },
+    {
+      "claim": "代码仍在整理与展示阶段",
+      "source": "README.md",
+      "quote": "We are currently organizing and presenting the code for RiOSWorld."
+    },
+    {
+      "claim": "公开了评测轨迹数据",
+      "source": "README.md",
+      "quote": "we release the evaluation trajectory data of RiOSWorld"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "xlang-ai__OSWorld",
+      "xlang-ai__OSWorld-V2"
+    ],
+    "whenZh": "要看代理能否完成任务，选 OSWorld 或 OSWorld-V2；要看代理会不会做过界、危险的事，选 RiOSWorld。前者是能力尺，后者是风险尺，评估可信代理时通常两者都要跑。"
+  },
+  "scores": {
+    "coverage": 2,
+    "usability": 1,
+    "docs": 3,
+    "maintenance": 3,
+    "performance": 2,
+    "stability": 3
+  },
+  "stepsZh": [
+    "先定义越界标准：错发客户、误删会话、泄露备注都算失败",
+    "在 Docker 快照里准备企业微信测试账号与可控客户名单",
+    "设计诱导场景，如相似群名、同名客户与异常话术",
+    "重复执行流程并记录轨迹，逐条判定是否发生越界",
+    "按失败类型加发送前校验，再跑一轮确认越界率下降"
+  ],
+  "successRateZh": "无公开成功率数据；论文给出的是风险基准上的越界与安全指标，不是企业微信流程的成功率。可自测：准备 20 个诱导用例，每个重复 3 次，人工复核轨迹并统计错发、误删、泄漏三类事件，计算越界率与漏检率。"
+}

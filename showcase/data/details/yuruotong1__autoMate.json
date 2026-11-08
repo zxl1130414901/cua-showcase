@@ -1,0 +1,81 @@
+{
+  "id": "yuruotong1__autoMate",
+  "taglineZh": "以 MCP 提供桌面与浏览器工具的本地 AI 中枢",
+  "summaryZh": "项目已从“AI 操作电脑”转向本地 AI 数据中枢：把笔记、文件、提醒与跨会话记忆聚在本地，对外提供四十多个工具，可通过 MCP 或 HTTP 接入 OpenClaw、Claude Desktop、Cursor、Cline，也能用内置网页对话独立使用。工具集里仍保留 shell、脚本、浏览器与桌面（基于 pyautogui）能力，外加三十一个 SaaS 接口。",
+  "whatItDoesZh": "能管理笔记、文件与提醒，保存跨会话记忆，用 BM25 在笔记与文件里检索；调用真实 Chrome 扩展操作浏览器，执行 shell 与脚本，用桌面工具做鼠标点击与键盘输入，并连接三十一个 SaaS 服务；所有数据落在本地目录，用 SQLite 与 Fernet 加密存储。",
+  "useCasesZh": [
+    "把本地笔记、文件与提醒统一交给 agent 调用",
+    "用 MCP 给 Claude Desktop 或 Cursor 加桌面工具",
+    "让 agent 记住跨会话的业务背景与偏好",
+    "用浏览器扩展操作已登录的 Chrome 完成日常任务",
+    "在本机运行脚本，并把执行结果写回本地笔记库"
+  ],
+  "appsZh": [
+    "本地桌面应用，经 desktop 工具",
+    "Chrome 浏览器，经扩展接入",
+    "笔记、文件与提醒等本地数据",
+    "三十一个 SaaS 服务接口"
+  ],
+  "platformsZh": [
+    "Windows",
+    "macOS",
+    "Linux"
+  ],
+  "techApproachZh": "本地 Python 服务加 MCP 与 HTTP 双入口：工具按域划分，笔记与文件走 SQLite 与 BM25 检索，记忆做跨会话持久化，浏览器走真实 Chrome 扩展，桌面走 pyautogui 坐标操作，SaaS 走各服务接口，敏感配置用 Fernet 加密。",
+  "requirementsZh": [
+    "Python 环境与本地部署",
+    "按需配置各 SaaS 服务授权",
+    "浏览器功能需安装 Chrome 扩展",
+    "桌面功能需授予屏幕与输入权限"
+  ],
+  "prosZh": [
+    "笔记、文件、记忆与工具集中在一个入口",
+    "同时支持 MCP 与 HTTP，接入面广",
+    "数据存本地并用 Fernet 加密",
+    "浏览器走真实 Chrome，可复用登录态"
+  ],
+  "consZh": [
+    "定位已转向数据中枢，桌面能力不是重点",
+    "依赖大量第三方服务授权，配置项较多",
+    "桌面工具无规划与校验，需自建流程"
+  ],
+  "limitsZh": "它的 desktop 工具只是若干 pyautogui 命令，没有观察-决策-验证闭环，也不认控件语义；企业微信没有适配，消息触达需要完全自建流程；SaaS 能力受各服务接口与授权限制。仓库未提供成功率数据。",
+  "stepsZh": [
+    "先在企业微信窗口可见的前提下启用桌面工具并截图确认",
+    "用鼠标点击工具定位搜索框，输入外部群名称",
+    "粘贴已审核文案，再截图保存到本地笔记留痕",
+    "由人工确认收件人后再发送，脚本不自动按回车",
+    "发送后截图，用文件检索工具归档本次操作记录"
+  ],
+  "successRateZh": "无公开成功率数据。README 展示的是架构图与工具清单，没有任务次数、失败率或桌面操作实测。可自测：固定分辨率，跑 50 次桌面点击与输入，统计坐标偏移与输入丢失比例。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可以用它的桌面工具做最基础的企微辅助：点窗口、填文案、截图归档，配合本地笔记保存操作记录。它没有企微流程与校验，只能算通用工具，不适合直接用于客户触达。",
+  "maturityZh": "2024 年 1 月创建，2026 年 9 月仍在更新，4007 星、493 fork，MIT 许可。项目方向已明显转向，老用户文档与现功能存在落差，接入前需读最新说明。",
+  "evidence": [
+    {
+      "claim": "定位是面向 AI 的智能本地数据中枢",
+      "source": "README.md",
+      "quote": "A smart NAS for AI."
+    },
+    {
+      "claim": "对外提供四十多个工具",
+      "source": "README.md",
+      "quote": "40+ tools"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "TeamWiseFlow__xiaobei",
+      "mrpulor-gh__nuphus-mcp"
+    ],
+    "whenZh": "想要本地数据与工具聚合、顺带有桌面点击能力，它合适；要专注的电脑操作原语与稳定坐标控制，nuphus 更专业；要做内容获客，xiaobei 场景更全。"
+  },
+  "scores": {
+    "coverage": 3,
+    "usability": 4,
+    "docs": 3,
+    "maintenance": 4,
+    "performance": 3,
+    "stability": 3
+  }
+}

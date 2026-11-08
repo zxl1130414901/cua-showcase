@@ -1,0 +1,89 @@
+{
+  "id": "milind-soni__OpenMausBot",
+  "taglineZh": "聊天式多代理工作台，可接管本机与云电脑",
+  "summaryZh": "OpenMausBot 是一个 Electron 桌面应用，把多个 AI 机器人做成聊天联系人：每个机器人背后是本地运行的 Claude 或 Codex 代理，有独立人格、模型、云电脑与已连接应用。用户像聊天一样下任务、看它工作、在关键动作上审批。它通过 Cua 驱动在自己的云 VM、或经明确授权的本机（macOS 与 Ubuntu Xorg）上操作图形界面，并借助 Composio 接入数百个应用。与单代理 CUA 的本质区别是把多代理编排、审批与连接器市场做进聊天式工作台。",
+  "whatItDoesZh": "创建多个机器人并分别配置模型与人格；给机器人分配云电脑或本机控制权；用审批卡拦截提交、发送、删除、上传等敏感动作；通过 Composio 市场 OAuth 接入 Gmail、Slack、GitHub、Notion、Linear 等应用；可从一份 Markdown 安装整套团队（含频道、playbook、连接器清单）；支持本地优先与自带模型。",
+  "useCasesZh": [
+    "让一个机器人查资料、另一个写文案、第三个核对后提交",
+    "把客户消息草稿交给机器人生成，再由本人审批发送",
+    "在本机让机器人整理文件，并对每步操作审批",
+    "用 Slack、Gmail 连接器串起跨应用业务流程",
+    "从 Markdown 一键导入一套业务流程团队"
+  ],
+  "appsZh": [
+    "macOS 与 Ubuntu Xorg 本机桌面",
+    "应用自带的云虚拟机",
+    "Gmail、Slack、GitHub、Notion 等应用",
+    "聊天式工作台与审批卡界面",
+    "Claude 与 Codex 代理运行时"
+  ],
+  "platformsZh": [
+    "Windows",
+    "macOS",
+    "Linux"
+  ],
+  "techApproachZh": "Electron 加 React 前端，机器人各自运行本地 Claude 或 Codex 进程；计算机操作经 Cua 驱动，云侧跑在 VM，本机侧需显式 opt-in 并通过平台安全边界认证；敏感动作走审批卡阻塞；连接器基于 Composio Sessions 做 OAuth 与工具暴露。",
+  "requirementsZh": [
+    "macOS（Apple silicon）或 Windows、Ubuntu 桌面",
+    "安装应用并登录 Claude 或 Codex",
+    "本机控制需显式开启；Ubuntu Wayland 暂不支持",
+    "连接应用需 OAuth 授权；无需自备 GPU"
+  ],
+  "prosZh": [
+    "多个机器人分工协作，聊天界面直观易懂",
+    "敏感动作走审批卡，误操作范围可控",
+    "同时提供本机与云电脑两种执行环境",
+    "数百个应用连接器经 OAuth 即可使用",
+    "可从 Markdown 一键导入整套团队"
+  ],
+  "consZh": [
+    "体量大，Electron 资源占用高",
+    "本机控制仅覆盖部分平台与显示协议",
+    "依赖外部 Claude 或 Codex 账号额度",
+    "项目较新、迭代快，默认行为可能变化"
+  ],
+  "limitsZh": "它擅长编排与审批，不是精细 GUI 定位引擎：复杂自绘界面仍可能点错；本机控制只覆盖 macOS 与 Ubuntu Xorg，Wayland 明确禁用；企业微信不在其连接器与场景内。仓库未声明任务成功率，效果依赖底层代理与模型。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "没有企业微信连接器，也不能直接驱动企业微信客户端；但模式可借鉴：让机器人起草外部客户话术，经审批卡由本人确认后再粘贴到企业微信发送，或用连接器同步客户信息到表格。直接落地仍需补企业微信这一步。",
+  "maturityZh": "2026-08 建仓，16037 stars、2272 forks，Apache-2.0，最近提交 2026-11-07；发布活跃、社区增长快，但项目年轻，依赖第三方代理运行时与连接器服务，长期稳定性待观察。",
+  "evidence": [
+    {
+      "claim": "侧栏里的每个机器人都是真实代理",
+      "source": "README.md",
+      "quote": "Every bot in the sidebar is a real agent"
+    },
+    {
+      "claim": "像聊天一样使用并在关键动作审批",
+      "source": "README.md",
+      "quote": "Talk to them like contacts. Watch them work. Approve what matters."
+    },
+    {
+      "claim": "通过 Composio 接入大量应用",
+      "source": "README.md",
+      "quote": "Gmail, Slack, GitHub, Notion, Linear and hundreds more."
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "nanobrowser__nanobrowser",
+      "openinterpreter__openinterpreter"
+    ],
+    "whenZh": "要聊天式多机器人分工与审批，选 OpenMausBot；只要浏览器内任务，选 Nanobrowser；要终端里写代码跑脚本，选 Open Interpreter。OpenMausBot 强在编排，弱在精细 GUI 操作。"
+  },
+  "scores": {
+    "coverage": 4,
+    "usability": 3,
+    "docs": 3,
+    "maintenance": 4,
+    "performance": 3,
+    "stability": 3
+  },
+  "stepsZh": [
+    "安装应用并登录 Claude 或 Codex，创建负责客户消息的机器人",
+    "在机器人设置里显式开启本机控制，或用云电脑执行",
+    "导入客户名单与话术模板，让机器人逐条生成草稿",
+    "为发送类动作配置审批卡，由本人确认后才继续",
+    "把确认后的内容粘贴到企业微信外部群，并记录发送结果"
+  ],
+  "successRateZh": "无公开成功率数据；README 只描述审批与连接器机制，未给任务统计。可自测：让机器人生成 50 条外部客户话术，统计字段缺失、称呼错误、超长三类问题，再记录审批驳回率；这部分是文本质量，不等于 GUI 操作成功率。"
+}

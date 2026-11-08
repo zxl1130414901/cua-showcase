@@ -1,0 +1,83 @@
+{
+  "id": "deepanmpc__COWORK_AGENT_DESKTOP_AUTOMATION-COMPUTER_USE-",
+  "taglineZh": "视觉与规划分离的 macOS 桌面代理",
+  "summaryZh": "COWORK 是 macOS 全自主桌面代理：输入或口述目标后，它截屏、理解界面、规划动作、执行鼠标键盘并逐步校验。代码拆成四个服务：视觉用 MSS 截图加 PaddleOCR，按需叠加 OmniParser 的 YOLO 检测；规划把目标与界面状态交给 NVIDIA Build 上的大模型，返回一批动作；执行用 PyAutoGUI 与 PyObjC 落地；校验比较前后界面、检测死循环并重试。与同类最本质的区别是把「省 token」写进架构：界面压到 40 个元素、动作成批下发、坐标命中后缓存。",
+  "whatItDoesZh": "启动 cli.py 后进入 EDITH 命令行界面，输入目标即自主运行，按 v 可用 Whisper 语音下指令，按 Esc 立刻停止。示例任务包括打开 Safari 访问站点、在备忘录新建会议纪要、在 Spotify 搜歌、在文档里写三百字、用计算器算乘积。也能直接跑 main.py，或只启动执行服务做专项调试。运行时会显示规划动作与校验结果，失败自动重试，最多十轮迭代。",
+  "useCasesZh": [
+    "用一句话让电脑完成跨应用的小任务",
+    "演示视觉加规划分层的 agent 架构",
+    "在没有应用 API 的软件上做自动化",
+    "用语音下指令做无障碍式操作",
+    "研究坐标缓存与批量动作的收益"
+  ],
+  "appsZh": [
+    "macOS 上的 Safari、备忘录、Spotify、计算器等原生应用",
+    "Google Docs 等浏览器页面（经 Playwright）",
+    "桌面任意可见窗口的截图界面",
+    "不限具体应用：视觉路线，不依赖单应用接口"
+  ],
+  "platformsZh": ["macOS", "Web"],
+  "techApproachZh": "四服务流水线：MSS 抓屏、PaddleOCR 取字、OmniParser 的 YOLO 检测可点击框，合成压到 40 元素的界面 JSON；规划器调 NVIDIA NIM 端点返回批式动作队列；执行器用 PyAutoGUI 与 PyObjC 注入事件，网页走 Playwright；校验器做前后状态 diff、循环检测与重试。坐标缓存避免重复扫描，界面压缩控制 token，整条链路没有端到端训练。",
+  "requirementsZh": [
+    "macOS Ventura 或更新版本，Python 3.10+",
+    "需 NVIDIA Build API Key，免费额度可用",
+    "终端需授予辅助功能与屏幕录制权限",
+    "需执行 playwright install chromium，首次装依赖较重",
+    "含 PyTorch、PaddleOCR 等大包，需预留磁盘与内存"
+  ],
+  "prosZh": [
+    "四服务边界清晰，便于替换组件",
+    "界面压到 40 元素，显著控制 token",
+    "动作批量下发，减少往返轮次",
+    "有循环检测，能跳出死重试",
+    "支持语音输入与即时中止"
+  ],
+  "consZh": [
+    "只支持 macOS，跨端为零",
+    "依赖 PyTorch 等重包，装环境慢",
+    "2 星 0 fork，基本无维护",
+    "演示为主，缺系统化测试"
+  ],
+  "limitsZh": "仅 macOS 可用，Windows 与 Linux 无适配；界面压缩到 40 元素会丢掉次要控件，密集界面下目标可能被裁掉。已知失败模式包括 OCR 漏读导致找不到控件、坐标缓存因布局变化失效、批量动作中某步失败使后续全部偏移，以及十轮迭代上限耗尽后直接放弃。仓库未提供自动化测试与回归集。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可在 macOS 版企微上跑视觉流程：截图识别搜索框与会话项，规划器选动作，执行器点击并输入，校验器比对发送前后的界面。但外部客户名单、消息模板与发送前核对要自建，且界面压缩可能漏掉小控件，因此只能算 partial。",
+  "maturityZh": "2026 年 5 月创建、6 月最后推送，2 星 0 fork，许可为 NOASSERTION，属于个人演示项目。有完整服务拆分与依赖清单，但无 CI、无 issue 处理、无发布，长期使用需自行接管维护。",
+  "evidence": [
+    {
+      "claim": "定位为 macOS 全自主桌面代理",
+      "source": "README.md",
+      "quote": "COWORK is a fully autonomous desktop agent for macOS."
+    },
+    {
+      "claim": "界面在送入模型前压到 40 个元素",
+      "source": "README.md",
+      "quote": "**UI Compression** — dense screens capped at 40 elements before LLM sees them. No token bloat."
+    },
+    {
+      "claim": "校验器检测无限重试并主动跳出",
+      "source": "README.md",
+      "quote": "**Loop Detection** — verifier catches infinite retry spirals and breaks out intelligently."
+    }
+  ],
+  "compareTips": {
+    "vs": ["OthersideAI__self-operating-computer", "ghostwright__ghost-os", "TurixAI__TuriX-CUA"],
+    "whenZh": "要看四服务拆分的教学式实现，COWORK 结构最直白；要在 macOS 上用无障碍树做稳定控制，Ghost OS 更可靠；要成功率更高的成熟桌面 agent，TuriX 有公开基准；self-operating-computer 则是最早的极简视觉循环。"
+  },
+  "stepsZh": [
+    "在 macOS 给终端授予辅助功能与屏幕录制权限并重启终端",
+    "配置 NVIDIA Build Key，先跑「打开计算器算 2847×391」验证链路",
+    "布置任务「打开企微并进入某外部群，输入指定消息但不发送」",
+    "检查执行日志里规划的动作与校验结果是否正确",
+    "确认会话标题正确后补一条发送动作，再校验界面变化",
+    "失败时按 Esc 中止，清空坐标缓存后缩小任务范围重试"
+  ],
+  "successRateZh": "无公开成功率数据。README 只给出架构与优化说明，附一段演示录屏，未给出任务成功率、重试次数或延迟统计。自测可对同一企微发送任务连跑 50 次，按找不到控件、坐标缓存失效、批量动作偏移、迭代超限四类记录失败。",
+  "scores": {
+    "coverage": 3,
+    "usability": 3,
+    "docs": 3,
+    "maintenance": 1,
+    "performance": 2,
+    "stability": 2
+  }
+}

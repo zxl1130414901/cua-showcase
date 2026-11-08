@@ -1,0 +1,81 @@
+{
+  "id": "24kchengYe__desktop-controller-skill",
+  "taglineZh": "Claude Code 双引擎桌面控制 Skill",
+  "summaryZh": "一个 skill 同时覆盖原生 Windows 桌面与网页：桌面侧用 Win32 API 找窗口、定位控件、发消息，网页侧用 Playwright 操作 DOM。仓库直接内置微信、企业微信、钉钉、飞书、QQ、Telegram、Slack、Teams 的进程名、搜索快捷键与发送命令，定位就是补上纯浏览器方案够不到的原生聊天客户端，截图则交给宿主模型的视觉能力做结果校验。",
+  "whatItDoesZh": "能列出受支持应用及其进程名，按进程找窗口并返回位置尺寸，截取指定应用窗口，向某个联系人发送消息，也能做网页视口测试、DOM 检查和自动化 QA 清单。命令行脚本与 skill 两种用法并存，在 Claude Code 里用自然语言描述目标就能触发对应脚本。",
+  "useCasesZh": [
+    "给企业微信外部群逐个预填并发送已审核的消息",
+    "在微信里给指定联系人发一条测试消息做验证",
+    "对桌面聊天客户端做界面回归截图与像素比对",
+    "用 Playwright 完成网页多设备视口测试",
+    "把聊天窗口操作写进团队的自动化 QA 流程"
+  ],
+  "appsZh": [
+    "微信 Weixin",
+    "企业微信 WXWork",
+    "钉钉、飞书与 QQ",
+    "Telegram、Slack、Microsoft Teams",
+    "任意网页与 Electron 应用"
+  ],
+  "platformsZh": [
+    "Windows",
+    "macOS"
+  ],
+  "techApproachZh": "双引擎：原生应用走 Win32 API，用进程名找顶层窗口，再按控件句柄做点击、聚焦与文本输入；网页与 Electron 走 Playwright。每个应用预置进程名与全局搜索快捷键，发送流程是激活窗口、搜索联系人、粘贴、回车。截图交给 Claude Vision 做视觉校验，而不是自己训练识别模型。",
+  "requirementsZh": [
+    "Windows 或 macOS，原生桌面通道实际依赖 Windows",
+    "Python 3 运行命令行脚本",
+    "Claude Code 或能读取 SKILL.md 的 agent",
+    "无需额外模型 Key，直接使用宿主模型"
+  ],
+  "prosZh": [
+    "明确列出企业微信与微信的完整发送流程",
+    "Win32 与 Playwright 双引擎互补",
+    "内置 8 个聊天客户端的进程与快捷键配置",
+    "提供现成命令行脚本，可以直接试跑验证"
+  ],
+  "consZh": [
+    "发送靠回车，缺少消息级别的强校验",
+    "同名联系人或同名群很容易选错目标",
+    "项目仅 12 星，缺少真实批量验证"
+  ],
+  "limitsZh": "会话定位依赖搜索框输入名称，同名客户、同名群或搜索排序变化都会点错；发送后没有消息级回读，只能靠截图看最后一条气泡。企业微信 4.x 自绘界面可能让 Win32 控件定位失效，仓库未声明适配的版本范围。",
+  "stepsZh": [
+    "确认企微窗口在前台并固定位置，先跑 list-apps 确认 WXWork 被识别",
+    "用 find-window 拿到窗口坐标，截图核对当前登录的是哪个账号",
+    "用搜索快捷键输入外部群名，按群成员数或群主二次确认目标",
+    "粘贴已审核文案后截图留痕，由本人按回车确认发送",
+    "发送后截图比对最后一条消息，失败则回到会话定位步骤重试"
+  ],
+  "successRateZh": "无公开成功率数据。README 只有一条 send-message 成功输出示例，没有任何批量测试、失败率或 issue 讨论。可自测：准备 20 个不同名外部群，跑 50 次发送，统计找不到窗口、选错会话、未发出三类失败。",
+  "wecomRelevance": "direct",
+  "wecomUseZh": "它直接把企业微信 WXWork 列为支持应用并给出 send-message 命令，能完成找窗口、搜外部群、粘贴、发送的完整链路，适合人工在场的逐个辅助发送；但仍需本人确认，不能承诺无人值守。",
+  "maturityZh": "2026 年 3 月创建，同月之后停更，12 星、3 fork，MIT 许可。单人项目、代码量小、没有 issue 沉淀，属于演示级工具，长期可用性需要自行评估。",
+  "evidence": [
+    {
+      "claim": "内置企业微信支持，进程名为 WXWork",
+      "source": "README.md",
+      "quote": "WeCom (企业微信)"
+    },
+    {
+      "claim": "提供 send-message 命令按应用发送消息",
+      "source": "README.md",
+      "quote": "send-message --app weixin"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "betrayzl__windows-computer-use-mcp",
+      "ChrisLamDev__cua-desktop-automation-skills"
+    ],
+    "whenZh": "只想在 Claude Code 里对企微、微信发消息，它最对路也最开箱即用；要更稳的控件级定位与截图校验，得看 Windows UIA 那类库或自建方案。"
+  },
+  "scores": {
+    "coverage": 4,
+    "usability": 4,
+    "docs": 3,
+    "maintenance": 2,
+    "performance": 3,
+    "stability": 2
+  }
+}

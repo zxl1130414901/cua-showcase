@@ -1,0 +1,86 @@
+{
+  "id": "aixed__WeChat-Hook",
+  "taglineZh": "version.dll 注入微信的 HTTP 接口",
+  "summaryZh": "WeChat-Hook 是一个 Windows 微信 Hook DLL：用 version.dll 代理方式加载进微信主进程，在进程内启动本地 HTTP 服务，暴露发文本、发图片、转发 XML、读个人资料和查询本地数据库的接口。目标版本是微信 4.1.10.27 x64，默认监听 0.0.0.0:30001。它与 UIA 系工具最本质的区别是不经过界面，直接调用微信内部函数与数据。",
+  "whatItDoesZh": "编译或下载 version.dll 放入微信安装目录，启动微信后 DLL 自动加载并监听 30001 端口；用 Postman 或任意 HTTP 客户端向 /SendTextMsg 提交 wxid 与文本即可发消息，另有 /SendImageMsg、/ForwardXMLMsg、/GetSelfProfile 与基于 xdb 的数据库查询接口，支持自定义端口和回调地址。",
+  "useCasesZh": [
+    "通过本地 HTTP 服务给好友发送文本消息",
+    "通过本地接口读取当前登录账号资料与设备信息",
+    "在微信进程内直接查询本地加密数据库中的记录",
+    "做协议研究时用这些接口做连通性与版本验证",
+    "把收到的 XML 消息卡片转发到指定会话"
+  ],
+  "appsZh": [
+    "Windows 微信 4.1.10.27 x64 客户端",
+    "微信本地 SQLite 数据库（xdb）",
+    "微信消息卡片/XML 转发",
+    "任意可发 HTTP 请求的业务系统"
+  ],
+  "platformsZh": [
+    "Windows"
+  ],
+  "techApproachZh": "通过代理系统 version.dll 劫持加载顺序，把自写 DLL 注入微信主进程；DLL 内初始化微信模块、注册 HTTP 路由，直接调用微信发送文本/图片的内部函数，并用 xdb 组件读取进程内数据库。属于典型的 Hook/注入路线，不做屏幕识别。",
+  "requirementsZh": [
+    "Windows x64 与微信 4.1.10.27 对应版本",
+    "需编译 DLL（Visual Studio/MSBuild）或以管理员权限放入安装目录",
+    "需杀毒软件放行，DLL 注入常被拦截",
+    "无需 GPU、API Key 或企业认证"
+  ],
+  "prosZh": [
+    "不经界面，发送速度与成功率不受窗口状态影响",
+    "提供 HTTP 接口，任何语言都能接入",
+    "能读进程内数据库与个人资料，信息完整",
+    "源码结构清晰，按功能拆分到独立 cpp"
+  ],
+  "consZh": [
+    "必须匹配固定微信版本，升级即失效",
+    "注入 DLL 属外挂行为，封号风险极高",
+    "需关闭或放行安全软件，部署门槛高",
+    "README 无稳定性与并发数据"
+  ],
+  "limitsZh": "目标版本被写死为微信 4.1.10.27 x64，客户端升级后偏移与导出函数变化会让 DLL 直接失效；DLL 注入会被安全软件拦截，且官方《违规场景及处罚规则》把未经许可的插件、外挂接入列为永久封禁情形，不存在『安全稳定』的保证。",
+  "stepsZh": [
+    "准备与仓库对应的微信 4.1.10.27 x64 安装包",
+    "用 MSBuild 编译 x64 Release，得到 version.dll",
+    "把 version.dll 放入微信安装目录并启动微信",
+    "确认 30001 端口已监听，导入 Postman 集合",
+    "调 /SendTextMsg 发测试消息，再用 /GetSelfProfile 核对账号",
+    "该仓库属于微信官方明令禁止的外挂路线，账号可能被永久封禁，不建议用于真实客户与主账号。"
+  ],
+  "successRateZh": "无公开成功率数据。仓库只有接口文档与源码，没有压测或线上统计。可自测：在固定版本上连续调用 50 次发送，统计 ret 非 0、超时与微信崩溃次数；再升级一个小版本复测，观察 DLL 是否还能加载，以此估算版本脆弱性。",
+  "wecomRelevance": "none",
+  "wecomUseZh": "它注入的是个人微信 4.1.10.27，不是企业微信客户端，接口也不覆盖企微客户联系，因此无法给企微外部客户或外部群发消息。把同样的注入思路套到企微属于明确的外挂行为，官方处罚是永久封禁，不建议尝试。",
+  "maturityZh": "2198 star、601 fork，仓库标注 NOASSERTION 许可，最近推送 2026-11，仍在跟进微信 4.1.10.27；但当前 main 分支已移除 VMP、远程授权与部分 Hook，功能是研究向的裁剪版，issue 区排障信息有限。",
+  "evidence": [
+    {
+      "claim": "通过代理 version.dll 注入微信主进程",
+      "source": "README.md",
+      "quote": "Windows 微信 Hook DLL，当前版本以 `version.dll` 代理方式加载，在微信主进程中启动本地 HTTP 服务"
+    },
+    {
+      "claim": "目标版本固定为微信 4.1.10.27 x64",
+      "source": "README.md",
+      "quote": "目标微信版本：`4.1.10.27`"
+    },
+    {
+      "claim": "默认在本机 30001 端口提供 HTTP 接口",
+      "source": "README.md",
+      "quote": "默认监听地址：`0.0.0.0:30001`"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "mrsanshui__WeChatPYAPI",
+      "LAVARONG__wechat-automation-api"
+    ],
+    "whenZh": "只做协议/接口研究、能锁定旧版微信并接受封号风险时看它；要用 Python 快速调用 hook 选 WeChatPYAPI；要在新版微信上走 UIA、不碰注入则选 wechat-automation-api。"
+  },
+  "scores": {
+    "coverage": 4,
+    "usability": 2,
+    "docs": 3,
+    "maintenance": 3,
+    "performance": 5,
+    "stability": 1
+  }
+}

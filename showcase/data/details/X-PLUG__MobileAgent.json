@@ -1,0 +1,88 @@
+{
+  "id": "X-PLUG__MobileAgent",
+  "taglineZh": "阿里通义的移动与 PC GUI 代理模型家族",
+  "summaryZh": "Mobile-Agent 是通义实验室的 GUI 代理家族，围绕 GUI-Owl 系列模型构建，覆盖手机、PC 与云端 Android 等多种界面。它把界面理解、任务规划与动作执行放在多代理流水线里：感知代理读屏、规划代理拆步骤、执行代理点按输入，并可用反思代理纠正错误。与只提供单个模型的方案最本质的区别是成体系：模型权重、在线 Demo、云手机环境与 API 一起提供，能直接跑完整任务而不是只给一个推理接口。",
+  "whatItDoesZh": "提供 Mobile-Agent-v3.5 与 GUI-Owl 系列模型（含 32B 等规模），支持手机 App、PC 界面与云手机操作；给出在线 Demo、ModelScope 与百炼 API 及部署文档；多代理结构支持长任务、跨应用与失败反思；可用于移动端自动化、GUI 理解研究与基准评测。",
+  "useCasesZh": [
+    "在云手机里自动完成 App 内的多步骤操作",
+    "用 GUI-Owl 模型做移动界面元素定位",
+    "为手机 App 的重复业务流程做自动化验证",
+    "在 PC 界面测试需要跨应用协作的连续任务",
+    "作为 GUI 代理研究的开源模型与对比基线"
+  ],
+  "appsZh": [
+    "Android 手机与无影云手机",
+    "移动 App 界面与系统弹窗",
+    "PC 桌面与网页界面",
+    "需要 GUI 理解的截图场景",
+    "ModelScope、百炼在线体验环境"
+  ],
+  "platformsZh": [
+    "Android",
+    "iOS"
+  ],
+  "techApproachZh": "以 GUI-Owl 视觉语言模型为核心，输入截图与任务，输出元素定位与动作；Mobile-Agent 多代理流水线把感知、规划、执行、反思拆开协作，支持长任务记忆；部署侧提供云手机与 API，减少本地设备依赖。",
+  "requirementsZh": [
+    "Python 环境与仓库依赖",
+    "可用的 GUI-Owl 权重或百炼 API Key",
+    "手机任务需 Android 设备或云手机",
+    "本地推理需较大显存；仅调 API 无需 GPU"
+  ],
+  "prosZh": [
+    "模型、代理与云手机环境成体系交付",
+    "同时覆盖手机与 PC 两类图形界面",
+    "有在线 Demo 与 API 可快速验证",
+    "多代理加反思机制，让长任务更稳定",
+    "开源权重提供多个参数规模供选择"
+  ],
+  "consZh": [
+    "本地部署模型对显存与推理硬件要求高",
+    "云手机与 API 依赖阿里云生态",
+    "文档偏模型与演示，工程化细节少",
+    "移动端风控与验证码仍会阻断操作"
+  ],
+  "limitsZh": "它偏向研究与演示，缺少面向生产的编排、重试与审计；移动 App 的反自动化机制会让操作中断；云手机环境与真实设备存在差异；仓库未声明业务场景成功率，基准分数需按模型与版本核对。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可在 Android 企业微信 App 或云手机上做会话操作试验，但移动端对外群发限制更严、风控更敏感；更适合内部测试账号的流程验证，不建议用于真实外部客户批量发送。",
+  "maturityZh": "2024-01 建仓，9368 stars、940 forks，MIT，最近提交 2026-11-03；论文、模型权重、Demo 与 API 齐全，由大厂团队维护，更新稳定。",
+  "evidence": [
+    {
+      "claim": "项目由阿里通义实验室维护",
+      "source": "README.md",
+      "quote": "Mobile-Agent: The Powerful GUI Agent Family by Tongyi Lab, Alibaba Group"
+    },
+    {
+      "claim": "v3.5 可在无影云手机上运行",
+      "source": "README.md",
+      "quote": "Alibaba Cloud Wuying Cloud Phone"
+    },
+    {
+      "claim": "提供 GUI-Owl-1.5 模型集合",
+      "source": "README.md",
+      "quote": "GUI-Owl-1.5 Collection"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "droidrun__mobilerun",
+      "simular-ai__Agent-S"
+    ],
+    "whenZh": "要模型与云手机整套方案，选 Mobile-Agent；要真机双端的测试框架，选 mobilerun；要桌面图形界面代理，选 Agent S。Mobile-Agent 强在模型与生态，弱在生产化编排。"
+  },
+  "scores": {
+    "coverage": 3,
+    "usability": 3,
+    "docs": 3,
+    "maintenance": 4,
+    "performance": 3,
+    "stability": 3
+  },
+  "stepsZh": [
+    "在百炼或 ModelScope 申请 GUI-Owl 的 API 或下载权重",
+    "准备云手机或测试用 Android 设备并登录测试账号",
+    "让代理先只读扫描企业微信会话列表，确认元素可识别",
+    "按群名筛选外部群并填入话术，发送前转人工确认",
+    "记录每次失败原因，区分风控拦截与识别错误"
+  ],
+  "successRateZh": "无公开的企微场景成功率；仓库提供的是 GUI 理解与移动任务的基准结果，且随模型版本变化。可自测：用同一云手机连续 50 次打开指定外部群，统计元素定位失败、会话找错、被风控中断三类次数。"
+}

@@ -1,0 +1,91 @@
+{
+  "id": "ctoldigital__axuse",
+  "taglineZh": "可访问性优先的浏览器与桌面控制 MCP",
+  "summaryZh": "axuse 是给 agent harness 用的 MCP 服务器，主张用 DOM 树、可访问性树和 CDP 而不是截图循环来操作电脑。它把页面读成紧凑文本快照并给出稳定元素引用，每个动作只回传变化，输入走 CDP 可信事件，失败返回带重试提示的类型化错误。桌面侧 Windows 驱动已验证，macOS 需显式开启并通过 TCC 检查，Linux 走 X11/XTEST。与截图式 CUA 的本质区别是「给目标装仪表」而不是「给它拍照」，因此更快、更省 token。",
+  "whatItDoesZh": "一个 MCP server 可接入 Codex、Claude Code、OpenCode、Antigravity 等宿主：浏览器端读 DOM 与可访问性树、按元素引用点击输入、跨标签操作；桌面端枚举窗口、读取控件文本、执行点击与键入；另有 axdroid 面向 Android 设备。它支持让代理自己按安装提示完成配置，也提供面向非开发者的双击安装包，降低第一次接入的门槛。",
+  "useCasesZh": [
+    "在已登录的企业后台按字段批量填写客户资料",
+    "让编码代理读取页面可访问性文本后精确点击按钮",
+    "在 Windows 桌面客户端里定位控件并录入表单",
+    "为 Android 手机上的 App 做脚本化点击与截图核对",
+    "对比不同代理框架在同一批网页任务上的耗时"
+  ],
+  "appsZh": [
+    "Chrome、Edge、Chromium 浏览器与网页后台",
+    "Windows 桌面应用窗口（驱动已验证）",
+    "macOS 应用（需辅助功能与屏幕录制授权）",
+    "X11/XWayland 下的 Linux 桌面程序",
+    "Android 设备（配合 axdroid）与任意 MCP 宿主"
+  ],
+  "platformsZh": [
+    "Windows",
+    "macOS",
+    "Linux",
+    "Web",
+    "Android"
+  ],
+  "techApproachZh": "浏览器侧通过 CDP 读取 DOM 与可访问性树，输出带稳定引用的文本快照，动作后只回传差异；桌面侧调用系统可访问性 API 与原生输入，Windows 已验证，macOS 走 TCC 授权，Linux 用 XTEST 加 EWMH。所有工具以 MCP 暴露，错误按类型返回并附重试建议，避免代理盲目重试；安装器负责把服务写进各宿主配置。",
+  "requirementsZh": [
+    "Node ≥ 22，零运行时依赖",
+    "Windows 桌面驱动已验证；macOS 需显式开启并授予 TCC 权限",
+    "Linux 桌面控制需 X11/XWayland 环境",
+    "需要一个支持 MCP 的 agent 宿主及其模型 API"
+  ],
+  "prosZh": [
+    "文本快照替代截图，token 与延迟都更低",
+    "稳定的元素引用能显著减少坐标误点",
+    "失败时返回类型化错误并附带重试提示",
+    "同一套服务覆盖浏览器、桌面与手机",
+    "自带各宿主安装器，接入步骤更少"
+  ],
+  "consZh": [
+    "许可为 PolyForm Noncommercial，商用需另谈",
+    "2026 年新项目，生态与案例仍少",
+    "桌面能力在三平台上成熟度不一致",
+    "自绘或可访问性缺失的界面会退化"
+  ],
+  "limitsZh": "可访问性树稀疏的 Electron、Canvas、游戏式界面无法可靠识别，只能退回有限截图或失败；macOS 授权与 Wayland 限制会让部分动作不可用；仓库只给出 16 个任务的时延对比，未公布成功率，跨应用泛化仍待验证。它也不处理验证码，验证码求解器是单独商业包。",
+  "wecomRelevance": "direct",
+  "wecomUseZh": "企业微信 Windows 客户端有可访问性树，axuse 可枚举会话与控件、读取群名、定位输入框并填入话术，比坐标点击稳；可在发送前检查群名与文本再交给本人确认。它不绕过客户端限制，只把「找群、填字、校验」自动化，适合半自动外发。",
+  "maturityZh": "2026-10 建仓，803 stars，最近提交 2026-11-03，更新节奏快；许可为 PolyForm Noncommercial 1.0.0，商用需授权。项目年轻，接口与平台支持可能变动，文档相对完整但仍缺长期稳定性数据。",
+  "evidence": [
+    {
+      "claim": "它把浏览器与电脑操作做成一个可接入多种宿主的 MCP 服务",
+      "source": "README.md",
+      "quote": "**Accessibility-first browser and computer use for agent harnesses.** One MCP"
+    },
+    {
+      "claim": "设计取向是仪器化目标而不是截图循环",
+      "source": "README.md",
+      "quote": "a screenshot loop is not the right interface for a machine"
+    },
+    {
+      "claim": "Windows 桌面驱动已验证，macOS 需显式开启",
+      "source": "README.md",
+      "quote": "Windows desktop driver is"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "browser-use__browser-use",
+      "kanishka089__computer-use-mcp"
+    ],
+    "whenZh": "要低 token、可访问性树驱动且要桌面控制，选 axuse；只做浏览器任务且生态成熟，选 browser-use；只想用真实鼠标键盘做纯截图 CUA，选 computer-use-mcp。注意 axuse 非商业许可限制。"
+  },
+  "scores": {
+    "coverage": 4,
+    "usability": 3,
+    "docs": 4,
+    "maintenance": 4,
+    "performance": 5,
+    "stability": 4
+  },
+  "stepsZh": [
+    "在 Codex 或 Claude Code 里粘贴安装提示，让代理写入 MCP 配置",
+    "打开企业微信 PC 客户端，授予辅助功能与屏幕录制权限",
+    "用 tools 枚举窗口，确认能读到会话列表与输入框的可访问性节点",
+    "让代理按群名匹配外部群，填入话术并在发送前停下来等待确认",
+    "失败时读取类型化错误与重试提示，最多重试两次后转人工"
+  ],
+  "successRateZh": "无公开成功率数据；README 只给出 16 个服务端评分任务的中位耗时 17 秒，对比 Codex 扩展 26 秒、截图方案 56 秒，时延不等于成功率。可自测：同一批 50 次「找外部群并打开会话」，统计可访问性节点缺失、元素引用失效、输入未生效三类失败。"
+}

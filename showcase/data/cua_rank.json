@@ -1,0 +1,2818 @@
+{
+  "generatedFor": "通用 CUA 能力评估（不再以单一 IM 场景为排序主轴）",
+  "total": 140,
+  "scoring": {
+    "formula": "score = 0.34*coverage + 0.22*usability + 0.10*docs + 0.10*maintenance + 0.10*stability + 0.06*breadth + 0.08*(100-riskPenalty)",
+    "subScoreScale": "0-100，由档案 1-5 分换算（×20）；breadth 按平台数 35/55/75/90/100",
+    "evidenceCap": "star<50 时 docs≤80、stability≤50；star<200 时 docs≤85、stability≤60；star<1000 时 stability≤70",
+    "tierRule": "推荐 score≥84 且 risk≤25；可用 score≥68 且 risk≤45；勿用 risk≥75、（risk≥45 且 score<66）或 score<30；其余谨慎"
+  },
+  "tierCounts": {
+    "推荐": 5,
+    "可用": 45,
+    "勿用": 29,
+    "谨慎": 61
+  },
+  "items": [
+    {
+      "rank": 1,
+      "id": "browser-use__browser-use",
+      "score": 88.9,
+      "tier": "推荐",
+      "primaryRoute": "浏览器自动化",
+      "capabilityZh": "用自然语言驱动浏览器完成多步网页操作，支持点击、填表、取数与下载。",
+      "bestForZh": "网页后台批量录单、跨站点取数、表单填报与资料汇总。",
+      "whyZh": "浏览器内操作覆盖完整、上手最快，社区与文档最厚；但只限网页，桌面客户端与系统弹窗无能为力，长任务要自己做重试与结果校验；只在浏览器内成立，代价是桌面与系统层完全触达不到。",
+      "riskZh": "验证码与登录风控会导致点错或卡死；高危动作需加审批。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 100,
+        "docs": 100,
+        "maintenance": 100,
+        "stability": 80,
+        "breadth": 75,
+        "riskPenalty": 10
+      }
+    },
+    {
+      "rank": 2,
+      "id": "simular-ai__Agent-S",
+      "score": 88.14,
+      "tier": "推荐",
+      "primaryRoute": "屏幕视觉+坐标点击",
+      "capabilityZh": "看屏幕、推理并执行鼠标键盘动作，支持多代理协作与跨应用长任务。",
+      "bestForZh": "桌面软件组合流程、跨应用数据搬运与半自动办公。",
+      "whyZh": "桌面覆盖广、支持多代理与代码动作，工程完整度高；但纯视觉在密集控件与远程桌面下不稳，长任务会记忆漂移，需外部校验；不依赖接口、覆盖面广，代价是精度随界面与模型波动。",
+      "riskZh": "无业务级结果校验，误操作直接落盘；建议先干跑。",
+      "subScores": {
+        "coverage": 100,
+        "usability": 80,
+        "docs": 80,
+        "maintenance": 100,
+        "stability": 70,
+        "breadth": 75,
+        "riskPenalty": 12
+      }
+    },
+    {
+      "rank": 3,
+      "id": "appium__appium",
+      "score": 87.36,
+      "tier": "推荐",
+      "primaryRoute": "官方 API/SDK",
+      "capabilityZh": "用 WebDriver 协议驱动 Android 与 iOS 应用，查找元素并点击输入。",
+      "bestForZh": "移动 App 回归测试、批量设备上的重复操作与数据采集。",
+      "whyZh": "移动端覆盖最完整、文档与生态最好，可接设备农场；但桌面端支持弱，自绘界面找不到元素，版本升级常需锁定驱动；稳定性来自官方背书，天花板也来自官方范围。",
+      "riskZh": "驱动与系统版本不匹配会整批失败；自绘界面不可用。",
+      "subScores": {
+        "coverage": 100,
+        "usability": 60,
+        "docs": 100,
+        "maintenance": 100,
+        "stability": 80,
+        "breadth": 80,
+        "riskPenalty": 8
+      }
+    },
+    {
+      "rank": 4,
+      "id": "bytedance__UI-TARS-desktop",
+      "score": 85.94,
+      "tier": "推荐",
+      "primaryRoute": "屏幕视觉+坐标点击",
+      "capabilityZh": "多模态模型看屏幕后直接控制鼠标键盘，完成桌面多步任务。",
+      "bestForZh": "桌面软件批量操作、跨应用搬数据、重复界面流程。",
+      "whyZh": "端到端视觉操作覆盖广、开箱即用；但纯截图路线在密集界面与高缩放下会点偏，依赖模型服务，长任务易丢上下文；路线通用性最强，稳定性最依赖模型与屏幕环境。",
+      "riskZh": "模型服务与网络依赖；误点无回滚，敏感操作需人工确认。",
+      "subScores": {
+        "coverage": 100,
+        "usability": 80,
+        "docs": 80,
+        "maintenance": 100,
+        "stability": 60,
+        "breadth": 55,
+        "riskPenalty": 12
+      }
+    },
+    {
+      "rank": 5,
+      "id": "firerpa__lamda",
+      "score": 85.7,
+      "tier": "推荐",
+      "primaryRoute": "无障碍树",
+      "capabilityZh": "Android 全栈设备控制，按文本、ID 或图像定位控件并可远程看屏。",
+      "bestForZh": "多台安卓设备的集中操作、批量任务与远程协助。",
+      "whyZh": "安卓覆盖最全，选择器、远程桌面与虚拟显示都有；但只限安卓，网页控件与自绘界面会定位失败，系统版本影响能力；路线稳定可审计，前提是目标应用愿意暴露控件。",
+      "riskZh": "依赖设备端服务与系统权限；高负载下远程画面掉帧。",
+      "subScores": {
+        "coverage": 100,
+        "usability": 80,
+        "docs": 80,
+        "maintenance": 100,
+        "stability": 80,
+        "breadth": 35,
+        "riskPenalty": 25
+      }
+    },
+    {
+      "rank": 6,
+      "id": "agent-sh__computer-use-linux",
+      "score": 83.34,
+      "tier": "可用",
+      "primaryRoute": "无障碍树",
+      "capabilityZh": "Wayland 可用的 Linux 桌面 MCP，按角色名称定位并操作窗口。",
+      "bestForZh": "Linux 桌面软件的结构化操作与自动化脚本。",
+      "whyZh": "在 Wayland 下也能用、工具覆盖全、带环境自检；但仅限 Linux，无障碍不足时退回坐标，合成器差异会影响窗口定位；路线稳定可审计，前提是目标应用愿意暴露控件。",
+      "riskZh": "输入权限缺失时动作被静默丢弃；合成器差异。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 100,
+        "docs": 80,
+        "maintenance": 100,
+        "stability": 70,
+        "breadth": 35,
+        "riskPenalty": 12
+      }
+    },
+    {
+      "rank": 7,
+      "id": "Yu-tao-Li__dsh-computer-use-win",
+      "score": 83.31,
+      "tier": "可用",
+      "primaryRoute": "无障碍树",
+      "capabilityZh": "给指定代理宿主的 Windows 桌面插件，按观察、定位、执行、确认循环。",
+      "bestForZh": "Windows 桌面软件的结构化操作与后台控件输入。",
+      "whyZh": "循环设计完整、支持后台控件与文字识别兜底；但只在特定宿主生态可用，脱离后功能缩水，自绘界面只能靠识别且会漏字；语义定位比坐标稳，代价是受目标应用的无障碍实现限制。",
+      "riskZh": "宿主绑定，迁移成本高；识别漏字导致定位失败。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 100,
+        "docs": 100,
+        "maintenance": 80,
+        "stability": 70,
+        "breadth": 35,
+        "riskPenalty": 12
+      }
+    },
+    {
+      "rank": 8,
+      "id": "vercel-labs__agent-desktop",
+      "score": 82.1,
+      "tier": "可用",
+      "primaryRoute": "无障碍树",
+      "capabilityZh": "读取系统无障碍树，按角色或名称定位并操作 macOS 应用。",
+      "bestForZh": "macOS 桌面软件的结构化操作、菜单与表单的稳定点击。",
+      "whyZh": "基于控件语义而非坐标，比截图方案稳；但只支持 macOS，无障碍信息缺失的应用会退化成空壳，跨平台需求要另选；语义定位比坐标稳，代价是受目标应用的无障碍实现限制。",
+      "riskZh": "系统授权缺失即不可用；同名控件易歧义，需唯一性校验。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 80,
+        "docs": 100,
+        "maintenance": 100,
+        "stability": 80,
+        "breadth": 35,
+        "riskPenalty": 10
+      }
+    },
+    {
+      "rank": 9,
+      "id": "droidrun__mobilerun",
+      "score": 82.07,
+      "tier": "可用",
+      "primaryRoute": "Agent 框架",
+      "capabilityZh": "自然语言驱动 Android 与 iOS 真机，执行点击、滑动、输入等多步任务。",
+      "bestForZh": "移动 App 流程验证、批量真机操作与数据采集。",
+      "whyZh": "移动端工程完整，命令行与接口都好接；但反自动化、验证码与系统弹窗会阻断，不同厂商系统差异大，敏感输入不处理；适合做上层编排，代价是具体操作能力取决于所接工具。",
+      "riskZh": "厂商系统差异导致定位失败；基准分数口径需核对。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 80,
+        "docs": 100,
+        "maintenance": 100,
+        "stability": 80,
+        "breadth": 35,
+        "riskPenalty": 10
+      }
+    },
+    {
+      "rank": 10,
+      "id": "microsoft__Hybrid-Computer-Use",
+      "score": 82.06,
+      "tier": "可用",
+      "primaryRoute": "无障碍树",
+      "capabilityZh": "给编码代理的双通道桌面 MCP，统一命令行、SDK 与守护进程。",
+      "bestForZh": "Windows 桌面软件的结构化操作与批量界面任务。",
+      "whyZh": "契约统一、引用编号跨入口延续、工程完成度高；但无障碍覆盖是硬边界，自绘界面只能退化截图加坐标，缺授权时读不到窗口；语义定位比坐标稳，代价是受目标应用的无障碍实现限制。",
+      "riskZh": "批内一步超时会导致整批部分完成；需分步校验。",
+      "subScores": {
+        "coverage": 100,
+        "usability": 80,
+        "docs": 80,
+        "maintenance": 80,
+        "stability": 50,
+        "breadth": 35,
+        "riskPenalty": 8
+      }
+    },
+    {
+      "rank": 11,
+      "id": "nano-muse__nanoMuse",
+      "score": 81.6,
+      "tier": "可用",
+      "primaryRoute": "Agent 框架",
+      "capabilityZh": "跨端个人智能体运行时，提供会话记忆、定时任务、语音与技能。",
+      "bestForZh": "个人多设备助手、定时提醒与跨端信息汇总。",
+      "whyZh": "跨六端、安装简单，能力面广；但操作能力依赖设备授权，未开无障碍只能读不能动，后台保活受系统策略影响；调度与协作是强项，落到界面操作还要另配执行层。",
+      "riskZh": "权限被回收会读到旧画面；中继断连即失联。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 80,
+        "docs": 80,
+        "maintenance": 100,
+        "stability": 60,
+        "breadth": 100,
+        "riskPenalty": 15
+      }
+    },
+    {
+      "rank": 12,
+      "id": "iflytek__astron-rpa",
+      "score": 81.46,
+      "tier": "可用",
+      "primaryRoute": "RPA/工作流",
+      "capabilityZh": "可视化拖拽搭建 RPA 流程，支持元素拾取、录制、分支与日志。",
+      "bestForZh": "Windows 桌面软件与表格、邮件的批量流程，企业内常驻自动化。",
+      "whyZh": "企业级组件齐、可视化降低门槛；但元素拾取依赖控件暴露，自绘界面抓不到，复杂异常处理仍要写代码；确定性强、责任清晰，灵活性换来的就是维护量。",
+      "riskZh": "以 Windows 为主，跨平台能力未充分声明。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 80,
+        "docs": 80,
+        "maintenance": 100,
+        "stability": 80,
+        "breadth": 55,
+        "riskPenalty": 8
+      }
+    },
+    {
+      "rank": 13,
+      "id": "ArtisanCloud__PowerWeChat",
+      "score": 80.66,
+      "tier": "可用",
+      "primaryRoute": "官方 API/SDK",
+      "capabilityZh": "多端开发 SDK，覆盖通讯录、应用消息、客户联系与支付。",
+      "bestForZh": "官方接口驱动的消息推送、通讯录同步与客户管理。",
+      "whyZh": "接口覆盖广、文档完整、合规；但只能走官方能力，外部群无接口，群发必须成员确认，新接口出现时要自行扩展；稳定性来自官方背书，天花板也来自官方范围。",
+      "riskZh": "权限需企业认证；SDK 落后官方接口时需自行补。",
+      "subScores": {
+        "coverage": 100,
+        "usability": 60,
+        "docs": 80,
+        "maintenance": 80,
+        "stability": 80,
+        "breadth": 35,
+        "riskPenalty": 8
+      }
+    },
+    {
+      "rank": 14,
+      "id": "wechatpy__wechatpy",
+      "score": 80.63,
+      "tier": "可用",
+      "primaryRoute": "官方 API/SDK",
+      "capabilityZh": "覆盖公众号与企业级通讯录、应用消息、客户联系的 Python SDK。",
+      "bestForZh": "走官方接口的消息推送、通讯录同步与客户标签管理。",
+      "whyZh": "官方接口、稳定合规，Python 生态友好；但只能做接口允许的事，没有开放的外部群能力，也不能绕过成员确认；走官方通道风险最低，但接口没开放的能力它一概做不到。",
+      "riskZh": "权限需企业认证；接口废弃后需等库更新。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 80,
+        "docs": 80,
+        "maintenance": 80,
+        "stability": 80,
+        "breadth": 75,
+        "riskPenalty": 8
+      }
+    },
+    {
+      "rank": 15,
+      "id": "xa11y__xa11y",
+      "score": 80.5,
+      "tier": "可用",
+      "primaryRoute": "无障碍树",
+      "capabilityZh": "跨平台桌面无障碍驱动库，按角色名称定位并操作实时窗口。",
+      "bestForZh": "三平台桌面软件的结构化操作与稳定定位。",
+      "whyZh": "Rust 核心加多语言绑定、三平台统一，定位语义清晰；但受应用无障碍实现限制，游戏与画布无控件，系统授权缺失会读不到内容；能按控件精确操作，遇到自绘界面就会退化成空壳。",
+      "riskZh": "权限缺失只能读菜单栏；无控件界面直接失效。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 80,
+        "docs": 80,
+        "maintenance": 100,
+        "stability": 60,
+        "breadth": 75,
+        "riskPenalty": 10
+      }
+    },
+    {
+      "rank": 16,
+      "id": "WecomTeam__wecom-cli",
+      "score": 80.47,
+      "tier": "可用",
+      "primaryRoute": "官方 API/SDK",
+      "capabilityZh": "官方命令行工具，配置机器人后收发消息、读写文档与日程。",
+      "bestForZh": "内部成员与机器人的消息通知、文档与日程的脚本化操作。",
+      "whyZh": "官方维护、合规、命令清晰；但只能触达与机器人互动过的会话，不能主动加外部联系人，权限需管理员开通；稳定性来自官方背书，天花板也来自官方范围。",
+      "riskZh": "接口权限与范围受限；普通员工无法自行开通。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 100,
+        "docs": 80,
+        "maintenance": 100,
+        "stability": 80,
+        "breadth": 75,
+        "riskPenalty": 5
+      }
+    },
+    {
+      "rank": 17,
+      "id": "munimtechnologies__munim-computer-use",
+      "score": 80.4,
+      "tier": "可用",
+      "primaryRoute": "无障碍树",
+      "capabilityZh": "后台输入、无障碍优先的跨平台桌面 MCP，支持边操作边观察。",
+      "bestForZh": "不抢占前台的批量桌面录入与网页后台操作。",
+      "whyZh": "能后台输入、可与其他操作并行，工具面完整；但无障碍缺失的应用无法操作，安全软件或提权窗口会拦截输入，基准只测读取；能按控件精确操作，遇到自绘界面就会退化成空壳。",
+      "riskZh": "提权窗口输入被拦截；无端到端成功率数据。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 80,
+        "docs": 80,
+        "maintenance": 100,
+        "stability": 50,
+        "breadth": 90,
+        "riskPenalty": 10
+      }
+    },
+    {
+      "rank": 18,
+      "id": "tebelorg__RPA-Python",
+      "score": 78.5,
+      "tier": "可用",
+      "primaryRoute": "RPA/工作流",
+      "capabilityZh": "一行安装的 Python RPA 封装，提供点击、输入、读表与截图接口。",
+      "bestForZh": "快速写网页与桌面重复流程的小型脚本。",
+      "whyZh": "接口极简、上手最快；但能力上限由底层工具决定，桌面靠图像匹配，上游停更后兼容修复依赖分支维护；适合长期跑固定流程，不适合经常改版的界面。",
+      "riskZh": "底层停更带来长期兼容风险；不适合高并发强校验。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 100,
+        "docs": 80,
+        "maintenance": 60,
+        "stability": 60,
+        "breadth": 75,
+        "riskPenalty": 40
+      }
+    },
+    {
+      "rank": 19,
+      "id": "pywinauto__pywinauto",
+      "score": 78.26,
+      "tier": "可用",
+      "primaryRoute": "无障碍树",
+      "capabilityZh": "Python 操作 Windows 控件的经典库，枚举窗口、定位控件并读写值。",
+      "bestForZh": "Windows 桌面软件的表单填写、菜单点击与批量数据录入。",
+      "whyZh": "控件级定位稳定、资料厚、长期维护；但只支持 Windows，自绘与游戏界面拿不到内部元素，提权窗口无法操作；能按控件精确操作，遇到自绘界面就会退化成空壳。",
+      "riskZh": "提权与安全桌面不可达；自绘区域需另配视觉方案。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 80,
+        "docs": 80,
+        "maintenance": 80,
+        "stability": 80,
+        "breadth": 35,
+        "riskPenalty": 8
+      }
+    },
+    {
+      "rank": 20,
+      "id": "amontlabs__lcu",
+      "score": 78.1,
+      "tier": "可用",
+      "primaryRoute": "无障碍树",
+      "capabilityZh": "脱离原客户端的桌面操控运行时，提供读窗、点击、输入与截图。",
+      "bestForZh": "给编码代理接桌面操作，按应用分级控制风险。",
+      "whyZh": "三条宿主路径都接好、有安全等级区分；但能力跟随上游运行时，上游不支持就没有，Windows 版当时未交付；能按控件精确操作，遇到自绘界面就会退化成空壳。",
+      "riskZh": "上游更新可能改变桥接；平台标注与实现不完全对应。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 80,
+        "docs": 80,
+        "maintenance": 80,
+        "stability": 60,
+        "breadth": 75,
+        "riskPenalty": 15
+      }
+    },
+    {
+      "rank": 21,
+      "id": "ComputerUseAgent__AutoCua",
+      "score": 78.0,
+      "tier": "可用",
+      "primaryRoute": "Agent 框架",
+      "capabilityZh": "跨六端的多智能体桌面代理，几行代码启动并自主规划操作。",
+      "bestForZh": "多平台混合任务原型、跨设备流程验证。",
+      "whyZh": "端覆盖最广、接入极简；但定位在无控件界面高度依赖文字识别，Windows 内核驱动带来安全与合规负担，长任务易中断；适合做上层编排，代价是具体操作能力取决于所接工具。",
+      "riskZh": "内核驱动增加安全与合规成本；手机需连线或同网。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 80,
+        "docs": 80,
+        "maintenance": 80,
+        "stability": 60,
+        "breadth": 100,
+        "riskPenalty": 35
+      }
+    },
+    {
+      "rank": 22,
+      "id": "alper-han__CrossMacro",
+      "score": 77.94,
+      "tier": "可用",
+      "primaryRoute": "RPA/工作流",
+      "capabilityZh": "跨平台宏录制回放，支持图色等待、变量循环与定时触发。",
+      "bestForZh": "固定界面的重复点击、定时任务与简单批处理。",
+      "whyZh": "录制直观、跨三平台、可编辑流程；但没有语义理解，窗口位置、缩放与加载速度变化都会让回放失败，只适合布局固定的场景；流程可复用、易审计，代价是界面一变就要维护脚本。",
+      "riskZh": "布局变化即失效；无内容判断能力。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 100,
+        "docs": 80,
+        "maintenance": 100,
+        "stability": 60,
+        "breadth": 75,
+        "riskPenalty": 12
+      }
+    },
+    {
+      "rank": 23,
+      "id": "iflytek__astron-agent",
+      "score": 77.86,
+      "tier": "可用",
+      "primaryRoute": "RPA/工作流",
+      "capabilityZh": "可视化编排多节点工作流，接入模型、工具、MCP 与 RPA 组件。",
+      "bestForZh": "企业内部流程编排、需要监控与版本管理的自动化平台。",
+      "whyZh": "平台化能力强、可发布为接口；但本身不做界面操作，客户端流程要落到 RPA 组件，效果取决于节点设计与模型输出；适合长期跑固定流程，不适合经常改版的界面。",
+      "riskZh": "部署依赖基础设施；流程质量无公开成功率可依。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 60,
+        "docs": 100,
+        "maintenance": 100,
+        "stability": 80,
+        "breadth": 35,
+        "riskPenalty": 8
+      }
+    },
+    {
+      "rank": 24,
+      "id": "TurixAI__TuriX-CUA",
+      "score": 77.7,
+      "tier": "可用",
+      "primaryRoute": "屏幕视觉+坐标点击",
+      "capabilityZh": "视觉驱动的桌面代理，截屏决策、执行动作并自我反思。",
+      "bestForZh": "macOS 桌面软件的多步操作与常见流程复用。",
+      "whyZh": "有技能库与定时能力，闭环完整；但纯视觉在密集界面会点偏，长任务受步数上限限制，平台标注与实际支持不完全一致；什么界面都能试，但坐标会漂，结果必须二次核对。",
+      "riskZh": "权限未授全时静默失败；步数耗尽会中断任务。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 80,
+        "docs": 80,
+        "maintenance": 80,
+        "stability": 80,
+        "breadth": 35,
+        "riskPenalty": 15
+      }
+    },
+    {
+      "rank": 25,
+      "id": "A9T9__RPA",
+      "score": 77.3,
+      "tier": "可用",
+      "primaryRoute": "RPA/工作流",
+      "capabilityZh": "宏录制回放的 RPA，支持网页与桌面，带文字识别与图像匹配。",
+      "bestForZh": "老系统的固定流程回放、填表取数与报表下载。",
+      "whyZh": "录制快、能处理没有稳定选择器的界面；但本质是回放器，缩放、弹窗与主题变化都会失准，失败后不会自行改策略；适合长期跑固定流程，不适合经常改版的界面。",
+      "riskZh": "桌面可靠性依赖商业扩展；图像匹配随环境漂移。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 80,
+        "docs": 80,
+        "maintenance": 80,
+        "stability": 80,
+        "breadth": 35,
+        "riskPenalty": 20
+      }
+    },
+    {
+      "rank": 26,
+      "id": "CelestoAI__celesto",
+      "score": 76.1,
+      "tier": "可用",
+      "primaryRoute": "其他",
+      "capabilityZh": "给代理的轻量持久虚拟机，本地或云端创建并执行命令与浏览。",
+      "bestForZh": "隔离运行环境、可复现测试与临时开发机。",
+      "whyZh": "创建快、状态可持久、接口简单；但它只给机器不给代理逻辑，没有规划、消息通道与审批，桌面运行时仍在预览；它提供的是零件或结论，落地还要自己组装。",
+      "riskZh": "本地模式需虚拟化支持；云端按资源计费。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 80,
+        "docs": 80,
+        "maintenance": 80,
+        "stability": 60,
+        "breadth": 35,
+        "riskPenalty": 10
+      }
+    },
+    {
+      "rank": 27,
+      "id": "777genius__os-ai-computer-use",
+      "score": 76.07,
+      "tier": "可用",
+      "primaryRoute": "屏幕视觉+坐标点击",
+      "capabilityZh": "双模型桌面代理客户端，截图决策并实时显示动作与成本。",
+      "bestForZh": "个人桌面任务、需要看成本的多步操作。",
+      "whyZh": "界面友好、成本可见、多会话；但只能看全屏可见界面，多屏坐标基准不一致，长任务上下文裁剪后会忘步骤，无回滚；路线通用性最强，稳定性最依赖模型与屏幕环境。",
+      "riskZh": "无失败回滚与二次校验；多屏坐标易错。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 80,
+        "docs": 60,
+        "maintenance": 80,
+        "stability": 60,
+        "breadth": 75,
+        "riskPenalty": 15
+      }
+    },
+    {
+      "rank": 28,
+      "id": "yinkaisheng__Python-UIAutomation-for-Windows",
+      "score": 76.04,
+      "tier": "可用",
+      "primaryRoute": "无障碍树",
+      "capabilityZh": "Python 封装 Windows 无障碍接口，遍历控件树并按条件定位操作。",
+      "bestForZh": "Windows 桌面软件的控件级自动化与批量录单。",
+      "whyZh": "老牌稳定、示例多、上手直接；但只认暴露了无障碍信息的控件，浏览器自绘与部分框架会缺失，跨进程拖拽支持弱；能按控件精确操作，遇到自绘界面就会退化成空壳。",
+      "riskZh": "Electron 未开可访问性时只有空壳；需按应用调参。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 80,
+        "docs": 80,
+        "maintenance": 60,
+        "stability": 80,
+        "breadth": 35,
+        "riskPenalty": 10
+      }
+    },
+    {
+      "rank": 29,
+      "id": "robotframework__robotframework",
+      "score": 75.46,
+      "tier": "可用",
+      "primaryRoute": "RPA/工作流",
+      "capabilityZh": "关键字驱动的自动化与 RPA 框架，执行流程并生成日志报告。",
+      "bestForZh": "回归测试、可维护的批量业务流程与团队协作脚本。",
+      "whyZh": "结构化、可读、报告完整，适合长期维护；但本身不操作界面，桌面能力要靠外部库，出错信息被包装后排查成本高；适合长期跑固定流程，不适合经常改版的界面。",
+      "riskZh": "依赖第三方界面库，库停更会让整条流程失效。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 60,
+        "docs": 100,
+        "maintenance": 100,
+        "stability": 100,
+        "breadth": 75,
+        "riskPenalty": 8
+      }
+    },
+    {
+      "rank": 30,
+      "id": "WecomTeam__wecom-openclaw-plugin",
+      "score": 75.1,
+      "tier": "可用",
+      "primaryRoute": "官方 API/SDK",
+      "capabilityZh": "官方企业渠道插件，接收消息并流式回复，可按部门标签群发。",
+      "bestForZh": "内部成员通知、部门级消息分发与机器人问答。",
+      "whyZh": "官方维护、配置一条命令完成、支持流式；但主动消息只能发给最近互动过的会话，外部联系人与外部群不在开放范围；稳定性来自官方背书，天花板也来自官方范围。",
+      "riskZh": "触达范围受官方限制；需管理员创建并授权机器人。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 80,
+        "docs": 80,
+        "maintenance": 100,
+        "stability": 70,
+        "breadth": 75,
+        "riskPenalty": 5
+      }
+    },
+    {
+      "rank": 31,
+      "id": "AirtestProject__Airtest",
+      "score": 75.0,
+      "tier": "可用",
+      "primaryRoute": "屏幕视觉+坐标点击",
+      "capabilityZh": "基于图像识别与控件树的跨平台自动化，支持录制回放与报告。",
+      "bestForZh": "游戏与 App 的界面回归、带截图的流程验证。",
+      "whyZh": "图像加控件双通道、上手快；但模板匹配对分辨率与主题极敏感，界面一改就要重截素材，且半年以上无提交，兼容风险上升；什么界面都能试，但坐标会漂，结果必须二次核对。",
+      "riskZh": "停更超过半年，新系统适配无人修复；模板按设备维护。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 80,
+        "docs": 80,
+        "maintenance": 60,
+        "stability": 60,
+        "breadth": 90,
+        "riskPenalty": 40
+      }
+    },
+    {
+      "rank": 32,
+      "id": "microsoft__magentic-ui",
+      "score": 74.84,
+      "tier": "可用",
+      "primaryRoute": "Agent 框架",
+      "capabilityZh": "浏览器与本地文件双通道代理，可实时观看、插话与人工接管。",
+      "bestForZh": "网页调研加本地文件整理的混合任务，需人盯着的流程。",
+      "whyZh": "人机协同设计好，敏感动作可审批；但范围只到浏览器与文件，专用客户端不在内，长任务里审批过多会导致流程中断；路线上限高，但端到端效果取决于最弱的那一环。",
+      "riskZh": "沙箱登录态难持久；跨沙箱文件交换受限。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 60,
+        "docs": 80,
+        "maintenance": 80,
+        "stability": 60,
+        "breadth": 90,
+        "riskPenalty": 12
+      }
+    },
+    {
+      "rank": 33,
+      "id": "wechaty__wechaty",
+      "score": 74.26,
+      "tier": "勿用",
+      "primaryRoute": "协议/注入（高危）",
+      "capabilityZh": "多协议聊天机器人 SDK，扫码登录后可收发消息、管理联系人与群。",
+      "bestForZh": "聊天机器人原型、消息分流与自动回复的实验性项目。",
+      "whyZh": "生态成熟、接口抽象好，但依赖第三方网关，主流网关已停更；协议侧风控严格，账号随时可能被限制，不适合承载业务；绕过官方限制换来的便利，随时可能被规则清算。",
+      "riskZh": "协议非官方，封号风险高；网关停更后整体不可用。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 80,
+        "docs": 100,
+        "maintenance": 80,
+        "stability": 60,
+        "breadth": 75,
+        "riskPenalty": 88
+      }
+    },
+    {
+      "rank": 34,
+      "id": "go-vgo__robotgo",
+      "score": 73.94,
+      "tier": "可用",
+      "primaryRoute": "屏幕视觉+坐标点击",
+      "capabilityZh": "Go 原生跨平台桌面自动化库，控制鼠标键盘、截屏与找图找色。",
+      "bestForZh": "嵌入自有程序的桌面操作、窗口管理与图像定位。",
+      "whyZh": "跨三平台、性能好、可编译进产品；但全部基于坐标与窗口句柄，缩放与主题变化即偏移，且不含等待重试，稳定性靠调用方；不依赖接口、覆盖面广，代价是精度随界面与模型波动。",
+      "riskZh": "Wayland 支持有限；坐标假设被缩放与多屏打破。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 60,
+        "docs": 60,
+        "maintenance": 80,
+        "stability": 80,
+        "breadth": 75,
+        "riskPenalty": 12
+      }
+    },
+    {
+      "rank": 35,
+      "id": "SouravBeraAkaSpeed__xiryn",
+      "score": 73.7,
+      "tier": "可用",
+      "primaryRoute": "Agent 框架",
+      "capabilityZh": "为每个代理创建独立 Linux 桌面容器，并可用聊天工具远程指挥。",
+      "bestForZh": "多代理并行试验、隔离的网页与脚本任务。",
+      "whyZh": "隔离彻底、多代理协作与定时都有；但容器里装不了专属客户端，浏览器是主战场，资源占用高，重建后登录态丢失；调度与协作是强项，落到界面操作还要另配执行层。",
+      "riskZh": "容器资源占用高；重建后登录态需重新获取。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 80,
+        "docs": 60,
+        "maintenance": 80,
+        "stability": 60,
+        "breadth": 35,
+        "riskPenalty": 15
+      }
+    },
+    {
+      "rank": 36,
+      "id": "nanobrowser__nanobrowser",
+      "score": 73.54,
+      "tier": "可用",
+      "primaryRoute": "浏览器自动化",
+      "capabilityZh": "Chrome 扩展里的多代理浏览器自动化，规划与执行分工。",
+      "bestForZh": "网页检索、批量填表、内容提取与跨页汇总。",
+      "whyZh": "装在浏览器里即可用，模型可换本地服务；但只在浏览器内活动，登录风控与验证码会中断，长任务上下文容易超限；路线成熟、成本低，边界是浏览器这一道墙。",
+      "riskZh": "依赖登录态与站点风控；多步任务可能重复动作。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 80,
+        "docs": 80,
+        "maintenance": 80,
+        "stability": 80,
+        "breadth": 75,
+        "riskPenalty": 12
+      }
+    },
+    {
+      "rank": 37,
+      "id": "steel-dev__steel-browser",
+      "score": 73.51,
+      "tier": "可用",
+      "primaryRoute": "浏览器自动化",
+      "capabilityZh": "自托管浏览器接口与沙箱，提供会话、网页转文本与指令执行。",
+      "bestForZh": "给代理批量开网页、抓取内容、截图存档与隔离浏览。",
+      "whyZh": "接口清晰、可自托管、适合批量网页任务；但边界就是浏览器能做的事，桌面与系统弹窗不支持，无头特征会被站点拦截；网页内又快又稳，出了浏览器就没有抓手。",
+      "riskZh": "站点反爬会返回拦截页；会话回收导致连接中断。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 80,
+        "docs": 80,
+        "maintenance": 80,
+        "stability": 80,
+        "breadth": 75,
+        "riskPenalty": 12
+      }
+    },
+    {
+      "rank": 38,
+      "id": "xen0n__go-workwx",
+      "score": 72.94,
+      "tier": "可用",
+      "primaryRoute": "官方 API/SDK",
+      "capabilityZh": "Go 企业级通讯与客户联系 SDK，管理通讯录、标签与群发任务。",
+      "bestForZh": "服务端消息推送、通讯录同步与客户标签运营。",
+      "whyZh": "生产验证过、接口稳、Go 生态友好；但仍是官方接口封装，外部群无接口，群发要成员确认，作者转为业余维护；路线本身合规稳定，代价是只能做接口明确开放的事。",
+      "riskZh": "维护强度下降；接口能力受官方范围限制。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 60,
+        "docs": 60,
+        "maintenance": 80,
+        "stability": 70,
+        "breadth": 75,
+        "riskPenalty": 12
+      }
+    },
+    {
+      "rank": 39,
+      "id": "ghostwright__ghost-os",
+      "score": 72.9,
+      "tier": "可用",
+      "primaryRoute": "无障碍树",
+      "capabilityZh": "免截图的 macOS 无障碍代理运行时，可录制并复用操作配方。",
+      "bestForZh": "macOS 桌面流程的结构化执行与经验沉淀。",
+      "whyZh": "靠控件树而非像素、稳定性好，配方可复用；但平台与无障碍覆盖是硬边界，Windows 支持缺文档依据，自绘界面要视觉兜底；路线稳定可审计，前提是目标应用愿意暴露控件。",
+      "riskZh": "权限配置复杂；录制可能捕获无关动作。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 80,
+        "docs": 60,
+        "maintenance": 60,
+        "stability": 60,
+        "breadth": 55,
+        "riskPenalty": 15
+      }
+    },
+    {
+      "rank": 40,
+      "id": "inclusionAI__UI-Venus",
+      "score": 72.74,
+      "tier": "可用",
+      "primaryRoute": "屏幕视觉+坐标点击",
+      "capabilityZh": "纯截图输入的通用界面智能体，提供权重、示例与运行框架。",
+      "bestForZh": "移动端界面理解研究、模型部署与批量任务试验。",
+      "whyZh": "模型能力完整、框架齐；但平台标注偏安卓，桌面客户端缺框架支持，示例默认只校验动作不执行，需自行补执行层；什么界面都能试，但坐标会漂，结果必须二次核对。",
+      "riskZh": "需自行部署服务；执行与安全校验需自建。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 60,
+        "docs": 80,
+        "maintenance": 100,
+        "stability": 60,
+        "breadth": 35,
+        "riskPenalty": 22
+      }
+    },
+    {
+      "rank": 41,
+      "id": "ctoldigital__axuse",
+      "score": 72.54,
+      "tier": "可用",
+      "primaryRoute": "无障碍树",
+      "capabilityZh": "可访问性优先的浏览器与桌面控制 MCP，按元素引用点击输入。",
+      "bestForZh": "给编码代理接网页与桌面操作，做结构化定位。",
+      "whyZh": "双端统一、能接入多种宿主；但无障碍稀疏的界面无法可靠识别，系统授权与显示协议限制会让部分动作不可用，只有时延数据无成功率；能按控件精确操作，遇到自绘界面就会退化成空壳。",
+      "riskZh": "授权与环境限制；无公开任务成功率。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 60,
+        "docs": 80,
+        "maintenance": 80,
+        "stability": 70,
+        "breadth": 35,
+        "riskPenalty": 12
+      }
+    },
+    {
+      "rank": 42,
+      "id": "aisingapore__TagUI",
+      "score": 71.7,
+      "tier": "谨慎",
+      "primaryRoute": "RPA/工作流",
+      "capabilityZh": "接近自然语言的流程脚本，驱动浏览器、桌面、文件与表格。",
+      "bestForZh": "跨网页与本地软件的重复流程，脚本化报表处理。",
+      "whyZh": "语法简单、覆盖广，非程序员也能读；但桌面靠图像匹配，主题与缩放一变就失败，上游已停止维护，新系统兼容无人修；确定性强、责任清晰，灵活性换来的就是维护量。",
+      "riskZh": "上游停更，兼容问题无官方修复；图像定位脆弱。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 80,
+        "docs": 80,
+        "maintenance": 40,
+        "stability": 60,
+        "breadth": 75,
+        "riskPenalty": 45
+      }
+    },
+    {
+      "rank": 43,
+      "id": "988hj7tczd-oss__dsh-computer-use",
+      "score": 71.67,
+      "tier": "可用",
+      "primaryRoute": "屏幕视觉+坐标点击",
+      "capabilityZh": "特定代理宿主的可观察桌面插件，枚举窗口、截图并按元素或坐标操作。",
+      "bestForZh": "该宿主内的桌面多步任务与画布类界面操作。",
+      "whyZh": "支持原生、Electron 与画布，动作后有新观察；但只在指定宿主可用，换平台要重接，动画未停会拿到中间态，白名单外直接拒绝；路线通用性最强，稳定性最依赖模型与屏幕环境。",
+      "riskZh": "宿主绑定；白名单限制导致开放式任务失败。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 60,
+        "docs": 80,
+        "maintenance": 60,
+        "stability": 60,
+        "breadth": 75,
+        "riskPenalty": 15
+      }
+    },
+    {
+      "rank": 44,
+      "id": "milind-soni__OpenMausBot",
+      "score": 71.3,
+      "tier": "可用",
+      "primaryRoute": "Agent 框架",
+      "capabilityZh": "多机器人工作台，可分配本机或云电脑控制权，敏感动作前审批。",
+      "bestForZh": "多任务并行、需要人工审批的日常办公自动化。",
+      "whyZh": "编排与审批做得完整，适合有人值守的场景；但它不是精细定位引擎，复杂自绘界面仍会点错，且只覆盖部分桌面环境；调度与协作是强项，落到界面操作还要另配执行层。",
+      "riskZh": "本机控制仅限特定系统；审批规则漏配会放大误操作。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 60,
+        "docs": 60,
+        "maintenance": 80,
+        "stability": 60,
+        "breadth": 75,
+        "riskPenalty": 20
+      }
+    },
+    {
+      "rank": 45,
+      "id": "Anionex__agent-vision-toolkit",
+      "score": 71.27,
+      "tier": "可用",
+      "primaryRoute": "屏幕视觉+坐标点击",
+      "capabilityZh": "给纯文本代理补视觉的命令行工具箱，读图、还原界面并给出坐标。",
+      "bestForZh": "读图表与报错截图、把界面意图转成点击坐标。",
+      "whyZh": "补齐视觉短板、命令简单；但视觉依赖外部模型服务，断网无密钥即不可用，坐标在缩放与跨屏下需重新校准；什么界面都能试，但坐标会漂，结果必须二次核对。",
+      "riskZh": "外部模型服务依赖；长截图压缩后小字丢失。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 80,
+        "docs": 80,
+        "maintenance": 80,
+        "stability": 60,
+        "breadth": 75,
+        "riskPenalty": 15
+      }
+    },
+    {
+      "rank": 46,
+      "id": "mrpulor-gh__nuphus-mcp",
+      "score": 70.74,
+      "tier": "可用",
+      "primaryRoute": "屏幕视觉+坐标点击",
+      "capabilityZh": "Rust 单二进制的桌面与浏览器 MCP，提供窗口、截图、点击与脚本。",
+      "bestForZh": "轻量部署的桌面点击与浏览器取数，接编码代理。",
+      "whyZh": "单文件部署、启动快、双端都有；但定位靠窗口句柄与坐标，缩放与分辨率变化要重取坐标，点偏了它不会自知；路线通用性最强，稳定性最依赖模型与屏幕环境。",
+      "riskZh": "无元素语义回读；坐标漂移导致误点。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 60,
+        "docs": 60,
+        "maintenance": 80,
+        "stability": 60,
+        "breadth": 55,
+        "riskPenalty": 12
+      }
+    },
+    {
+      "rank": 47,
+      "id": "alexshpunt__pi-agent-computer-use",
+      "score": 70.34,
+      "tier": "可用",
+      "primaryRoute": "无障碍树",
+      "capabilityZh": "代理的 Windows 桌面与浏览器操作层，读控件、截图并执行动作。",
+      "bestForZh": "Windows 桌面流程与网页混合任务。",
+      "whyZh": "桌面与浏览器统一、可在沙箱运行；但只支持 Windows，无障碍缺失时精度下降，隔离会话绑定新系统版本，长任务依赖模型纠错；路线稳定可审计，前提是目标应用愿意暴露控件。",
+      "riskZh": "仅 Windows；隔离特性需较新系统版本。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 80,
+        "docs": 80,
+        "maintenance": 80,
+        "stability": 60,
+        "breadth": 55,
+        "riskPenalty": 12
+      }
+    },
+    {
+      "rank": 48,
+      "id": "yuruotong1__autoMate",
+      "score": 69.3,
+      "tier": "可用",
+      "primaryRoute": "Agent 框架",
+      "capabilityZh": "本地 AI 中枢，管笔记文件、调浏览器、跑脚本并提供桌面输入。",
+      "bestForZh": "个人知识整理、半自动文件处理与轻量桌面操作。",
+      "whyZh": "把记忆、检索与工具调用整合在一起；但桌面部分只是坐标输入，没有观察与验证闭环，复杂界面流程要完全自建；适合做上层编排，代价是具体操作能力取决于所接工具。",
+      "riskZh": "桌面工具缺语义校验，误操作难发现。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 80,
+        "docs": 60,
+        "maintenance": 80,
+        "stability": 60,
+        "breadth": 75,
+        "riskPenalty": 15
+      }
+    },
+    {
+      "rank": 49,
+      "id": "mochat-cloud__mochat",
+      "score": 68.9,
+      "tier": "谨慎",
+      "primaryRoute": "官方 API/SDK",
+      "capabilityZh": "开源的客户关系管理系统，管理渠道活码、客户标签、群发任务与会话存档。",
+      "bestForZh": "私域客户台账、渠道归因与群发任务管理。",
+      "whyZh": "功能面完整、可自建；但群发仍需成员确认，外部群无开放接口，项目已停更，接口更新后可能失配；走官方通道风险最低，但接口没开放的能力它一概做不到。",
+      "riskZh": "停更超过半年；会话存档需单独购买授权。",
+      "subScores": {
+        "coverage": 100,
+        "usability": 60,
+        "docs": 80,
+        "maintenance": 20,
+        "stability": 60,
+        "breadth": 35,
+        "riskPenalty": 55
+      }
+    },
+    {
+      "rank": 50,
+      "id": "e2b-dev__open-computer-use",
+      "score": 68.87,
+      "tier": "可用",
+      "primaryRoute": "屏幕视觉+坐标点击",
+      "capabilityZh": "在云端 Linux 桌面沙箱里运行的开源模型代理，可暂停补指令。",
+      "bestForZh": "隔离环境中的网页与 Linux 软件操作、教学演示。",
+      "whyZh": "隔离干净、可暂停干预，适合试验；但沙箱是 Linux，碰不到 Windows 与 macOS 客户端，网络受限时站点不可达；不依赖接口、覆盖面广，代价是精度随界面与模型波动。",
+      "riskZh": "与本地隔离，无法操作本机客户端；依赖云额度。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 60,
+        "docs": 80,
+        "maintenance": 80,
+        "stability": 80,
+        "breadth": 75,
+        "riskPenalty": 15
+      }
+    },
+    {
+      "rank": 51,
+      "id": "lacassef__computeruse",
+      "score": 68.7,
+      "tier": "可用",
+      "primaryRoute": "无障碍树",
+      "capabilityZh": "跨平台语义定位框架，带会话视图、审批卡片与逐轮回放。",
+      "bestForZh": "需要人工审批与回放的桌面自动化流程。",
+      "whyZh": "语义定位加人工审批、可回放可评测；但无障碍树缺失时只能走识别，同名元素冲突与动画误判会让流程卡住，审批超时会自动拒绝；路线稳定可审计，前提是目标应用愿意暴露控件。",
+      "riskZh": "审批超时自动拒绝；无障碍缺失时准确率下降。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 60,
+        "docs": 80,
+        "maintenance": 40,
+        "stability": 50,
+        "breadth": 75,
+        "riskPenalty": 15
+      }
+    },
+    {
+      "rank": 52,
+      "id": "openinterpreter__openinterpreter",
+      "score": 68.26,
+      "tier": "可用",
+      "primaryRoute": "Agent 框架",
+      "capabilityZh": "在终端里理解自然语言并执行命令、改文件、装依赖、跑测试。",
+      "bestForZh": "批量文件整理、环境配置、脚本化数据处理与重复命令行任务。",
+      "whyZh": "代码执行能力强、模型选择多，但它不是屏幕代理，看不到界面也不会点鼠标；权限过大，缺少沙箱时误删风险高；调度与协作是强项，落到界面操作还要另配执行层。",
+      "riskZh": "代码执行权限大，需限制目录与命令白名单。",
+      "subScores": {
+        "coverage": 40,
+        "usability": 80,
+        "docs": 80,
+        "maintenance": 100,
+        "stability": 80,
+        "breadth": 75,
+        "riskPenalty": 18
+      }
+    },
+    {
+      "rank": 53,
+      "id": "Orkas-AI__Orkas",
+      "score": 68.1,
+      "tier": "可用",
+      "primaryRoute": "Agent 框架",
+      "capabilityZh": "桌面端多代理团队工作台，拆任务、排日程、分配代理并汇总结果。",
+      "bestForZh": "项目式任务的编排与例行工作调度，而非界面级操作。",
+      "whyZh": "本地优先，协作与记忆设计完整；但它没有截图定位与鼠标控制，不能替你在客户端里点按钮，只适合做上层调度；适合做上层编排，代价是具体操作能力取决于所接工具。",
+      "riskZh": "自动推进在无人监督时会放大错误，需设检查点。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 80,
+        "docs": 60,
+        "maintenance": 80,
+        "stability": 60,
+        "breadth": 55,
+        "riskPenalty": 15
+      }
+    },
+    {
+      "rank": 54,
+      "id": "Tongyi-MAI__MAI-UI",
+      "score": 67.86,
+      "tier": "谨慎",
+      "primaryRoute": "屏幕视觉+坐标点击",
+      "capabilityZh": "统一的移动、桌面与浏览器 GUI 基础模型，提供权重与评测脚本。",
+      "bestForZh": "模型研究、移动端界面理解与自动化能力对比。",
+      "whyZh": "模型与评测齐全、学术价值高；但桌面只覆盖 Linux 评测环境，不含 Windows 与 macOS 客户端，真机训练需要集群；路线通用性最强，稳定性最依赖模型与屏幕环境。",
+      "riskZh": "需自行部署推理服务；生产编排与校验缺失。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 40,
+        "docs": 80,
+        "maintenance": 80,
+        "stability": 60,
+        "breadth": 55,
+        "riskPenalty": 18
+      }
+    },
+    {
+      "rank": 55,
+      "id": "guangfubill-crypto__SoftAuto-MCP",
+      "score": 67.74,
+      "tier": "谨慎",
+      "primaryRoute": "RPA/工作流",
+      "capabilityZh": "把捕获的元素固化为确定性流程，支持客户端控件与网页操作。",
+      "bestForZh": "固定后台系统的批量录单、界面回归与流程复用。",
+      "whyZh": "元素库加流程复用的思路适合长期维护，代理只在关键点介入；但元素依赖捕获时界面状态，客户端升级或分辨率变化要重捕；适合长期跑固定流程，不适合经常改版的界面。",
+      "riskZh": "界面升级需重新捕获；动态弹窗仍可能失败。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 60,
+        "docs": 80,
+        "maintenance": 40,
+        "stability": 50,
+        "breadth": 55,
+        "riskPenalty": 12
+      }
+    },
+    {
+      "rank": 56,
+      "id": "iFurySt__open-computer-use",
+      "score": 67.7,
+      "tier": "谨慎",
+      "primaryRoute": "无障碍树",
+      "capabilityZh": "以 MCP 暴露的桌面操作实现，提供窗口枚举、读树、点击与输入。",
+      "bestForZh": "给编码代理接桌面能力，做轻量界面操作。",
+      "whyZh": "接入方便、可写进常用客户端配置；但能力上限取决于应用暴露的无障碍信息，锁屏接管带来合规问题，平台完成度不一；路线稳定可审计，前提是目标应用愿意暴露控件。",
+      "riskZh": "锁屏接管有安全与合规风险；演示多、系统测试少。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 80,
+        "docs": 80,
+        "maintenance": 80,
+        "stability": 60,
+        "breadth": 35,
+        "riskPenalty": 30
+      }
+    },
+    {
+      "rank": 57,
+      "id": "awlevin__typesafe-computer-use",
+      "score": 67.14,
+      "tier": "谨慎",
+      "primaryRoute": "屏幕视觉+坐标点击",
+      "capabilityZh": "用分类器决策的 macOS 操作器，先文字识别与读控件再执行动作。",
+      "bestForZh": "步骤固定、可枚举的桌面流程，成本敏感的批量任务。",
+      "whyZh": "把推理固化成代码、成本低、可干跑预览；但选项外的情况会停手等人，任务越开放补齐成本越高，文字识别会漏读；不依赖接口、覆盖面广，代价是精度随界面与模型波动。",
+      "riskZh": "仅预设选项内可靠；权限缺失时输入静默失败。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 80,
+        "docs": 80,
+        "maintenance": 60,
+        "stability": 60,
+        "breadth": 35,
+        "riskPenalty": 12
+      }
+    },
+    {
+      "rank": 58,
+      "id": "microsoft__Mage",
+      "score": 66.9,
+      "tier": "谨慎",
+      "primaryRoute": "屏幕视觉+坐标点击",
+      "capabilityZh": "轻量多模态模型族，把界面点击与代码、终端动作放在同一策略。",
+      "bestForZh": "研究桌面与终端混合任务、做模型基座选型。",
+      "whyZh": "模型思路新、体量小；但仓库只给模型与训练代码，没有服务端、会话管理与重试，长任务步数预算有限；什么界面都能试，但坐标会漂，结果必须二次核对。",
+      "riskZh": "需自建执行框架；高分辨率界面支持有限。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 40,
+        "docs": 80,
+        "maintenance": 80,
+        "stability": 60,
+        "breadth": 35,
+        "riskPenalty": 15
+      }
+    },
+    {
+      "rank": 59,
+      "id": "24kchengYe__desktop-controller-skill",
+      "score": 66.5,
+      "tier": "谨慎",
+      "primaryRoute": "无障碍树",
+      "capabilityZh": "双引擎桌面控制技能，可列应用、截窗口、发消息并做页面检查。",
+      "bestForZh": "桌面与网页混合的轻量自动化、界面检查。",
+      "whyZh": "双引擎互补、命令与技能两种用法；但会话定位靠搜索首条命中，同名对象会点错，发送后无消息级回读，只靠截图确认；能按控件精确操作，遇到自绘界面就会退化成空壳。",
+      "riskZh": "同名对象误选；无发送回读，结果不可验证。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 80,
+        "docs": 60,
+        "maintenance": 40,
+        "stability": 40,
+        "breadth": 55,
+        "riskPenalty": 45
+      }
+    },
+    {
+      "rank": 60,
+      "id": "xlang-ai__OSWorld",
+      "score": 66.47,
+      "tier": "谨慎",
+      "primaryRoute": "其他",
+      "capabilityZh": "真实操作系统中的代理基准，提供虚拟机环境、基线与批量评测。",
+      "bestForZh": "CUA 能力横评、模型选型前的可复现对比。",
+      "whyZh": "评测环境完整、可复现性高；但它是评测资源不是生产工具，虚拟机应用版本与网络会影响分数，判分只看终态；偏基础设施或研究资源，代价是不能直接当成品用。",
+      "riskZh": "环境依赖重；分数不能直接代表业务可用性。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 40,
+        "docs": 100,
+        "maintenance": 100,
+        "stability": 80,
+        "breadth": 35,
+        "riskPenalty": 10
+      }
+    },
+    {
+      "rank": 61,
+      "id": "sandraschi__windows-computer-use-mcp",
+      "score": 66.26,
+      "tier": "谨慎",
+      "primaryRoute": "无障碍树",
+      "capabilityZh": "基于 Windows 控件库的工具箱，含窗口管理、元素操作与自主任务。",
+      "bestForZh": "Windows 桌面软件的控件级操作与简单自主流程。",
+      "whyZh": "三个入口覆盖不同粒度、可截图回报；但浏览器自绘与游戏界面控件树只剩空壳，自主模式目标含糊时会反复试探；能按控件精确操作，遇到自绘界面就会退化成空壳。",
+      "riskZh": "自绘界面定位失败；自主模式无成功率证据。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 60,
+        "docs": 60,
+        "maintenance": 60,
+        "stability": 40,
+        "breadth": 55,
+        "riskPenalty": 18
+      }
+    },
+    {
+      "rank": 62,
+      "id": "injaneity__pi-computer-use",
+      "score": 65.94,
+      "tier": "谨慎",
+      "primaryRoute": "无障碍树",
+      "capabilityZh": "给 Pi 代理的桌面工具扩展，枚举窗口、读控件、点击输入并等待变化。",
+      "bestForZh": "桌面软件的结构化操作，配合代理做多步流程。",
+      "whyZh": "返回结构化观察、便于代理判断；但只覆盖有无障碍信息的窗口，自绘与游戏式界面退化，长流程需自行编排重试；语义定位比坐标稳，代价是受目标应用的无障碍实现限制。",
+      "riskZh": "验证码与安全桌面不处理；无成功率与端到端测试。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 60,
+        "docs": 80,
+        "maintenance": 80,
+        "stability": 60,
+        "breadth": 55,
+        "riskPenalty": 12
+      }
+    },
+    {
+      "rank": 63,
+      "id": "leexgone__uiautomation-rs",
+      "score": 65.9,
+      "tier": "谨慎",
+      "primaryRoute": "无障碍树",
+      "capabilityZh": "Rust 封装的 Windows 无障碍接口，遍历控件树并按条件查找操作。",
+      "bestForZh": "需要高性能与内存安全的 Windows 控件级自动化。",
+      "whyZh": "性能好、类型安全、覆盖常用模式；但只给原语，不含等待、重试与目标校验，自绘界面无效，版本间有兼容变化；语义定位比坐标稳，代价是受目标应用的无障碍实现限制。",
+      "riskZh": "无内置重试与校验；自绘界面不可用。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 60,
+        "docs": 80,
+        "maintenance": 80,
+        "stability": 70,
+        "breadth": 35,
+        "riskPenalty": 10
+      }
+    },
+    {
+      "rank": 64,
+      "id": "zouyuanqing__vision-primitives-mcp",
+      "score": 65.7,
+      "tier": "谨慎",
+      "primaryRoute": "屏幕视觉+坐标点击",
+      "capabilityZh": "给纯文本模型补视觉的三十工具 MCP，从看图到给坐标。",
+      "bestForZh": "读图、文字识别、区域放大与把界面意图转成坐标。",
+      "whyZh": "工具链完整、视觉后端可切；但定位精度高度依赖所选模型，同一目标误差可达数十像素，遮挡与深色主题会放大误差；路线通用性最强，稳定性最依赖模型与屏幕环境。",
+      "riskZh": "模型更换导致精度波动；需截图回读校验。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 60,
+        "docs": 80,
+        "maintenance": 20,
+        "stability": 40,
+        "breadth": 75,
+        "riskPenalty": 15
+      }
+    },
+    {
+      "rank": 65,
+      "id": "xlrpa__FlowBot",
+      "score": 65.3,
+      "tier": "勿用",
+      "primaryRoute": "无障碍树",
+      "capabilityZh": "用安卓无障碍服务控制聊天客户端，通过接口创建发送与自动回复任务。",
+      "bestForZh": "无正式用途，仅限隔离研究与风险评估。",
+      "whyZh": "接口化封装完整、能批量；但官方外挂自查指南把自动批量群发与定时发送直接列为外挂，处罚可永久封禁；路线稳定可审计，前提是目标应用愿意暴露控件。",
+      "riskZh": "明确属外挂行为，可永久封号；机型与版本变化即失效。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 80,
+        "docs": 60,
+        "maintenance": 80,
+        "stability": 40,
+        "breadth": 35,
+        "riskPenalty": 95
+      }
+    },
+    {
+      "rank": 66,
+      "id": "cs-lazy-tools__ChatGPT-On-CS",
+      "score": 65.27,
+      "tier": "勿用",
+      "primaryRoute": "其他",
+      "capabilityZh": "电商多平台客服工作台，聚合咨询、知识库与自动回复。",
+      "bestForZh": "多店铺客服分流、标准问题自动应答与人工接管。",
+      "whyZh": "把渠道聚合与知识库做在一起，落地快；但后台靠网页自动化，平台改版与验证码会中断，且不覆盖桌面客户端；偏基础设施或研究资源，代价是不能直接当成品用。",
+      "riskZh": "平台风控与改版影响会话捕获；答非所问需人工兜底。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 80,
+        "docs": 60,
+        "maintenance": 80,
+        "stability": 60,
+        "breadth": 55,
+        "riskPenalty": 50
+      }
+    },
+    {
+      "rank": 67,
+      "id": "whyiyhw__chatgpt-wechat",
+      "score": 64.9,
+      "tier": "谨慎",
+      "primaryRoute": "官方 API/SDK",
+      "capabilityZh": "以企业客服接口中转，把聊天消息接入模型或工作流并回复。",
+      "bestForZh": "客服问答分流、知识库应答与工单转人工。",
+      "whyZh": "合规、配置清晰、可接多种模型；但受被动会话窗口限制，客户先发才能回，不能主动加人或群发，配置错会静默丢消息；路线本身合规稳定，代价是只能做接口明确开放的事。",
+      "riskZh": "被动会话时限与条数限制；回调配置错误导致丢消息。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 60,
+        "docs": 80,
+        "maintenance": 60,
+        "stability": 60,
+        "breadth": 75,
+        "riskPenalty": 15
+      }
+    },
+    {
+      "rank": 68,
+      "id": "zai-org__CogAgent",
+      "score": 64.74,
+      "tier": "谨慎",
+      "primaryRoute": "屏幕视觉+坐标点击",
+      "capabilityZh": "开源端到端视觉语言界面模型，输入截图与指令输出坐标或动作。",
+      "bestForZh": "研究型界面操作、模型微调与离线推理验证。",
+      "whyZh": "模型成熟、支持中英文界面；但显存门槛高，量化后性能下降，且不含重试、校验与规划，多步任务需上层编排；路线通用性最强，稳定性最依赖模型与屏幕环境。",
+      "riskZh": "显存要求高；高分辨率下坐标偏移，需二次核对。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 40,
+        "docs": 60,
+        "maintenance": 60,
+        "stability": 60,
+        "breadth": 75,
+        "riskPenalty": 22
+      }
+    },
+    {
+      "rank": 69,
+      "id": "fanyuantaier__wechatauto-replica",
+      "score": 64.66,
+      "tier": "勿用",
+      "primaryRoute": "协议/注入（高危）",
+      "capabilityZh": "聊天客户端 4.x 的本地数据读取加界面收发复刻工具。",
+      "bestForZh": "无正式用途，仅限自有账号的离线数据研究。",
+      "whyZh": "能读历史并回放发送、功能全；但解密依赖本地库结构与密钥，客户端升级即变，发送仍靠界面，窗口占用与缩放变化会失败；技术上能跑通，商业上不具备可承担的风险。",
+      "riskZh": "本地数据解密涉及隐私与合规；版本强绑定。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 60,
+        "docs": 80,
+        "maintenance": 60,
+        "stability": 60,
+        "breadth": 55,
+        "riskPenalty": 88
+      }
+    },
+    {
+      "rank": 70,
+      "id": "LTEnjoy__easyChat",
+      "score": 64.5,
+      "tier": "勿用",
+      "primaryRoute": "无障碍树",
+      "capabilityZh": "带界面的定时群发与自动回复工具，按标签选择对象并定时发送。",
+      "bestForZh": "小规模低频率的定时提醒，仅限自用演示。",
+      "whyZh": "图形界面降低门槛、支持定时与标签；但会话靠搜索首条命中，同名会发错，定时依赖本机常驻，且批量发送触及平台风控；能按控件精确操作，遇到自绘界面就会退化成空壳。",
+      "riskZh": "批量与定时发送属高风险行为，账号可能被限制。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 100,
+        "docs": 60,
+        "maintenance": 60,
+        "stability": 40,
+        "breadth": 75,
+        "riskPenalty": 80
+      }
+    },
+    {
+      "rank": 71,
+      "id": "TeamWiseFlow__xiaobei",
+      "score": 64.47,
+      "tier": "勿用",
+      "primaryRoute": "其他",
+      "capabilityZh": "面向内容运营的智能体，生成图文视频并多平台分发与数据复盘。",
+      "bestForZh": "自媒体内容批量生产与发布、账号数据监控。",
+      "whyZh": "内容生产链路完整；但它是平台接口型工具，不做界面级操作，分发成功率受各平台风控与接口变化影响，内容仍需人工审核；偏基础设施或研究资源，代价是不能直接当成品用。",
+      "riskZh": "平台接口与风控变化影响发布；内容合规需人工把关。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 80,
+        "docs": 60,
+        "maintenance": 80,
+        "stability": 40,
+        "breadth": 75,
+        "riskPenalty": 50
+      }
+    },
+    {
+      "rank": 72,
+      "id": "GentleCP__corpwechatbot",
+      "score": 64.46,
+      "tier": "谨慎",
+      "primaryRoute": "官方 API/SDK",
+      "capabilityZh": "轻量 Python 库，向企业应用可见成员推送文本、图片、文件与卡片。",
+      "bestForZh": "脚本化告警通知、报表推送与定时提醒。",
+      "whyZh": "接入极简、发送接口齐；但只能发给应用可见范围内的成员，没有接收回调，不能做双向机器人，也不做限流与重试；走官方通道风险最低，但接口没开放的能力它一概做不到。",
+      "riskZh": "触达范围仅内部成员；高频发送会触发接口限流。",
+      "subScores": {
+        "coverage": 40,
+        "usability": 100,
+        "docs": 80,
+        "maintenance": 20,
+        "stability": 70,
+        "breadth": 75,
+        "riskPenalty": 8
+      }
+    },
+    {
+      "rank": 73,
+      "id": "microsoft__OmniParser",
+      "score": 64.26,
+      "tier": "谨慎",
+      "primaryRoute": "屏幕视觉+坐标点击",
+      "capabilityZh": "把截图解析成可点击元素清单与带标注画面，供上层代理定位。",
+      "bestForZh": "给纯文本模型补视觉定位，做界面元素识别与解析前置。",
+      "whyZh": "只做看与指、不做点击，必须搭配执行层；对密集小图标与低对比界面会漏检，分辨率变化后需要重新校准；不依赖接口、覆盖面广，代价是精度随界面与模型波动。",
+      "riskZh": "解析误差会直接传导到点击，需加二次截图核对。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 60,
+        "docs": 60,
+        "maintenance": 80,
+        "stability": 60,
+        "breadth": 55,
+        "riskPenalty": 8
+      }
+    },
+    {
+      "rank": 74,
+      "id": "Core-Mate__OpenGUI",
+      "score": 64.23,
+      "tier": "谨慎",
+      "primaryRoute": "屏幕视觉+坐标点击",
+      "capabilityZh": "让模型看懂手机画面并执行多步操作，可做功能测试与表单填写。",
+      "bestForZh": "安卓 App 的功能验证、界面信息整理与重复填单。",
+      "whyZh": "移动端闭环完整、接入宿主方便；但理解依赖截图质量，动画与弹窗干扰大，部分国产系统会限制无障碍服务；不依赖接口、覆盖面广，代价是精度随界面与模型波动。",
+      "riskZh": "无障碍服务可能被系统杀掉；仅覆盖安卓。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 60,
+        "docs": 80,
+        "maintenance": 80,
+        "stability": 60,
+        "breadth": 35,
+        "riskPenalty": 18
+      }
+    },
+    {
+      "rank": 75,
+      "id": "Meirtz__Shinken",
+      "score": 63.9,
+      "tier": "谨慎",
+      "primaryRoute": "其他",
+      "capabilityZh": "可检查点派生的代理运行时，提供会话、命令执行与派生能力。",
+      "bestForZh": "代理运行时研究、需要快照与分支的实验环境。",
+      "whyZh": "基础设施设计完整、支持多语言 SDK；但它不是成品代理，没有策略模型也不规划任务，跨后端分支能力不一致；价值在方法与评测，不在直接替你操作界面。",
+      "riskZh": "非成品，需自建策略；特权未开时检查点不可用。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 60,
+        "docs": 80,
+        "maintenance": 60,
+        "stability": 50,
+        "breadth": 75,
+        "riskPenalty": 15
+      }
+    },
+    {
+      "rank": 76,
+      "id": "openscrm__api-server",
+      "score": 63.7,
+      "tier": "勿用",
+      "primaryRoute": "官方 API/SDK",
+      "capabilityZh": "客户关系管理系统，含渠道活码、客户跟进、侧边栏与会话存档。",
+      "bestForZh": "私域客户台账与跟进记录，内部协作管理。",
+      "whyZh": "功能完整、可自建；但 README 首行即声明缺乏维护，接口更新后可能不兼容，群发仍要成员确认；路线本身合规稳定，代价是只能做接口明确开放的事。",
+      "riskZh": "已声明缺维护，长期不可依赖；存档需单独授权。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 60,
+        "docs": 80,
+        "maintenance": 20,
+        "stability": 60,
+        "breadth": 75,
+        "riskPenalty": 65
+      }
+    },
+    {
+      "rank": 77,
+      "id": "zavora-ai__computer-use-mcp",
+      "score": 63.67,
+      "tier": "谨慎",
+      "primaryRoute": "无障碍树",
+      "capabilityZh": "Rust 进程内桌面控制 MCP，提供控件树、截图、点击与输入。",
+      "bestForZh": "低延迟桌面操作、需要看调用耗时的调试场景。",
+      "whyZh": "进程内执行快、有运行控制台可看计划与耗时；但演示只覆盖自建页面，缺真实客户端与业务系统实测，视觉路径受缩放影响；路线稳定可审计，前提是目标应用愿意暴露控件。",
+      "riskZh": "缺真实场景验证；画布滚动与主题切换影响识别。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 60,
+        "docs": 80,
+        "maintenance": 60,
+        "stability": 60,
+        "breadth": 55,
+        "riskPenalty": 15
+      }
+    },
+    {
+      "rank": 78,
+      "id": "ajokhai__computer-use-lite",
+      "score": 63.5,
+      "tier": "谨慎",
+      "primaryRoute": "无障碍树",
+      "capabilityZh": "菜单栏里的 macOS 全机操作器，截图、枚举元素、点击输入并带授权检查。",
+      "bestForZh": "macOS 个人桌面任务、需要快速授权的试用场景。",
+      "whyZh": "授权自检、工具覆盖全、可枚举元素；但自绘界面与远程桌面会退化，误操作直接作用于真机无沙箱，失败自愈只在应用层；路线稳定可审计，前提是目标应用愿意暴露控件。",
+      "riskZh": "无沙箱，误操作直接生效；系统权限弹窗会中断。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 80,
+        "docs": 60,
+        "maintenance": 60,
+        "stability": 50,
+        "breadth": 35,
+        "riskPenalty": 20
+      }
+    },
+    {
+      "rank": 79,
+      "id": "X-PLUG__MobileAgent",
+      "score": 63.14,
+      "tier": "谨慎",
+      "primaryRoute": "Agent 框架",
+      "capabilityZh": "面向手机与电脑界面的 GUI 代理模型家族，提供权重与在线接口。",
+      "bestForZh": "研究型移动端自动化、模型能力对比与演示验证。",
+      "whyZh": "模型能力前沿、资料完整；但偏研究演示，缺生产级编排、重试与审计，云手机与真机存在差异，业务落地要自建外壳；路线上限高，但端到端效果取决于最弱的那一环。",
+      "riskZh": "需自部署或调用付费接口；反自动化机制会中断流程。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 60,
+        "docs": 60,
+        "maintenance": 80,
+        "stability": 60,
+        "breadth": 55,
+        "riskPenalty": 22
+      }
+    },
+    {
+      "rank": 80,
+      "id": "Anil-matcha__open-duet",
+      "score": 62.9,
+      "tier": "谨慎",
+      "primaryRoute": "Agent 框架",
+      "capabilityZh": "自托管的多代理协作工作台，分配角色、共享记忆并审阅动作。",
+      "bestForZh": "团队式任务编排、需要人工复核的操作流程。",
+      "whyZh": "协作与记忆机制完整，适合作为上层调度；但它不提供屏幕级控制，能否操作桌面取决于所接引擎，实验特性较多；适合做上层编排，代价是具体操作能力取决于所接工具。",
+      "riskZh": "实验功能与限制较多，重要流程需先读限制清单。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 60,
+        "docs": 60,
+        "maintenance": 80,
+        "stability": 40,
+        "breadth": 75,
+        "riskPenalty": 15
+      }
+    },
+    {
+      "rank": 81,
+      "id": "shayann07__antigravity-computer-use",
+      "score": 62.1,
+      "tier": "谨慎",
+      "primaryRoute": "无障碍树",
+      "capabilityZh": "桌面控制斜杠命令，整屏或窗口截图、读控件、移动光标并交还控制。",
+      "bestForZh": "开发循环中的界面检查与轻量桌面操作。",
+      "whyZh": "以命令形式嵌入工作流、能交还控制权；但仍是 Windows 预发布，控件缺失时退回坐标，长任务中误操作风险仍在；语义定位比坐标稳，代价是受目标应用的无障碍实现限制。",
+      "riskZh": "预发布版本；长任务误操作风险。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 80,
+        "docs": 60,
+        "maintenance": 60,
+        "stability": 40,
+        "breadth": 35,
+        "riskPenalty": 25
+      }
+    },
+    {
+      "rank": 82,
+      "id": "wwwzzzxxx__winch-opencode-computer-use-mcp",
+      "score": 61.74,
+      "tier": "谨慎",
+      "primaryRoute": "无障碍树",
+      "capabilityZh": "用 Windows 控件树替代看图的 MCP，控件编号后点击、设值并回验。",
+      "bestForZh": "Windows 桌面软件的结构化操作与批量表单录入。",
+      "whyZh": "编号加回验比纯截图稳、可按角色折叠子树；但只对实现无障碍接口的应用有效，重排后要重新取树，中途失败会部分完成；路线稳定可审计，前提是目标应用愿意暴露控件。",
+      "riskZh": "自绘与部分框架只有空壳；重排后索引失效。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 60,
+        "docs": 80,
+        "maintenance": 60,
+        "stability": 50,
+        "breadth": 35,
+        "riskPenalty": 12
+      }
+    },
+    {
+      "rank": 83,
+      "id": "Hello-Mr-Crab__pywechat",
+      "score": 61.7,
+      "tier": "勿用",
+      "primaryRoute": "无障碍树",
+      "capabilityZh": "用 Windows 控件自动化操作聊天客户端，发送消息与拉取会话记录。",
+      "bestForZh": "单机聊天窗口的自动化实验，不建议承载业务。",
+      "whyZh": "接口封装完整、能拉记录；但版本适配分裂，新旧客户端要换库，界面遮挡与缩放会失败，且属于非官方界面自动化；路线稳定可审计，前提是目标应用愿意暴露控件。",
+      "riskZh": "非官方界面自动化，账号受限；版本适配需自维护。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 60,
+        "docs": 60,
+        "maintenance": 80,
+        "stability": 40,
+        "breadth": 35,
+        "riskPenalty": 85
+      }
+    },
+    {
+      "rank": 84,
+      "id": "xlang-ai__OSWorld-V2",
+      "score": 61.5,
+      "tier": "谨慎",
+      "primaryRoute": "其他",
+      "capabilityZh": "长周期真实任务的第二代系统基准，提供版本化任务与资产。",
+      "bestForZh": "长流程代理能力评测、版本之间可比对。",
+      "whyZh": "任务更接近真实长流程、发布版本化；但它是评测资源，不提供业务自动化，长任务对记忆与恢复要求高，网络状态影响分数；偏基础设施或研究资源，代价是不能直接当成品用。",
+      "riskZh": "环境与网络依赖重；单步失败会连锁影响终态。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 40,
+        "docs": 80,
+        "maintenance": 80,
+        "stability": 70,
+        "breadth": 35,
+        "riskPenalty": 10
+      }
+    },
+    {
+      "rank": 85,
+      "id": "beijingwahw__dsh-computer-use-plugin",
+      "score": 61.3,
+      "tier": "谨慎",
+      "primaryRoute": "屏幕视觉+坐标点击",
+      "capabilityZh": "纯视觉桌面插件，带元素标注、二阶段放大定位与效果验证。",
+      "bestForZh": "宿主内的视觉点击任务，需要沉淀可召回位置的场景。",
+      "whyZh": "二阶段定位与地标复用思路好、返回状态与建议；但纯视觉在滚动、动画与深色主题下易误判，屏幕变化不等于操作正确；路线通用性最强，稳定性最依赖模型与屏幕环境。",
+      "riskZh": "视觉误判；地标只证明画面变了，不证明做对了。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 40,
+        "docs": 60,
+        "maintenance": 40,
+        "stability": 40,
+        "breadth": 75,
+        "riskPenalty": 15
+      }
+    },
+    {
+      "rank": 86,
+      "id": "wangrongding__wechat-bot",
+      "score": 61.27,
+      "tier": "勿用",
+      "primaryRoute": "协议/注入（高危）",
+      "capabilityZh": "扫码接入聊天渠道，按白名单接管私聊与群聊消息并调用模型。",
+      "bestForZh": "个人号消息分流的实验项目，不建议承载正式业务。",
+      "whyZh": "接入简单、白名单机制清晰；但基于非官方网页协议，README 自己提示风控与封号风险，协议变动即整体失效；技术上能跑通，商业上不具备可承担的风险。",
+      "riskZh": "非官方协议，封号风险明确；群聊仅处理被提及的文本。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 80,
+        "docs": 80,
+        "maintenance": 60,
+        "stability": 40,
+        "breadth": 75,
+        "riskPenalty": 90
+      }
+    },
+    {
+      "rank": 87,
+      "id": "sunnoy__openclaw-plugin-wecom",
+      "score": 61.06,
+      "tier": "谨慎",
+      "primaryRoute": "官方 API/SDK",
+      "capabilityZh": "开放代理的企业渠道插件，支持多账号、指令白名单与部门寻址。",
+      "bestForZh": "内部成员与部门的消息通知、机器人指令分流。",
+      "whyZh": "多账号与白名单设计实用、官方接口合规；但主动发送受额度与时限约束，只能触达成员与部门，不能触达外部联系人；走官方通道风险最低，但接口没开放的能力它一概做不到。",
+      "riskZh": "受官方额度与时限限制；插件升级可能破坏兼容。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 60,
+        "docs": 60,
+        "maintenance": 60,
+        "stability": 60,
+        "breadth": 35,
+        "riskPenalty": 8
+      }
+    },
+    {
+      "rank": 88,
+      "id": "LeoMusk__wechat-rpa-bot-skill",
+      "score": 59.7,
+      "tier": "勿用",
+      "primaryRoute": "无障碍树",
+      "capabilityZh": "供代理调用的聊天客户端 RPA 技能，支持发送、群发与读会话。",
+      "bestForZh": "无正式用途，仅限单机自有账号的功能验证。",
+      "whyZh": "不读库不注入、以界面操作为主，接入代理方便；但要求窗口可见，锁屏或远程断开会失败，批量群发与自动加人仍触风控；能按控件精确操作，遇到自绘界面就会退化成空壳。",
+      "riskZh": "批量与自动加人触风控；窗口必须可见。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 80,
+        "docs": 80,
+        "maintenance": 60,
+        "stability": 40,
+        "breadth": 35,
+        "riskPenalty": 80
+      }
+    },
+    {
+      "rank": 89,
+      "id": "Mininglamp-AI__Mano-P",
+      "score": 59.67,
+      "tier": "谨慎",
+      "primaryRoute": "屏幕视觉+坐标点击",
+      "capabilityZh": "可本地运行的 GUI 视觉代理模型，纯视觉完成多步界面操作。",
+      "bestForZh": "离线环境下的界面操作、隐私敏感场景的本地推理。",
+      "whyZh": "端侧可跑、纯视觉不依赖接口；但小模型理解弱于云端，复杂表单与多窗口更易错，公开基准成功率约五成，业务需人工兜底；不依赖接口、覆盖面广，代价是精度随界面与模型波动。",
+      "riskZh": "公开成功率有限，失败率仍高；复杂界面需复核。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 60,
+        "docs": 60,
+        "maintenance": 60,
+        "stability": 60,
+        "breadth": 35,
+        "riskPenalty": 25
+      }
+    },
+    {
+      "rank": 90,
+      "id": "pphouse__screenpilot",
+      "score": 59.5,
+      "tier": "谨慎",
+      "primaryRoute": "RPA/工作流",
+      "capabilityZh": "视觉加模型的自愈式桌面自动化，自然语言下达任务并回放人工操作。",
+      "bestForZh": "表单填写、数据提取等固定桌面流程，替代脆弱脚本。",
+      "whyZh": "有层级规划、记忆树、模板与错误自愈，工程完整；但截图理解受分辨率与主题影响，密集表格易失败，系统级弹窗无法处理；适合长期跑固定流程，不适合经常改版的界面。",
+      "riskZh": "密集表格与小字易错；提权窗口与安全桌面不可达。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 60,
+        "docs": 60,
+        "maintenance": 60,
+        "stability": 50,
+        "breadth": 35,
+        "riskPenalty": 15
+      }
+    },
+    {
+      "rank": 91,
+      "id": "mrsanshui__WeChatPYAPI",
+      "score": 58.9,
+      "tier": "勿用",
+      "primaryRoute": "协议/注入（高危）",
+      "capabilityZh": "封装聊天客户端注入库的 Python 接口，提供发送、群管理与回调。",
+      "bestForZh": "无正式用途，仅限隔离环境的逆向研究。",
+      "whyZh": "接口齐全、可收回调；但社区版只适配单一旧版本且自述不支持长时间运行，注入会被安全软件拦截，属明令禁止的外挂接入；技术上能跑通，商业上不具备可承担的风险。",
+      "riskZh": "注入外挂，封号风险极高；仅适配单一旧版本。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 60,
+        "docs": 60,
+        "maintenance": 60,
+        "stability": 40,
+        "breadth": 35,
+        "riskPenalty": 95
+      }
+    },
+    {
+      "rank": 92,
+      "id": "scottfly189__WeChatAuto.SDK",
+      "score": 58.87,
+      "tier": "勿用",
+      "primaryRoute": "无障碍树",
+      "capabilityZh": "C# 聊天客户端自动化 SDK，结合界面控件与文字识别收发消息。",
+      "bestForZh": "无正式用途，仅限自有账号的隔离测试。",
+      "whyZh": "提供内嵌与接口两种用法、能落库；但频繁操作会触发风控，文字识别受分辨率与遮挡影响会回错人，仅支持 Windows 客户端；语义定位比坐标稳，代价是受目标应用的无障碍实现限制。",
+      "riskZh": "高频操作触发风控；识别错误导致回错对象。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 60,
+        "docs": 80,
+        "maintenance": 80,
+        "stability": 60,
+        "breadth": 35,
+        "riskPenalty": 85
+      }
+    },
+    {
+      "rank": 93,
+      "id": "OthersideAI__self-operating-computer",
+      "score": 58.84,
+      "tier": "谨慎",
+      "primaryRoute": "屏幕视觉+坐标点击",
+      "capabilityZh": "早期看屏截图并输出鼠标键盘动作的桌面代理框架。",
+      "bestForZh": "学习 CUA 原理、做桌面任务原型验证。",
+      "whyZh": "代码短、易读，适合理解观察、决策、执行的闭环；但多屏与高缩放下会坐标错位，没有权限模型与敏感操作拦截，不适合生产；什么界面都能试，但坐标会漂，结果必须二次核对。",
+      "riskZh": "无审批与沙箱，误点风险高；本地小模型错误率偏高。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 60,
+        "docs": 60,
+        "maintenance": 40,
+        "stability": 40,
+        "breadth": 75,
+        "riskPenalty": 15
+      }
+    },
+    {
+      "rank": 94,
+      "id": "xlang-ai__CUA-Gym",
+      "score": 58.34,
+      "tier": "谨慎",
+      "primaryRoute": "其他",
+      "capabilityZh": "用编码代理批量合成可验证的 CUA 训练与评测数据。",
+      "bestForZh": "训练数据生产、任务集扩充与评测环境搭建。",
+      "whyZh": "自动化生产任务、带投票过滤；但产出的是数据不是代理，合成环境与真实软件有差距，奖励只看终态不看过程合规；它提供的是零件或结论，落地还要自己组装。",
+      "riskZh": "数据不能直接落地；真实软件需重做任务与判分。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 40,
+        "docs": 80,
+        "maintenance": 60,
+        "stability": 60,
+        "breadth": 35,
+        "riskPenalty": 12
+      }
+    },
+    {
+      "rank": 95,
+      "id": "dcc-mcp__dcc-cua",
+      "score": 58.3,
+      "tier": "谨慎",
+      "primaryRoute": "屏幕视觉+坐标点击",
+      "capabilityZh": "绑定单个窗口的桌面运行时与命令行，截图、点击、输入并回读结果。",
+      "bestForZh": "单窗口内的受控点击流程，嵌入自有宿主。",
+      "whyZh": "动作有界、可回读、便于嵌入；但限制在单窗口，跨应用复制与系统弹窗要另设计，窗口标题变化会让绑定失效；路线通用性最强，稳定性最依赖模型与屏幕环境。",
+      "riskZh": "单窗口限制；标题变化导致绑定失效。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 40,
+        "docs": 80,
+        "maintenance": 60,
+        "stability": 50,
+        "breadth": 55,
+        "riskPenalty": 15
+      }
+    },
+    {
+      "rank": 96,
+      "id": "Xeakaes__computer-use-for-all-agents",
+      "score": 58.26,
+      "tier": "谨慎",
+      "primaryRoute": "屏幕视觉+坐标点击",
+      "capabilityZh": "本地屏幕抓取与输入注入服务，通过 MCP 暴露给多种客户端。",
+      "bestForZh": "给任意代理补屏幕观察与鼠标键盘输入能力。",
+      "whyZh": "接入面广、部署简单；但完全依赖坐标，窗口移动、缩放与多屏都会偏移，特定显示协议下无法抓屏，且无结果校验；什么界面都能试，但坐标会漂，结果必须二次核对。",
+      "riskZh": "特定显示协议不可用；坐标偏移导致误点。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 60,
+        "docs": 60,
+        "maintenance": 60,
+        "stability": 40,
+        "breadth": 35,
+        "riskPenalty": 18
+      }
+    },
+    {
+      "rank": 97,
+      "id": "arcboxlabs__arcbox",
+      "score": 58.1,
+      "tier": "谨慎",
+      "primaryRoute": "其他",
+      "capabilityZh": "在 macOS 上创建隔离虚拟机与沙箱，供代理安全运行任务。",
+      "bestForZh": "给自动化代理准备隔离环境，隔离测试与不可信脚本。",
+      "whyZh": "隔离做得好、命令行完整；但它只提供机器不提供操作，没有截图定位与输入能力，Windows 与 Linux 支持有限；价值在方法与评测，不在直接替你操作界面。",
+      "riskZh": "沙箱网络受限，云端服务可能不可达。",
+      "subScores": {
+        "coverage": 40,
+        "usability": 60,
+        "docs": 80,
+        "maintenance": 80,
+        "stability": 60,
+        "breadth": 35,
+        "riskPenalty": 10
+      }
+    },
+    {
+      "rank": 98,
+      "id": "bo-516__computer-use",
+      "score": 57.4,
+      "tier": "谨慎",
+      "primaryRoute": "屏幕视觉+坐标点击",
+      "capabilityZh": "宿主内的电脑操作子代理插件，查看屏幕、操作桌面与隔离浏览器。",
+      "bestForZh": "高风险动作需确认的桌面任务，带审计轨迹。",
+      "whyZh": "有确认、审计与验证步骤，风险控制意识好；但依赖宿主与运行时，换宿主就要重做，子代理只回文字会丢失界面细节；路线通用性最强，稳定性最依赖模型与屏幕环境。",
+      "riskZh": "宿主绑定；风险分级规则未必覆盖所有危险动作。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 40,
+        "docs": 80,
+        "maintenance": 40,
+        "stability": 40,
+        "breadth": 90,
+        "riskPenalty": 15
+      }
+    },
+    {
+      "rank": 99,
+      "id": "claw-codes__wx4py",
+      "score": 57.3,
+      "tier": "勿用",
+      "primaryRoute": "无障碍树",
+      "capabilityZh": "聊天客户端 4.x 的批量群发与关键词回复库，可监听消息回调。",
+      "bestForZh": "无正式用途，仅限单机隔离环境的接口验证。",
+      "whyZh": "接口直接、能批量与监听；但只测试过两个具体版本，要求窗口前台，连续群发无节流，极易触发平台风控与限制；路线稳定可审计，前提是目标应用愿意暴露控件。",
+      "riskZh": "批量发送无节流，封号风险高；版本窗口极窄。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 80,
+        "docs": 60,
+        "maintenance": 40,
+        "stability": 40,
+        "breadth": 75,
+        "riskPenalty": 90
+      }
+    },
+    {
+      "rank": 100,
+      "id": "wq19901103wq__wechat-mac-rpa",
+      "score": 57.27,
+      "tier": "勿用",
+      "primaryRoute": "屏幕视觉+坐标点击",
+      "capabilityZh": "macOS 聊天客户端视觉识别加模型回复的 RPA 助手。",
+      "bestForZh": "无正式用途，仅限自有账号的离线演示。",
+      "whyZh": "视觉识别加知识库回复、有白名单与人工接管；但指标来自二三十条自测样本，窗口遮挡、深色模式与通知横幅都会干扰识别；什么界面都能试，但坐标会漂，结果必须二次核对。",
+      "riskZh": "非官方自动化，账号受限；视觉受遮挡与主题影响。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 60,
+        "docs": 80,
+        "maintenance": 80,
+        "stability": 40,
+        "breadth": 35,
+        "riskPenalty": 80
+      }
+    },
+    {
+      "rank": 101,
+      "id": "dingxiang-me__OpenClaw-Wechat",
+      "score": 57.24,
+      "tier": "勿用",
+      "primaryRoute": "官方 API/SDK",
+      "capabilityZh": "开放代理的企业渠道插件，支持回调与机器人两种接入模式。",
+      "bestForZh": "内部群与成员的消息收发、机器人问答。",
+      "whyZh": "双模式覆盖不同权限条件、配置文档清楚；但群回调仅限内部群，外部群不开放，项目已停更，接口变更后可能失配；路线本身合规稳定，代价是只能做接口明确开放的事。",
+      "riskZh": "已停更，接口变更后失配；外部群不开放。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 60,
+        "docs": 80,
+        "maintenance": 40,
+        "stability": 60,
+        "breadth": 35,
+        "riskPenalty": 55
+      }
+    },
+    {
+      "rank": 102,
+      "id": "LAVARONG__wechat-automation-api",
+      "score": 57.06,
+      "tier": "勿用",
+      "primaryRoute": "无障碍树",
+      "capabilityZh": "把聊天客户端界面自动化包成接口服务，排队执行发送任务。",
+      "bestForZh": "无正式用途，仅限单机自有账号的接口验证。",
+      "whyZh": "有队列、健康检查与日志，工程化程度高；但锁屏、远程断开与最小化都会失效，搜索只取首条会发错人，无发送回读；能按控件精确操作，遇到自绘界面就会退化成空壳。",
+      "riskZh": "非官方界面自动化，账号受限；锁屏即中断。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 80,
+        "docs": 60,
+        "maintenance": 60,
+        "stability": 40,
+        "breadth": 35,
+        "riskPenalty": 88
+      }
+    },
+    {
+      "rank": 103,
+      "id": "mrsanshui__vworkApi",
+      "score": 56.66,
+      "tier": "勿用",
+      "primaryRoute": "协议/注入（高危）",
+      "capabilityZh": "对桌面客户端注入后暴露本地接口，可发送、建群与收回调。",
+      "bestForZh": "无正式用途，仅限隔离环境的防护研究。",
+      "whyZh": "接口覆盖全、支持多开；但注入与多开属官方规则明列的外挂行为，可永久封禁，接口与客户端版本强绑定，更新即失效；绕过官方限制换来的便利，随时可能被规则清算。",
+      "riskZh": "注入加多开，可永久封号；版本绑定，更新失效。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 60,
+        "docs": 60,
+        "maintenance": 60,
+        "stability": 20,
+        "breadth": 35,
+        "riskPenalty": 98
+      }
+    },
+    {
+      "rank": 104,
+      "id": "showlab__computer_use_ootb",
+      "score": 56.5,
+      "tier": "勿用",
+      "primaryRoute": "屏幕视觉+坐标点击",
+      "capabilityZh": "免容器部署的桌面代理，带图形界面并可切换多种模型。",
+      "bestForZh": "个人桌面任务演示、模型对比与快速试用。",
+      "whyZh": "开箱即用、模型可换，适合体验；但没有多任务调度、成功率统计与审计，对多屏与高缩放支持有限；不依赖接口、覆盖面广，代价是精度随界面与模型波动。",
+      "riskZh": "项目已停更近一年半；远程控制会暴露本机服务。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 60,
+        "docs": 60,
+        "maintenance": 40,
+        "stability": 60,
+        "breadth": 55,
+        "riskPenalty": 55
+      }
+    },
+    {
+      "rank": 105,
+      "id": "wimi321__macos-computer-use-skill",
+      "score": 56.3,
+      "tier": "谨慎",
+      "primaryRoute": "屏幕视觉+坐标点击",
+      "capabilityZh": "零私有依赖的 macOS 桌面控制技能，截图、点击、输入与剪贴板。",
+      "bestForZh": "macOS 上快速搭桌面点击流程，轻量脚本化操作。",
+      "whyZh": "依赖少、安装简单、支持一次调用串多动作；但没有无障碍树，界面改版或窗口移动就要重调坐标，只能判断点了不能判断点对；不依赖接口、覆盖面广，代价是精度随界面与模型波动。",
+      "riskZh": "纯坐标，界面变化即失效；无成功率与适配矩阵。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 60,
+        "docs": 60,
+        "maintenance": 40,
+        "stability": 50,
+        "breadth": 35,
+        "riskPenalty": 30
+      }
+    },
+    {
+      "rank": 106,
+      "id": "nexu-io__nexu",
+      "score": 55.7,
+      "tier": "勿用",
+      "primaryRoute": "Agent 框架",
+      "capabilityZh": "桌面客户端把开放代理接到聊天工具，扫码连接后对话调用。",
+      "bestForZh": "个人通过聊天窗口向代理下指令、收结果。",
+      "whyZh": "图形向导、接入快，适合个人助手；但它解决的是人找代理，不是代理批量操作会话，插件版本一变就可能断；适合做上层编排，代价是具体操作能力取决于所接工具。",
+      "riskZh": "插件与客户端版本强绑定；无批量外发与发送校验。",
+      "subScores": {
+        "coverage": 40,
+        "usability": 80,
+        "docs": 60,
+        "maintenance": 60,
+        "stability": 60,
+        "breadth": 55,
+        "riskPenalty": 60
+      }
+    },
+    {
+      "rank": 107,
+      "id": "google-gemini__computer-use-preview",
+      "score": 55.67,
+      "tier": "谨慎",
+      "primaryRoute": "浏览器自动化",
+      "capabilityZh": "Gemini 官方浏览器代理参考实现，截图决策并在网页执行动作。",
+      "bestForZh": "网页任务原型、模型能力验证与教学演示。",
+      "whyZh": "官方示例、结构清晰，接浏览器驱动即可跑；但只在浏览器内，缺任务队列、成功率统计与失败恢复，预览接口可能变动；路线成熟、成本低，边界是浏览器这一道墙。",
+      "riskZh": "强登录与风控页面易被拦截；预览版接口不稳定。",
+      "subScores": {
+        "coverage": 40,
+        "usability": 60,
+        "docs": 60,
+        "maintenance": 60,
+        "stability": 60,
+        "breadth": 75,
+        "riskPenalty": 20
+      }
+    },
+    {
+      "rank": 108,
+      "id": "microsoft__fara",
+      "score": 55.54,
+      "tier": "谨慎",
+      "primaryRoute": "屏幕视觉+坐标点击",
+      "capabilityZh": "微软开源的三档计算机使用模型，输出网页操作的动作意图。",
+      "bestForZh": "研究网页任务代理、做模型选型与本地部署验证。",
+      "whyZh": "权重开放、可本地跑，适合做基座；但它只输出动作意图，执行、重试与校验要自己实现，桌面客户端支持有限；不依赖接口、覆盖面广，代价是精度随界面与模型波动。",
+      "riskZh": "需自建执行层；基准只针对网页，不能外推桌面。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 40,
+        "docs": 60,
+        "maintenance": 60,
+        "stability": 60,
+        "breadth": 35,
+        "riskPenalty": 22
+      }
+    },
+    {
+      "rank": 109,
+      "id": "huzjie__screenforge",
+      "score": 55.5,
+      "tier": "谨慎",
+      "primaryRoute": "其他",
+      "capabilityZh": "零依赖的界面代理参考实现，含校验、基准、单任务与训练入口。",
+      "bestForZh": "学习代理训练闭环、跑合成界面实验。",
+      "whyZh": "零依赖、接口完整、能看指标曲线；但用文本网格模拟屏幕不是真实视觉，语料只有五个合成应用，不建模跨屏导航；偏基础设施或研究资源，代价是不能直接当成品用。",
+      "riskZh": "合成环境，不代表真实界面；不能直接落地。",
+      "subScores": {
+        "coverage": 40,
+        "usability": 60,
+        "docs": 80,
+        "maintenance": 40,
+        "stability": 50,
+        "breadth": 75,
+        "riskPenalty": 10
+      }
+    },
+    {
+      "rank": 110,
+      "id": "Remote-Skills__settled-computer",
+      "score": 55.34,
+      "tier": "谨慎",
+      "primaryRoute": "屏幕视觉+坐标点击",
+      "capabilityZh": "事件驱动等待画面稳定的桌面 MCP，动作后返回稳定判定。",
+      "bestForZh": "动画与加载较多的界面，减少盲等与抢跑。",
+      "whyZh": "解决什么时候可以看的问题、返回判定文本；但它不判断看到的是否正确，全屏视频与缓慢渐变会反复放弃，后台窗口抓不到帧；不依赖接口、覆盖面广，代价是精度随界面与模型波动。",
+      "riskZh": "只保证画面稳定，不保证结果正确；后台抓不到帧。",
+      "subScores": {
+        "coverage": 40,
+        "usability": 60,
+        "docs": 80,
+        "maintenance": 40,
+        "stability": 50,
+        "breadth": 75,
+        "riskPenalty": 12
+      }
+    },
+    {
+      "rank": 111,
+      "id": "showlab__ShowUI",
+      "score": 55.3,
+      "tier": "谨慎",
+      "primaryRoute": "屏幕视觉+坐标点击",
+      "capabilityZh": "轻量端到端视觉语言动作模型，给截图与指令输出目标坐标。",
+      "bestForZh": "界面元素定位研究、轻量模型微调与单步点击。",
+      "whyZh": "模型小、可训练、定位思路清晰；但只负责看与指，规划与校验要上层实现，密集小控件上仍会偏；什么界面都能试，但坐标会漂，结果必须二次核对。",
+      "riskZh": "需自建执行与重试；停更超过半年，适配风险上升。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 40,
+        "docs": 60,
+        "maintenance": 60,
+        "stability": 60,
+        "breadth": 55,
+        "riskPenalty": 40
+      }
+    },
+    {
+      "rank": 112,
+      "id": "deepanmpc__COWORK_AGENT_DESKTOP_AUTOMATION-COMPUTER_USE-",
+      "score": 54.9,
+      "tier": "谨慎",
+      "primaryRoute": "屏幕视觉+坐标点击",
+      "capabilityZh": "视觉与规划分离的 macOS 桌面代理，命令行输入目标后自主执行。",
+      "bestForZh": "macOS 个人桌面多步任务、语音下指令的演示。",
+      "whyZh": "规划与视觉分工、可语音与急停；但仅 macOS，界面压缩到固定元素数会丢控件，识别漏读与坐标缓存失效都会中断；什么界面都能试，但坐标会漂，结果必须二次核对。",
+      "riskZh": "仅 macOS；元素截断与识别漏读导致失败。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 60,
+        "docs": 60,
+        "maintenance": 20,
+        "stability": 40,
+        "breadth": 55,
+        "riskPenalty": 25
+      }
+    },
+    {
+      "rank": 113,
+      "id": "kanishka089__computer-use-mcp",
+      "score": 54.26,
+      "tier": "谨慎",
+      "primaryRoute": "屏幕视觉+坐标点击",
+      "capabilityZh": "让模型驱动真实鼠标键盘的 MCP，动作后自动返回新截图。",
+      "bestForZh": "多显示器环境下的桌面点击演示与原型。",
+      "whyZh": "闭环简单直接、支持指定屏幕；但截图降采样后小控件易点偏，缩放、远程桌面与锁屏会打断，且没有任务级成功判定；不依赖接口、覆盖面广，代价是精度随界面与模型波动。",
+      "riskZh": "降采样导致点偏；无成功判定与重试策略。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 60,
+        "docs": 40,
+        "maintenance": 40,
+        "stability": 40,
+        "breadth": 35,
+        "riskPenalty": 18
+      }
+    },
+    {
+      "rank": 114,
+      "id": "instavm__clickclickclick",
+      "score": 54.1,
+      "tier": "谨慎",
+      "primaryRoute": "屏幕视觉+坐标点击",
+      "capabilityZh": "规划与定位分工的双模型点击框架，支持命令行、网页与接口调用。",
+      "bestForZh": "安卓与桌面的轻量点击任务、原型验证。",
+      "whyZh": "架构清晰、调用方式多；但定位器在密集列表会点错行，滚动后用旧坐标，长任务无步数上限会反复同一动作；不依赖接口、覆盖面广，代价是精度随界面与模型波动。",
+      "riskZh": "小模型规划能力有限；无失败恢复与步骤上限。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 60,
+        "docs": 40,
+        "maintenance": 40,
+        "stability": 40,
+        "breadth": 35,
+        "riskPenalty": 20
+      }
+    },
+    {
+      "rank": 115,
+      "id": "tmustier__codex-computer-use-mcp",
+      "score": 53.86,
+      "tier": "谨慎",
+      "primaryRoute": "无障碍树",
+      "capabilityZh": "把官方 macOS 电脑操作运行时接进 MCP，按元素编号点击输入。",
+      "bestForZh": "macOS 桌面操作接入编码代理，浏览器标签管理。",
+      "whyZh": "复用官方运行时、接入标准；但依赖实验性接口与本机组件，任一方升级都可能失效，账户未开对应能力会退回旧工具；语义定位比坐标稳，代价是受目标应用的无障碍实现限制。",
+      "riskZh": "实验性接口易变；账户能力未开时行为不一致。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 40,
+        "docs": 60,
+        "maintenance": 60,
+        "stability": 40,
+        "breadth": 35,
+        "riskPenalty": 18
+      }
+    },
+    {
+      "rank": 116,
+      "id": "freeall12__computer-use",
+      "score": 53.5,
+      "tier": "谨慎",
+      "primaryRoute": "其他",
+      "capabilityZh": "对多个代理实现的逆向阅读报告，整理工具定义、通道与权限边界。",
+      "bestForZh": "学习代理设计模式、做技术选型前的横向对比。",
+      "whyZh": "横向矩阵清晰、能快速看懂各家取舍；但静态阅读无法证明运行效果，版本更新后路径失效，只覆盖部分平台实现；偏基础设施或研究资源，代价是不能直接当成品用。",
+      "riskZh": "仅为阅读材料，不能运行；结论不构成承诺。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 40,
+        "docs": 80,
+        "maintenance": 20,
+        "stability": 50,
+        "breadth": 35,
+        "riskPenalty": 10
+      }
+    },
+    {
+      "rank": 117,
+      "id": "aditya-nadkarni__spongecake",
+      "score": 53.3,
+      "tier": "勿用",
+      "primaryRoute": "屏幕视觉+坐标点击",
+      "capabilityZh": "容器桌面里的代理，浏览网页、点按钮、填表单并抓取内容。",
+      "bestForZh": "隔离环境中的网页流程演示与线索采集原型。",
+      "whyZh": "自带示例、容器隔离；但装不进宿主应用、读不到控件结构，容器重建即丢状态，失败后只能整段重跑；不依赖接口、覆盖面广，代价是精度随界面与模型波动。",
+      "riskZh": "项目已停更一年半；容器内坐标偏移，失败无回滚。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 60,
+        "docs": 60,
+        "maintenance": 20,
+        "stability": 40,
+        "breadth": 75,
+        "riskPenalty": 60
+      }
+    },
+    {
+      "rank": 118,
+      "id": "aixed__WeChat-Hook",
+      "score": 52.26,
+      "tier": "勿用",
+      "primaryRoute": "协议/注入（高危）",
+      "capabilityZh": "以动态库注入聊天客户端并暴露本地 HTTP 发送接口。",
+      "bestForZh": "无正式用途，仅限隔离环境的漏洞与防护研究。",
+      "whyZh": "注入即获得发送能力、看似省事；但版本写死、升级即失效，安全软件会拦截，官方规则把此类接入列为永久封禁情形；技术上能跑通，商业上不具备可承担的风险。",
+      "riskZh": "注入属外挂，可永久封号；版本写死，升级即失效。",
+      "subScores": {
+        "coverage": 80,
+        "usability": 40,
+        "docs": 60,
+        "maintenance": 60,
+        "stability": 20,
+        "breadth": 35,
+        "riskPenalty": 98
+      }
+    },
+    {
+      "rank": 119,
+      "id": "miyahluvgames-source__helix-computer-use",
+      "score": 52.1,
+      "tier": "谨慎",
+      "primaryRoute": "浏览器自动化",
+      "capabilityZh": "浏览器、桌面与动态目标三通道的操作栈，按界面情况切换。",
+      "bestForZh": "网页后台与原生窗口混合的流程，动态目标点击。",
+      "whyZh": "三通道互补、覆盖较全；但切换依赖模型判断，判断错会在错误通道反复试，动态通道只保证动作发出不保证结果；路线成熟、成本低，边界是浏览器这一道墙。",
+      "riskZh": "通道切换判断错；动态目标无结果保证。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 40,
+        "docs": 60,
+        "maintenance": 20,
+        "stability": 40,
+        "breadth": 75,
+        "riskPenalty": 20
+      }
+    },
+    {
+      "rank": 120,
+      "id": "HenryXiaoYang__XYBot",
+      "score": 50.1,
+      "tier": "勿用",
+      "primaryRoute": "协议/注入（高危）",
+      "capabilityZh": "基于注入的聊天机器人，插件化接管消息与群内指令。",
+      "bestForZh": "无正式用途，历史项目仅供研究参考。",
+      "whyZh": "插件生态曾活跃；但已停更、版本锁死旧客户端，注入属外挂行为，账号存在封禁风险，无法用于任何正式场景；技术上能跑通，商业上不具备可承担的风险。",
+      "riskZh": "已停更、版本锁死；注入外挂，封号风险高。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 60,
+        "docs": 80,
+        "maintenance": 20,
+        "stability": 40,
+        "breadth": 35,
+        "riskPenalty": 95
+      }
+    },
+    {
+      "rank": 121,
+      "id": "shortsspectrumai-del__flash-computer-use",
+      "score": 50.07,
+      "tier": "谨慎",
+      "primaryRoute": "无障碍树",
+      "capabilityZh": "网页结构与系统无障碍优先、视觉兜底的混合 MCP。",
+      "bestForZh": "网页表单与桌面控件的混合操作，密集页面定位。",
+      "whyZh": "优先语义定位、密集页面可只留候选，思路稳；但速度对比是自述非标准基准，自绘画布与跨域框架仍退化视觉，桌面验证不全；能按控件精确操作，遇到自绘界面就会退化成空壳。",
+      "riskZh": "跨域与阴影结构退化；桌面侧验证不完整。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 40,
+        "docs": 60,
+        "maintenance": 20,
+        "stability": 40,
+        "breadth": 35,
+        "riskPenalty": 15
+      }
+    },
+    {
+      "rank": 122,
+      "id": "epistex-dev__computer-use",
+      "score": 50.06,
+      "tier": "谨慎",
+      "primaryRoute": "无障碍树",
+      "capabilityZh": "Linux Wayland 桌面技能，截图、精确点击、文字搜索与控件名操作。",
+      "bestForZh": "Linux 桌面软件的点击与文本定位，独立会话运行。",
+      "whyZh": "Wayland 下可用、文字识别与控件双通道、有独立会话；但只在单一合成器实测，换环境要改调用，输入会丢字符，特定控件无动作；能按控件精确操作，遇到自绘界面就会退化成空壳。",
+      "riskZh": "合成器绑定；输入丢字符与特定控件不支持。",
+      "subScores": {
+        "coverage": 40,
+        "usability": 40,
+        "docs": 80,
+        "maintenance": 60,
+        "stability": 50,
+        "breadth": 35,
+        "riskPenalty": 18
+      }
+    },
+    {
+      "rank": 123,
+      "id": "DaizeDong__grokbot-cdp",
+      "score": 49.9,
+      "tier": "谨慎",
+      "primaryRoute": "浏览器自动化",
+      "capabilityZh": "经调试协议遥控云端代理主机的库，执行命令并保存画面。",
+      "bestForZh": "云端代理环境的远程控制与画面取证。",
+      "whyZh": "接入方式直接、有会话上下文管理；但没有标准输出，命令结果只能看画面，单会话且依赖应用内部结构，改版即中断；只在浏览器内成立，代价是桌面与系统层完全触达不到。",
+      "riskZh": "无标准输出，结果难判定；依赖内部结构，易失效。",
+      "subScores": {
+        "coverage": 40,
+        "usability": 40,
+        "docs": 80,
+        "maintenance": 40,
+        "stability": 50,
+        "breadth": 75,
+        "riskPenalty": 25
+      }
+    },
+    {
+      "rank": 124,
+      "id": "betrayzl__windows-computer-use-mcp",
+      "score": 49.86,
+      "tier": "谨慎",
+      "primaryRoute": "屏幕视觉+坐标点击",
+      "capabilityZh": "抓屏加模拟输入的 Windows MCP，提供画面描述、截图与点击输入。",
+      "bestForZh": "配合多模态模型的 Windows 桌面点击任务。",
+      "whyZh": "工具直接、接入简单；但只能看见像素读不到控件语义，缩放、遮挡与窗口模式都会打破坐标假设，也无法确认结果对不对；什么界面都能试，但坐标会漂，结果必须二次核对。",
+      "riskZh": "坐标假设脆弱；游戏反作弊与缩放导致失败。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 40,
+        "docs": 60,
+        "maintenance": 20,
+        "stability": 40,
+        "breadth": 35,
+        "riskPenalty": 18
+      }
+    },
+    {
+      "rank": 125,
+      "id": "FluidInference__FluidUse",
+      "score": 49.83,
+      "tier": "谨慎",
+      "primaryRoute": "屏幕视觉+坐标点击",
+      "capabilityZh": "macOS 本地小模型读表单字段并自动填写或勾选的 Swift 库。",
+      "bestForZh": "固定表单的批量填写、结构化录入辅助。",
+      "whyZh": "隐私好、离线可跑、专为填表优化；但范围极窄，只处理按字段填值，多步联动表单与无标签字段无法处理；什么界面都能试，但坐标会漂，结果必须二次核对。",
+      "riskZh": "仅支持表单填写；低置信度时无兜底策略。",
+      "subScores": {
+        "coverage": 40,
+        "usability": 40,
+        "docs": 60,
+        "maintenance": 60,
+        "stability": 60,
+        "breadth": 35,
+        "riskPenalty": 8
+      }
+    },
+    {
+      "rank": 126,
+      "id": "vercel-labs__ai-sdk-computer-use",
+      "score": 49.7,
+      "tier": "谨慎",
+      "primaryRoute": "屏幕视觉+坐标点击",
+      "capabilityZh": "把官方电脑工具接进云沙箱的参考实现，带实时画面预览。",
+      "bestForZh": "网页任务演示、工具调用链路学习。",
+      "whyZh": "示例完整、可视化好；但沙箱只有浏览器与基础工具，装不了桌面客户端，登录态不持久，长任务会重复点同一处；路线通用性最强，稳定性最依赖模型与屏幕环境。",
+      "riskZh": "沙箱镜像限制能力；冷启动慢导致首步超时。",
+      "subScores": {
+        "coverage": 40,
+        "usability": 40,
+        "docs": 60,
+        "maintenance": 40,
+        "stability": 60,
+        "breadth": 75,
+        "riskPenalty": 15
+      }
+    },
+    {
+      "rank": 127,
+      "id": "appium__appium-uiautomator2-server",
+      "score": 48.7,
+      "tier": "谨慎",
+      "primaryRoute": "无障碍树",
+      "capabilityZh": "安卓设备内的自动化服务端，执行查找、点击、输入与截图命令。",
+      "bestForZh": "作为移动自动化驱动的设备端组件，配合上层框架使用。",
+      "whyZh": "设备内执行稳定、可调试可构建；但它只是组件，选择器与会话管理都在驱动侧，自绘游戏画面拿不到节点，文档可能落后；路线稳定可审计，前提是目标应用愿意暴露控件。",
+      "riskZh": "单独使用价值有限；需与驱动版本配套。",
+      "subScores": {
+        "coverage": 40,
+        "usability": 40,
+        "docs": 60,
+        "maintenance": 40,
+        "stability": 70,
+        "breadth": 35,
+        "riskPenalty": 10
+      }
+    },
+    {
+      "rank": 128,
+      "id": "ranjitdontineni09__computer-use-runtime",
+      "score": 48.3,
+      "tier": "谨慎",
+      "primaryRoute": "RPA/工作流",
+      "capabilityZh": "录制一次、无模型确定性回放的运行时，带检查点与人工接管。",
+      "bestForZh": "网页流程的确定性回放与低成本批处理。",
+      "whyZh": "回放不依赖模型、成本低、有检查点；但桌面后端只有桩，能力只覆盖网页，演示数据为假，框架内与慢加载会判失败；确定性强、责任清晰，灵活性换来的就是维护量。",
+      "riskZh": "桌面后端未实现；演示数据不可用于真实系统。",
+      "subScores": {
+        "coverage": 40,
+        "usability": 60,
+        "docs": 60,
+        "maintenance": 20,
+        "stability": 50,
+        "breadth": 35,
+        "riskPenalty": 20
+      }
+    },
+    {
+      "rank": 129,
+      "id": "4lexxe__ag-computer-use-mcp",
+      "score": 47.7,
+      "tier": "谨慎",
+      "primaryRoute": "无障碍树",
+      "capabilityZh": "宿主内的 Windows 桌面控制 MCP，截图、窗口聚焦、点击输入与读元素。",
+      "bestForZh": "Windows 桌面轻量点击与窗口管理试验。",
+      "whyZh": "工具覆盖常用动作、有活动状态与停止；但项目刚创建无任何实测反馈，控件缺失时仍退回坐标，活动指示只说明在操作；能按控件精确操作，遇到自绘界面就会退化成空壳。",
+      "riskZh": "零实测反馈；操作正确性无保证。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 40,
+        "docs": 60,
+        "maintenance": 20,
+        "stability": 20,
+        "breadth": 35,
+        "riskPenalty": 20
+      }
+    },
+    {
+      "rank": 130,
+      "id": "barkleyli__LVGL-UI-Automation-Framework",
+      "score": 47.5,
+      "tier": "勿用",
+      "primaryRoute": "官方 API/SDK",
+      "capabilityZh": "面向嵌入式界面的自动化框架，按控件编号或坐标点击并截图比对。",
+      "bestForZh": "嵌入式图形界面的回归测试与截图验证。",
+      "whyZh": "控件级定位比图像稳、可出截图报告；但能力锁定在特定界面库生态，桌面与网页完全不覆盖，其他平台缺验证；路线本身合规稳定，代价是只能做接口明确开放的事。",
+      "riskZh": "已停更一年以上；生态封闭，通用性差。",
+      "subScores": {
+        "coverage": 40,
+        "usability": 60,
+        "docs": 80,
+        "maintenance": 20,
+        "stability": 50,
+        "breadth": 35,
+        "riskPenalty": 55
+      }
+    },
+    {
+      "rank": 131,
+      "id": "cluic__wxauto",
+      "score": 46.1,
+      "tier": "勿用",
+      "primaryRoute": "无障碍树",
+      "capabilityZh": "在已登录的 Windows 聊天客户端上按名称定位会话并收发消息。",
+      "bestForZh": "单机少量账号的聊天窗口操作实验，不建议生产使用。",
+      "whyZh": "轻量、接口直观；但仅适配固定旧版本，作者明令禁止用于生产，客户端升级后控件导出关闭会整体失效；路线稳定可审计，前提是目标应用愿意暴露控件。",
+      "riskZh": "非官方界面自动化，账号受限风险高；仅适配旧版。",
+      "subScores": {
+        "coverage": 40,
+        "usability": 80,
+        "docs": 40,
+        "maintenance": 40,
+        "stability": 40,
+        "breadth": 35,
+        "riskPenalty": 90
+      }
+    },
+    {
+      "rank": 132,
+      "id": "fyzhang1__ExpActivator",
+      "score": 45.54,
+      "tier": "谨慎",
+      "primaryRoute": "其他",
+      "capabilityZh": "训练无关的个性化界面经验激活方法，提供可复现评测流水线。",
+      "bestForZh": "研究与评测个性化代理、验证经验复用效果。",
+      "whyZh": "方法新、评测可复现；但它没有采集、输入注入与真实应用适配，指标建立在离线样本上，不能当作产品能力；偏基础设施或研究资源，代价是不能直接当成品用。",
+      "riskZh": "纯研究方法，不能落地；离线指标不代表真实表现。",
+      "subScores": {
+        "coverage": 40,
+        "usability": 20,
+        "docs": 60,
+        "maintenance": 40,
+        "stability": 60,
+        "breadth": 75,
+        "riskPenalty": 12
+      }
+    },
+    {
+      "rank": 133,
+      "id": "sjkncs__gui-agent-framework",
+      "score": 44.9,
+      "tier": "谨慎",
+      "primaryRoute": "RPA/工作流",
+      "capabilityZh": "积木式界面自动化框架，可串浏览器、桌面、数据与控制流。",
+      "bestForZh": "把重复流程搭成流水线，中途接模型决策。",
+      "whyZh": "可视化拼装、支持人工暂停与恢复；但仍在原型阶段，积木覆盖有限，桌面坐标没有视觉回退，缺成功率评估与成本控制；流程可复用、易审计，代价是界面一变就要维护脚本。",
+      "riskZh": "原型阶段，无测试套件；坐标无回退，窗口一动就偏。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 40,
+        "docs": 40,
+        "maintenance": 20,
+        "stability": 20,
+        "breadth": 35,
+        "riskPenalty": 30
+      }
+    },
+    {
+      "rank": 134,
+      "id": "PavanVAkula__computer-use-capability-engine",
+      "score": 44.3,
+      "tier": "谨慎",
+      "primaryRoute": "RPA/工作流",
+      "capabilityZh": "让模型发现网页流程并固化为可回放能力的引擎。",
+      "bestForZh": "网页流程的发现与固化、重复任务自动回放。",
+      "whyZh": "发现与回放分离、产物是可读配置；但只在一个合成控制台验证，发现阶段模型误选会污染产物，页面结构变化会同时失效；适合长期跑固定流程，不适合经常改版的界面。",
+      "riskZh": "仅单站点验证；结构变化导致定位全失效。",
+      "subScores": {
+        "coverage": 40,
+        "usability": 40,
+        "docs": 60,
+        "maintenance": 20,
+        "stability": 50,
+        "breadth": 35,
+        "riskPenalty": 15
+      }
+    },
+    {
+      "rank": 135,
+      "id": "wimi321__windows-computer-use-skill",
+      "score": 43.3,
+      "tier": "勿用",
+      "primaryRoute": "屏幕视觉+坐标点击",
+      "capabilityZh": "Windows 版桌面操作技能，枚举显示器、截图、鼠标键盘与剪贴板。",
+      "bestForZh": "Windows 上的轻量桌面点击与窗口映射试验。",
+      "whyZh": "自带运行时、工具齐；但 README 明说尚未在真机验证，提权窗口、安全桌面与多屏缩放都属待验证，纯坐标改版即失效；路线通用性最强，稳定性最依赖模型与屏幕环境。",
+      "riskZh": "未真机验证；提权与多屏场景未覆盖。",
+      "subScores": {
+        "coverage": 60,
+        "usability": 40,
+        "docs": 40,
+        "maintenance": 20,
+        "stability": 20,
+        "breadth": 35,
+        "riskPenalty": 50
+      }
+    },
+    {
+      "rank": 136,
+      "id": "yjyddq__RiOSWorld",
+      "score": 42.1,
+      "tier": "勿用",
+      "primaryRoute": "其他",
+      "capabilityZh": "评估代理操作风险的基准，提供风险任务、攻击脚本与轨迹。",
+      "bestForZh": "代理越界行为研究、上线前的安全评估。",
+      "whyZh": "风险场景与轨迹数据稀缺、可下载；但只覆盖特定诱导场景，对未造成可见后果的越权捕捉有限，不能证明真实业务安全；价值在方法与评测，不在直接替你操作界面。",
+      "riskZh": "已停更近一年；场景与真实业务有差距。",
+      "subScores": {
+        "coverage": 40,
+        "usability": 20,
+        "docs": 60,
+        "maintenance": 60,
+        "stability": 60,
+        "breadth": 35,
+        "riskPenalty": 50
+      }
+    },
+    {
+      "rank": 137,
+      "id": "ChrisLamDev__cua-desktop-automation-skills",
+      "score": 40.5,
+      "tier": "谨慎",
+      "primaryRoute": "屏幕视觉+坐标点击",
+      "capabilityZh": "带自学习路由的 macOS 桌面技能集，按任务挑执行层并记录成败。",
+      "bestForZh": "macOS 桌面任务的路径择优、逐步固化的重复流程。",
+      "whyZh": "路由思路实用、能沉淀历史；但只能在已配置的几条路径里选，全失败就没招，历史打分可能把偶然成功固化成偏好；什么界面都能试，但坐标会漂，结果必须二次核对。",
+      "riskZh": "路径固定，超出即失败；自述稳定缺数据支撑。",
+      "subScores": {
+        "coverage": 40,
+        "usability": 40,
+        "docs": 60,
+        "maintenance": 20,
+        "stability": 20,
+        "breadth": 35,
+        "riskPenalty": 25
+      }
+    },
+    {
+      "rank": 138,
+      "id": "anaishowland__agent-CE",
+      "score": 40.1,
+      "tier": "勿用",
+      "primaryRoute": "其他",
+      "capabilityZh": "容器化的网页代理持续评测平台，跑批量任务并出评测结果。",
+      "bestForZh": "网页代理的批量评测、版本之间效果对比。",
+      "whyZh": "评测流程容器化、可批量；但只覆盖浏览器任务，且不含打分模型，必须配外部评审服务才能出分，依赖云存储凭证；偏基础设施或研究资源，代价是不能直接当成品用。",
+      "riskZh": "停更超过一年；依赖外部评审与云凭证。",
+      "subScores": {
+        "coverage": 40,
+        "usability": 40,
+        "docs": 60,
+        "maintenance": 20,
+        "stability": 40,
+        "breadth": 35,
+        "riskPenalty": 55
+      }
+    },
+    {
+      "rank": 139,
+      "id": "TongUI-agent__TongUI-agent",
+      "score": 40.07,
+      "tier": "勿用",
+      "primaryRoute": "屏幕视觉+坐标点击",
+      "capabilityZh": "从教程视频合成大规模界面数据，并训练视觉语言动作模型。",
+      "bestForZh": "界面数据生产、模型预训练与指令理解研究。",
+      "whyZh": "数据规模大、训练评测流水线完整；但交付的是数据与模型，不是可用工具，执行与安全校验要自建，常见软件覆盖有限；不依赖接口、覆盖面广，代价是精度随界面与模型波动。",
+      "riskZh": "已停更大半年；需自行部署与补执行层。",
+      "subScores": {
+        "coverage": 40,
+        "usability": 20,
+        "docs": 60,
+        "maintenance": 40,
+        "stability": 60,
+        "breadth": 35,
+        "riskPenalty": 50
+      }
+    },
+    {
+      "rank": 140,
+      "id": "masone__iphone-cua",
+      "score": 26.9,
+      "tier": "勿用",
+      "primaryRoute": "官方 API/SDK",
+      "capabilityZh": "用规划模型加移动驱动操作真机 iPhone 的原型。",
+      "bestForZh": "iOS 真机流程的原型验证与教学演示。",
+      "whyZh": "链路完整、能跑真机；但原型没有失败恢复、动作白名单与速率控制，系统弹窗与反自动化会中断，复杂界面容易点错；路线本身合规稳定，代价是只能做接口明确开放的事。",
+      "riskZh": "原型无护栏；系统弹窗与反自动化中断流程。",
+      "subScores": {
+        "coverage": 20,
+        "usability": 20,
+        "docs": 40,
+        "maintenance": 20,
+        "stability": 20,
+        "breadth": 35,
+        "riskPenalty": 30
+      }
+    }
+  ]
+}

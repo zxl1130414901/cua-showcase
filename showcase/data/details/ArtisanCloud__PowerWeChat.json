@@ -1,0 +1,84 @@
+{
+  "id": "ArtisanCloud__PowerWeChat",
+  "taglineZh": "Go 语言微信开发 SDK，含企微客户联系",
+  "summaryZh": "PowerWeChat 是 Go 写的微信 SDK 框架，覆盖小程序、公众号、企业微信与微信支付，封装了 access_token、AES 加解密、签名验签与回调通知。企业微信部分提供通讯录、应用消息、外部联系人与 add_msg_template 群发任务。与直接拼 HTTP 相比，它把易错的加密与令牌细节收进内核，业务代码只关心参数。",
+  "whatItDoesZh": "用 config 初始化 app 后，调用 work 模块读写通讯录、发应用消息、管理外部联系人与客户标签、创建群发任务并查结果；小程序侧做登录与订阅消息；公众号侧做菜单、素材、模板消息；支付侧做下单、退款与回调验签。各业务域独立 client，请求与响应均结构体化。",
+  "useCasesZh": [
+    "Go 后端接入企微客户联系，统一管理外部客户",
+    "创建客户群群发任务，并轮询查询任务发送结果",
+    "微信小程序静默登录，并下发模板与订阅消息",
+    "公众号素材管理，以及模板消息批量推送能力",
+    "把企微通讯录增量同步到自有的用户系统之中"
+  ],
+  "appsZh": [
+    "企业微信自建应用",
+    "企业微信外部联系人与客户群",
+    "微信公众号",
+    "微信小程序",
+    "微信支付商户平台"
+  ],
+  "platformsZh": [
+    "Web"
+  ],
+  "techApproachZh": "Go 模块化 SDK（v3），kernel 统一管理 token 缓存、AES 加解密、签名与 HTTP 客户端；各业务域独立 client，请求/响应结构体化。纯服务端库，调用官方 REST API，不含客户端自动化；服务端部署平台由使用者决定。",
+  "requirementsZh": [
+    "Go 1.18+ 与模块依赖管理",
+    "企业微信 corp_id 与 secret",
+    "企业认证与客户联系权限",
+    "公网回调地址",
+    "无需 GPU 与桌面环境"
+  ],
+  "prosZh": [
+    "Go 生态少有的全栈微信 SDK",
+    "令牌缓存、消息加解密与回调验签都已封装",
+    "企业微信接口覆盖广，含群发任务",
+    "有独立文档站与视频教程，示例覆盖主流场景",
+    "1.8k star，MIT 长期维护"
+  ],
+  "consZh": [
+    "只有 SDK，没有 UI 与运营后台，需自行开发",
+    "新接口跟进依赖发版节奏，急用需自己调原生 API",
+    "客户群群发仍要成员在客户端确认，不能全自动",
+    "文档中英混排，示例分散在多个目录，检索成本高"
+  ],
+  "limitsZh": "只能走官方接口：外部群没有开放 API，客户群群发必须由成员在客户端确认；客户联系接口需企业认证与权限开通；SDK 版本落后于官方新接口时需自行扩展；不提供任何绕过确认的发送能力。",
+  "stepsZh": [
+    "完成企微认证，并开通客户联系与群发所需权限",
+    "引入 PowerWeChat v3 并配置 corp_id/secret",
+    "初始化 work app，先拉通讯录验证凭证",
+    "调外部联系人接口，获取客户列表与客户标签",
+    "调 messageTemplate 创建群发任务",
+    "员工确认后按 msgid 查询群发结果与送达状态"
+  ],
+  "successRateZh": "无公开成功率数据；成败取决于官方接口配额与成员确认，SDK 不自带重试统计。可自测 10 个客户建任务，统计创建成功、确认率与结果查询成功，并记录 token 过期、权限不足等错误码。",
+  "wecomRelevance": "direct",
+  "wecomUseZh": "它能直接调企业微信客户联系与 add_msg_template，适合把外部客户群发嵌进 Go 后端，是合规路线里可用的一块底座。限制同样来自官方：群发要成员确认、外部群无接口，SDK 不能替你把消息直接塞进客户会话。",
+  "maturityZh": "1828 star、262 fork，MIT，2021 年创建、2026-10 推送；ArtisanCloud 团队维护，文档站完整、更新稳定，但社区讨论集中在 issue，中文教程比源码更新慢。",
+  "evidence": [
+    {
+      "claim": "Go 写的微信 SDK 框架",
+      "source": "README.md",
+      "quote": "PowerWeChat是一款基于Golang的微信SDK开发框架。"
+    },
+    {
+      "claim": "覆盖小程序、企微与支付",
+      "source": "README.md",
+      "quote": "目前已经覆盖了微信小程序、企业微信、微信支付等绝大部分场景的API。"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "wechatpy__wechatpy",
+      "xen0n__go-workwx"
+    ],
+    "whenZh": "Go 后端要全栈微信能力（小程序/支付/企微）选 PowerWeChat；偏好轻量、只做企微且要稳定签名封装选 go-workwx；Python 技术栈则选 wechatpy。"
+  },
+  "scores": {
+    "coverage": 5,
+    "usability": 3,
+    "docs": 4,
+    "maintenance": 4,
+    "performance": 4,
+    "stability": 4
+  }
+}

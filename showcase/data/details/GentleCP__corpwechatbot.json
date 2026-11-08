@@ -1,0 +1,85 @@
+{
+  "id": "GentleCP__corpwechatbot",
+  "taglineZh": "Python 企微应用消息推送库",
+  "summaryZh": "corpwechatbot 是 Python 封装的企业微信应用消息推送库，用企业 ID 与自建应用 Secret 调官方接口，把文本、图片、视频、文件、markdown、图文卡片发到企业成员的微信端。它只做服务端推送，没有接收、群管理或外部客户能力。与 hook 类工具相比，它完全合规，但覆盖面窄。",
+  "whatItDoesZh": "初始化 CorpWeChatBot(corpid, secret, agentid) 后调用 send_text、send_image、send_video、send_file、send_markdown、send_news 等方法，按成员、部门或标签发送；支持 @ 成员与 @all（群聊应用消息场景），可作为告警、报表、CI 通知的推送通道。",
+  "useCasesZh": [
+    "把服务器告警实时推送到企业微信内部成员端",
+    "每日报表以 markdown 卡片推送到工作群",
+    "发送图片或视频类通知，用于活动与培训提醒",
+    "按部门或标签批量下发应用消息与通知内容项",
+    "用几行代码即可接入 CI 流水线的构建通知"
+  ],
+  "appsZh": [
+    "企业微信自建应用消息",
+    "企业成员微信端",
+    "企微部门与标签",
+    "图文卡片与文件视频"
+  ],
+  "platformsZh": [
+    "Windows",
+    "macOS",
+    "Linux"
+  ],
+  "techApproachZh": "Python 库，封装 access_token 获取与缓存、HTTPS 调用与错误码解析；直接调企业微信『发送应用消息』接口，纯服务端，无客户端自动化，也不做消息接收。库内按消息类型拆分字段，图片与视频文件走素材上传接口再发送。",
+  "requirementsZh": [
+    "Python 3.5+ 与 pip",
+    "企微 corp_id、自建应用 secret 与 agentid",
+    "应用可见范围配置",
+    "无需 GPU 与公网回调",
+    "无需企业认证之外的额外权限"
+  ],
+  "prosZh": [
+    "几行代码即可完成推送，接入成本很低",
+    "支持文本、图片、视频、文件、markdown",
+    "纯官方接口，合规使用，不存在封号风险",
+    "有独立文档站点与按消息类型的示例",
+    "348 star，GPL-3 开源"
+  ],
+  "consZh": [
+    "只能发不能收，做不了双向机器人",
+    "只触达应用可见范围内的企业内部成员",
+    "2025 年 5 月后无更新，新接口不会跟进",
+    "没有队列、重试与送达统计，批量发送要自己做"
+  ],
+  "limitsZh": "只能向应用可见范围内的企业成员发送，不能加外部客户、不能进外部群；没有消息接收与回调，无法做双向机器人；接口权限或应用配置错误时只返回错误码，没有重试与队列；库本身不做限流，短时间大量发送会被接口频率限制拒绝。",
+  "stepsZh": [
+    "企微后台建自建应用并拿 secret 与 agentid",
+    "pip install corpwechatbot 并设置可见范围",
+    "初始化 CorpWeChatBot 并给自己发一条文本",
+    "再发 markdown、图片与文件验证消息类型",
+    "按部门或标签发送一条消息，验证寻址是否正确",
+    "查看接口返回错误码，确认权限范围与频率边界"
+  ],
+  "successRateZh": "无公开成功率数据；官方接口只看返回码，库本身不做统计。可自测 20 条不同类型消息，统计接口成功、可见范围外失败、频率超限；记录每类消息的返回码与耗时。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "它是企微自建应用消息库，只能发给应用可见范围内的内部成员，适合告警、报表、CI 通知。外部客户与外部群没有接口可达，群发外部客户这件事用不上。",
+  "maturityZh": "348 star、64 fork，GPL-3.0，2021-04 创建、2025-05 最后推送，已停更；代码简单稳定、文档可读，但企微接口新增能力不会跟进。",
+  "evidence": [
+    {
+      "claim": "Python 封装的企业微信应用消息推送库",
+      "source": "README.md",
+      "quote": "`corpwechatbot`是一个`python`封装的企业机器人&应用消息推送库"
+    },
+    {
+      "claim": "可发送文本、图片、视频、markdown 到微信手机端",
+      "source": "README.md",
+      "quote": "你可以轻松地实现从服务器端发送一条文本、图片、视频、`markdown`等等消息到你的微信手机端"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "wechatpy__wechatpy",
+      "WecomTeam__wecom-cli"
+    ],
+    "whenZh": "只要最简单的内部应用消息推送选 corpwechatbot；要完整官方 API 与客户联系选 wechatpy；要 Agent 可调用的命令行与办公能力选 wecom-cli。"
+  },
+  "scores": {
+    "coverage": 2,
+    "usability": 5,
+    "docs": 4,
+    "maintenance": 1,
+    "performance": 4,
+    "stability": 4
+  }
+}

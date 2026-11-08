@@ -1,0 +1,80 @@
+{
+  "id": "Xeakaes__computer-use-for-all-agents",
+  "taglineZh": "给任意 agent 的本地屏幕远程控制系统",
+  "summaryZh": "一套跑在本机的远程控制系统：让 agent 实时看到电脑屏幕，并向系统发送鼠标与键盘命令，所有画面与操作都不离开本机。支持 Windows 10/11 与 Linux X11，要求 Python 3.10 以上，提供 MCP 兼容接口以便云端 agent 一键接入，仓库还带安全测试 CI 与第三方 MCP 目录收录。",
+  "whatItDoesZh": "能持续抓取屏幕画面供 agent 观察，接收并执行鼠标移动点击、键盘输入与组合键，支持窗口切换与基本桌面操作；通过 MCP 协议把屏幕与输入能力暴露给 Claude、Cursor 等客户端，也可作为 skill 或云端 agent 的接入点。",
+  "useCasesZh": [
+    "让云端 agent 通过 MCP 操控本地 Windows 桌面",
+    "在 Linux X11 上给 agent 提供屏幕与输入通道",
+    "做远程协助式的实时屏幕观察与手动操作演示",
+    "给多个不同 agent 客户端复用同一套屏幕控制",
+    "在离线或内网环境里跑不依赖第三方服务的自动化"
+  ],
+  "appsZh": [
+    "Windows 10 与 11 桌面应用",
+    "Linux X11 桌面应用",
+    "浏览器与 Electron 客户端",
+    "不限具体应用，按屏幕坐标操作"
+  ],
+  "platformsZh": [
+    "Windows",
+    "Linux"
+  ],
+  "techApproachZh": "本机常驻服务负责抓屏与输入注入，对外以 MCP 工具形式暴露屏幕读取与鼠标键盘动作，云端或本地 agent 通过协议调用而不直接接触系统接口；画面与指令都在本机流转，仓库用一组安全测试在 CI 中检查危险操作的边界。",
+  "requirementsZh": [
+    "Python 3.10 及以上",
+    "Windows 10/11 或 Linux X11",
+    "不支持 Wayland 与 macOS",
+    "需授予屏幕与输入控制权限"
+  ],
+  "prosZh": [
+    "本地运行，屏幕与操作数据不出机器",
+    "兼容 MCP，多个 agent 客户端可复用",
+    "同时覆盖 Windows 与 Linux X11",
+    "仓库带安全测试 CI，边界相对清晰"
+  ],
+  "consZh": [
+    "不支持 macOS 与 Wayland",
+    "纯屏幕坐标操作，缺少控件级定位能力",
+    "仅 7 星的新项目，缺少真实落地案例"
+  ],
+  "limitsZh": "依赖屏幕坐标，窗口移动、DPI 缩放与多屏布局都会导致点击偏移；Wayland 下无法抓屏与注入输入；没有内置的元素语义与结果校验，业务正确性要调用方自己判断。仓库未提供任务成功率。",
+  "stepsZh": [
+    "先在企业微信上固定窗口位置，并确认系统允许抓屏与输入注入",
+    "通过 MCP 读取当前屏幕，确认显示的是目标外部群会话",
+    "按坐标点击搜索框并输入群名，再截图确认会话标题",
+    "点击输入框粘贴已审核文案，截图核对后由人工发送",
+    "发送后再读一次屏幕，比对最后一条消息是否出现"
+  ],
+  "successRateZh": "无公开成功率数据。README 强调本地运行与安全测试，但没有任务次数、失败率或对照实验。可自测：固定分辨率与缩放，跑 50 次“读屏—点击—输入”，统计坐标偏移与输入丢失的比例。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可以在 Windows 或 Linux X11 上给企业微信做半自动辅助：读屏定位会话、点输入框、粘贴文案、截图核对。它没有企微适配，也不能确认收件人，纯坐标方案在界面变化时容易失准。",
+  "maturityZh": "2026 年 9 月 15 日创建，10 月底仍在更新，7 星、1 fork，MIT 许可。个人维护、附带安全测试，但使用样本极少，工程完整度待观察。",
+  "evidence": [
+    {
+      "claim": "定位是本地运行的 agent 远程控制系统",
+      "source": "README.md",
+      "quote": "A local remote-control system for AI agents"
+    },
+    {
+      "claim": "兼容 MCP 协议",
+      "source": "README.md",
+      "quote": "MCP-compatible"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "24kchengYe__desktop-controller-skill",
+      "guangfubill-crypto__SoftAuto-MCP"
+    ],
+    "whenZh": "只想要一条本地的屏幕与输入通道、能接任意 agent，它够轻；要控件级可靠执行或固定流程复用，SoftAuto 的确定性元素库更合适，24kchengYe 则有聊天客户端现成流程。"
+  },
+  "scores": {
+    "coverage": 3,
+    "usability": 3,
+    "docs": 3,
+    "maintenance": 3,
+    "performance": 3,
+    "stability": 2
+  }
+}

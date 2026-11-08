@@ -1,0 +1,88 @@
+{
+  "id": "bytedance__UI-TARS-desktop",
+  "taglineZh": "字节多模态 GUI 智能体桌面栈",
+  "summaryZh": "UI-TARS-desktop 是字节跳动的多模态智能体栈，当前同时发布 Agent TARS 与 UI-TARS Desktop。后者是基于 UI-TARS 视觉语言模型的桌面应用，提供本地与远程的计算机操作器和浏览器操作器，用户用自然语言下指令，模型看截图决定点击、输入与滚动。前者是更通用的多模态 agent 栈，带 CLI 与 Web UI，可接入 MCP 工具。与同类最本质的区别是模型与应用一体：自带针对 GUI 优化的 UI-TARS-1.5，并同时覆盖桌面与浏览器两条操作通道。",
+  "whatItDoesZh": "安装桌面应用后可选择本地操作器，由本机运行或远程调用 UI-TARS 模型，直接控制当前电脑的鼠标键盘；也可用远程计算机与远程浏览器操作器，无需本地部署即可试用。任务以自然语言输入，模型按截图理解界面并输出动作序列，界面中能看到执行过程。Agent TARS 侧提供 CLI 与 Web UI，可组合 GUI Agent、视觉能力与 MCP 工具完成订票、订酒店、生成图表等复合任务，并支持沙箱化工具执行。",
+  "useCasesZh": [
+    "用自然语言指挥电脑完成跨应用的重复操作",
+    "把浏览器里的检索与填表任务交给视觉 agent",
+    "给内部工具加一层自然语言操作入口",
+    "在远程机器上通过操作器执行桌面任务",
+    "配合 MCP 工具串起多步复合工作流"
+  ],
+  "appsZh": [
+    "Windows 与 macOS 上的原生桌面应用",
+    "桌面应用内的浏览器窗口与网页",
+    "本地与远程计算机操作器覆盖的通用界面",
+    "通过 MCP 接入的第三方工具与服务",
+    "不限具体应用：纯视觉路线，不依赖单应用接口"
+  ],
+  "platformsZh": [
+    "Windows",
+    "macOS"
+  ],
+  "techApproachZh": "路线是纯视觉 GUI agent：不读取无障碍树，而把屏幕截图交给 UI-TARS 视觉语言模型，模型输出坐标级点击、拖拽、键入与快捷键等动作，再注入系统输入。桌面端用 Electron 承载应用与操作器，远程模式把截图与动作下发到云端算力；Agent TARS 侧把 GUI Agent 与 MCP 工具、shell 命令组合成多模态工作流，并提供流式事件与调试视图。",
+  "requirementsZh": [
+    "Windows 或 macOS 桌面环境",
+    "需 UI-TARS 模型：本地部署要 GPU 显存，远程模式需网络与账号",
+    "首次使用需授予屏幕录制、辅助功能等系统权限",
+    "Agent TARS CLI 需 Node.js 环境与 pnpm"
+  ],
+  "prosZh": [
+    "自带 GUI 专用模型，装上即可用",
+    "桌面与浏览器两类操作器都提供",
+    "39.6k 星，2026-10 仍在发版，文档覆盖桌面端与 CLI 安装",
+    "远程模式免本地部署即可体验"
+  ],
+  "consZh": [
+    "视觉坐标点击对分辨率与缩放敏感",
+    "远程模式依赖网络与云端配额",
+    "大仓构建链重，二次开发门槛高",
+    "纯视觉不利用控件语义，长流程易漂移"
+  ],
+  "limitsZh": "纯截图路线在密集界面、小字号与高 DPI 缩放下容易点偏；没有无障碍树兜底，控件语义无法直接查询。已知失败模式包括长任务步数耗尽、弹窗遮挡导致误点、跨应用切换后上下文丢失。仓库未公开逐任务成功率，能力上限取决于所选模型版本与部署方式，远程操作器还受网络质量影响。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可用桌面操作器直接驱动企微客户端：把「搜索外部群并发送消息」写成自然语言任务，模型看截图完成点击与输入，适合端到端演示或低频人工复核的场景。但纯视觉点击对界面变化与缩放敏感，批量发送外部客户时需自建名单驱动、发送前校验与失败重试，因此记为 partial。",
+  "maturityZh": "2025 年 1 月创建、2026 年 10 月仍在推送，39.5k 星 4k fork，Apache-2.0 许可，带中英文 README、贡献指南、安全策略与 RFC 目录，版本节奏稳定。风险在于仓库体量大、依赖模型服务，且部分能力依赖远程云端而非纯本地。",
+  "evidence": [
+    {
+      "claim": "UI-TARS Desktop 是基于 UI-TARS 模型的本地 GUI Agent 应用",
+      "source": "README.md",
+      "quote": "<b>UI-TARS Desktop</b> is a desktop application that provides a native GUI Agent based on the <a href=\"https://github.com/bytedance/UI-TARS\" target=\"_blank\">UI-TARS</a> model."
+    },
+    {
+      "claim": "发布时支持 UI-TARS-1.5 模型以提升控制精度",
+      "source": "README.md",
+      "quote": "supports [the advanced UI-TARS-1.5 model](https://seed-tars.com/1.5) for improved performance and precise control."
+    },
+    {
+      "claim": "TARS 栈同时发布 Agent TARS 与 UI-TARS Desktop 两个项目",
+      "source": "README.md",
+      "quote": "<b>TARS<sup>\\*</sup></b> is a Multimodal AI Agent stack, currently shipping two projects:"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "microsoft__Hybrid-Computer-Use",
+      "browser-use__browser-use",
+      "agent-sh__computer-use-linux"
+    ],
+    "whenZh": "要开箱即用的视觉桌面助手，UI-TARS-desktop 体验最完整，自带模型与远程操作器；要语义化、低成本的 MCP 接口，Hybrid-Computer-Use 更合适；只做网页任务选 browser-use；只在 Linux 上做轻量控制则看 computer-use-linux。"
+  },
+  "stepsZh": [
+    "在 Windows 或 macOS 安装 UI-TARS Desktop，配置本地或远程模型",
+    "授予屏幕录制与辅助功能权限，确认操作器能截到企微窗口",
+    "用自然语言描述任务，例如打开企业微信并搜索某个外部群",
+    "在设置中限定可操作的应用范围，减少误点到其他窗口",
+    "发送前人工核对会话标题与接收人，失败则重跑并保留日志"
+  ],
+  "successRateZh": "无公开成功率数据。README 未给出逐任务成功率或失败率，只有演示视频与模型版本更新说明；版本公告属于功能发布，不是实测统计。自测可对同一企微发送流程连跑 50 次，按定位失败、误点、超时、内容错误四类记录，并分别在 100% 与 150% 缩放下各跑一轮比较差异。",
+  "scores": {
+    "coverage": 5,
+    "usability": 4,
+    "docs": 4,
+    "maintenance": 5,
+    "performance": 3,
+    "stability": 3
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "id": "microsoft__magentic-ui",
+  "taglineZh": "浏览器与本地文件双通道可人工接管的 MagenticLite",
+  "summaryZh": "MagenticLite 是微软 AI Frontiers 的 agentic 应用，Magentic-UI 的下一代。它用一个可在端侧跑的小编排模型 MagenticBrain 负责拆任务与调度，再配一个专做浏览器操作的 Fara 模型，从而不依赖前沿超大模型也能完成真实工作。浏览器会话跑在 Quicksand 轻量虚拟机沙箱里，agent 碰不到你机器的其余部分；每一步关键动作都会停下来等你批准或接管。",
+  "whatItDoesZh": "一个界面里同时覆盖网页研究与本地文件整理：查价格、填报销单、订餐厅、批量重命名与归档文件。任务跑起来后你可以实时看它操作，随时插话纠正、批准敏感动作或直接接管鼠标。装好后本机起一个 Web 服务，浏览器打开就能用，会话记录与文件改动都留在本地。",
+  "useCasesZh": [
+    "跨多个电商站点比价，把结果汇总成一份本地表格。",
+    "把发票 PDF 批量重命名并按月份归档到本地目录。",
+    "在网页后台填一份差旅报销单，提交前停下来等人确认。",
+    "让 agent 抓取公开网页资料，落到本地 Markdown 笔记。",
+    "作为可审计的 CUA 演示环境，观察 agent 每一步决策。"
+  ],
+  "appsZh": [
+    "任意浏览器站点，跑在 Quicksand 沙箱虚拟机内",
+    "本地文件系统与应用数据目录，授权范围内可读写",
+    "网页表单与后台系统，如报销、比价、预订类页面",
+    "企业微信网页版，需在沙箱内自行登录"
+  ],
+  "platformsZh": [
+    "Web",
+    "Windows",
+    "macOS",
+    "Linux"
+  ],
+  "techApproachZh": "多 agent 编排加沙箱：MagenticBrain 做计划与任务分解，Fara 专司浏览器视觉操作，Orchestrator 串起浏览器与文件工具。浏览器进程跑在基于 QEMU 的 Quicksand 微虚拟机里，通过受控接口与宿主交换文件；人在环通过审批断点实现，敏感动作默认阻塞等待确认，而不是事后回滚。",
+  "requirementsZh": [
+    "Python 3.12，用 uv 建虚拟环境并安装 magentic_ui 0.2.x",
+    "需要一个可用的模型端点，可用 MagenticBrain 与 Fara 的托管版或自建",
+    "macOS 或 Windows 的 WSL 环境，安装文档按此编写",
+    "本地推理需 GPU，使用托管端点则不需要"
+  ],
+  "prosZh": [
+    "小模型就能跑，硬件门槛比前沿模型方案低",
+    "浏览器跑在微虚拟机里，安全边界清楚",
+    "关键动作前强制人工审批，适合受监管流程",
+    "浏览器与本地文件在同一任务里协同",
+    "微软维护，文档含安装、配置、限制与透明性说明"
+  ],
+  "consZh": [
+    "只覆盖浏览器与文件，桌面客户端类应用完全缺席",
+    "0.1 与 0.2 分成两个分支，网上资料容易对不上版本",
+    "要自备模型端点，并按文档配置沙箱与权限，首次跑通成本高",
+    "审批断点多，长流程操作起来比较打断"
+  ],
+  "limitsZh": "能力边界在「浏览器加文件」两件事上：需要专用驱动或客户端登录的桌面软件不在支持范围。已知问题是沙箱内登录态难持久、跨沙箱与宿主的文件交换受限、长任务中审批次数过多导致流程中断；官方另有 limitations 文档列出当前不擅长的任务类型。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可在沙箱浏览器里登录网页版企微，读取客户联系页面并填写消息，适合做「人工确认后发送」的半自动流程。但沙箱每次重建会丢登录态，扫码与设备风控也难自动化，实际只能覆盖网页端且需频繁人工介入。",
+  "maturityZh": "MIT，1 万星，2026 年 9 月仍在提交，0.2.x 保持迭代。有完整 docs、透明性说明与安全说明，属于微软研究院的原型项目，接口可能随研究推进调整，不建议直接压生产业务。",
+  "evidence": [
+    {
+      "claim": "MagenticLite 是 Magentic-UI 的下一代，主打小模型做大事",
+      "source": "README.md",
+      "quote": "**MagenticLite** is the next generation of Magentic-UI — an agentic application from **Microsoft AI Frontiers**, redesigned to do more with less."
+    },
+    {
+      "claim": "浏览器会话跑在 Quicksand 轻量虚拟机沙箱里",
+      "source": "README.md",
+      "quote": "**Safe by design.** Browser sessions run inside a lightweight VM sandbox ([Quicksand](https://microsoft.github.io/quicksand/)) so the agent can't reach the rest of your machine without your say-so."
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "browser-use__browser-use",
+      "CelestoAI__celesto"
+    ],
+    "whenZh": "要安全边界与人工审批，选 MagenticLite；只要网页任务、想轻量嵌入自己的 Python 服务，Browser Use 更直接；需要任意操作系统的完整虚拟机沙箱而不只是浏览器，则看 Celesto。"
+  },
+  "stepsZh": [
+    "按文档装 magentic_ui 0.2.x，起服务后连上 MagenticBrain 与 Fara 端点。",
+    "在配置里把浏览器会话设为沙箱模式，并限定可访问的站点白名单。",
+    "给任务加显式边界：只允许读取外部群列表，禁止自主点发送。",
+    "把「生成待发文本并写入文件」作为独立子任务，发送步骤设为人工审批节点。",
+    "每次发送后靠网页端已发送记录核对，失败则重跑该子任务而不是整条流程。"
+  ],
+  "successRateZh": "无公开成功率数据。README 只展示填报销单、比价、订餐、整理文件四类演示，未给任何完成率；其沙箱与审批设计更偏降低错误后果，而非提升一次成功率。自测建议固定 3 个网页任务各跑 50 次，按审批中断、沙箱登录失效、元素丢失分类统计。",
+  "scores": {
+    "coverage": 4,
+    "usability": 3,
+    "docs": 4,
+    "maintenance": 4,
+    "performance": 3,
+    "stability": 3
+  }
+}

@@ -1,0 +1,1266 @@
+{
+  "generatedAt": "2026-11-07T18:31:31+08:00",
+  "rubricZh": "排序按对保险销售真实可用度而非 star：①合规优先，官方 API/SDK 路线在前，hook、注入、协议破解、多开一律置后并标「禁止用于生产」；②能否真正触达外部客户与外部群，wecomRelevance=direct 且能力覆盖外发者优先；③落地成本与稳定性，综合 usability、stability 与 requirementsZh（是否需 GPU、企业认证、自建后端）；④维护活跃度，参考 pushed_at 与 maturityZh 的停更风险；⑤纯库需自建上层流程，排在即用方案之后但高于无关项目。同分再按官方程度、维护活跃度与稳定性做小数位细分，避免大量同分。",
+  "items": [
+    {
+      "rank": 1,
+      "id": "wechatpy__wechatpy",
+      "score": 93.0,
+      "tier": "推荐",
+      "route": "official-sdk",
+      "whyZh": "官方客户联系接口封装完整，能拉外部联系人与客户群、创建 add_msg_template 群发任务并回收结果，是本批最合规的底座；但发送仍需成员在客户端确认。",
+      "howToUseZh": "完成企业认证并开通客户联系，pip 安装后配置 corp_id 与 secret，调用客户群列表与 add_msg_template 建任务；本人客户端确认，外部群仅限群主本人。"
+    },
+    {
+      "rank": 2,
+      "id": "ArtisanCloud__PowerWeChat",
+      "score": 89.0,
+      "tier": "推荐",
+      "route": "official-sdk",
+      "whyZh": "Go 语言官方接口 SDK，客户联系、群发任务与客户群列表覆盖完整，适合直接嵌进后端服务；同样受成员确认与外部群无接口的官方限制。",
+      "howToUseZh": "完成企微认证并开通客户联系，引入 PowerWeChat v3 并配置 corp_id/secret，在 Go 后端创建群发任务、拉取结果；发送前保留成员确认与内容审核。"
+    },
+    {
+      "rank": 3,
+      "id": "xen0n__go-workwx",
+      "score": 86.0,
+      "tier": "推荐",
+      "route": "official-sdk",
+      "whyZh": "七牛生产验证的 Go 企微 SDK，支持客户联系与 AddMsgTemplate，接口稳定、维护尚可；作者已转业余维护，新接口响应会慢，且不能绕过成员确认。",
+      "howToUseZh": "开通客户联系权限后 go get 引入 v2，初始化 WorkwxApp，调用客户群列表与群发任务接口；由员工在客户端确认，外部群需本人是群主。"
+    },
+    {
+      "rank": 4,
+      "id": "WecomTeam__wecom-cli",
+      "score": 72.0,
+      "tier": "可用",
+      "route": "official-api",
+      "whyZh": "腾讯官方 CLI，接口稳定、上手最快，但消息只覆盖机器人最近互动过的会话，不能主动触达外部客户与外部群，只能做内部通知与办公自动化。",
+      "howToUseZh": "管理员创建智能机器人并拿 Bot ID/Secret，npm 装 @wecom/cli 后 init 扫码，用 msg 命令向已互动会话推送；外部客户群发另走官方 API 任务台。"
+    },
+    {
+      "rank": 5,
+      "id": "mochat-cloud__mochat",
+      "score": 68.0,
+      "tier": "可用",
+      "route": "official-api",
+      "whyZh": "开源企微 SCRM，外部客户、客户群、群发任务与会话存档都有后台，最接近完整运营系统；但 2025-09 后停更，接口变更可能失配。",
+      "howToUseZh": "部署 PHP/Swoole、MySQL、Redis 并完成企业认证与客户联系授权，在后台建标签与群发任务，员工客户端确认；会话存档需单独购买。"
+    },
+    {
+      "rank": 6,
+      "id": "WecomTeam__wecom-openclaw-plugin",
+      "score": 67.0,
+      "tier": "可用",
+      "route": "official-api",
+      "whyZh": "官方维护的 OpenClaw 企微插件，能把 Agent 接进内部单聊群聊并调文档日程；主动消息同样受已互动会话限制，外部客户与外部群不可达。",
+      "howToUseZh": "管理员创建智能机器人拿 ID/Secret，用 wecom-cli 安装插件并配置；Agent 模式需自建应用与加密回调，仅用于内部问答与通知。"
+    },
+    {
+      "rank": 7,
+      "id": "sunnoy__openclaw-plugin-wecom",
+      "score": 64.0,
+      "tier": "可用",
+      "route": "official-api",
+      "whyZh": "社区增强版企微机器人插件，支持多账号、部门与标签路由，能提升内部运营效率；但只能触达企业成员，外部客户与外部群不在范围。",
+      "howToUseZh": "装 OpenClaw 与官方插件骨架，配置多个机器人 ID/Secret 与 Agent API 权限，按部门标签发内部通知；外部客户需另建官方 API 任务台。"
+    },
+    {
+      "rank": 8,
+      "id": "whyiyhw__chatgpt-wechat",
+      "score": 62.0,
+      "tier": "可用",
+      "route": "official-api",
+      "whyZh": "走官方微信客服通道，能在客户主动咨询时被动应答，是少数合规触达外部客户的入口；但只能被动回复，不能主动群发或进外部群。",
+      "howToUseZh": "完成企业认证并开通微信客服，部署 Go 服务配置 corp_id、secret 与公网回调，接入模型或 Dify；仅在客户发消息后的会话窗口内回复。"
+    },
+    {
+      "rank": 9,
+      "id": "A9T9__RPA",
+      "score": 57.0,
+      "tier": "谨慎",
+      "route": "rpa-semi",
+      "whyZh": "宏录制加 MCP 的成熟 RPA，能把打开外部群、填模板、OCR 核对群名固定成半自动流程，人在最后点发送；属第三方界面自动化，有合规与失效风险。",
+      "howToUseZh": "装浏览器扩展与 XModules 桌面组件，在企微 PC 端录制切群、点输入框、粘贴模板三步，在发送前加人工确认断点并做群名 OCR 校验。"
+    },
+    {
+      "rank": 10,
+      "id": "openscrm__api-server",
+      "score": 56.0,
+      "tier": "谨慎",
+      "route": "official-api",
+      "whyZh": "功能完整的 Go+React 企微 SCRM，外部客户与群发任务都能落地；但 README 明确缺乏维护，接口更新后可能失配，只适合能接手维护的团队。",
+      "howToUseZh": "完成认证与客户联系授权，部署 API、前端、MySQL/Redis 与回调服务，用后台建客户分层与群发任务；员工客户端确认，外部群需本人为群主。"
+    },
+    {
+      "rank": 11,
+      "id": "ctoldigital__axuse",
+      "score": 55.0,
+      "tier": "谨慎",
+      "route": "uia",
+      "whyZh": "无障碍优先的桌面控制 MCP，能枚举企微会话、读群名、定位输入框，比坐标点击稳；但企微自绘部分会退化，且无成功率数据，发送仍需人工确认。",
+      "howToUseZh": "Node 22 环境接入 MCP 宿主，授予辅助功能与屏幕录制权限，先验证 WXWork 控件树，再按群名定位会话、填文案并回读核对后由本人发送。"
+    },
+    {
+      "rank": 12,
+      "id": "pywinauto__pywinauto",
+      "score": 51.0,
+      "tier": "谨慎",
+      "route": "library",
+      "whyZh": "经典 Windows 控件级库，适合做企微客户端的底层操作；但只是库，不含选群、校验、重试与发送确认，企微自绘区域还可能读不到。",
+      "howToUseZh": "先用 Application 连 WXWork 打印控件树确认可读，再按控件名定位搜索框与输入框，自建选群、填文案、回读校验与人工发送流程。"
+    },
+    {
+      "rank": 13,
+      "id": "GentleCP__corpwechatbot",
+      "score": 50.04,
+      "tier": "谨慎",
+      "route": "official-sdk",
+      "whyZh": "企微自建应用消息库，一行代码即可推内部告警与报表；但只能发给应用可见范围内成员，外部客户与外部群没有接口可达，且已停更。",
+      "howToUseZh": "企微后台建自建应用拿 secret 与 agentid，pip 安装并设置可见范围，调用消息推送接口；只用于内部告警，不要指望它触达客户。"
+    },
+    {
+      "rank": 14,
+      "id": "simular-ai__Agent-S",
+      "score": 50.0,
+      "tier": "谨慎",
+      "route": "rpa-semi",
+      "whyZh": "开源桌面 GUI 代理，能看屏操作企微客户端，适应改版能力比坐标脚本强；但无业务校验、批量与重试要自建，且第三方界面自动化有合规风险。",
+      "howToUseZh": "装 gui-agents 并授予屏幕录制与输入权限，配置模型 Key，把任务限定为「搜群名—填话术—停下确认」，加群名与话术双校验后再人工发送。"
+    },
+    {
+      "rank": 15,
+      "id": "yinkaisheng__Python-UIAutomation-for-Windows",
+      "score": 49.0,
+      "tier": "谨慎",
+      "route": "uia",
+      "whyZh": "老牌 Python UIAutomation 封装，控件级定位稳定，是自建企微辅助的常用底座；但仅提供原语，自绘界面读不到，且需自建全部业务流程。",
+      "howToUseZh": "启动企微后遍历控件树，确认搜索框与输入框可按名称找到，再按控件名定位会话、写入文案并回读；最后一步保留人工确认。"
+    },
+    {
+      "rank": 16,
+      "id": "vercel-labs__agent-desktop",
+      "score": 48.6,
+      "tier": "谨慎",
+      "route": "uia",
+      "whyZh": "读 macOS 无障碍树的 Rust CLI，可后台操作企微 Mac 版，比截图稳；不支持 Windows，企微 Electron 控件命名不稳，需人工兜底。",
+      "howToUseZh": "npm 安装后授予辅助功能权限，用 snapshot 读取企微会话与输入框节点，按名称定位外部群、填文案并回读，发送仍由本人完成。"
+    },
+    {
+      "rank": 17,
+      "id": "microsoft__Hybrid-Computer-Use",
+      "score": 48.4,
+      "tier": "谨慎",
+      "route": "uia",
+      "whyZh": "微软的 AX+GUI 双通道 MCP，能用无障碍定位、截图确认当前会话，适合做最后一步操作；但选客户、分批与重试要自建，属通用桌面通道。",
+      "howToUseZh": "按平台构建二进制并以已登录桌面用户运行 doctor，确认无障碍与截图权限，先 AX 定位会话再用截图核对群名，最后由本人点发送。"
+    },
+    {
+      "rank": 18,
+      "id": "munimtechnologies__munim-computer-use",
+      "score": 48.1,
+      "tier": "谨慎",
+      "route": "uia",
+      "whyZh": "无障碍优先、后台输入的跨平台 CUA，能不抢鼠标读会话树并填文案；但企微控件覆盖未知，且只提供操作层，业务校验与发送确认要自建。",
+      "howToUseZh": "npm 安装并接入 MCP，授予无障碍权限，先确认能读出会话与输入框，再用精简树定位外部群、后台填文案并回读，人工确认发送。"
+    },
+    {
+      "rank": 19,
+      "id": "ajokhai__computer-use-lite",
+      "score": 48.0,
+      "tier": "谨慎",
+      "route": "uia",
+      "whyZh": "macOS 菜单栏全机操作器，按元素点击比坐标稳，适合小批量有人值守的客户消息准备；但仅 macOS、无沙箱，误操作直接作用于真机。",
+      "howToUseZh": "安装 dmg 并授予辅助功能与屏幕录制，接 Claude 或 Cursor 的 MCP，先只读定位外部群，再填话术并在发送前停下由本人确认。"
+    },
+    {
+      "rank": 20,
+      "id": "injaneity__pi-computer-use",
+      "score": 47.04,
+      "tier": "谨慎",
+      "route": "uia",
+      "whyZh": "给 Pi 的桌面工具扩展，能在 Windows/macOS 企微里按文字搜会话、填话术，适合接进已有 Pi 工作流；但仅覆盖可访问控件，且无成功率数据。",
+      "howToUseZh": "安装 Pi 并执行 pi install 添加扩展，macOS 完成 helper 与权限授权，先只读列出会话验证定位，再填文案并由本人发送。"
+    },
+    {
+      "rank": 21,
+      "id": "Yu-tao-Li__dsh-computer-use-win",
+      "score": 47.0,
+      "tier": "谨慎",
+      "route": "uia",
+      "whyZh": "DSH 的 Windows 桌面插件，用 UIA 后台定位会话并 wait_for 回读，适合有人值守的半自动外发；但只服务 DSH 生态，大批量会与前台抢占。",
+      "howToUseZh": "安装 DSH Desktop 与插件，完全退出重启后开启电脑操控，先验证控件树，再执行「搜群—填话术—wait_for 校验」，发送前人工确认。"
+    },
+    {
+      "rank": 22,
+      "id": "xa11y__xa11y",
+      "score": 46.5,
+      "tier": "谨慎",
+      "route": "uia",
+      "whyZh": "跨平台桌面无障碍树驱动库；靠无障碍控件树定位会话与输入框，比坐标点击稳；企微自绘部分常读不到，发送仍需本人确认，且无公开成功率。",
+      "howToUseZh": "先验证 WXWork 控件树能读到搜索框与输入框，再按名称定位会话、填文案并回读核对，最后本人点发送；同名群需二次确认。"
+    },
+    {
+      "rank": 23,
+      "id": "24kchengYe__desktop-controller-skill",
+      "score": 46.0,
+      "tier": "谨慎",
+      "route": "uia",
+      "whyZh": "明确把 WXWork 列为支持应用并给出 send-message 的 Skill，链路完整；但仅 12 star、稳定性 2、无版本矩阵，同名群易点错。",
+      "howToUseZh": "Windows 前台固定企微窗口，跑 list-apps 确认 WXWork，再用 find-window 与截图核对账号，逐个搜索外部群、填文案后人工确认发送。"
+    },
+    {
+      "rank": 24,
+      "id": "iFurySt__open-computer-use",
+      "score": 45.5,
+      "tier": "谨慎",
+      "route": "uia",
+      "whyZh": "以 MCP 开放的 Codex 电脑操作替代，可读控件树、切会话、填文案并截图核对；但没有企微适配与送达校验，平台实现完成度不一。",
+      "howToUseZh": "npm 全局安装后用 ocu 启动服务器并注册进 agent，先确认企微窗口可被无障碍树读取，再定位会话填文案，人工确认发送。"
+    },
+    {
+      "rank": 25,
+      "id": "TeamWiseFlow__xiaobei",
+      "score": 45.0,
+      "tier": "谨慎",
+      "route": "official-api",
+      "whyZh": "面向中小微企业的获客智能体，能通过企微接口发朋友圈并接收指令；但它不做外部客户私聊或外部群逐条发送，只承担内容生产。",
+      "howToUseZh": "部署 openclaw 基座与配套服务，开通企微朋友圈接口权限并完成应用授权；把它当内容与审核工具，不要当群发通道。"
+    },
+    {
+      "rank": 26,
+      "id": "leexgone__uiautomation-rs",
+      "score": 44.5,
+      "tier": "谨慎",
+      "route": "library",
+      "whyZh": "Rust 封装的 Windows UIA 库；只是底层库或感知组件，不能独立完成外部群发，需自建选群、校验、发送与重试的上层流程。",
+      "howToUseZh": "先验证目标客户端可读，再用它自建「选群—填文案—校验—人工发送」的上层流程；库本身不负责送达确认与重试。"
+    },
+    {
+      "rank": 27,
+      "id": "dingxiang-me__OpenClaw-Wechat",
+      "score": 44.04,
+      "tier": "谨慎",
+      "route": "official-api",
+      "whyZh": "OpenClaw 企微双模式插件，能在内部单聊群聊问答并推群通知；但项目已停更，外部群无 webhook、外部客户不可达，只能内部使用。",
+      "howToUseZh": "企微后台建自建应用或机器人并授权，配置回调 URL、Token 与 AES Key；Agent 模式需可信 IP，否则会出现能收不能回。"
+    },
+    {
+      "rank": 28,
+      "id": "browser-use__browser-use",
+      "score": 44.0,
+      "tier": "谨慎",
+      "route": "rpa-semi",
+      "whyZh": "把网页操作交给大模型的浏览器智能体；能在浏览器或桌面把找群、填话术做成半自动流程，但发送需人工确认，界面一改就失效，属第三方工具介入有合规风险。",
+      "howToUseZh": "固定客户端版本、DPI 与窗口位置，录制或编写「打开会话—填模板」流程，在发送按钮前插入人工确认与群名校验；需企业书面授权。"
+    },
+    {
+      "rank": 29,
+      "id": "ghostwright__ghost-os",
+      "score": 43.5,
+      "tier": "谨慎",
+      "route": "uia",
+      "whyZh": "macOS 无障碍树加自学习配方的 agent，可把一次演示复放给不同客户；但企微网页技术栈常需视觉兜底，配方易随更新失效。",
+      "howToUseZh": "macOS 安装并授予辅助功能与输入监控，手动演示一次搜群、开会话、填消息，再把客户名参数化复放，发送前逐条核对。"
+    },
+    {
+      "rank": 30,
+      "id": "iflytek__astron-rpa",
+      "score": 43.0,
+      "tier": "谨慎",
+      "route": "rpa-semi",
+      "whyZh": "讯飞企业级可视化 RPA；能在浏览器或桌面把找群、填话术做成半自动流程，但发送需人工确认，界面一改就失效，属第三方工具介入有合规风险。",
+      "howToUseZh": "固定客户端版本、DPI 与窗口位置，录制或编写「打开会话—填模板」流程，在发送按钮前插入人工确认与群名校验；需企业书面授权。"
+    },
+    {
+      "rank": 31,
+      "id": "mrpulor-gh__nuphus-mcp",
+      "score": 42.5,
+      "tier": "谨慎",
+      "route": "rpa-semi",
+      "whyZh": "Rust 桌面与浏览器自动化 MCP；能在浏览器或桌面把找群、填话术做成半自动流程，但发送需人工确认，界面一改就失效，属第三方工具介入有合规风险。",
+      "howToUseZh": "固定客户端版本、DPI 与窗口位置，录制或编写「打开会话—填模板」流程，在发送按钮前插入人工确认与群名校验；需企业书面授权。"
+    },
+    {
+      "rank": 32,
+      "id": "showlab__computer_use_ootb",
+      "score": 42.04,
+      "tier": "谨慎",
+      "route": "rpa-semi",
+      "whyZh": "免 Docker 的桌面 GUI 代理；能在浏览器或桌面把找群、填话术做成半自动流程，但发送需人工确认，界面一改就失效，属第三方工具介入有合规风险。",
+      "howToUseZh": "固定客户端版本、DPI 与窗口位置，录制或编写「打开会话—填模板」流程，在发送按钮前插入人工确认与群名校验；需企业书面授权。"
+    },
+    {
+      "rank": 33,
+      "id": "988hj7tczd-oss__dsh-computer-use",
+      "score": 42.0,
+      "tier": "谨慎",
+      "route": "uia",
+      "whyZh": "DSH 的可观察桌面操作插件；靠无障碍控件树定位会话与输入框，比坐标点击稳；企微自绘部分常读不到，发送仍需本人确认，且无公开成功率。",
+      "howToUseZh": "先验证 WXWork 控件树能读到搜索框与输入框，再按名称定位会话、填文案并回读核对，最后本人点发送；同名群需二次确认。"
+    },
+    {
+      "rank": 34,
+      "id": "amontlabs__lcu",
+      "score": 41.5,
+      "tier": "谨慎",
+      "route": "uia",
+      "whyZh": "脱离 Codex 应用的电脑操控运行时；靠无障碍控件树定位会话与输入框，比坐标点击稳；企微自绘部分常读不到，发送仍需本人确认，且无公开成功率。",
+      "howToUseZh": "先验证 WXWork 控件树能读到搜索框与输入框，再按名称定位会话、填文案并回读核对，最后本人点发送；同名群需二次确认。"
+    },
+    {
+      "rank": 35,
+      "id": "bytedance__UI-TARS-desktop",
+      "score": 41.2,
+      "tier": "谨慎",
+      "route": "rpa-semi",
+      "whyZh": "字节多模态 GUI 智能体桌面栈；能在浏览器或桌面把找群、填话术做成半自动流程，但发送需人工确认，界面一改就失效，属第三方工具介入有合规风险。",
+      "howToUseZh": "固定客户端版本、DPI 与窗口位置，录制或编写「打开会话—填模板」流程，在发送按钮前插入人工确认与群名校验；需企业书面授权。"
+    },
+    {
+      "rank": 36,
+      "id": "pphouse__screenpilot",
+      "score": 41.04,
+      "tier": "谨慎",
+      "route": "rpa-semi",
+      "whyZh": "视觉加 LLM 的桌面自动化；能在浏览器或桌面把找群、填话术做成半自动流程，但发送需人工确认，界面一改就失效，属第三方工具介入有合规风险。",
+      "howToUseZh": "固定客户端版本、DPI 与窗口位置，录制或编写「打开会话—填模板」流程，在发送按钮前插入人工确认与群名校验；需企业书面授权。"
+    },
+    {
+      "rank": 37,
+      "id": "alexshpunt__pi-agent-computer-use",
+      "score": 41.0,
+      "tier": "谨慎",
+      "route": "uia",
+      "whyZh": "Pi agent 的 Windows 桌面操作层；靠无障碍控件树定位会话与输入框，比坐标点击稳；企微自绘部分常读不到，发送仍需本人确认，且无公开成功率。",
+      "howToUseZh": "先验证 WXWork 控件树能读到搜索框与输入框，再按名称定位会话、填文案并回读核对，最后本人点发送；同名群需二次确认。"
+    },
+    {
+      "rank": 38,
+      "id": "nano-muse__nanoMuse",
+      "score": 40.68,
+      "tier": "谨慎",
+      "route": "rpa-semi",
+      "whyZh": "跨端开源个人智能体运行时；能在浏览器或桌面把找群、填话术做成半自动流程，但发送需人工确认，界面一改就失效，属第三方工具介入有合规风险。",
+      "howToUseZh": "固定客户端版本、DPI 与窗口位置，录制或编写「打开会话—填模板」流程，在发送按钮前插入人工确认与群名校验；需企业书面授权。"
+    },
+    {
+      "rank": 39,
+      "id": "nanobrowser__nanobrowser",
+      "score": 40.64,
+      "tier": "谨慎",
+      "route": "rpa-semi",
+      "whyZh": "Chrome 里的多代理浏览器自动化扩展；能在浏览器或桌面把找群、填话术做成半自动流程，但发送需人工确认，界面一改就失效，属第三方工具介入有合规风险。",
+      "howToUseZh": "固定客户端版本、DPI 与窗口位置，录制或编写「打开会话—填模板」流程，在发送按钮前插入人工确认与群名校验；需企业书面授权。"
+    },
+    {
+      "rank": 40,
+      "id": "microsoft__magentic-ui",
+      "score": 40.6,
+      "tier": "谨慎",
+      "route": "rpa-semi",
+      "whyZh": "浏览器与本地文件双通道的可接管代理；能在浏览器或桌面把找群、填话术做成半自动流程，但发送需人工确认，界面一改就失效，属第三方工具介入有合规风险。",
+      "howToUseZh": "固定客户端版本、DPI 与窗口位置，录制或编写「打开会话—填模板」流程，在发送按钮前插入人工确认与群名校验；需企业书面授权。"
+    },
+    {
+      "rank": 41,
+      "id": "steel-dev__steel-browser",
+      "score": 40.56,
+      "tier": "谨慎",
+      "route": "rpa-semi",
+      "whyZh": "给 AI agent 用的自托管浏览器 API；能在浏览器或桌面把找群、填话术做成半自动流程，但发送需人工确认，界面一改就失效，属第三方工具介入有合规风险。",
+      "howToUseZh": "固定客户端版本、DPI 与窗口位置，录制或编写「打开会话—填模板」流程，在发送按钮前插入人工确认与群名校验；需企业书面授权。"
+    },
+    {
+      "rank": 42,
+      "id": "yuruotong1__autoMate",
+      "score": 40.52,
+      "tier": "谨慎",
+      "route": "rpa-semi",
+      "whyZh": "以 MCP 提供桌面与浏览器工具的本地中枢；能在浏览器或桌面把找群、填话术做成半自动流程，但发送需人工确认，界面一改就失效，属第三方工具介入有合规风险。",
+      "howToUseZh": "固定客户端版本、DPI 与窗口位置，录制或编写「打开会话—填模板」流程，在发送按钮前插入人工确认与群名校验；需企业书面授权。"
+    },
+    {
+      "rank": 43,
+      "id": "alper-han__CrossMacro",
+      "score": 40.5,
+      "tier": "谨慎",
+      "route": "rpa-semi",
+      "whyZh": "跨平台宏录制回放工具；能在浏览器或桌面把找群、填话术做成半自动流程，但发送需人工确认，界面一改就失效，属第三方工具介入有合规风险。",
+      "howToUseZh": "固定客户端版本、DPI 与窗口位置，录制或编写「打开会话—填模板」流程，在发送按钮前插入人工确认与群名校验；需企业书面授权。"
+    },
+    {
+      "rank": 44,
+      "id": "TurixAI__TuriX-CUA",
+      "score": 40.48,
+      "tier": "谨慎",
+      "route": "rpa-semi",
+      "whyZh": "视觉驱动的 macOS 桌面操作智能体；能在浏览器或桌面把找群、填话术做成半自动流程，但发送需人工确认，界面一改就失效，属第三方工具介入有合规风险。",
+      "howToUseZh": "固定客户端版本、DPI 与窗口位置，录制或编写「打开会话—填模板」流程，在发送按钮前插入人工确认与群名校验；需企业书面授权。"
+    },
+    {
+      "rank": 45,
+      "id": "AirtestProject__Airtest",
+      "score": 40.44,
+      "tier": "谨慎",
+      "route": "rpa-semi",
+      "whyZh": "基于图像识别的跨平台自动化框架；能在浏览器或桌面把找群、填话术做成半自动流程，但发送需人工确认，界面一改就失效，属第三方工具介入有合规风险。",
+      "howToUseZh": "固定客户端版本、DPI 与窗口位置，录制或编写「打开会话—填模板」流程，在发送按钮前插入人工确认与群名校验；需企业书面授权。"
+    },
+    {
+      "rank": 46,
+      "id": "tebelorg__RPA-Python",
+      "score": 40.4,
+      "tier": "谨慎",
+      "route": "rpa-semi",
+      "whyZh": "pip 一行安装的 Python RPA 封装；能在浏览器或桌面把找群、填话术做成半自动流程，但发送需人工确认，界面一改就失效，属第三方工具介入有合规风险。",
+      "howToUseZh": "固定客户端版本、DPI 与窗口位置，录制或编写「打开会话—填模板」流程，在发送按钮前插入人工确认与群名校验；需企业书面授权。"
+    },
+    {
+      "rank": 47,
+      "id": "google-gemini__computer-use-preview",
+      "score": 40.36,
+      "tier": "谨慎",
+      "route": "rpa-semi",
+      "whyZh": "Gemini 官方浏览器 CUA 参考实现；能在浏览器或桌面把找群、填话术做成半自动流程，但发送需人工确认，界面一改就失效，属第三方工具介入有合规风险。",
+      "howToUseZh": "固定客户端版本、DPI 与窗口位置，录制或编写「打开会话—填模板」流程，在发送按钮前插入人工确认与群名校验；需企业书面授权。"
+    },
+    {
+      "rank": 48,
+      "id": "lacassef__computeruse",
+      "score": 40.32,
+      "tier": "谨慎",
+      "route": "rpa-semi",
+      "whyZh": "跨平台语义定位的 computer-use 框架；能在浏览器或桌面把找群、填话术做成半自动流程，但发送需人工确认，界面一改就失效，属第三方工具介入有合规风险。",
+      "howToUseZh": "固定客户端版本、DPI 与窗口位置，录制或编写「打开会话—填模板」流程，在发送按钮前插入人工确认与群名校验；需企业书面授权。"
+    },
+    {
+      "rank": 49,
+      "id": "appium__appium",
+      "score": 40.28,
+      "tier": "谨慎",
+      "route": "uia",
+      "whyZh": "WebDriver 协议驱动的跨平台自动化框架；靠无障碍控件树定位会话与输入框，比坐标点击稳；企微自绘部分常读不到，发送仍需本人确认，且无公开成功率。",
+      "howToUseZh": "先验证 WXWork 控件树能读到搜索框与输入框，再按名称定位会话、填文案并回读核对，最后本人点发送；同名群需二次确认。"
+    },
+    {
+      "rank": 50,
+      "id": "sandraschi__windows-computer-use-mcp",
+      "score": 40.24,
+      "tier": "谨慎",
+      "route": "uia",
+      "whyZh": "基于 pywinauto 的 CUA 工具箱；靠无障碍控件树定位会话与输入框，比坐标点击稳；企微自绘部分常读不到，发送仍需本人确认，且无公开成功率。",
+      "howToUseZh": "先验证 WXWork 控件树能读到搜索框与输入框，再按名称定位会话、填文案并回读核对，最后本人点发送；同名群需二次确认。"
+    },
+    {
+      "rank": 51,
+      "id": "wwwzzzxxx__winch-opencode-computer-use-mcp",
+      "score": 40.2,
+      "tier": "谨慎",
+      "route": "uia",
+      "whyZh": "用 UIA 控件树替代看图的 Windows MCP；靠无障碍控件树定位会话与输入框，比坐标点击稳；企微自绘部分常读不到，发送仍需本人确认，且无公开成功率。",
+      "howToUseZh": "先验证 WXWork 控件树能读到搜索框与输入框，再按名称定位会话、填文案并回读核对，最后本人点发送；同名群需二次确认。"
+    },
+    {
+      "rank": 52,
+      "id": "guangfubill-crypto__SoftAuto-MCP",
+      "score": 40.16,
+      "tier": "谨慎",
+      "route": "uia",
+      "whyZh": "把捕获元素变成确定性执行的 Windows RPA；靠无障碍控件树定位会话与输入框，比坐标点击稳；企微自绘部分常读不到，发送仍需本人确认，且无公开成功率。",
+      "howToUseZh": "先验证 WXWork 控件树能读到搜索框与输入框，再按名称定位会话、填文案并回读核对，最后本人点发送；同名群需二次确认。"
+    },
+    {
+      "rank": 53,
+      "id": "robotframework__robotframework",
+      "score": 40.12,
+      "tier": "谨慎",
+      "route": "library",
+      "whyZh": "纯文本关键字的通用自动化框架；只是底层库或感知组件，不能独立完成外部群发，需自建选群、校验、发送与重试的上层流程。",
+      "howToUseZh": "先验证目标客户端可读，再用它自建「选群—填文案—校验—人工发送」的上层流程；库本身不负责送达确认与重试。"
+    },
+    {
+      "rank": 54,
+      "id": "microsoft__OmniParser",
+      "score": 40.08,
+      "tier": "谨慎",
+      "route": "library",
+      "whyZh": "纯视觉 GUI 截图解析与元素定位；只是底层库或感知组件，不能独立完成外部群发，需自建选群、校验、发送与重试的上层流程。",
+      "howToUseZh": "先验证目标客户端可读，再用它自建「选群—填文案—校验—人工发送」的上层流程；库本身不负责送达确认与重试。"
+    },
+    {
+      "rank": 55,
+      "id": "go-vgo__robotgo",
+      "score": 40.04,
+      "tier": "谨慎",
+      "route": "library",
+      "whyZh": "Go 原生跨平台桌面自动化库；只是底层库或感知组件，不能独立完成外部群发，需自建选群、校验、发送与重试的上层流程。",
+      "howToUseZh": "先验证目标客户端可读，再用它自建「选群—填文案—校验—人工发送」的上层流程；库本身不负责送达确认与重试。"
+    },
+    {
+      "rank": 56,
+      "id": "Anionex__agent-vision-toolkit",
+      "score": 40.0,
+      "tier": "谨慎",
+      "route": "library",
+      "whyZh": "给纯文本模型加视觉的编码 agent 工具箱；只是底层库或感知组件，不能独立完成外部群发，需自建选群、校验、发送与重试的上层流程。",
+      "howToUseZh": "先验证目标客户端可读，再用它自建「选群—填文案—校验—人工发送」的上层流程；库本身不负责送达确认与重试。"
+    },
+    {
+      "rank": 57,
+      "id": "ComputerUseAgent__AutoCua",
+      "score": 37.0,
+      "tier": "勿用",
+      "route": "rpa-semi",
+      "whyZh": "跨六端自动化的多智能体桌面代理；能在浏览器或桌面把找群、填话术做成半自动流程，但发送需人工确认，界面一改就失效，属第三方工具介入有合规风险。",
+      "howToUseZh": "固定客户端版本、DPI 与窗口位置，录制或编写「打开会话—填模板」流程，在发送按钮前插入人工确认与群名校验；需企业书面授权。"
+    },
+    {
+      "rank": 58,
+      "id": "awlevin__typesafe-computer-use",
+      "score": 36.0,
+      "tier": "勿用",
+      "route": "rpa-semi",
+      "whyZh": "用分类器决策的低成本 macOS 操作器；能在浏览器或桌面把找群、填话术做成半自动流程，但发送需人工确认，界面一改就失效，属第三方工具介入有合规风险。",
+      "howToUseZh": "固定客户端版本、DPI 与窗口位置，录制或编写「打开会话—填模板」流程，在发送按钮前插入人工确认与群名校验；需企业书面授权。"
+    },
+    {
+      "rank": 59,
+      "id": "777genius__os-ai-computer-use",
+      "score": 34.04,
+      "tier": "勿用",
+      "route": "rpa-semi",
+      "whyZh": "双模型桌面 CUA 客户端；能在浏览器或桌面把找群、填话术做成半自动流程，但发送需人工确认，界面一改就失效，属第三方工具介入有合规风险。",
+      "howToUseZh": "固定客户端版本、DPI 与窗口位置，录制或编写「打开会话—填模板」流程，在发送按钮前插入人工确认与群名校验；需企业书面授权。"
+    },
+    {
+      "rank": 60,
+      "id": "kanishka089__computer-use-mcp",
+      "score": 34.0,
+      "tier": "勿用",
+      "route": "rpa-semi",
+      "whyZh": "用 pyautogui 驱动真实鼠标键盘，能在 Windows 企微里逐步操作；但截图降采样易点偏、无重试与成功判定，1 star 原型不适合真实客户。",
+      "howToUseZh": "仅测试机验证：装依赖并注册为 Claude MCP，先只读截图确认会话，再小批量点选填字；发送必须人工，且不要接入主账号。"
+    },
+    {
+      "rank": 61,
+      "id": "zavora-ai__computer-use-mcp",
+      "score": 32.04,
+      "tier": "勿用",
+      "route": "rpa-semi",
+      "whyZh": "Rust 进程内执行的桌面控制 MCP；能在浏览器或桌面把找群、填话术做成半自动流程，但发送需人工确认，界面一改就失效，属第三方工具介入有合规风险。",
+      "howToUseZh": "固定客户端版本、DPI 与窗口位置，录制或编写「打开会话—填模板」流程，在发送按钮前插入人工确认与群名校验；需企业书面授权。"
+    },
+    {
+      "rank": 62,
+      "id": "aisingapore__TagUI",
+      "score": 32.0,
+      "tier": "勿用",
+      "route": "rpa-semi",
+      "whyZh": "自然语言流程脚本驱动的 RPA，已停更；能在浏览器或桌面把找群、填话术做成半自动流程，但发送需人工确认，界面一改就失效，属第三方工具介入有合规风险。",
+      "howToUseZh": "固定客户端版本、DPI 与窗口位置，录制或编写「打开会话—填模板」流程，在发送按钮前插入人工确认与群名校验；需企业书面授权。"
+    },
+    {
+      "rank": 63,
+      "id": "shayann07__antigravity-computer-use",
+      "score": 31.12,
+      "tier": "勿用",
+      "route": "rpa-semi",
+      "whyZh": "Antigravity 的桌面控制斜杠命令；能在浏览器或桌面把找群、填话术做成半自动流程，但发送需人工确认，界面一改就失效，属第三方工具介入有合规风险。",
+      "howToUseZh": "固定客户端版本、DPI 与窗口位置，录制或编写「打开会话—填模板」流程，在发送按钮前插入人工确认与群名校验；需企业书面授权。"
+    },
+    {
+      "rank": 64,
+      "id": "OthersideAI__self-operating-computer",
+      "score": 31.08,
+      "tier": "勿用",
+      "route": "rpa-semi",
+      "whyZh": "看屏幕输出鼠标键盘的早期 CUA；能在浏览器或桌面把找群、填话术做成半自动流程，但发送需人工确认，界面一改就失效，属第三方工具介入有合规风险。",
+      "howToUseZh": "固定客户端版本、DPI 与窗口位置，录制或编写「打开会话—填模板」流程，在发送按钮前插入人工确认与群名校验；需企业书面授权。"
+    },
+    {
+      "rank": 65,
+      "id": "droidrun__mobilerun",
+      "score": 31.04,
+      "tier": "勿用",
+      "route": "mobile",
+      "whyZh": "自然语言驱动真机的移动代理框架；能操作安卓企微客户端，但移动端风控更严、属非官方接管，只能测试账号验证，禁止用于真实客户。",
+      "howToUseZh": "仅用测试账号与隔离设备，连安卓企微后由脚本定位会话并发送；不得接入真实客户与主账号，封号风险不可控。"
+    },
+    {
+      "rank": 66,
+      "id": "iflytek__astron-agent",
+      "score": 31.0,
+      "tier": "勿用",
+      "route": "unrelated",
+      "whyZh": "科大讯飞企业级 Agentic 工作流平台；不触达企微外部客户，也不提供消息发送通道，只能作为选型、评测或训练参考。",
+      "howToUseZh": "不要作为发送方案；仅可作选型、评测或训练参考，或作为自建流程中的感知组件，需另配执行与发送通道。"
+    },
+    {
+      "rank": 67,
+      "id": "Mininglamp-AI__Mano-P",
+      "score": 30.12,
+      "tier": "勿用",
+      "route": "rpa-semi",
+      "whyZh": "可本地跑在 Mac 上的 GUI-VLA 代理模型；能在浏览器或桌面把找群、填话术做成半自动流程，但发送需人工确认，界面一改就失效，属第三方工具介入有合规风险。",
+      "howToUseZh": "固定客户端版本、DPI 与窗口位置，录制或编写「打开会话—填模板」流程，在发送按钮前插入人工确认与群名校验；需企业书面授权。"
+    },
+    {
+      "rank": 68,
+      "id": "beijingwahw__dsh-computer-use-plugin",
+      "score": 30.08,
+      "tier": "勿用",
+      "route": "rpa-semi",
+      "whyZh": "纯视觉 DSH 插件，带 SoM 标注；能在浏览器或桌面把找群、填话术做成半自动流程，但发送需人工确认，界面一改就失效，属第三方工具介入有合规风险。",
+      "howToUseZh": "固定客户端版本、DPI 与窗口位置，录制或编写「打开会话—填模板」流程，在发送按钮前插入人工确认与群名校验；需企业书面授权。"
+    },
+    {
+      "rank": 69,
+      "id": "firerpa__lamda",
+      "score": 30.04,
+      "tier": "勿用",
+      "route": "mobile",
+      "whyZh": "Android 全栈设备控制平台；能操作安卓企微客户端，但移动端风控更严、属非官方接管，只能测试账号验证，禁止用于真实客户。",
+      "howToUseZh": "仅用测试账号与隔离设备，连安卓企微后由脚本定位会话并发送；不得接入真实客户与主账号，封号风险不可控。"
+    },
+    {
+      "rank": 70,
+      "id": "wechaty__wechaty",
+      "score": 30.0,
+      "tier": "勿用",
+      "route": "protocol",
+      "whyZh": "多协议 chatbot SDK，微信机器人事实标准；走非官方协议或第三方 puppet，账号随时被限制登录，且不覆盖企微客户联系，禁止用于生产。",
+      "howToUseZh": "不要接入企微客户运营；仅可研究协议行为，且必须与真实账号、真实客户彻底隔离。 需先小范围验证再放大。"
+    },
+    {
+      "rank": 71,
+      "id": "dcc-mcp__dcc-cua",
+      "score": 29.12,
+      "tier": "勿用",
+      "route": "rpa-semi",
+      "whyZh": "绑定单个窗口的 Computer Use 运行时；能在浏览器或桌面把找群、填话术做成半自动流程，但发送需人工确认，界面一改就失效，属第三方工具介入有合规风险。",
+      "howToUseZh": "固定客户端版本、DPI 与窗口位置，录制或编写「打开会话—填模板」流程，在发送按钮前插入人工确认与群名校验；需企业书面授权。"
+    },
+    {
+      "rank": 72,
+      "id": "shortsspectrumai-del__flash-computer-use",
+      "score": 29.08,
+      "tier": "勿用",
+      "route": "uia",
+      "whyZh": "DOM 与无障碍优先的混合 MCP；靠无障碍控件树定位会话与输入框，比坐标点击稳；企微自绘部分常读不到，发送仍需本人确认，且无公开成功率。",
+      "howToUseZh": "先验证 WXWork 控件树能读到搜索框与输入框，再按名称定位会话、填文案并回读核对，最后本人点发送；同名群需二次确认。"
+    },
+    {
+      "rank": 73,
+      "id": "showlab__ShowUI",
+      "score": 29.04,
+      "tier": "勿用",
+      "route": "library",
+      "whyZh": "轻量端到端 GUI 视觉-语言-动作模型；只是底层库或感知组件，不能独立完成外部群发，需自建选群、校验、发送与重试的上层流程。",
+      "howToUseZh": "先验证目标客户端可读，再用它自建「选群—填文案—校验—人工发送」的上层流程；库本身不负责送达确认与重试。"
+    },
+    {
+      "rank": 74,
+      "id": "openinterpreter__openinterpreter",
+      "score": 29.0,
+      "tier": "勿用",
+      "route": "unrelated",
+      "whyZh": "面向低成本模型的终端编码代理；不触达企微外部客户，也不提供消息发送通道，只能作为选型、评测或训练参考。",
+      "howToUseZh": "不要作为发送方案；仅可作选型、评测或训练参考，或作为自建流程中的感知组件，需另配执行与发送通道。"
+    },
+    {
+      "rank": 75,
+      "id": "SouravBeraAkaSpeed__xiryn",
+      "score": 28.12,
+      "tier": "勿用",
+      "route": "rpa-semi",
+      "whyZh": "每个 agent 独立 Docker 桌面；能在浏览器或桌面把找群、填话术做成半自动流程，但发送需人工确认，界面一改就失效，属第三方工具介入有合规风险。",
+      "howToUseZh": "固定客户端版本、DPI 与窗口位置，录制或编写「打开会话—填模板」流程，在发送按钮前插入人工确认与群名校验；需企业书面授权。"
+    },
+    {
+      "rank": 76,
+      "id": "miyahluvgames-source__helix-computer-use",
+      "score": 28.08,
+      "tier": "勿用",
+      "route": "uia",
+      "whyZh": "Windows 三车道电脑操作栈；靠无障碍控件树定位会话与输入框，比坐标点击稳；企微自绘部分常读不到，发送仍需本人确认，且无公开成功率。",
+      "howToUseZh": "先验证 WXWork 控件树能读到搜索框与输入框，再按名称定位会话、填文案并回读核对，最后本人点发送；同名群需二次确认。"
+    },
+    {
+      "rank": 77,
+      "id": "4lexxe__ag-computer-use-mcp",
+      "score": 28.04,
+      "tier": "勿用",
+      "route": "uia",
+      "whyZh": "Antigravity 的桌面控制 MCP；靠无障碍控件树定位会话与输入框，比坐标点击稳；企微自绘部分常读不到，发送仍需本人确认，且无公开成功率。",
+      "howToUseZh": "先验证 WXWork 控件树能读到搜索框与输入框，再按名称定位会话、填文案并回读核对，最后本人点发送；同名群需二次确认。"
+    },
+    {
+      "rank": 78,
+      "id": "Orkas-AI__Orkas",
+      "score": 28.0,
+      "tier": "勿用",
+      "route": "unrelated",
+      "whyZh": "桌面端本地优先的多代理 AI 团队；不触达企微外部客户，也不提供消息发送通道，只能作为选型、评测或训练参考。",
+      "howToUseZh": "不要作为发送方案；仅可作选型、评测或训练参考，或作为自建流程中的感知组件，需另配执行与发送通道。"
+    },
+    {
+      "rank": 79,
+      "id": "Xeakaes__computer-use-for-all-agents",
+      "score": 27.12,
+      "tier": "勿用",
+      "route": "rpa-semi",
+      "whyZh": "给任意 agent 的本地屏幕远程控制；能在浏览器或桌面把找群、填话术做成半自动流程，但发送需人工确认，界面一改就失效，属第三方工具介入有合规风险。",
+      "howToUseZh": "固定客户端版本、DPI 与窗口位置，录制或编写「打开会话—填模板」流程，在发送按钮前插入人工确认与群名校验；需企业书面授权。"
+    },
+    {
+      "rank": 80,
+      "id": "agent-sh__computer-use-linux",
+      "score": 27.08,
+      "tier": "勿用",
+      "route": "uia",
+      "whyZh": "Wayland 可用的 Linux 桌面 MCP；靠无障碍控件树定位会话与输入框，比坐标点击稳；企微自绘部分常读不到，发送仍需本人确认，且无公开成功率。",
+      "howToUseZh": "先验证 WXWork 控件树能读到搜索框与输入框，再按名称定位会话、填文案并回读核对，最后本人点发送；同名群需二次确认。"
+    },
+    {
+      "rank": 81,
+      "id": "zai-org__CogAgent",
+      "score": 27.04,
+      "tier": "勿用",
+      "route": "library",
+      "whyZh": "开源端到端 VLM GUI 智能体；只是底层库或感知组件，不能独立完成外部群发，需自建选群、校验、发送与重试的上层流程。",
+      "howToUseZh": "先验证目标客户端可读，再用它自建「选群—填文案—校验—人工发送」的上层流程；库本身不负责送达确认与重试。"
+    },
+    {
+      "rank": 82,
+      "id": "X-PLUG__MobileAgent",
+      "score": 27.0,
+      "tier": "勿用",
+      "route": "mobile",
+      "whyZh": "阿里通义的移动与 PC GUI 代理模型；能操作安卓企微客户端，但移动端风控更严、属非官方接管，只能测试账号验证，禁止用于真实客户。",
+      "howToUseZh": "仅用测试账号与隔离设备，连安卓企微后由脚本定位会话并发送；不得接入真实客户与主账号，封号风险不可控。"
+    },
+    {
+      "rank": 83,
+      "id": "deepanmpc__COWORK_AGENT_DESKTOP_AUTOMATION-COMPUTER_USE-",
+      "score": 26.08,
+      "tier": "勿用",
+      "route": "rpa-semi",
+      "whyZh": "视觉与规划分离的 macOS 桌面代理；能在浏览器或桌面把找群、填话术做成半自动流程，但发送需人工确认，界面一改就失效，属第三方工具介入有合规风险。",
+      "howToUseZh": "固定客户端版本、DPI 与窗口位置，录制或编写「打开会话—填模板」流程，在发送按钮前插入人工确认与群名校验；需企业书面授权。"
+    },
+    {
+      "rank": 84,
+      "id": "Remote-Skills__settled-computer",
+      "score": 26.04,
+      "tier": "勿用",
+      "route": "library",
+      "whyZh": "事件驱动等待画面稳定的桌面 MCP；只是底层库或感知组件，不能独立完成外部群发，需自建选群、校验、发送与重试的上层流程。",
+      "howToUseZh": "先验证目标客户端可读，再用它自建「选群—填文案—校验—人工发送」的上层流程；库本身不负责送达确认与重试。"
+    },
+    {
+      "rank": 85,
+      "id": "milind-soni__OpenMausBot",
+      "score": 26.0,
+      "tier": "勿用",
+      "route": "unrelated",
+      "whyZh": "聊天式多代理工作台；不触达企微外部客户，也不提供消息发送通道，只能作为选型、评测或训练参考。",
+      "howToUseZh": "不要作为发送方案；仅可作选型、评测或训练参考，或作为自建流程中的感知组件，需另配执行与发送通道。"
+    },
+    {
+      "rank": 86,
+      "id": "zouyuanqing__vision-primitives-mcp",
+      "score": 25.08,
+      "tier": "勿用",
+      "route": "library",
+      "whyZh": "给纯文本模型补视觉的 30 工具 MCP；只是底层库或感知组件，不能独立完成外部群发，需自建选群、校验、发送与重试的上层流程。",
+      "howToUseZh": "先验证目标客户端可读，再用它自建「选群—填文案—校验—人工发送」的上层流程；库本身不负责送达确认与重试。"
+    },
+    {
+      "rank": 87,
+      "id": "Core-Mate__OpenGUI",
+      "score": 25.04,
+      "tier": "勿用",
+      "route": "mobile",
+      "whyZh": "让 AI 看见并操作 Android 的框架；能操作安卓企微客户端，但移动端风控更严、属非官方接管，只能测试账号验证，禁止用于真实客户。",
+      "howToUseZh": "仅用测试账号与隔离设备，连安卓企微后由脚本定位会话并发送；不得接入真实客户与主账号，封号风险不可控。"
+    },
+    {
+      "rank": 88,
+      "id": "Anil-matcha__open-duet",
+      "score": 25.0,
+      "tier": "勿用",
+      "route": "unrelated",
+      "whyZh": "自托管的 AI 同事团队工作台；不触达企微外部客户，也不提供消息发送通道，只能作为选型、评测或训练参考。",
+      "howToUseZh": "不要作为发送方案；仅可作选型、评测或训练参考，或作为自建流程中的感知组件，需另配执行与发送通道。"
+    },
+    {
+      "rank": 89,
+      "id": "bo-516__computer-use",
+      "score": 24.0,
+      "tier": "勿用",
+      "route": "rpa-semi",
+      "whyZh": "Grok Build 的电脑操作插件；能在浏览器或桌面把找群、填话术做成半自动流程，但发送需人工确认，界面一改就失效，属第三方工具介入有合规风险。",
+      "howToUseZh": "固定客户端版本、DPI 与窗口位置，录制或编写「打开会话—填模板」流程，在发送按钮前插入人工确认与群名校验；需企业书面授权。"
+    },
+    {
+      "rank": 90,
+      "id": "betrayzl__windows-computer-use-mcp",
+      "score": 23.12,
+      "tier": "勿用",
+      "route": "rpa-semi",
+      "whyZh": "DXGI 抓屏加模拟输入的 Windows MCP；能在浏览器或桌面把找群、填话术做成半自动流程，但发送需人工确认，界面一改就失效，属第三方工具介入有合规风险。",
+      "howToUseZh": "固定客户端版本、DPI 与窗口位置，录制或编写「打开会话—填模板」流程，在发送按钮前插入人工确认与群名校验；需企业书面授权。"
+    },
+    {
+      "rank": 91,
+      "id": "sjkncs__gui-agent-framework",
+      "score": 23.08,
+      "tier": "勿用",
+      "route": "rpa-semi",
+      "whyZh": "积木式 GUI 自动化框架；能在浏览器或桌面把找群、填话术做成半自动流程，但发送需人工确认，界面一改就失效，属第三方工具介入有合规风险。",
+      "howToUseZh": "固定客户端版本、DPI 与窗口位置，录制或编写「打开会话—填模板」流程，在发送按钮前插入人工确认与群名校验；需企业书面授权。"
+    },
+    {
+      "rank": 92,
+      "id": "inclusionAI__UI-Venus",
+      "score": 23.04,
+      "tier": "勿用",
+      "route": "mobile",
+      "whyZh": "纯截图输入的通用 GUI 基础智能体；能操作安卓企微客户端，但移动端风控更严、属非官方接管，只能测试账号验证，禁止用于真实客户。",
+      "howToUseZh": "仅用测试账号与隔离设备，连安卓企微后由脚本定位会话并发送；不得接入真实客户与主账号，封号风险不可控。"
+    },
+    {
+      "rank": 93,
+      "id": "Tongyi-MAI__MAI-UI",
+      "score": 23.0,
+      "tier": "勿用",
+      "route": "mobile",
+      "whyZh": "统一移动/电脑/浏览器的 GUI 基础模型；能操作安卓企微客户端，但移动端风控更严、属非官方接管，只能测试账号验证，禁止用于真实客户。",
+      "howToUseZh": "仅用测试账号与隔离设备，连安卓企微后由脚本定位会话并发送；不得接入真实客户与主账号，封号风险不可控。"
+    },
+    {
+      "rank": 94,
+      "id": "instavm__clickclickclick",
+      "score": 22.12,
+      "tier": "勿用",
+      "route": "mobile",
+      "whyZh": "规划与定位分工的双模型点击框架；能操作安卓企微客户端，但移动端风控更严、属非官方接管，只能测试账号验证，禁止用于真实客户。",
+      "howToUseZh": "仅用测试账号与隔离设备，连安卓企微后由脚本定位会话并发送；不得接入真实客户与主账号，封号风险不可控。"
+    },
+    {
+      "rank": 95,
+      "id": "wangrongding__wechat-bot",
+      "score": 22.08,
+      "tier": "勿用",
+      "route": "protocol",
+      "whyZh": "多 IM 渠道接入大模型的微信机器人；走非官方协议或第三方 puppet，账号随时被限制登录，且不覆盖企微客户联系，禁止用于生产。",
+      "howToUseZh": "不要接入企微客户运营；仅可研究协议行为，且必须与真实账号、真实客户彻底隔离。 需先小范围验证再放大。"
+    },
+    {
+      "rank": 96,
+      "id": "CelestoAI__celesto",
+      "score": 22.04,
+      "tier": "勿用",
+      "route": "unrelated",
+      "whyZh": "给 agent 的轻量持久虚拟机；不触达企微外部客户，也不提供消息发送通道，只能作为选型、评测或训练参考。",
+      "howToUseZh": "不要作为发送方案；仅可作选型、评测或训练参考，或作为自建流程中的感知组件，需另配执行与发送通道。"
+    },
+    {
+      "rank": 97,
+      "id": "microsoft__fara",
+      "score": 22.0,
+      "tier": "勿用",
+      "route": "unrelated",
+      "whyZh": "微软开源的三档计算机使用代理模型；不触达企微外部客户，也不提供消息发送通道，只能作为选型、评测或训练参考。",
+      "howToUseZh": "不要作为发送方案；仅可作选型、评测或训练参考，或作为自建流程中的感知组件，需另配执行与发送通道。"
+    },
+    {
+      "rank": 98,
+      "id": "wimi321__macos-computer-use-skill",
+      "score": 21.08,
+      "tier": "勿用",
+      "route": "rpa-semi",
+      "whyZh": "零私有依赖的 macOS 桌面控制 Skill；能在浏览器或桌面把找群、填话术做成半自动流程，但发送需人工确认，界面一改就失效，属第三方工具介入有合规风险。",
+      "howToUseZh": "固定客户端版本、DPI 与窗口位置，录制或编写「打开会话—填模板」流程，在发送按钮前插入人工确认与群名校验；需企业书面授权。"
+    },
+    {
+      "rank": 99,
+      "id": "xlrpa__FlowBot",
+      "score": 21.04,
+      "tier": "勿用",
+      "route": "mobile",
+      "whyZh": "通过安卓无障碍 API 控制企微，理论上覆盖外部群发、自动回复与加好友；但属非官方接管，官方明文按外挂永久封禁，「零封号」只是自述。",
+      "howToUseZh": "仅在隔离手机与测试账号验证：装企微与 FlowBot 并授予无障碍，调用本地 API 发一条测试消息；生产禁用，不得接真实客户。"
+    },
+    {
+      "rank": 100,
+      "id": "e2b-dev__open-computer-use",
+      "score": 21.0,
+      "tier": "勿用",
+      "route": "unrelated",
+      "whyZh": "云端 Linux 桌面沙箱里的 CUA；不触达企微外部客户，也不提供消息发送通道，只能作为选型、评测或训练参考。",
+      "howToUseZh": "不要作为发送方案；仅可作选型、评测或训练参考，或作为自建流程中的感知组件，需另配执行与发送通道。"
+    },
+    {
+      "rank": 101,
+      "id": "aditya-nadkarni__spongecake",
+      "score": 20.04,
+      "tier": "勿用",
+      "route": "rpa-semi",
+      "whyZh": "Docker 里自建 Operator 与聊天界面；能在浏览器或桌面把找群、填话术做成半自动流程，但发送需人工确认，界面一改就失效，属第三方工具介入有合规风险。",
+      "howToUseZh": "固定客户端版本、DPI 与窗口位置，录制或编写「打开会话—填模板」流程，在发送按钮前插入人工确认与群名校验；需企业书面授权。"
+    },
+    {
+      "rank": 102,
+      "id": "tmustier__codex-computer-use-mcp",
+      "score": 20.0,
+      "tier": "勿用",
+      "route": "uia",
+      "whyZh": "把 macOS 官方电脑操作运行时接进 MCP；靠无障碍控件树定位会话与输入框，比坐标点击稳；企微自绘部分常读不到，发送仍需本人确认，且无公开成功率。",
+      "howToUseZh": "先验证 WXWork 控件树能读到搜索框与输入框，再按名称定位会话、填文案并回读核对，最后本人点发送；同名群需二次确认。"
+    },
+    {
+      "rank": 103,
+      "id": "arcboxlabs__arcbox",
+      "score": 19.04,
+      "tier": "勿用",
+      "route": "unrelated",
+      "whyZh": "macOS 上跑代理沙箱的容器运行时；不触达企微外部客户，也不提供消息发送通道，只能作为选型、评测或训练参考。",
+      "howToUseZh": "不要作为发送方案；仅可作选型、评测或训练参考，或作为自建流程中的感知组件，需另配执行与发送通道。"
+    },
+    {
+      "rank": 104,
+      "id": "nexu-io__nexu",
+      "score": 19.0,
+      "tier": "勿用",
+      "route": "unrelated",
+      "whyZh": "把 OpenClaw 接到微信与飞书的桌面客户端；不触达企微外部客户，也不提供消息发送通道，只能作为选型、评测或训练参考。",
+      "howToUseZh": "不要作为发送方案；仅可作选型、评测或训练参考，或作为自建流程中的感知组件，需另配执行与发送通道。"
+    },
+    {
+      "rank": 105,
+      "id": "LTEnjoy__easyChat",
+      "score": 18.08,
+      "tier": "勿用",
+      "route": "rpa-semi",
+      "whyZh": "微信定时群发与自动回复小工具；能在浏览器或桌面把找群、填话术做成半自动流程，但发送需人工确认，界面一改就失效，属第三方工具介入有合规风险。",
+      "howToUseZh": "固定客户端版本、DPI 与窗口位置，录制或编写「打开会话—填模板」流程，在发送按钮前插入人工确认与群名校验；需企业书面授权。"
+    },
+    {
+      "rank": 106,
+      "id": "cs-lazy-tools__ChatGPT-On-CS",
+      "score": 18.04,
+      "tier": "勿用",
+      "route": "unrelated",
+      "whyZh": "电商多平台 AI 客服工作台；不触达企微外部客户，也不提供消息发送通道，只能作为选型、评测或训练参考。",
+      "howToUseZh": "不要作为发送方案；仅可作选型、评测或训练参考，或作为自建流程中的感知组件，需另配执行与发送通道。"
+    },
+    {
+      "rank": 107,
+      "id": "microsoft__Mage",
+      "score": 18.0,
+      "tier": "勿用",
+      "route": "unrelated",
+      "whyZh": "微软 4B 轻量多模态模型族；不触达企微外部客户，也不提供消息发送通道，只能作为选型、评测或训练参考。",
+      "howToUseZh": "不要作为发送方案；仅可作选型、评测或训练参考，或作为自建流程中的感知组件，需另配执行与发送通道。"
+    },
+    {
+      "rank": 108,
+      "id": "wimi321__windows-computer-use-skill",
+      "score": 17.08,
+      "tier": "勿用",
+      "route": "rpa-semi",
+      "whyZh": "Windows 版电脑操作 Skill，未真机验证；能在浏览器或桌面把找群、填话术做成半自动流程，但发送需人工确认，界面一改就失效，属第三方工具介入有合规风险。",
+      "howToUseZh": "固定客户端版本、DPI 与窗口位置，录制或编写「打开会话—填模板」流程，在发送按钮前插入人工确认与群名校验；需企业书面授权。"
+    },
+    {
+      "rank": 109,
+      "id": "LeoMusk__wechat-rpa-bot-skill",
+      "score": 17.04,
+      "tier": "勿用",
+      "route": "uia",
+      "whyZh": "AI Agent 可调用的微信 RPA 技能；靠无障碍控件树定位会话与输入框，比坐标点击稳；企微自绘部分常读不到，发送仍需本人确认，且无公开成功率。",
+      "howToUseZh": "先验证 WXWork 控件树能读到搜索框与输入框，再按名称定位会话、填文案并回读核对，最后本人点发送；同名群需二次确认。"
+    },
+    {
+      "rank": 110,
+      "id": "xlang-ai__OSWorld",
+      "score": 17.0,
+      "tier": "勿用",
+      "route": "unrelated",
+      "whyZh": "真实操作系统里的 CUA 基准；不触达企微外部客户，也不提供消息发送通道，只能作为选型、评测或训练参考。",
+      "howToUseZh": "不要作为发送方案；仅可作选型、评测或训练参考，或作为自建流程中的感知组件，需另配执行与发送通道。"
+    },
+    {
+      "rank": 111,
+      "id": "claw-codes__wx4py",
+      "score": 16.08,
+      "tier": "勿用",
+      "route": "rpa-semi",
+      "whyZh": "微信 4.x 批量群发与 AI 回复库；能在浏览器或桌面把找群、填话术做成半自动流程，但发送需人工确认，界面一改就失效，属第三方工具介入有合规风险。",
+      "howToUseZh": "固定客户端版本、DPI 与窗口位置，录制或编写「打开会话—填模板」流程，在发送按钮前插入人工确认与群名校验；需企业书面授权。"
+    },
+    {
+      "rank": 112,
+      "id": "appium__appium-uiautomator2-server",
+      "score": 16.04,
+      "tier": "勿用",
+      "route": "mobile",
+      "whyZh": "Android 设备内的 UiAutomator2 服务端；能操作安卓企微客户端，但移动端风控更严、属非官方接管，只能测试账号验证，禁止用于真实客户。",
+      "howToUseZh": "仅用测试账号与隔离设备，连安卓企微后由脚本定位会话并发送；不得接入真实客户与主账号，封号风险不可控。"
+    },
+    {
+      "rank": 113,
+      "id": "xlang-ai__OSWorld-V2",
+      "score": 16.0,
+      "tier": "勿用",
+      "route": "unrelated",
+      "whyZh": "长周期真实任务的 OSWorld 第二代基准；不触达企微外部客户，也不提供消息发送通道，只能作为选型、评测或训练参考。",
+      "howToUseZh": "不要作为发送方案；仅可作选型、评测或训练参考，或作为自建流程中的感知组件，需另配执行与发送通道。"
+    },
+    {
+      "rank": 114,
+      "id": "scottfly189__WeChatAuto.SDK",
+      "score": 15.04,
+      "tier": "勿用",
+      "route": "uia",
+      "whyZh": "C# 微信 UIA + OCR 自动化 SDK；靠无障碍控件树定位会话与输入框，比坐标点击稳；企微自绘部分常读不到，发送仍需本人确认，且无公开成功率。",
+      "howToUseZh": "先验证 WXWork 控件树能读到搜索框与输入框，再按名称定位会话、填文案并回读核对，最后本人点发送；同名群需二次确认。"
+    },
+    {
+      "rank": 115,
+      "id": "cluic__wxauto",
+      "score": 15.0,
+      "tier": "勿用",
+      "route": "uia",
+      "whyZh": "微信 3.9 的 UIAutomation 自动化库；靠无障碍控件树定位会话与输入框，比坐标点击稳；企微自绘部分常读不到，发送仍需本人确认，且无公开成功率。",
+      "howToUseZh": "先验证 WXWork 控件树能读到搜索框与输入框，再按名称定位会话、填文案并回读核对，最后本人点发送；同名群需二次确认。"
+    },
+    {
+      "rank": 116,
+      "id": "Hello-Mr-Crab__pywechat",
+      "score": 14.0,
+      "tier": "勿用",
+      "route": "uia",
+      "whyZh": "pywinauto 实现的微信纯 UI 自动化；靠无障碍控件树定位会话与输入框，比坐标点击稳；企微自绘部分常读不到，发送仍需本人确认，且无公开成功率。",
+      "howToUseZh": "先验证 WXWork 控件树能读到搜索框与输入框，再按名称定位会话、填文案并回读核对，最后本人点发送；同名群需二次确认。"
+    },
+    {
+      "rank": 117,
+      "id": "wq19901103wq__wechat-mac-rpa",
+      "score": 13.08,
+      "tier": "勿用",
+      "route": "rpa-semi",
+      "whyZh": "macOS 微信视觉识别 + LLM 的 RPA；能在浏览器或桌面把找群、填话术做成半自动流程，但发送需人工确认，界面一改就失效，属第三方工具介入有合规风险。",
+      "howToUseZh": "固定客户端版本、DPI 与窗口位置，录制或编写「打开会话—填模板」流程，在发送按钮前插入人工确认与群名校验；需企业书面授权。"
+    },
+    {
+      "rank": 118,
+      "id": "fanyuantaier__wechatauto-replica",
+      "score": 13.04,
+      "tier": "勿用",
+      "route": "uia",
+      "whyZh": "微信 4.x 解密读库 + UIA/OCR 收发复刻；靠无障碍控件树定位会话与输入框，比坐标点击稳；企微自绘部分常读不到，发送仍需本人确认，且无公开成功率。",
+      "howToUseZh": "先验证 WXWork 控件树能读到搜索框与输入框，再按名称定位会话、填文案并回读核对，最后本人点发送；同名群需二次确认。"
+    },
+    {
+      "rank": 119,
+      "id": "LAVARONG__wechat-automation-api",
+      "score": 13.0,
+      "tier": "勿用",
+      "route": "uia",
+      "whyZh": "Flask + UIAutomation 的微信接口服务；靠无障碍控件树定位会话与输入框，比坐标点击稳；企微自绘部分常读不到，发送仍需本人确认，且无公开成功率。",
+      "howToUseZh": "先验证 WXWork 控件树能读到搜索框与输入框，再按名称定位会话、填文案并回读核对，最后本人点发送；同名群需二次确认。"
+    },
+    {
+      "rank": 120,
+      "id": "xlang-ai__CUA-Gym",
+      "score": 12.0,
+      "tier": "勿用",
+      "route": "unrelated",
+      "whyZh": "用编码代理批量合成 CUA 训练数据；不触达企微外部客户，也不提供消息发送通道，只能作为选型、评测或训练参考。",
+      "howToUseZh": "不要作为发送方案；仅可作选型、评测或训练参考，或作为自建流程中的感知组件，需另配执行与发送通道。"
+    },
+    {
+      "rank": 121,
+      "id": "FluidInference__FluidUse",
+      "score": 10.12,
+      "tier": "勿用",
+      "route": "unrelated",
+      "whyZh": "macOS 本地小模型读表单并填写；不触达企微外部客户，也不提供消息发送通道，只能作为选型、评测或训练参考。",
+      "howToUseZh": "不要作为发送方案；仅可作选型、评测或训练参考，或作为自建流程中的感知组件，需另配执行与发送通道。"
+    },
+    {
+      "rank": 122,
+      "id": "yjyddq__RiOSWorld",
+      "score": 10.08,
+      "tier": "勿用",
+      "route": "unrelated",
+      "whyZh": "评估 CUA 操作风险的基准与轨迹数据；不触达企微外部客户，也不提供消息发送通道，只能作为选型、评测或训练参考。",
+      "howToUseZh": "不要作为发送方案；仅可作选型、评测或训练参考，或作为自建流程中的感知组件，需另配执行与发送通道。"
+    },
+    {
+      "rank": 123,
+      "id": "vercel-labs__ai-sdk-computer-use",
+      "score": 10.04,
+      "tier": "勿用",
+      "route": "unrelated",
+      "whyZh": "Claude computer 工具加 Vercel 沙箱；不触达企微外部客户，也不提供消息发送通道，只能作为选型、评测或训练参考。",
+      "howToUseZh": "不要作为发送方案；仅可作选型、评测或训练参考，或作为自建流程中的感知组件，需另配执行与发送通道。"
+    },
+    {
+      "rank": 124,
+      "id": "ChrisLamDev__cua-desktop-automation-skills",
+      "score": 10.0,
+      "tier": "勿用",
+      "route": "unrelated",
+      "whyZh": "带自学习路由的 macOS Skill 集；不触达企微外部客户，也不提供消息发送通道，只能作为选型、评测或训练参考。",
+      "howToUseZh": "不要作为发送方案；仅可作选型、评测或训练参考，或作为自建流程中的感知组件，需另配执行与发送通道。"
+    },
+    {
+      "rank": 125,
+      "id": "masone__iphone-cua",
+      "score": 9.04,
+      "tier": "勿用",
+      "route": "mobile",
+      "whyZh": "用 OpenAI 规划器操作真机 iPhone 的原型；能操作安卓企微客户端，但移动端风控更严、属非官方接管，只能测试账号验证，禁止用于真实客户。",
+      "howToUseZh": "仅用测试账号与隔离设备，连安卓企微后由脚本定位会话并发送；不得接入真实客户与主账号，封号风险不可控。"
+    },
+    {
+      "rank": 126,
+      "id": "Meirtz__Shinken",
+      "score": 9.0,
+      "tier": "勿用",
+      "route": "unrelated",
+      "whyZh": "可检查点派生的 CUA 训练运行时；不触达企微外部客户，也不提供消息发送通道，只能作为选型、评测或训练参考。",
+      "howToUseZh": "不要作为发送方案；仅可作选型、评测或训练参考，或作为自建流程中的感知组件，需另配执行与发送通道。"
+    },
+    {
+      "rank": 127,
+      "id": "TongUI-agent__TongUI-agent",
+      "score": 8.0,
+      "tier": "勿用",
+      "route": "unrelated",
+      "whyZh": "看教程视频合成百万级 GUI 数据的 VLA；不触达企微外部客户，也不提供消息发送通道，只能作为选型、评测或训练参考。",
+      "howToUseZh": "不要作为发送方案；仅可作选型、评测或训练参考，或作为自建流程中的感知组件，需另配执行与发送通道。"
+    },
+    {
+      "rank": 128,
+      "id": "mrsanshui__WeChatPYAPI",
+      "score": 7.2,
+      "tier": "勿用",
+      "route": "hook",
+      "whyZh": "封装微信 Hook DLL 的 Python 接口库；注入或劫持客户端进程，版本升级即失效，官方明确按外挂永久封禁，禁止用于生产。",
+      "howToUseZh": "只在隔离机器与测试账号验证接口连通性，绝不接入真实客户与主账号；官方可永久封禁，生产环境禁用。"
+    },
+    {
+      "rank": 129,
+      "id": "HenryXiaoYang__XYBot",
+      "score": 7.16,
+      "tier": "勿用",
+      "route": "hook",
+      "whyZh": "基于 Hook 的微信机器人，V1 已停更；注入或劫持客户端进程，版本升级即失效，官方明确按外挂永久封禁，禁止用于生产。",
+      "howToUseZh": "只在隔离机器与测试账号验证接口连通性，绝不接入真实客户与主账号；官方可永久封禁，生产环境禁用。"
+    },
+    {
+      "rank": 130,
+      "id": "epistex-dev__computer-use",
+      "score": 7.12,
+      "tier": "勿用",
+      "route": "unrelated",
+      "whyZh": "Linux Wayland 桌面操作 Skill；不触达企微外部客户，也不提供消息发送通道，只能作为选型、评测或训练参考。",
+      "howToUseZh": "不要作为发送方案；仅可作选型、评测或训练参考，或作为自建流程中的感知组件，需另配执行与发送通道。"
+    },
+    {
+      "rank": 131,
+      "id": "DaizeDong__grokbot-cdp",
+      "score": 7.08,
+      "tier": "勿用",
+      "route": "unrelated",
+      "whyZh": "经 CDP 遥控 Grok Bot 云主机的库；不触达企微外部客户，也不提供消息发送通道，只能作为选型、评测或训练参考。",
+      "howToUseZh": "不要作为发送方案；仅可作选型、评测或训练参考，或作为自建流程中的感知组件，需另配执行与发送通道。"
+    },
+    {
+      "rank": 132,
+      "id": "freeall12__computer-use",
+      "score": 7.04,
+      "tier": "勿用",
+      "route": "unrelated",
+      "whyZh": "20 个 AI Agent 电脑操作能力的逆向报告；不触达企微外部客户，也不提供消息发送通道，只能作为选型、评测或训练参考。",
+      "howToUseZh": "不要作为发送方案；仅可作选型、评测或训练参考，或作为自建流程中的感知组件，需另配执行与发送通道。"
+    },
+    {
+      "rank": 133,
+      "id": "anaishowland__agent-CE",
+      "score": 7.0,
+      "tier": "勿用",
+      "route": "unrelated",
+      "whyZh": "容器化的网页智能体持续评测平台；不触达企微外部客户，也不提供消息发送通道，只能作为选型、评测或训练参考。",
+      "howToUseZh": "不要作为发送方案；仅可作选型、评测或训练参考，或作为自建流程中的感知组件，需另配执行与发送通道。"
+    },
+    {
+      "rank": 134,
+      "id": "fyzhang1__ExpActivator",
+      "score": 6.12,
+      "tier": "勿用",
+      "route": "unrelated",
+      "whyZh": "训练无关的个性化 GUI 经验激活方法；不触达企微外部客户，也不提供消息发送通道，只能作为选型、评测或训练参考。",
+      "howToUseZh": "不要作为发送方案；仅可作选型、评测或训练参考，或作为自建流程中的感知组件，需另配执行与发送通道。"
+    },
+    {
+      "rank": 135,
+      "id": "huzjie__screenforge",
+      "score": 6.08,
+      "tier": "勿用",
+      "route": "unrelated",
+      "whyZh": "零依赖的 GUI agent 参考实现；不触达企微外部客户，也不提供消息发送通道，只能作为选型、评测或训练参考。",
+      "howToUseZh": "不要作为发送方案；仅可作选型、评测或训练参考，或作为自建流程中的感知组件，需另配执行与发送通道。"
+    },
+    {
+      "rank": 136,
+      "id": "PavanVAkula__computer-use-capability-engine",
+      "score": 6.04,
+      "tier": "勿用",
+      "route": "unrelated",
+      "whyZh": "LLM 发现流程并固化为可回放能力；不触达企微外部客户，也不提供消息发送通道，只能作为选型、评测或训练参考。",
+      "howToUseZh": "不要作为发送方案；仅可作选型、评测或训练参考，或作为自建流程中的感知组件，需另配执行与发送通道。"
+    },
+    {
+      "rank": 137,
+      "id": "ranjitdontineni09__computer-use-runtime",
+      "score": 6.0,
+      "tier": "勿用",
+      "route": "unrelated",
+      "whyZh": "录制一次、无模型确定性回放运行时；不触达企微外部客户，也不提供消息发送通道，只能作为选型、评测或训练参考。",
+      "howToUseZh": "不要作为发送方案；仅可作选型、评测或训练参考，或作为自建流程中的感知组件，需另配执行与发送通道。"
+    },
+    {
+      "rank": 138,
+      "id": "mrsanshui__vworkApi",
+      "score": 5.04,
+      "tier": "勿用",
+      "route": "hook",
+      "whyZh": "直接 Hook 企微 PC 客户端并暴露 REST 接口，能力覆盖发消息与群管理；但注入、改客户端、多开均属官方外挂，永久封禁风险，禁止生产。",
+      "howToUseZh": "仅在隔离机器确认版本匹配后运行注入工具做连通性测试；不要接真实客户与主账号，生产环境禁用并做好重装准备。"
+    },
+    {
+      "rank": 139,
+      "id": "barkleyli__LVGL-UI-Automation-Framework",
+      "score": 5.0,
+      "tier": "勿用",
+      "route": "unrelated",
+      "whyZh": "LVGL 界面自动化测试与截图框架；不触达企微外部客户，也不提供消息发送通道，只能作为选型、评测或训练参考。",
+      "howToUseZh": "不要作为发送方案；仅可作选型、评测或训练参考，或作为自建流程中的感知组件，需另配执行与发送通道。"
+    },
+    {
+      "rank": 140,
+      "id": "aixed__WeChat-Hook",
+      "score": 4.0,
+      "tier": "勿用",
+      "route": "hook",
+      "whyZh": "version.dll 注入个人微信的 HTTP 接口；注入或劫持客户端进程，版本升级即失效，官方明确按外挂永久封禁，禁止用于生产。",
+      "howToUseZh": "只在隔离机器与测试账号验证接口连通性，绝不接入真实客户与主账号；官方可永久封禁，生产环境禁用。"
+    }
+  ]
+}

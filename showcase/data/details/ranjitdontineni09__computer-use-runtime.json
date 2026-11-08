@@ -1,0 +1,86 @@
+{
+  "id": "ranjitdontineni09__computer-use-runtime",
+  "taglineZh": "录制一次、无模型确定性回放运行时",
+  "summaryZh": "computer-use-runtime 是 interface.ai 的 take-home 项目，做「录一次、回放多次」的后台系统自动化：LLM 在实时界面上按 observe→decide→act 探索完成目标，把过程编译成带类型与版本的能力工件，生产调用只做确定性回放，模型不在链路里。示范目标是仿核心银行会员服务控制台，含嵌套表格、命名 iframe 与未找到、无权限、校验、插页、慢加载等状态。与同类本质的区别是把失败分为业务结果、可恢复插页与硬失败，并支持在同一会话内把控制权交给人工。",
+  "whatItDoesZh": "发现阶段用 Playwright 加无障碍树感知界面，产出能力 JSON；回放阶段按工件里的参数、定位器、检查点与业务结果定义执行新输入。若回放或发现无法继续，系统暂停同一会话，把控制锁从 automation 切到 human，人工处理后再恢复。CLI 提供 discover、replay、invoke、operator 与 catalog 子命令，policy/default.json 定义允许来源、已知插页与步数预算。",
+  "useCasesZh": [
+    "把一次成功后台操作固化成可重复执行的流程",
+    "让 agent 以能力目录形式发现并调用自动化能力",
+    "在无权限、慢加载等异常下走人工接管保底",
+    "为后台系统巡检做零模型成本的批量回放",
+    "验证无模型链路下的端到端稳定性"
+  ],
+  "appsZh": [
+    "仿核心银行的会员服务控制台（本地演示）",
+    "带嵌套表格与命名 iframe 的后台网页",
+    "含未找到、无权限、校验、插页状态的表单页",
+    "不限具体站点：桌面后端仍是桩，当前只覆盖网页"
+  ],
+  "platformsZh": [
+    "Web"
+  ],
+  "techApproachZh": "感知走 Playwright 加无障碍树，SurfaceDriver 把感知与动作接缝隔开；能力契约用 zod 定义，回放执行器按步骤推进并在插页出现时尝试恢复。会话层用控制锁三态（automation、human、pause）管理并发，安全层做来源与动作白名单、不可逆操作闸门与脱敏。发现可走 OpenAI、Anthropic 或已登录的 Codex 会话，回放不需要 Key。",
+  "requirementsZh": [
+    "Node.js 20+ 与 Playwright Chromium",
+    "发现阶段需 OpenAI 或 Anthropic API Key，或已登录的 Codex CLI",
+    "回放阶段无需模型 Key",
+    "需本地启动 demo-bank 服务与 3477/3478 端口"
+  ],
+  "prosZh": [
+    "回放链路零模型调用，成本与延迟低",
+    "能力工件用 zod 强类型约束",
+    "失败分类与人工接管设计完整",
+    "演示覆盖慢加载、无权限等多种异常态"
+  ],
+  "consZh": [
+    "桌面驱动仍是桩实现，只覆盖网页",
+    "0 星 0 fork，无社区与长期维护",
+    "只适用于后台表单类界面",
+    "take-home 定位，非生产就绪系统"
+  ],
+  "limitsZh": "桌面后端只有桩，能力只覆盖网页；演示数据全为假数据，README 明确不要指向真实银行系统或真实 PII。已知失败模式包括 iframe 内定位失效、慢加载超过步数预算被判硬失败、人工接管时操作员页面未及时恢复导致会话悬挂，以及插页文案未登记时无法自动恢复。",
+  "wecomRelevance": "none",
+  "wecomUseZh": "与企业微信外部客户或外部群发消息无关。它是网页后台系统的确定性回放运行时，链路里没有消息发送语义，也不支持桌面客户端。企微外部群操作发生在桌面应用内，超出其 SurfaceDriver 现有实现范围，因此判定为 none。",
+  "maturityZh": "2026 年 9 月创建当天即最后一次推送，0 星 0 fork，许可为 NOASSERTION，是面试作业性质的小项目。代码结构清晰、有测试与证据目录，但无发布、无 issue 处理，长期维护风险高。",
+  "evidence": [
+    {
+      "claim": "生产调用为不含模型的确定性回放",
+      "source": "README.md",
+      "quote": "production invocation is **deterministic replay with no model in the loop**."
+    },
+    {
+      "claim": "运行时错误被分为业务结果、可恢复插页与硬失败",
+      "source": "README.md",
+      "quote": "Runtime errors are classified as business outcomes, recoverable interstitials, or hard failures."
+    },
+    {
+      "claim": "网页后端已实现，桌面后端仅为桩",
+      "source": "README.md",
+      "quote": "| `src/surface/` | Perception/action seam (`SurfaceDriver`; web implemented, desktop stubbed) |"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "PavanVAkula__computer-use-capability-engine",
+      "browser-use__browser-use"
+    ],
+    "whenZh": "与 capability-engine 同为发现加回放的思路，本项目 TypeScript 实现更完整，带控制锁、插页恢复与能力目录，适合参考工程结构；capability-engine 更小更好读。browser-use 则是每步都由模型决策的在线 agent，不生成可回放工件。"
+  },
+  "stepsZh": [
+    "安装依赖并执行 playwright install chromium，确认 Node 20 以上",
+    "启动 demo-bank 演示服务，确认本地 3477 端口页面可打开",
+    "配置模型 Key 并运行 discover，把目标写成一段自然语言",
+    "检查生成的 capability JSON，核对定位器与检查点是否合理",
+    "用 replay 跑正常与未找到两种输入，对比结果分类",
+    "需要人工时启动 operator 页面，在会话中恢复后继续回放"
+  ],
+  "successRateZh": "无公开成功率数据。README 与 REPORT 均未给出回放成功率、失败率或延迟分布，只有演示成员对应的预期结果（1001 成功、9999 未找到等），属于功能演示而非统计。自测可对 50 组输入连续回放，统计成功、业务结果、可恢复插页、硬失败四类占比，并记录漂移发生在第几步。",
+  "scores": {
+    "coverage": 2,
+    "usability": 3,
+    "docs": 3,
+    "maintenance": 1,
+    "performance": 3,
+    "stability": 3
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "id": "awlevin__typesafe-computer-use",
+  "taglineZh": "用分类器决策的低成本 macOS 操作器",
+  "summaryZh": "typesafe-computer-use（内部代号 jev）是一个跑在 macOS 上的低成本电脑操作器：把屏幕用确定性方式读出来，交给一个小分类器在有限选项里选下一步动作，只有真正需要自由文本时才调用写作模型。设计原则是「分类器选择、代码判定事实、写作模型只写自由文本」。与同类最本质的区别是成本结构：前沿模型每步都要规划，而这里多数步骤只是一次带置信度的多项选择，因此单步成本与延迟低一到两个数量级。",
+  "whatItDoesZh": "在终端输入一句英文目标，加 --act 就会真实驱动鼠标键盘最多 100 步；不加则是干跑，只打印它打算做什么。每一步先对最前窗口做 Vision OCR，并从无障碍树取带标签控件，再由代码补算日期差、聚焦字段、当前应用与 URL、已尝试动作等事实，然后由 TypeSafe 一次回答三类选择，动作确定性执行。分类器停手后写作模型读屏作答，或把焦点、疑问交还给你，但从不选动作。每次运行写入 runs 目录，可离线回放。",
+  "useCasesZh": [
+    "用极低成本跑长流程的桌面任务",
+    "在 macOS 上做网页操作与表单填写",
+    "用干跑模式先确认动作再放行",
+    "对失败运行做离线回放与复盘",
+    "在容器沙箱里跑不占本机的任务"
+  ],
+  "appsZh": [
+    "macOS 上的 Chrome 浏览器任务",
+    "带无障碍标签的原生应用控件",
+    "需要 OCR 识别的自绘界面与图片文字",
+    "由浏览器后端接入的网页（走 CDP 不截图）",
+    "不限具体应用：视觉与 AX 混合感知，不绑定单应用"
+  ],
+  "platformsZh": [
+    "macOS"
+  ],
+  "techApproachZh": "确定性感知加小模型决策：截图用系统 Vision OCR 读文字，同时读无障碍树拿到 OCR 看不见的图标按钮；所有需要推理的事实由代码算出并作为状态喂给分类器。TypeSafe 一次请求同时回答动作类型、目标项与站点三个 Choice，返回完整概率分布与校准置信度，低置信度即停止。动作以代码执行，写作模型只负责自由文本与最终答复；另有基于 Chrome DevTools 的 DOM 后端。",
+  "requirementsZh": [
+    "macOS 14 以上与 Python 3.12 以上，用 uv 管理依赖",
+    "必须在系统设置中授予终端屏幕录制与辅助功能权限",
+    "必须配置 TYPESAFE_API_KEY，否则无法决策",
+    "可选 ANTHROPIC_API_KEY，用于自由文本与最终回答"
+  ],
+  "prosZh": [
+    "单步成本与延迟显著低于前沿模型方案",
+    "置信度可门控，低置信度自动停手",
+    "干跑模式先验证动作再真实执行",
+    "每次运行落盘，可离线复现",
+    "代码判定事实，行为可解释"
+  ],
+  "consZh": [
+    "处于 Beta，配置与行为可能随版本变化",
+    "需自行为每类任务补确定性事实逻辑",
+    "依赖商业分类器服务与 API Key",
+    "Windows 支持仅为实验性"
+  ],
+  "limitsZh": "需要把前沿模型「顺手就算出来」的推理逐条重写成代码，任务越开放，补齐事实的成本越高；分类器只在预设选项内选择，遇到选项外的情况会停手等人。已知失败模式包括 OCR 在低对比度文字上漏读、权限缺失时合成点击被静默丢弃、以及长流程中已尝试动作列表膨胀导致决策退化。README 明确提醒它驱动真实鼠标键盘，应先用干跑。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可在 macOS 版企微上承担逐步操作：OCR 找到搜索框与会话项，分类器在候选动作里选点击与输入，发送前用代码核对当前窗口标题。但外部客户筛选、消息模板与失败重试仍需自建，且企微界面文字密集，OCR 误读风险偏高，因此记为 partial。",
+  "maturityZh": "2026 年 9 月创建，两周后最后推送，1.2k 星 123 fork，MIT 许可，版本 0.2.0 并自标 Beta。有 CI、文档目录与基准脚本，但更新已停、依赖商业分类器服务，长期可用性取决于该服务。",
+  "evidence": [
+    {
+      "claim": "单次决策成本约 0.0002 美元，比前沿模型便宜约 155 倍",
+      "source": "README.md",
+      "quote": "| cost per decision | $0.0002 | $0.032 | 155x cheaper |"
+    },
+    {
+      "claim": "屏幕读取走系统 OCR 加无障碍树标签",
+      "source": "README.md",
+      "quote": "The screen is read deterministically: Vision OCR on a crop of the frontmost window, plus the"
+    },
+    {
+      "claim": "分类器只做选择，事实由代码判定",
+      "source": "README.md",
+      "quote": "One idea runs through it: the classifier picks, code decides facts, and the writer only writes"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "ghostwright__ghost-os",
+      "microsoft__Hybrid-Computer-Use",
+      "browser-use__browser-use"
+    ],
+    "whenZh": "要在 macOS 上以极低单步成本跑长流程，typesafe-computer-use 的成本优势明显；要无障碍树加配方的稳定复用，Ghost OS 更成熟；要跨平台 MCP 接口选 Hybrid-Computer-Use；纯网页任务且接受每步模型规划，browser-use 生态更大。"
+  },
+  "stepsZh": [
+    "在 macOS 授予终端屏幕录制与辅助功能权限并重启终端",
+    "配置 TypeSafe 与可选的写作模型 Key，先跑一次干跑看计划动作",
+    "用目标句「打开企微并进入某外部群」跑 --act，观察每步置信度",
+    "为企微界面补充确定性事实，如当前会话标题与输入框聚焦状态",
+    "发送前用代码核对会话名与内容，低置信度时停止并转人工",
+    "把 runs 目录中的失败轨迹回放，修正提示或动作选项后重试"
+  ],
+  "successRateZh": "无公开成功率数据。README 只给出成本与延迟对比表：单次决策 0.0002 美元、模型延迟 0.13 到 0.38 秒、端到端一步约 1.5 秒，不含任务成功率或失败率。自测可对同一目标连跑 50 次，统计成功、低置信度停手、OCR 误读、点击未生效四类占比。",
+  "scores": {
+    "coverage": 3,
+    "usability": 4,
+    "docs": 4,
+    "maintenance": 3,
+    "performance": 5,
+    "stability": 3
+  }
+}

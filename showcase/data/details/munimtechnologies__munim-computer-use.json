@@ -1,0 +1,82 @@
+{
+  "id": "munimtechnologies__munim-computer-use",
+  "taglineZh": "后台输入、无障碍优先的跨平台 CUA MCP 服务器",
+  "summaryZh": "开源 Computer Use 后端，以 MCP 提供给任意编码 agent：通过无障碍树读屏，在后台完成点击与输入，鼠标不用被抢走；会显示 agent 指针位置、放大过小的文字、驱动已登录 Chrome 的标签页，覆盖 macOS、Windows 与 Linux。交互不需要视觉模型，工具共三十七个，并公开了与同类服务器的读取基准对比。",
+  "whatItDoesZh": "提供读取应用状态、点击、输入、滚动、切换标签、放大区域、显示指针等工具，能在后台标签页里编辑页面、与用户同时打字，并在浏览器就绪后安全地重新观察；支持 Claude Code、Codex、Cursor 等客户端，也可嵌入自有应用或远程控制。",
+  "useCasesZh": [
+    "在不打断用户鼠标操作的前提下让 agent 干活",
+    "读取大目录窗口并在两千 token 内完成汇报",
+    "同时操作已登录 Chrome 的多个后台标签页",
+    "给编码 agent 补上跨三平台的桌面操作能力",
+    "在用户正在打字的输入框旁边并行编辑另一处内容"
+  ],
+  "appsZh": [
+    "文件管理器与系统设置等桌面应用",
+    "Chrome 浏览器标签页",
+    "Electron 客户端",
+    "macOS、Windows 与 Linux 原生应用"
+  ],
+  "platformsZh": [
+    "Windows",
+    "macOS",
+    "Linux",
+    "Web"
+  ],
+  "techApproachZh": "以无障碍树为唯一感知通道，把界面转成精简文本树，因此读取快、token 少；输入走后台事件注入，不移动用户鼠标；浏览器侧通过扩展驱动已登录的 Chrome 标签，并提供就绪检测与安全重观察，避免在页面切换中误操作。",
+  "requirementsZh": [
+    "Node.js 环境，npm 安装 munim-computer-use",
+    "macOS、Windows 或 Linux，需相应无障碍权限",
+    "浏览器能力可选装 Chrome 扩展",
+    "交互无需视觉模型，可按需追加截图"
+  ],
+  "prosZh": [
+    "后台输入不抢鼠标，可与用户并行工作",
+    "读窗口约 0.12 秒、约 2.0K token",
+    "跨三大平台，交互不依赖视觉模型",
+    "三十七个工具覆盖桌面与浏览器两侧"
+  ],
+  "consZh": [
+    "自绘界面基本拿不到可用的无障碍节点",
+    "配置与权限项较多，首次接入偏重",
+    "基准由作者自测，脚本不在仓库内"
+  ],
+  "limitsZh": "无障碍树缺失或退化的应用基本无法操作，游戏与 Canvas 完全失效；后台输入在部分安全软件或提权窗口上会被拦截；基准只测读取，不代表任务完成率。仓库未提供端到端成功率。",
+  "stepsZh": [
+    "先确认企业微信客户端能被无障碍树读出会话与输入框",
+    "接入 MCP 后读取应用状态，用精简树定位外部群",
+    "在后台写入已审核文案，读回控件值确认内容",
+    "由人工确认收件人并点击发送，避免自动回车",
+    "发送后重新读取状态，比对最后一条消息并记录失败类型"
+  ],
+  "successRateZh": "无公开任务成功率，但有作者自测的读取基准：Windows 11 文件资源管理器在 100 到 20000 个文件时，读取稳定在约 0.12 秒、约 2.0K token；同场对比 zavora 约 0.42 秒、9.3K token。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可在企业微信上做无障碍级半自动操作：读会话树、后台填文案、回读校验，且不抢用户鼠标。它没有企微模板，能否读到内部控件取决于客户端实现，发送仍需人工确认。",
+  "maturityZh": "2026 年 9 月创建，2026 年 11 月仍在更新，33 星、5 fork，Apache-2.0 许可。公司团队维护、发版节奏稳定，文档与基准较完整，属于新但扎实的项目。",
+  "evidence": [
+    {
+      "claim": "后台点击输入，鼠标仍归用户使用",
+      "source": "README.md",
+      "quote": "so your mouse stays yours"
+    },
+    {
+      "claim": "交互不需要视觉模型",
+      "source": "README.md",
+      "quote": "no vision model is required for interaction"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "zavora-ai__computer-use-mcp",
+      "alexshpunt__pi-agent-computer-use"
+    ],
+    "whenZh": "最看重读取速度、token 成本与不抢鼠标，它目前数据最硬；要视觉兜底处理自绘界面，zavora 有双通道；已用 Pi 且只要 Windows，pi-agent 接入更省。"
+  },
+  "scores": {
+    "coverage": 4,
+    "usability": 4,
+    "docs": 5,
+    "maintenance": 5,
+    "performance": 5,
+    "stability": 4
+  }
+}

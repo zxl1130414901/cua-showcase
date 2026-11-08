@@ -1,0 +1,80 @@
+{
+  "id": "guangfubill-crypto__SoftAuto-MCP",
+  "taglineZh": "把捕获的元素变成确定性执行的 Windows RPA",
+  "summaryZh": "Windows 上的开源 RPA 加 MCP 服务器，核心思路是把“看”和“做”拆开：先用工具捕获并验证一次界面元素，agent 之后按名称调用该元素，不必每次重新截图分析，从而把大模型的不确定性挡在执行层之外。覆盖桌面 UI、浏览器与 ERP 自动化，定位是让 Computer Use 看懂界面、让 SoftAuto 快速可靠地执行。",
+  "whatItDoesZh": "提供元素捕获与校验、按名称调用已保存元素、桌面控件点击与输入、浏览器页面操作、ERP 客户端流程编排，以及 GUI 回归测试；产物是可复用的元素库与流程，agent 只需在关键决策点介入，其余步骤由确定性脚本完成，把流程变成可版本管理的执行资产。",
+  "useCasesZh": [
+    "把一次调试好的界面操作固化成可复用元素库",
+    "给 ERP 客户端做跨应用的数据录入流程",
+    "让 agent 只在关键节点决策、其余步骤确定性执行",
+    "对桌面软件做 GUI 回归测试与稳定性巡检",
+    "减少每次任务都重新截图分析带来的 token 消耗"
+  ],
+  "appsZh": [
+    "Windows 桌面应用与 ERP 客户端",
+    "浏览器页面与内嵌 Web 控件",
+    "企业办公软件与表单界面",
+    "不限具体应用，依赖可捕获的元素"
+  ],
+  "platformsZh": [
+    "Windows",
+    "Web"
+  ],
+  "techApproachZh": "确定性执行层加 MCP 封装：捕获元素时记录其定位特征并当场验证，之后按名称直接调用，跳过重复的视觉分析；桌面侧走 Windows 控件接口，浏览器侧走页面自动化，流程由编排器顺序执行，agent 只在分支决策处发指令。",
+  "requirementsZh": [
+    "Windows 10 或 11",
+    "下载官方安装包或从源码部署",
+    "需授予桌面控制与浏览器调试权限",
+    "无需每次调用视觉模型，决策由宿主 agent 提供"
+  ],
+  "prosZh": [
+    "元素一次捕获多次复用，执行更稳定",
+    "把视觉分析从每次执行中省掉，成本更低",
+    "同时覆盖桌面、浏览器与 ERP 场景",
+    "提供 Windows 安装包，落地门槛低"
+  ],
+  "consZh": [
+    "仅支持 Windows，无法跨平台",
+    "元素库必须随着界面改版持续维护更新",
+    "仅 1 星的项目，尚未经过独立验证"
+  ],
+  "limitsZh": "元素定位依赖捕获时的界面状态，客户端升级或分辨率变化后需要重新捕获；动态弹窗与自绘控件仍可能定位失败；ERP 场景需要具体系统适配，仓库未逐家验证。没有公开成功率数据。",
+  "stepsZh": [
+    "先在企业微信上捕获搜索框与输入框元素并当场验证可用",
+    "把“切到外部群—填文案”固化成一条确定性流程",
+    "让 agent 只负责选择目标群与审核文案内容",
+    "执行前截图核对群名，确认无误后由人工点发送",
+    "失败时回退到重新捕获元素，并记录失效原因"
+  ],
+  "successRateZh": "无公开成功率数据。README 强调确定性执行能减少截图分析与模型波动，但没有给出任务次数、失败率或与纯视觉方案的对照结果。可自测：固定客户端版本，跑 50 次同一流程，统计元素失效与流程中断比例。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可把企业微信的“切外部群、填文案”固化成确定性流程，agent 只做目标选择与内容审核，降低每次执行的不确定性。它没有企微专用模板，界面改版后需要重新捕获元素。",
+  "maturityZh": "2026 年 8 月 25 日创建，9 月后停更，1 星、0 fork，MIT 许可。有安装包与中英双语文档，但社区几乎为零，属于早期产品化尝试。",
+  "evidence": [
+    {
+      "claim": "SoftAuto 充当 Computer Use 的确定性执行层",
+      "source": "README.md",
+      "quote": "deterministic execution layer for Computer Use"
+    },
+    {
+      "claim": "元素捕获验证一次后可反复按名称调用",
+      "source": "README.md",
+      "quote": "Capture and validate an element once"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "iflytek__astron-rpa",
+      "24kchengYe__desktop-controller-skill"
+    ],
+    "whenZh": "要“元素复用加确定性执行”、又想让 agent 参与决策，它的定位最贴合；要成熟的企业级 RPA 平台与可视化编排，astron-rpa 更完整；只要轻量聊天客户端发送，24kchengYe 更快。"
+  },
+  "scores": {
+    "coverage": 4,
+    "usability": 3,
+    "docs": 4,
+    "maintenance": 2,
+    "performance": 4,
+    "stability": 3
+  }
+}

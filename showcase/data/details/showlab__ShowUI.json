@@ -1,0 +1,89 @@
+{
+  "id": "showlab__ShowUI",
+  "taglineZh": "轻量端到端 GUI 视觉-语言-动作模型",
+  "summaryZh": "ShowUI 是新加坡国立大学 Show Lab 与微软合作的 GUI 视觉-语言-动作模型，论文被 CVPR 2025 接收。它把「看截图、理解指令、输出界面坐标」压进一个 2B 级模型，训练侧提供 grounding 与导航两类任务的完整代码，支持 Mind2Web、AITW、Miniwob 等数据集。与同类最本质的区别是轻量与工程化：不追求最大参数，而是用 UI 引导的 token 选择减少视觉冗余，并提供 vLLM 推理、int8 量化与 OOTB 集成等路径。",
+  "whatItDoesZh": "给一张截图和一句查询，模型输出目标元素的坐标，可用于点击定位；也能做导航任务，输出下一步动作。仓库提供 train.py 与 DeepSpeed、QLoRA 配置，支持 Qwen2VL 与 Qwen2.5VL 作为底座，可混合多数据集训练。推理侧有 inference_vllm.ipynb 支持多卡加速，api.py 通过 Gradio Client 暴露接口，不需要本地 GPU；OOTB 项目把 ShowUI 接到真实电脑上执行操作。",
+  "useCasesZh": [
+    "给自研 agent 提供轻量的界面元素定位能力",
+    "在消费级显卡上微调 GUI grounding 模型",
+    "用 vLLM 批量推理评估定位准确率",
+    "通过 Gradio API 远程调用而不本地部署",
+    "把模型接进 OOTB 做桌面操作演示"
+  ],
+  "appsZh": [
+    "网页界面中的按钮、输入框与链接定位",
+    "Android 应用界面中的导航与点击目标",
+    "桌面软件的截图元素定位（经 OOTB 接入）",
+    "不限具体应用：模型只看截图，不绑定应用接口"
+  ],
+  "platformsZh": [
+    "Web",
+    "Android"
+  ],
+  "techApproachZh": "端到端 VLA：视觉编码器把截图切成 patch，语言侧接收指令，模型直接回归目标坐标或输出导航动作。关键机制是 UI 引导的 token 选择，用界面结构信息筛掉无关视觉 token，降低计算量并提升小目标定位。训练用多阶段混合数据，支持交错数据流与随机缩放增强；推理侧可走 vLLM 并行、int8 量化或 Gradio 远程调用。",
+  "requirementsZh": [
+    "Python 环境按 requirements.txt 安装，含 transformers 4.47 以上与 qwen-vl-utils",
+    "本地推理需 GPU，2B 模型显存需求不高，量化后更低",
+    "用 Gradio API 时无需本地 GPU，但需网络访问",
+    "微调需 DeepSpeed 与多卡环境，训练数据需自行准备"
+  ],
+  "prosZh": [
+    "2B 规模，单卡即可跑推理与微调",
+    "训练与评测代码完整，任务覆盖广",
+    "支持 vLLM、int8 与 Gradio 多种部署",
+    "CVPR 2025 论文，方法有据可查",
+    "OOTB 已集成，可较快做桌面演示"
+  ],
+  "consZh": [
+    "只输出坐标与动作，不含完整 agent 循环",
+    "桌面控制依赖外部 OOTB 项目",
+    "复杂多步任务的规划能力有限",
+    "2026 年 4 月后更新放缓"
+  ],
+  "limitsZh": "模型只负责「看与指」，规划、重试、状态校验要上层实现；单步定位在密集小控件与低分辨率截图上仍会偏。仓库以训练与推理为主，未提供生产级服务封装。已知失败模式包括相似图标混淆、坐标落在元素边缘导致点空、以及长指令下目标指代错误。README 未给出端到端任务成功率，只给出定位类基准。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可作为企微桌面自动化的定位层：把企微窗口截图与「搜索框」「发送按钮」这类查询交给模型，得到坐标再点击。但会话选择、消息内容、发送前校验都需要自建，且桌面执行要走 OOTB 等外部项目，模型本身不接管输入，因此记为 partial。",
+  "maturityZh": "2024 年 10 月创建，2026 年 4 月最后推送，1.9k 星 144 fork，Apache-2.0 许可，论文、数据与权重齐全，后续衍生出 ShowUI-π 与 Aloha 两个项目。维护强度中等，主线更新已放缓。",
+  "evidence": [
+    {
+      "claim": "定位为端到端轻量 GUI 视觉-语言-动作模型",
+      "source": "README.md",
+      "quote": "Open-source, End-to-end, Lightweight, Vision-Language-Action model for GUI Agent & Computer Use."
+    },
+    {
+      "claim": "可通过 OOTB 项目用 ShowUI 控制电脑",
+      "source": "README.md",
+      "quote": "See [Computer Use OOTB](https://github.com/showlab/computer_use_ootb?tab=readme-ov-file) for using ShowUI to control your PC."
+    },
+    {
+      "claim": "支持 vLLM 推理",
+      "source": "README.md",
+      "quote": "Support **vllm** inference."
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "zai-org__CogAgent",
+      "Tongyi-MAI__MAI-UI",
+      "microsoft__OmniParser"
+    ],
+    "whenZh": "显存有限又想微调 GUI 模型，ShowUI 的 2B 体量最友好；要更强中英双语桌面能力选 CogAgent；要移动端真机与混合动作空间选 MAI-UI；只要可复用的截图解析而非模型，选 OmniParser。"
+  },
+  "stepsZh": [
+    "按 requirements 安装环境，下载 ShowUI-2B 权重到本地",
+    "启动 Gradio 服务或本地推理脚本，确认能用截图查询返回坐标",
+    "截取企微窗口，查询「搜索框」得到坐标并用 pyautogui 点击",
+    "输入客户昵称后再次查询「发送按钮」，点击前截图核对会话",
+    "失败时换用更具体的查询词重新定位，连续三次失败转人工",
+    "把每次查询与坐标写入日志，便于复现定位偏差"
+  ],
+  "successRateZh": "无公开成功率数据。README 未给出端到端任务成功率或逐次失败率，只说明在 grounding 与导航基准上训练与评测，具体分数需看论文；这些属于作者自报的基准结果。自测可对同一批 100 张企微截图标注目标框，统计点击命中率，并记录相似图标混淆与边缘偏移各占多少。",
+  "scores": {
+    "coverage": 3,
+    "usability": 2,
+    "docs": 3,
+    "maintenance": 3,
+    "performance": 3,
+    "stability": 3
+  }
+}

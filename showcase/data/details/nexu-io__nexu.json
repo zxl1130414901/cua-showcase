@@ -1,0 +1,88 @@
+{
+  "id": "nexu-io__nexu",
+  "taglineZh": "把 OpenClaw 接到微信与飞书的桌面客户端",
+  "summaryZh": "nexu 是一个开源桌面客户端，把 OpenClaw 代理接到微信、飞书、Slack、Discord 等 IM：双击安装、图形化配置、扫码连接，不需要命令行与手写配置。内置飞书 Skills 与多模型支持（含 Gemini），可自带 API Key；连接后你可以在聊天窗口与自己的代理对话，让它读消息、整理任务、调用技能。与云端 IM 机器人的本质区别是运行在本机、用你已有的账号与插件直连，数据与密钥留在设备上。",
+  "whatItDoesZh": "下载后双击启动，图形向导完成模型与 IM 配置；微信通过 8.0.7 的 OpenClaw 插件扫码连接，飞书、Slack、Discord 也可接入；连接后可在会话里向代理发指令、接收回复，代理可调用内置技能；支持多个模型与自带密钥；本地运行、本地存储，并提供开发模式、测试与文档站。",
+  "useCasesZh": [
+    "在个人微信里让本地代理整理群消息要点并生成待办",
+    "把飞书群里的待办消息同步成个人任务清单并提醒",
+    "用桌面客户端图形向导一键连接多个 IM 渠道",
+    "在本地运行代理，密钥与聊天记录都不出设备",
+    "给团队演示代理在 IM 会话中的技能调用"
+  ],
+  "appsZh": [
+    "微信 8.0.7（OpenClaw 插件）",
+    "飞书与飞书群会话",
+    "Slack 与 Discord 频道",
+    "本地桌面客户端与图形设置向导",
+    "接入的 Gemini 等模型服务"
+  ],
+  "platformsZh": [
+    "Windows",
+    "macOS"
+  ],
+  "techApproachZh": "Electron 与 TypeScript 桌面应用，前端做 IM 会话与设置向导，主进程管理 OpenClaw 插件与代理桥接；微信侧依赖官方插件的扫码登录与会话接口，飞书等通过开放接口或技能适配；模型层可切换 Gemini 等提供商，密钥存本地；内置技能以插件形式注册。",
+  "requirementsZh": [
+    "macOS（Apple Silicon 或 Intel）或 Windows",
+    "微信需 8.0.7 并安装 OpenClaw 插件",
+    "接入模型需自备 API Key",
+    "无需 GPU；本地运行但需联网调用模型"
+  ],
+  "prosZh": [
+    "双击安装，全程图形化无需命令行",
+    "微信、飞书、Slack、Discord 开箱接入",
+    "数据与密钥都留在本机，隐私与合规更可控",
+    "支持多模型与自带 API Key",
+    "内置技能插件，连接后即可直接对话调用"
+  ],
+  "consZh": [
+    "不支持企业微信，只覆盖个人微信等 IM",
+    "微信插件版本绑定，升级后可能失效",
+    "依赖 OpenClaw 生态与模型调用额度",
+    "项目 2026 年新建，长期维护待观察"
+  ],
+  "limitsZh": "它解决的是「人通过 IM 与代理对话」，不是「代理替你在 IM 里群发」；微信侧依赖 8.0.7 插件，版本一变就可能断；没有批量外发、客户标签与发送校验能力，企业微信也不在支持范围。仓库未声明消息送达率。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "它明确不支持企业微信，只连接个人微信、飞书、Slack 等渠道，因此不能直接给外部客户发消息。可借鉴的是它的 IM 桥接与技能架构：若企业微信开放接口或插件可用，同样思路能把代理接进外部群。",
+  "maturityZh": "2026-02 建仓，3288 stars、260 forks，MIT，最近提交 2026-04-26；有官网、文档、Discussions 与多语言 README，但几个月未更新，微信插件依赖带来维护风险。",
+  "evidence": [
+    {
+      "claim": "它把 AI 代理连接到微信、飞书、Slack 等 IM",
+      "source": "README.md",
+      "quote": "The open-source desktop client that connects your AI Agent to WeChat, Feishu, Slack & more"
+    },
+    {
+      "claim": "微信连接依赖 8.0.7 的 OpenClaw 插件",
+      "source": "README.md",
+      "quote": "WeChat + OpenClaw supported — works with WeChat 8.0.7 OpenClaw plugin."
+    },
+    {
+      "claim": "采用纯图形界面，无需命令行",
+      "source": "README.md",
+      "quote": "Pure GUI, no CLI needed, double-click to start"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "Hello-Mr-Crab__pywechat",
+      "wangrongding__wechat-bot"
+    ],
+    "whenZh": "要图形化把代理接进多个 IM，选 nexu；要用 Python 脚本精细控制微信客户端，选 pywechat；要做微信机器人框架并接入大模型，选 wechat-bot。三者都不支持企业微信。"
+  },
+  "scores": {
+    "coverage": 2,
+    "usability": 4,
+    "docs": 3,
+    "maintenance": 3,
+    "performance": 3,
+    "stability": 3
+  },
+  "stepsZh": [
+    "在 Windows 或 macOS 安装 nexu，双击启动完成图形向导",
+    "安装并登录微信 8.0.7，启用 OpenClaw 插件后扫码连接",
+    "在会话里让代理生成外部客户话术草稿，人工逐条修改",
+    "复制确认后的话术到企业微信外部群，由本人点击发送",
+    "记录失败与返工原因，评估是否值得接企业微信接口"
+  ],
+  "successRateZh": "无公开成功率数据；README 只强调连接与技能，不涉及企业微信外发。可自测：连续 50 次让代理生成客户话术，统计字段缺失、称呼错误、超长的比例；连接稳定性另测断线重连次数。"
+}

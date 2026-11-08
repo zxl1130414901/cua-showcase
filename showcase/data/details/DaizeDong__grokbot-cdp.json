@@ -1,0 +1,90 @@
+{
+  "id": "DaizeDong__grokbot-cdp",
+  "taglineZh": "经 CDP 遥控 Grok Bot 云主机的库",
+  "summaryZh": "grokbot-cdp 是一个小型 Python 库，用来驱动 xAI Grok Bot（电脑操作智能体）背后的云端主机。因为官方没有 API，它改为附着到桌面应用的 Chrome DevTools 端口，找到承载主机画面的 noVNC webview，从那里截屏、发送点击与按键、执行 shell 命令，并在不显示内容的前提下放置凭证。与同类最本质的区别是对「会撒谎的通道」的处理：隐藏窗口会返回上一次画的旧帧，库宁可抛错也不交回无法担保的截图，而不是把错误答案当成正确答案。",
+  "whatItDoesZh": "安装后调用 launch 启动带调试端口的应用，再用 VmSession 上下文管理器连上主机：status 返回连接状态，run 执行命令，screenshot 保存当前画面，另有输入与凭证放置接口。示例脚本能探测主机能力、跑单条命令。它会校验帧的新鲜度，检测到画面静止却仍报连接时直接失败；凭证通过不可见通道写入，避免出现在屏幕上被录进截图。整个库只有 requests 与 websocket-client 两个运行依赖。",
+  "useCasesZh": [
+    "在没有 API 的云端电脑上做脚本化操作",
+    "把远端主机画面与输入接入自建 agent",
+    "在共享云主机上安全放置短期凭证",
+    "复现并验证远端环境的能力探测",
+    "研究 noVNC 画面通道的失效检测"
+  ],
+  "appsZh": [
+    "Grok Bot 桌面应用内嵌的 noVNC 云主机画面",
+    "远端 Linux 主机的终端与图形界面",
+    "需要截图与输入注入的远程桌面会话",
+    "不限具体应用：驱动的是整台云主机，不是单个应用"
+  ],
+  "platformsZh": [
+    "Windows",
+    "macOS",
+    "Linux"
+  ],
+  "techApproachZh": "通过 CDP 附着到 Electron 主进程，定位承载远端画面的 webview，用 CDP 的输入域下发鼠标与键盘事件，用截图接口取帧；坐标需在 noVNC 画布与实际分辨率之间换算。关键机制是帧新鲜度校验：连续两帧无变化且输入仍被接受时判定通道不可信并抛错。凭证走不渲染到画面的通道写入，避免被截图记录；库只支持单会话。",
+  "requirementsZh": [
+    "Python 3.11 以上，Windows、macOS 或 Linux 均可",
+    "需已登录的 Grok Bot 桌面应用，库不处理登录",
+    "需安装 requests 与 websocket-client 两个依赖",
+    "需有可用的 Grok Bot 账号与云端主机配额"
+  ],
+  "prosZh": [
+    "把无 API 的云主机变成可编程对象",
+    "帧失效时直接报错，不返回假画面",
+    "凭证不可见写入，降低泄露面",
+    "依赖极少，只有两个运行库",
+    "文档分主题单点展开，边界写得清楚"
+  ],
+  "consZh": [
+    "依赖未公开接口，应用更新即可能失效",
+    "一次只能连一个会话",
+    "命令输出拿不到 stdout，只能看像素",
+    "仅 2 星，无社区与官方支持"
+  ],
+  "limitsZh": "没有 stdout：命令的结果只能通过画面或另开通道读取，退出码与文本都拿不到。一次只支持单会话，且依赖 Grok Bot 应用内部结构，官方改版可随时中断。已知失败模式包括隐藏窗口返回旧帧、noVNC 画布缩放导致坐标偏移、凭证写入通道在断连时丢失，以及应用升级后调试端口或 webview 选择器失效。",
+  "wecomRelevance": "none",
+  "wecomUseZh": "与企业微信外部客户或外部群发消息无关。它驱动的是 Grok Bot 背后的云端 Linux 主机画面，不是本地企微客户端；即便在云主机里装企微，也缺少消息语义与客户管理能力，且没有 stdout 通道校验发送结果，因此判定为 none。",
+  "maturityZh": "2026 年 9 月创建，10 月仍在推送，2 星 0 fork，MIT 许可，含 CHANGELOG、ROADMAP、CONTRIBUTING 与多篇参考文档，写作质量高于星数。风险是单人维护、依赖逆向接口，随时可能因上游改版失效。",
+  "evidence": [
+    {
+      "claim": "通过 CDP 附着到应用并找到 noVNC webview 驱动云主机",
+      "source": "README.md",
+      "quote": "It is a small Python library that attaches to the Grok Bot desktop app's Chrome DevTools"
+    },
+    {
+      "claim": "画面通道不可信时抛错而不是返回旧帧",
+      "source": "README.md",
+      "quote": "because the wrong answer looks exactly like the right one. So the library refuses. It"
+    },
+    {
+      "claim": "没有 stdout，结果只能通过像素获得",
+      "source": "README.md",
+      "quote": "Most of all it is **not a channel that carries stdout**. Output comes back as pixels."
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "steel-dev__steel-browser",
+      "Meirtz__Shinken",
+      "agent-sh__computer-use-linux"
+    ],
+    "whenZh": "要在无 API 的远端电脑上做自动化并强调通道可信度，grokbot-cdp 的失效检测思路值得借鉴；要可托管的浏览器环境选 steel-browser；要批量云桌面环境选 Shinken；要 Linux 本地控制选 computer-use-linux。"
+  },
+  "stepsZh": [
+    "安装 Grok Bot 桌面应用并登录，确认能进入云端主机画面",
+    "克隆仓库并 pip 安装，确认 requests 与 websocket-client 就绪",
+    "调用 launch 启动带调试端口的应用，等待端口可连",
+    "用 VmSession 的 status 确认连接，再截图核对画面新鲜度",
+    "跑 run 执行演示命令，并通过另开通道读取结果文本",
+    "连续两次截图比对，若画面未变且输入仍生效则中止并重连"
+  ],
+  "successRateZh": "无公开成功率数据。README 强调「测量而非推断」，但只给出单次观察到的行为与失效模式，没有多次运行的统计。作者明确说明某些结论仅基于一次观察，未升格为规律。自测可对同一截图与输入循环跑 50 次，统计旧帧误判、坐标偏移、断连三类失败，并记录重连恢复所需次数。",
+  "scores": {
+    "coverage": 2,
+    "usability": 2,
+    "docs": 4,
+    "maintenance": 2,
+    "performance": 3,
+    "stability": 3
+  }
+}

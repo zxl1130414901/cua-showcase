@@ -1,0 +1,83 @@
+{
+  "id": "OthersideAI__self-operating-computer",
+  "taglineZh": "靠看屏幕输出鼠标键盘动作的早期 CUA 框架",
+  "summaryZh": "Self-Operating Computer 是 2023 年最早一批完整 computer use 实现之一：模型看到屏幕截图，像人一样决定一连串鼠标键盘动作去完成目标。它用 mss 截全屏、PyAutoGUI 执行点击输入，动作以 JSON 返回。默认走 OCR 模式，先把界面里的可点击文字提取成坐标哈希表，模型按文字选目标再由代码换算坐标；另有 SoM 模式，用 YOLOv8 在截图上标号。定位是兼容多种多模态模型的实验框架。",
+  "whatItDoesZh": "命令行 operate 启动后输入一句目标，模型循环截图、判断、执行，直到自认为完成。支持指定模型：gpt-4o、gpt-4.1、o1、gemini-pro-vision、claude-3、qwen-vl、本地 Ollama 的 llava。除默认 OCR 外可切 gpt-4-with-som，还支持语音输入目标、以及自带 evaluate.py 做任务评估。",
+  "useCasesZh": [
+    "在没有任何 API 的桌面老系统里跑一次表单填报演示。",
+    "教学场景里对比 OCR、SoM 与纯视觉三种提示方式的效果。",
+    "给内部工具做一次性批量点击，替代人工重复劳动。",
+    "用本地 LLaVA 在断网机器上验证离线 CUA 可行性。",
+    "作为自研 agent 的动作空间参考实现来读源码。"
+  ],
+  "appsZh": [
+    "任意可见的桌面窗口，靠全屏截图与坐标点击",
+    "浏览器页面与桌面客户端一视同仁，无应用白名单",
+    "带文字标签的界面，OCR 模式效果最好",
+    "企业微信桌面客户端，可点但无发送前校验"
+  ],
+  "platformsZh": [
+    "Windows",
+    "macOS",
+    "Linux"
+  ],
+  "techApproachZh": "纯视觉加坐标：mss 截全屏，Pillow 处理，模型输出点击坐标或按键 JSON，PyAutoGUI 执行。OCR 模式用 easyocr 抽文字框并建文本到坐标的映射，让模型按语义选目标，降低纯坐标幻觉；SoM 模式用 YOLOv8 检测按钮再在图上画编号。没有无障碍树，也没有执行后校验，全靠模型自己看下一帧。",
+  "requirementsZh": [
+    "Python 环境，pip install self-operating-computer 后直接 operate",
+    "需 OpenAI Key，gpt-4o 要求账户已消费满 5 美元额度",
+    "macOS 需授予屏幕录制与辅助功能权限，Linux 需 X server",
+    "本地 LLaVA 需 Ollama 并预留约 5GB 模型空间"
+  ],
+  "prosZh": [
+    "实现简单直白，读源码就能理解整套动作循环",
+    "一套代码可切 GPT、Gemini、Claude、Qwen、LLaVA",
+    "OCR 模式把文字当锚点，明显缓解坐标幻觉",
+    "支持语音输入目标，交互方式完整",
+    "2023 年的先例，文档与社区讨论多，便于对照"
+  ],
+  "consZh": [
+    "全屏坐标点击，换分辨率或缩放就会整体偏移",
+    "无执行后校验与回滚，错一步就一路错下去",
+    "项目节奏偏慢，默认模型与依赖版本较旧",
+    "没有沙箱，agent 直接操作用户真实桌面"
+  ],
+  "limitsZh": "失败模式很典型：多显示器与高 DPI 缩放导致坐标错位；弹窗遮挡后模型仍按旧界面点；需要登录或二次验证的流程直接中断；本地 LLaVA 的错误率作者自己承认很高。没有权限模型、没有敏感操作拦截，也不支持长任务的上下文压缩。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "理论上可对着企微桌面客户端截图点选外部群并输入发送，但全屏坐标点击在窗口移动、DPI 变化时极易点到别的群，且无发送前核对环节，误发外部客户的风险高，只适合做一次性演示。",
+  "maturityZh": "MIT，1 万星，1.4 千 fork，但代码停留在 2023 年的模型世代，2026 年虽有零散提交，功能演进基本停滞。依赖 openai 1.x 与旧版 ultralytics，装环境容易踩版本坑，适合当教材不适合当生产件。",
+  "evidence": [
+    {
+      "claim": "以人类相同的输入输出方式工作，看屏幕后决定鼠标键盘动作",
+      "source": "README.md",
+      "quote": "Using the same inputs and outputs as a human operator, the model views the screen and decides on a series of mouse and keyboard actions to reach an objective."
+    },
+    {
+      "claim": "OCR 模式经测试优于 SoM 与纯 GPT-4，被设为默认",
+      "source": "README.md",
+      "quote": "Based on recent tests, OCR performs better than `som` and vanilla GPT-4 so we made it the default for the project."
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "vercel-labs__agent-desktop",
+      "777genius__os-ai-computer-use"
+    ],
+    "whenZh": "要低成本、可控的桌面操作，优先 agent-desktop 这类走无障碍树的方案；只能在视觉层面硬点且想要现成 GUI 时，os-ai-computer-use 更完整；本仓库更适合拿来读原理或做多模型对比实验。"
+  },
+  "stepsZh": [
+    "pip 安装后 operate 启动，填入 OpenAI Key，授予屏幕录制与辅助功能权限。",
+    "把企微窗口固定位置与大小并置顶，避免录制后窗口漂移导致坐标错。",
+    "先用 OCR 模式让模型按文字选中外部群名，再要求它把待发文本写入输入框。",
+    "发送前暂停，人工检查群名与内容；可用 evaluate.py 记录这次任务是否成功。",
+    "失败重试时清空输入框重新截图，不要沿用上一轮坐标，避免连发到错误会话。"
+  ],
+  "successRateZh": "无公开成功率数据。README 只写明「基于近期测试 OCR 优于 SoM 与纯 GPT-4」，属于项目自述且未给数字；另明确提示本地 LLaVA 错误率很高。自测可固定同一窗口跑 50 次单步点击，统计坐标偏移与误点比例。",
+  "scores": {
+    "coverage": 3,
+    "usability": 3,
+    "docs": 3,
+    "maintenance": 2,
+    "performance": 3,
+    "stability": 2
+  }
+}

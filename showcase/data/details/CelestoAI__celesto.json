@@ -1,0 +1,82 @@
+{
+  "id": "CelestoAI__celesto",
+  "taglineZh": "给 agent 的轻量持久虚拟机，本地或云端",
+  "summaryZh": "Celesto 给每个 AI agent 一台自己的计算机：一个轻量虚拟机，约 500 毫秒启动，可保留文件与状态跨会话使用，本地开发时跑在你机器上，生产时可切到 Celesto Cloud。它与「在本机进程里执行代码」最本质的区别是隔离边界：agent 的代码、浏览器、桌面应用都关在同一台虚拟机里，跑飞了也烧不到宿主。运行时按用途细分：最小计算机、浏览器会话、带桌面的完整环境、Windows 虚拟机、macOS 桌面。",
+  "whatItDoesZh": "一条 CLI 或一个 Python 上下文管理器就能创建计算机，然后在里面执行命令、开浏览器、跑测试、连 SSH、进交互 shell。可停可删，状态能持久。云端还能用自定义模板把依赖预装成镜像，之后每次创建都带着你的包。本地 workstation 模式也能独立运行，不依赖云端。",
+  "useCasesZh": [
+    "让 agent 在隔离虚拟机里跑不可信代码与安装依赖。",
+    "给每个任务分配独立桌面，互不污染浏览器登录态。",
+    "用持久虚拟机保存长周期任务的状态与中间产物。",
+    "在 CI 里拉起 Windows 虚拟机做安装包或客户端冒烟。",
+    "把本地开发环境与云端生产环境用同一套 API 切换。"
+  ],
+  "appsZh": [
+    "Linux 最小环境：命令行、文件、代码执行",
+    "带桌面环境的虚拟机：多窗口 GUI 应用",
+    "Windows 虚拟机：PowerShell 与 Windows 软件",
+    "macOS 桌面：Apple Silicon 上的应用与安装器测试"
+  ],
+  "platformsZh": [
+    "Linux",
+    "macOS",
+    "Web"
+  ],
+  "techApproachZh": "虚拟化抽象层：核心用 Rust 写，把 Firecracker、QEMU、libkrun 三种 VMM 统一成一套 API，Python 侧通过 pyo3 调用并暴露 CLI/SDK。云端正交把快照与自定义模板作为镜像分发，本地用轻量 workstation 模式直接起微虚拟机。桌面与浏览器是虚拟机内的独立 runtime，动作通过宿主的受控通道下发。",
+  "requirementsZh": [
+    "Python 3.11 以上，或直接用安装脚本装 CLI 与 SDK",
+    "Linux 或 macOS，macOS 需 Homebrew 装 QEMU，Linux 可能需 sudo",
+    "云端模式需 CELESTO_API_KEY，本地模式不需要",
+    "无需 GPU，配置视虚拟机规模而定"
+  ],
+  "prosZh": [
+    "约 500 毫秒冷启动，比传统虚机快一个量级",
+    "隔离边界强，agent 碰不到宿主文件与进程",
+    "同一 API 可在本地与云之间切换，迁移成本低",
+    "Windows 与 macOS 桌面 runtime 都有覆盖"
+  ],
+  "consZh": [
+    "0.1.x alpha，接口与运行时支持面还在变动",
+    "桌面环境仍标注 preview，稳定性不如纯命令行",
+    "本地依赖虚拟化与系统权限，部署有前置门槛",
+    "本身不含 agent 逻辑，业务能力要自己搭"
+  ],
+  "limitsZh": "能力边界是「给你一台机器」，不是「给你一个会干活的 agent」：没有任务规划、没有消息通道、没有审批流。已知限制包括本地模式要求虚拟化支持、桌面 runtime 仍在预览、云端按资源计费、跨机文件上传不能用构建脚本。只有启动耗时这类工程指标。Windows/macOS 客户机是 guest，不是宿主。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可在 Windows 虚拟机里装企微客户端，让 agent 在隔离环境里操作，避免污染本机会话。但要自己写窗口定位、会话选择与发送校验，且虚拟机内的登录、扫码与音频视频能力受限，落地成本高。",
+  "maturityZh": "Apache-2.0，1.1 千星，2026 年 11 月仍在提交，版本 0.1.13，标明 Alpha。仓库有术语表、变更日志与完整 docs，工程规范；风险是早期产品的接口漂移与云服务依赖。",
+  "evidence": [
+    {
+      "claim": "每个计算机是轻量虚拟机，约 500 毫秒启动并保留状态",
+      "source": "README.md",
+      "quote": "Each computer is a lightweight virtual machine, starts in about 500 ms, and can keep files and state between sessions."
+    },
+    {
+      "claim": "agent 的代码、浏览与桌面都跑在独立计算机里",
+      "source": "README.md",
+      "quote": "Celesto gives an AI agent its own computer for running code, browsing the web, and using desktop apps."
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "steel-dev__steel-browser",
+      "microsoft__magentic-ui"
+    ],
+    "whenZh": "缺一台隔离机器、要跑代码加桌面，选 Celesto；只要浏览器沙箱，Steel 更轻；要开箱即用的浏览器加文件 agent 且带人工审批，用 MagenticLite，它把 Celesto 这类底座之上的编排也做好了。"
+  },
+  "stepsZh": [
+    "本地装 celesto 并跑 celesto doctor，确认虚拟化可用、无告警。",
+    "创建带桌面环境的 Windows 计算机，装企微客户端并扫码登录一次。",
+    "写一段宿主侧脚本，通过受控通道截图并点击会话列表，先做只读。",
+    "发送环节改成两步：先填文本并截图回传，人工确认后再触发发送。",
+    "任务结束后 stop 而非 delete，保留登录态，下次直接复用该计算机。"
+  ],
+  "successRateZh": "无公开成功率数据。README 只给出「约 500 毫秒启动」的工程指标，没有任何任务完成率或端到端成功率。自测建议：连续创建并执行同一命令 50 次，统计启动失败、网络初始化超时、桌面 runtime 起不来的比例。",
+  "scores": {
+    "coverage": 4,
+    "usability": 4,
+    "docs": 4,
+    "maintenance": 4,
+    "performance": 4,
+    "stability": 3
+  }
+}

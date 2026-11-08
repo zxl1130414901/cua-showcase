@@ -1,0 +1,89 @@
+{
+  "id": "openinterpreter__openinterpreter",
+  "taglineZh": "面向低成本模型的终端编码代理，含 QA 技能",
+  "summaryZh": "Open Interpreter 已从早期的「自然语言驱动本机」演化为一个为低成本模型优化的编码代理，提供类似 Codex 的终端界面，并用 Rust 重写了部分 provider harness。它在本机执行代码、读写文件、跑命令；同时附带 QA 技能，可借 agent-browser 操作真实浏览器、借 trycua 操作原生应用来测试界面。与聊天式代理的本质区别是：主战场是终端与代码执行，计算机操作只是其中的测试技能，而不是以 GUI 为中心。",
+  "whatItDoesZh": "在终端里接受自然语言任务，规划并执行 shell 与代码、编辑文件、安装依赖、运行测试；支持多家低成本模型与 provider 配置；通过技能机制扩展能力，QA 技能可驱动浏览器或原生应用做端到端界面验证；提供安装脚本、文档站与会话记录，适合把重复工程任务脚本化。",
+  "useCasesZh": [
+    "在本机批量处理文件、做格式转换与内容抽取",
+    "让代理写脚本，自行运行并逐项验证输出结果",
+    "用 QA 技能在真实浏览器里做网页流程回归",
+    "把重复的运维命令封装成一句话可复述的任务",
+    "用低成本模型完成日常代码修改与小规模重构"
+  ],
+  "appsZh": [
+    "终端与 shell 环境",
+    "本地文件系统与代码仓库",
+    "真实浏览器（经 agent-browser）",
+    "原生桌面应用（经 trycua）",
+    "任意可脚本化的命令行工具"
+  ],
+  "platformsZh": [
+    "Windows",
+    "macOS",
+    "Linux"
+  ],
+  "techApproachZh": "核心是编码代理循环：模型产出代码或命令，宿主执行并把输出回灌，直到任务完成；工具与技能以可插拔方式注册，QA 技能把 agent-browser 与 trycua 包装成界面操作工具；provider 层做了多模型适配，部分 harness 用 Rust 实现以降低运行开销。",
+  "requirementsZh": [
+    "macOS、Linux 或 Windows",
+    "通过官方脚本安装 CLI",
+    "配置所选用模型的 API Key",
+    "用 QA 技能时需另装 agent-browser 或 trycua"
+  ],
+  "prosZh": [
+    "为低成本模型优化，日常调用成本可控",
+    "在终端内直接执行代码并当场验证结果",
+    "技能机制可扩展到浏览器与界面测试",
+    "安装只需一条命令，终端里即可上手",
+    "社区规模大，文档、案例与扩展较多"
+  ],
+  "consZh": [
+    "重心是编码，不是 GUI 自动化",
+    "界面操作依赖外部技能与额外依赖",
+    "低成本模型在复杂任务上容易跑偏",
+    "默认执行权限大，误删误改的风险较高"
+  ],
+  "limitsZh": "它不提供桌面代理的持续观察循环，界面任务要借外部工具；对需要看屏幕判断的流程支持有限；代码执行权限大，缺少细粒度沙箱时容易误删或误改；仓库未声明界面任务成功率，也不承诺复杂 GUI 流程的稳定性。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "不能直接操作企业微信客户端，但可用 QA 技能驱动浏览器打开企业微信管理后台，把建群发任务、导出结果写成脚本并自动回归；也可用它调用官方接口批量发消息。前提是遵守平台规则，且发送前保留人工复核。",
+  "maturityZh": "2023-07 建仓，68823 stars、5937 forks，Apache-2.0，最近提交 2026-11-04；社区极大、迭代稳定，但定位已从通用计算机代理转为编码代理，旧教程与预期可能不匹配。",
+  "evidence": [
+    {
+      "claim": "现在定位是为低成本模型优化的编码代理",
+      "source": "README.md",
+      "quote": "A coding agent optimized for low-cost models."
+    },
+    {
+      "claim": "自带可操作与测试界面的 QA 技能",
+      "source": "README.md",
+      "quote": "Open Interpreter ships with a QA skill that lets any model operate and test interfaces."
+    },
+    {
+      "claim": "QA 技能可驱动真实浏览器",
+      "source": "README.md",
+      "quote": "It can drive web apps in a real browser with"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "nanobrowser__nanobrowser",
+      "milind-soni__OpenMausBot"
+    ],
+    "whenZh": "任务是写代码、跑脚本、改文件，选 Open Interpreter；只需浏览器内自动化，选 Nanobrowser；要聊天式多代理与审批工作台，选 OpenMausBot。三者都能沾到计算机操作，但重心完全不同。"
+  },
+  "scores": {
+    "coverage": 2,
+    "usability": 4,
+    "docs": 4,
+    "maintenance": 5,
+    "performance": 4,
+    "stability": 4
+  },
+  "stepsZh": [
+    "用官方脚本安装 CLI，并配置可用的低成本模型密钥",
+    "先用一次只读任务确认它能调 shell 与浏览器技能",
+    "写脚本调用企业微信管理后台接口，生成外部客户群发任务",
+    "在脚本里加发送前校验：群名、客户标签、话术变量非空",
+    "失败重试两次并落日志，最后人工复核后再执行发送"
+  ],
+  "successRateZh": "无公开成功率数据；README 未给出界面任务的量化指标，社区反馈多集中在编码任务。可自测：用 QA 技能重复 50 次打开后台并创建群发任务，统计登录失效、字段定位失败、校验漏检三类次数，并与人工操作耗时对比。"
+}

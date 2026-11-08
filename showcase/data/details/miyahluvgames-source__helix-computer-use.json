@@ -1,0 +1,80 @@
+{
+  "id": "miyahluvgames-source__helix-computer-use",
+  "taglineZh": "Windows 三车道电脑操作栈：浏览器、桌面、动态",
+  "summaryZh": "把操作分成三条并行车道的 MCP 栈：托管 Chrome 走 CDP 与 Playwright 做 DOM 原生操作，windows_desktop 走 UIA 处理浏览器外框、系统弹窗、文件选择器和弱 UIA 应用，dynamic_control 处理动画、拖拽与时序敏感界面。路由规则很简单：从最轻的可用车道开始，只有界面证明不够时才升级，稳定后再降回来。",
+  "whatItDoesZh": "能启动托管 Chrome 并通过 CDP 读写 DOM、点击与导航，用 Playwright 作为同浏览器的备用通道；能用 UIA 操作原生窗口、处理文件选择器与浏览器原生提示；能对移动或动画目标做高频截图加输入循环，并提供可见的验收检查。",
+  "useCasesZh": [
+    "在同一个自动化流程里混合网页与桌面弹窗操作",
+    "处理文件选择器与浏览器原生提示框这类环节",
+    "对动画或拖拽验证类界面做高频的闭环控制操作",
+    "给 Codex 等 agent 提供多车道执行环境",
+    "把浏览器与桌面自动化统一到一套 MCP 配置"
+  ],
+  "appsZh": [
+    "Chromium 浏览器，托管实例走 CDP",
+    "Windows UIA 原生应用",
+    "浏览器原生弹窗与文件选择器",
+    "Canvas 与动画类动态界面"
+  ],
+  "platformsZh": [
+    "Windows",
+    "Web"
+  ],
+  "techApproachZh": "三车道加显式升降级：浏览器车道用 chrome-devtools MCP 与 Playwright MCP 挂在同一个托管 Chrome 的 CDP 端点上；桌面车道用 windows_desktop 读 UIA、截图并处理文件选择器；动态车道用高频抓屏加输入闭环。输入走 UTF-8 安全通道，点击用相对坐标批量提交。",
+  "requirementsZh": [
+    "Windows 系统与 PowerShell",
+    "Node.js 运行各 MCP 服务器",
+    "需启动托管 Chrome 实例并开放 CDP 端口",
+    "无额外模型 Key，由宿主 agent 提供推理"
+  ],
+  "prosZh": [
+    "三条车道各管一类界面，路由规则清楚",
+    "托管 Chrome 复用登录态，避免反复扫码",
+    "能处理文件选择器这类纯 DOM 够不到的环节",
+    "动态车道可以应对拖拽与动画类界面"
+  ],
+  "consZh": [
+    "需要同时配置多个 MCP 与端口",
+    "动态车道靠高频截图，CPU 与 token 开销大",
+    "1 星项目，配置文档是主要门槛"
+  ],
+  "limitsZh": "三条车道的切换依赖模型判断“界面不够用了”，判断错就会在错误车道反复尝试；动态车道只能保证动作发出，不能保证业务结果；托管 Chrome 与企微客户端是两套体系，企微本身不在覆盖范围内。",
+  "stepsZh": [
+    "说明：企业微信是独立客户端，只能走 windows_desktop 车道",
+    "先启动托管 Chrome 并确认 CDP 端口可用，验证浏览器车道正常",
+    "用 windows_desktop 车道激活 WXWork 窗口，读取 UIA 控件树",
+    "定位外部群会话与输入框，粘贴已审核文案后截图核对",
+    "由人工确认发送；若界面为自绘导致 UIA 失效，再降级到截图加坐标"
+  ],
+  "successRateZh": "无公开成功率数据。README 只描述三条车道的分工与路由原则，没有给出执行次数、失败率或对比实验。可自测：分别用浏览器车道与桌面车道跑同一任务各 25 次，统计需要升级车道的比例。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "企业微信只能落在它的桌面车道：读 UIA、切会话、填内容、截图验证。它没有企微专用适配，也不涉及外部客户消息的发送校验，属于通用桌面能力的一部分。",
+  "maturityZh": "2026 年 4 月创建，4 月后停更，1 星、0 fork，MIT 许可。单人项目，主要价值在架构思路，工程完整度与维护活跃度都很低。",
+  "evidence": [
+    {
+      "claim": "栈分浏览器、桌面与动态三条执行车道",
+      "source": "README.md",
+      "quote": "three coordinated execution lanes"
+    },
+    {
+      "claim": "从最轻车道开始，必要时才升级",
+      "source": "README.md",
+      "quote": "start on the lightest capable lane"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "mrpulor-gh__nuphus-mcp",
+      "24kchengYe__desktop-controller-skill"
+    ],
+    "whenZh": "需要浏览器与桌面混合、且愿意维护多 MCP 配置，它的分车道思路清晰；若只想单进程搞定桌面加浏览器，nuphus 更省事，24kchengYe 则更偏聊天客户端。"
+  },
+  "scores": {
+    "coverage": 3,
+    "usability": 2,
+    "docs": 3,
+    "maintenance": 1,
+    "performance": 3,
+    "stability": 2
+  }
+}

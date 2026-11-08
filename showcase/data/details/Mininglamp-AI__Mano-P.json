@@ -1,0 +1,87 @@
+{
+  "id": "Mininglamp-AI__Mano-P",
+  "taglineZh": "可本地跑在 Mac 上的 GUI-VLA 代理模型",
+  "summaryZh": "Mano-P 是面向边缘设备的 GUI-VLA 代理项目，主张「Private AI」：模型在本地 Mac mini 或 MacBook 上推理，截图与任务数据不出设备。它分阶段开源：先放出 Mano-CUA Skills 供 OpenClaw、Claude Code 一类代理搭建 CUA 工作流，再放出模型与 SDK。与云端 CUA 的本质区别是推理全在本机，以部分通用性换取隐私、离线与零 API 成本；自述 Mano-CUA 1.1 在 OSWorld 达 58.2%，居专用模型首位。",
+  "whatItDoesZh": "能自主完成包含数百个可交互元素的复杂界面操作，纯视觉地跨系统取数而不依赖 API，支持长任务规划与多步执行；配套技能可接入现有代理框架，把「看屏幕—决策—点击输入」封装成可调用能力。项目还演示了从自然语言需求到建站、部署、端到端测试、失败修复的自动闭环，以及视频处理、日常娱乐等场景，说明模型不局限办公界面。",
+  "useCasesZh": [
+    "在无外网的办公电脑上做本地化的界面操作自动化",
+    "用 Mac mini 跑截图理解，敏感数据不离开内网",
+    "把 GUI 操作能力作为技能接进 Claude Code 工作流",
+    "在浏览器与剪辑软件之间做跨应用的重复操作",
+    "作为端侧 CUA 模型的评测基准与微调起点"
+  ],
+  "appsZh": [
+    "macOS 桌面应用与系统界面",
+    "浏览器页面与网页后台",
+    "视频剪辑、文件处理等桌面软件",
+    "可视觉识别的游戏与娱乐界面",
+    "接入 OpenClaw、Claude Code 等代理的技能层"
+  ],
+  "platformsZh": [
+    "macOS"
+  ],
+  "techApproachZh": "以 GUI-VLA 模型为核心：输入屏幕截图与任务指令，输出可执行的界面动作；模型经剪枝与量化后可在 Apple M4、32GB 内存设备上本地推理，配套 Cider SDK 提供 W8A8/W4A8 激活量化原语，提升 prefill 速度。技能层把模型能力包装成代理可调用的工具，规划与执行由宿主代理或内置流程负责，所有推理留在本机。",
+  "requirementsZh": [
+    "Apple M4 芯片且内存 32GB 以上的 Mac mini 或 MacBook",
+    "或通过 USB 4.0 及以上接口连接算力棒",
+    "需授予屏幕录制与辅助功能权限",
+    "无需 API Key，可离线运行；不需要独立显卡"
+  ],
+  "prosZh": [
+    "推理全本地，截图与任务数据不外传",
+    "无需 API Key，长期使用边际成本低",
+    "自述 OSWorld 58.2%，专用模型第一",
+    "模型小，可在 Mac 上离线跑",
+    "分阶段开源，技能层可先接入试用"
+  ],
+  "consZh": [
+    "硬件门槛高，需 M4 与 32GB 内存",
+    "模型与 SDK 分阶段放出，能力尚不完整",
+    "仅覆盖 macOS 生态，Windows 不可用",
+    "论文数字与真实业务成功率不能直接等同"
+  ],
+  "limitsZh": "端侧小模型的通用理解弱于云端大模型，复杂表单、密集文字与多窗口切换更容易出错；长任务依赖宿主代理的规划，自身不做业务级校验；58.2% 是基准任务成功率，意味着仍有近四成任务失败。仓库未给出企业微信类客户端场景的实测数据，也未声明重试与风控处理策略。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "它不提供企业微信专用接口，但本地模型可驱动 macOS 企业微信客户端做「看会话列表—点输入框—填话术」的半自动操作，数据不出本机是它的优势。适合对隐私敏感、批量不大的外部客户消息准备，发送仍需人工确认。",
+  "maturityZh": "2026-03 建仓，2840 stars、276 forks，Apache-2.0，最近提交 2026-06-25；有技术报告、HuggingFace 与 ModelScope 权重，但开源按阶段推进，模型与训练方法尚未全部放出，当前更适合评估而非生产。",
+  "evidence": [
+    {
+      "claim": "自述 Mano-CUA 1.1 在 OSWorld 上达到 58.2%",
+      "source": "README.md",
+      "quote": "58.2% success rate on OSWorld"
+    },
+    {
+      "claim": "可在 Apple M4、32GB 内存设备上本地推理",
+      "source": "README.md",
+      "quote": "Apple M4 chip with 32GB RAM"
+    },
+    {
+      "claim": "无需配置 API Key，开箱即用",
+      "source": "README.md",
+      "quote": "No API key configuration needed, ready out-of-the-box"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "microsoft__fara",
+      "showlab__computer_use_ootb"
+    ],
+    "whenZh": "要本地隐私推理且用 Mac，选 Mano-P；要浏览器任务的开源模型权重与评测集，选 Fara；要现成的桌面 GUI 代理界面并能接多种模型，选 OOTB。Mano-P 强在端侧与隐私，弱在平台覆盖与成熟度。"
+  },
+  "scores": {
+    "coverage": 3,
+    "usability": 3,
+    "docs": 3,
+    "maintenance": 3,
+    "performance": 4,
+    "stability": 3
+  },
+  "stepsZh": [
+    "准备 M4、32GB 内存以上的 Mac，并授予屏幕录制与辅助功能权限",
+    "安装 Mano-CUA Skills 并接入 Claude Code 或 OpenClaw",
+    "在企业微信 Mac 客户端先跑只读任务，确认能识别会话列表",
+    "让代理定位外部群、填入话术，在发送前停下等本人确认",
+    "记录失败样本并回灌，评估是否换更大模型或改流程"
+  ],
+  "successRateZh": "有公开基准：自述 Mano-CUA 1.1 在 OSWorld 达 58.2%，高于 opencua-72b 的 45.0%，但这是基准任务而非企业微信流程。无本场景实测数据；可自测 50 次「找群并预填话术」，统计识别错误、点偏、会话找错三类失败。"
+}

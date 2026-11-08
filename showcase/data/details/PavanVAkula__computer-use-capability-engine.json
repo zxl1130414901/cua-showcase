@@ -1,0 +1,86 @@
+{
+  "id": "PavanVAkula__computer-use-capability-engine",
+  "taglineZh": "LLM 发现流程并固化为可回放能力",
+  "summaryZh": "Computer-Use Capability Engine 是一个自动化原型：用 LLM 观察界面并一步步操作，把这次成功流程编译成带类型、带版本的 YAML 能力工件，之后调用完全走确定性回放，不再询问模型。示范目标是仿旧式会员服务控制台，任务是查会员、找储蓄账户、返回可用余额。与同类最本质的区别是把「发现」与「执行」拆成两个阶段：探索期允许模型自由决策，回放期只按已审阅的步骤与语义定位执行，因而结果稳定、可审计、成本低。",
+  "whatItDoesZh": "提供三种模式：discover_demo.py 让模型观察页面并选择动作，产出 YAML 能力；replay_demo.py 按能力中的有序步骤执行，目标定位优先用标签、角色与可访问名、可见文本与表格行语义，失败再退到 CSS 选择器；handoff_demo.py 需要人工时暂停但保留同一会话，人工完成后继续。结果分 success、business_outcome、human_required 等五类状态。",
+  "useCasesZh": [
+    "把一次性的探索操作沉淀成可复用自动化能力",
+    "给后台系统做读多改少的重复查询自动化",
+    "在关键步骤保留人工接管而非全自动硬跑",
+    "演示如何区分业务结果与自动化故障",
+    "为审计场景留下可版本化的流程工件"
+  ],
+  "appsZh": [
+    "本地运行的仿会员服务控制台（Flask 演示应用）",
+    "Chromium 中的普通表单与表格类网页",
+    "需要人工确认的搜索与提交环节",
+    "不限具体站点：示例绑定演示应用，改造需自写适配器"
+  ],
+  "platformsZh": [
+    "Web"
+  ],
+  "techApproachZh": "浏览器实现藏在 SurfaceAdapter 抽象之后，能力定义不直接耦合 Playwright；能力 YAML 记录 schema 版本、输入输出类型、敏感字段、风险等级、允许动作与来源、有序步骤、语义目标与选择器兜底、完成检查点。示例能力标为 read_only，仅允许 localhost 来源。发现与回放共用同一浏览器会话，人工接管通过控制权切换实现，而非重开会话。",
+  "requirementsZh": [
+    "Python 3.9+，安装 Playwright、Flask、Pydantic、PyYAML 与 OpenAI SDK",
+    "需执行 playwright install chromium 安装浏览器",
+    "发现阶段需 OpenAI API Key，回放阶段不需要",
+    "需在本地 5050 端口启动演示应用"
+  ],
+  "prosZh": [
+    "发现一次后回放完全不调模型",
+    "能力工件可审阅、可版本化",
+    "区分业务结果与自动化故障",
+    "保留会话支持人工无缝接管"
+  ],
+  "consZh": [
+    "只针对合成演示站点，非通用方案",
+    "0 星 0 fork，无社区无维护",
+    "示例只展示 read_only 风险等级",
+    "页面改版后语义定位与兜底需手工修"
+  ],
+  "limitsZh": "只在一个合成的会员服务控制台验证，未声明对其他站点或桌面应用的适配；发现阶段依赖模型，模型误选动作会污染能力工件。已知失败模式：页面结构变化导致语义定位与兜底选择器同时失效、回放中途出现未登记弹窗被判 hard_failure、人工接管未确认导致会话超时，以及能力版本与页面版本不匹配时静默走错分支。",
+  "wecomRelevance": "none",
+  "wecomUseZh": "与企业微信外部客户或外部群发消息无关。它只驱动网页，且示范能力被限定为只读查询，不涉及消息发送链路。若把企微网页后台当作目标，也只能读出信息，仍需另建发送通道，因此判定为 none。",
+  "maturityZh": "2026 年 9 月创建，两天后停止推送，0 星 0 fork，许可为 NOASSERTION，属于一次性演示项目。代码规模小、依赖 Pin 不严，长期风险在于无维护者、无 issue 响应，任何站点变化都要自行改代码。",
+  "evidence": [
+    {
+      "claim": "用 LLM 发现流程并转成可无模型回放的类型化能力",
+      "source": "README.md",
+      "quote": "A small computer-use automation system that uses an LLM to discover a UI workflow and represents the learned workflow as a typed, versioned capability that can later be replayed deterministically without an LLM."
+    },
+    {
+      "claim": "浏览器实现与能力定义通过 SurfaceAdapter 解耦",
+      "source": "README.md",
+      "quote": "The browser implementation is behind a `SurfaceAdapter` abstraction so capability definitions are not directly coupled to Playwright."
+    },
+    {
+      "claim": "会员不存在被视为预期业务结果而非自动化失败",
+      "source": "README.md",
+      "quote": "Member-not-found is treated as an expected business result rather than incorrectly reporting it as an automation failure."
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "ranjitdontineni09__computer-use-runtime",
+      "browser-use__browser-use"
+    ],
+    "whenZh": "它与 computer-use-runtime 思路几乎同源，都是发现加回放，差别在语言与成熟度：前者 Python 加 Flask 演示站，后者 TypeScript 加更完整的控制锁与安全层。要快速看懂机制选本项目，要更工程化的版本选后者；browser-use 则是每次都由模型决策的在线框架。"
+  },
+  "stepsZh": [
+    "创建虚拟环境并安装依赖，执行 playwright install chromium",
+    "启动 Flask 演示应用，确认 5050 端口可访问",
+    "在 .env 填入 OpenAI Key，运行 discover_demo 让模型探索流程",
+    "检查生成的 YAML 能力文件，核对步骤与允许动作是否符合预期",
+    "用 replay_demo 分别跑正常会员与不存在会员，验证两类结果",
+    "若某步需人工，跑 handoff_demo 并在同一会话中完成点击后恢复"
+  ],
+  "successRateZh": "无公开成功率数据。README 只给出示例任务的预期输出，未提供多次运行的统计或失败率。自测可对同一能力用 50 个不同会员 ID 回放，统计成功、业务结果、需人工、硬失败四类数量，并记录每次耗时与重试次数。",
+  "scores": {
+    "coverage": 2,
+    "usability": 2,
+    "docs": 3,
+    "maintenance": 1,
+    "performance": 3,
+    "stability": 3
+  }
+}

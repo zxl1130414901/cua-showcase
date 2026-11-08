@@ -1,0 +1,88 @@
+{
+  "id": "LAVARONG__wechat-automation-api",
+  "taglineZh": "Flask + UIAutomation 的微信接口服务",
+  "summaryZh": "wechat-automation-api 把 Windows 微信 4.x 的 UIA 操作封装成 HTTP 服务：Flask 暴露发送端点，uiautomation 在后台定位窗口、搜索会话、发送文本、图片或文件，并带任务队列、失败重试与幂等控制。还提供 Agent Skill，让 AI 助手用自然语言调用微信。与纯脚本相比，它把并发、状态与错误处理做成了可集成的服务。",
+  "whatItDoesZh": "启动 Flask 后 POST 发送请求，传联系人/群名与内容，服务排队执行并返回任务结果；支持文本、图片 URL（先下载再发送）、本地文件；提供健康检查、队列状态、日志与重试接口，可指定窗口标题适配多开；另含技能文档供 Agent 直接调用。",
+  "useCasesZh": [
+    "Agent 通过自然语言指令触发发送微信消息",
+    "把生成的日报表文件按名单发给项目群与客户",
+    "图片 URL 由服务端下载后转发给指定客户",
+    "批量投递发送任务，并统一做失败重试与幂等",
+    "在 RDP 服务器上保持前台会话，持续发送消息"
+  ],
+  "appsZh": [
+    "Windows 微信 4.0+ 客户端",
+    "微信好友与群聊会话",
+    "图片 URL 与本地文件",
+    "AI Agent 工具调用接口"
+  ],
+  "platformsZh": [
+    "Windows"
+  ],
+  "techApproachZh": "Python Flask 提供 HTTP 入口，服务端维护任务队列，逐条用 uiautomation 定位微信窗口、在搜索框输入会话名、回车进入会话后发送；图片先下载到临时目录再走文件发送。全程不 hook、不接协议，失败通过返回码与重试计数暴露。",
+  "requirementsZh": [
+    "Windows 与已登录的微信 4.0+",
+    "Python 3.9+ 与 Flask 依赖",
+    "需保持桌面会话，锁屏或 RDP 断开会失效",
+    "无需 GPU、API Key 或企业认证",
+    "需开放本地服务端口给调用方"
+  ],
+  "prosZh": [
+    "HTTP 化，任何系统都能集成",
+    "内置队列、间隔控制、重试与幂等，适合批量投递",
+    "支持图片 URL 自动下载转发",
+    "附 Agent Skill，可直接给 AI 调用",
+    "文档含 curl 示例与故障排查"
+  ],
+  "consZh": [
+    "仍依赖前台桌面会话，锁屏或切换用户即失效",
+    "单窗口串行发送，吞吐量受限于人工级操作速度",
+    "按名称搜索时命中首条，重名时可能发错会话",
+    "仓库未声明明确许可，商用前需自行确认授权"
+  ],
+  "limitsZh": "README 故障排查写明：锁屏、RDP 断开、窗口最小化都会让 UIA 失效；搜索框只取第一条结果，同名联系人或排序变化会发错人；单进程串行队列，突发请求会积压；没有发送结果回读，只能确认接口返回。",
+  "stepsZh": [
+    "在 Windows 安装微信 4.x 并保持登录",
+    "启动 Flask 服务，先调健康检查接口",
+    "用 curl 调发送接口，给文件传输助手发一条文本",
+    "发一个图片 URL，确认服务端下载后能转发出去",
+    "连发 50 条，观察队列积压、间隔与重试行为",
+    "锁屏与切后台后复测，确认失败模式与文档一致"
+  ],
+  "successRateZh": "无公开成功率数据，README 只声明队列、重试与健康检查。可自测：连发 50 条到 3 个会话，统计接口 200 但未送达、队列超时、窗口丢失三类；再锁屏重复一次，验证文档写的失效边界。",
+  "wecomRelevance": "none",
+  "wecomUseZh": "它操作的是个人微信 4.x 客户端，没有企业微信入口与客户联系接口，无法给企微外部客户或外部群发消息。若要在企微上复刻这套 HTTP 服务，需要另找企微自动化底座，且同样会碰到客户端版本与合规问题。",
+  "maturityZh": "193 star、45 fork，NOASSERTION，2025-10 创建、2026-09 推送；单人项目，文档与示例较完整，但只声明微信 4.0+、社区规模小，Issue 处理能力有限。",
+  "evidence": [
+    {
+      "claim": "通过 uiautomation 控制已登录微信",
+      "source": "README.md",
+      "quote": "核心能力是通过 `uiautomation` 控制已登录的微信客户端发送文本、图片 URL 或本地文件"
+    },
+    {
+      "claim": "不使用 Hook 与微信协议",
+      "source": "README.md",
+      "quote": "本项目不使用 Hook、不接入微信协议，只通过 Windows UI 自动化操作本机微信窗口。"
+    },
+    {
+      "claim": "提供 Flask HTTP API 入口",
+      "source": "README.md",
+      "quote": "适合外部系统长期集成、批量投递和队列处理"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "cluic__wxauto",
+      "aixed__WeChat-Hook"
+    ],
+    "whenZh": "要把微信发送能力做成 HTTP 服务给其他系统或 Agent 用时选它；只要 Python 库内调用选 wxauto；追求不经过界面的速度与稳定、且能接受注入风险才看 WeChat-Hook。"
+  },
+  "scores": {
+    "coverage": 3,
+    "usability": 4,
+    "docs": 3,
+    "maintenance": 3,
+    "performance": 2,
+    "stability": 2
+  }
+}

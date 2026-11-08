@@ -1,0 +1,89 @@
+{
+  "id": "simular-ai__Agent-S",
+  "taglineZh": "开源桌面 GUI 代理，能操作真实电脑",
+  "summaryZh": "Agent S 是 Simular 开源的可操作真实图形界面的计算机使用代理，像人一样看屏幕、点鼠标、敲键盘，也能以超出人的速度编排多步操作。它把感知、规划与执行拆成多层：截图理解界面、维护任务记忆、调用视觉定位模型把目标元素落到坐标；支持专有模型、开源模型与自家云 API。与固定脚本的 RPA 本质区别是每一步由模型判断，能处理没见过的界面；自述 Agent S3 在 OSWorld 上达到 72.60%，首次超过人类基线。",
+  "whatItDoesZh": "在 Windows、macOS、Linux 上运行，接收自然语言任务后循环截图、推理、执行；支持多代理协作（Manager 规划、Worker 执行）、代码与终端动作、跨应用长任务；可接 Simular 云 API 或自备模型；附带 OSWorld 等基准评测脚本与示例，便于对比与调试，也能让代理在真实桌面里完成打开应用、填表、整理文件等操作。",
+  "useCasesZh": [
+    "在桌面客户端按固定流程整理文件并归档到指定目录",
+    "跨浏览器与本地软件完成一份带图表的报价单制作",
+    "让代理重复执行带判分的桌面任务并统计成败",
+    "用自己的模型替换云端 API 做成本对比",
+    "为 GUI 流程搭建一套可复现、可对比的基准测试"
+  ],
+  "appsZh": [
+    "Windows、macOS、Linux 桌面应用",
+    "浏览器与网页后台",
+    "办公套件与文件管理器",
+    "终端与代码编辑器",
+    "OSWorld 等虚拟机评测环境"
+  ],
+  "platformsZh": [
+    "Windows",
+    "macOS",
+    "Linux"
+  ],
+  "techApproachZh": "分层代理架构：感知层截图并抽取可交互元素，规划层拆解任务并维护记忆，执行层用原生输入或代码执行；视觉定位模型负责把「第几个元素」映射到坐标；支持云 API 与本地模型两种推理后端，多代理可并行拆分任务。",
+  "requirementsZh": [
+    "Python 3.10+，安装 gui-agents 包",
+    "授予屏幕录制与输入控制权限",
+    "需模型 API Key 或 Simular 云 API Key",
+    "Linux 桌面需可用的 X11 会话；无需本地 GPU"
+  ],
+  "prosZh": [
+    "跨三大桌面平台，可操作真实 GUI",
+    "OSWorld 72.60%，超过人类基线",
+    "支持云 API 与自备模型两种后端",
+    "分层规划与任务记忆，能持续跑长任务",
+    "附带基准评测脚本，便于量化对比效果"
+  ],
+  "consZh": [
+    "强依赖视觉模型，每次操作都有调用成本",
+    "真实桌面误操作风险高，需人工监督",
+    "安装、授权与环境配置的步骤较多",
+    "高 DPI 与自绘界面仍会失准"
+  ],
+  "limitsZh": "截图理解对密集小控件、深色主题与远程桌面不稳；长任务会因记忆漂移重复动作或走偏；没有内置业务级校验与发送确认，直接用于客户消息需自行加护栏；仓库未给出企业微信类场景的成功率数据。",
+  "wecomRelevance": "direct",
+  "wecomUseZh": "可驱动 Windows 企业微信客户端：先按群名定位外部群会话，再填入话术，发送前停下等本人确认。它比坐标脚本更能适应客户端改版，但必须加「群名与话术双校验」，否则错发风险不可接受。",
+  "maturityZh": "2024-10 建仓，12897 stars、1506 forks，Apache-2.0，最近提交 2026-10-30；有论文、基准与云服务，社区活跃，是开源桌面代理里维护最好的一档。",
+  "evidence": [
+    {
+      "claim": "它能像人一样操作真实 GUI",
+      "source": "README.md",
+      "quote": "An open-source computer use agent that can operate a real GUI like a human or work in the way beyond human capacity."
+    },
+    {
+      "claim": "Agent S3 是首个在 OSWorld 上超越人类的表现",
+      "source": "README.md",
+      "quote": "first to surpass human performance on OSWorld"
+    },
+    {
+      "claim": "提供云 API 接入方式",
+      "source": "README.md",
+      "quote": "Get an API key"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "Mininglamp-AI__Mano-P",
+      "showlab__computer_use_ootb"
+    ],
+    "whenZh": "要跨三平台的成熟桌面代理，选 Agent S；要 Mac 本地隐私推理，选 Mano-P；要带界面的开源桌面代理，选 OOTB。三者都做屏幕级操作，Agent S 的基准与工程化最完整。"
+  },
+  "scores": {
+    "coverage": 5,
+    "usability": 4,
+    "docs": 4,
+    "maintenance": 5,
+    "performance": 4,
+    "stability": 4
+  },
+  "stepsZh": [
+    "安装 gui-agents 并授予屏幕录制、辅助功能与输入控制权限",
+    "配置模型密钥，先跑一个只读任务确认截图与定位正常",
+    "让代理按群名搜索并打开企业微信的外部群会话",
+    "在发送动作前插入人工确认，先校验群名与话术变量",
+    "失败重试两次仍不成功则停止，保留截图与动作日志"
+  ],
+  "successRateZh": "有公开基准：README 自述 Agent S3 在 OSWorld 达 72.60%，但这是基准任务而非企业微信流程，且依赖所用模型。无本场景数据；可自测 50 次「找外部群并预填话术」，统计找错群、定位失败、漏校验三类失败。"
+}

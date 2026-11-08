@@ -1,0 +1,81 @@
+{
+  "id": "robotframework__robotframework",
+  "taglineZh": "纯文本关键字的通用自动化与 RPA 框架",
+  "summaryZh": "通用开源自动化框架，面向验收测试、验收测试驱动开发与 RPA：用接近自然语言的纯文本关键字写流程，可被通用库与自定义库扩展，且与操作系统和应用无关。它本身只提供执行引擎与报告体系，具体能力由 SeleniumLibrary、AppiumLibrary、WhiteLibrary 等外部库提供，因此桌面操作强弱取决于所接的库。",
+  "whatItDoesZh": "能写关键字驱动的测试或自动化流程，组织测试套件与变量，用命令行执行并生成带时间戳的 HTML 日志与报告；支持数据驱动、标签筛选、并行执行与监听器接口；调用外部库即可操作浏览器、移动端、桌面控件、数据库与接口，也能把桌面操作与接口校验串在同一条流程里。",
+  "useCasesZh": [
+    "用可读的文本编写跨系统的端到端验收测试流程",
+    "把桌面操作与接口断言串成同一条回归流水线",
+    "给非开发的同事提供可以读也方便改的自动化用例",
+    "在 CI 里跑带详细日志的回归并归档报告",
+    "用监听器把执行结果实时接入团队自研的质量平台"
+  ],
+  "appsZh": [
+    "不限具体应用，框架本身与应用无关",
+    "浏览器，经 SeleniumLibrary 等库",
+    "桌面应用，经 WhiteLibrary 或 UIA 库",
+    "移动端，经 AppiumLibrary"
+  ],
+  "platformsZh": [
+    "Windows",
+    "macOS",
+    "Linux"
+  ],
+  "techApproachZh": "关键字驱动：用例由关键字与参数组成，运行时由库把关键字映射到真实操作；引擎负责变量解析、套件组织、超时与失败重试，并输出结构化日志。扩展靠 Python 或 Java 库与监听器接口，桌面自动化要在库层接入 Win32、UIA 或图像识别，引擎本身不碰界面。",
+  "requirementsZh": [
+    "Python 3 环境，pip 安装 robotframework",
+    "按需安装桌面、浏览器或移动端库",
+    "桌面库可能需要额外运行库与授权",
+    "无需 GPU 与模型 Key"
+  ],
+  "prosZh": [
+    "纯文本关键字语法，业务同事也能读懂",
+    "日志与报告非常详细，失败定位直观",
+    "Selenium、Appium、White 等库分别覆盖 Web、移动与桌面",
+    "与 CI、并行执行和标签筛选配合成熟"
+  ],
+  "consZh": [
+    "自带能力只有执行引擎，桌面操作靠外部库",
+    "关键字层增加抽象，深层问题调试成本高",
+    "不是录制回放型 RPA，学习曲线偏陡"
+  ],
+  "limitsZh": "框架不能直接操作图形界面，桌面 CUA 必须依赖 WhiteLibrary、UIA 封装或图像识别库，稳定性随这些库而变；关键字层出错时错误信息会被包装，排查要下钻到库；不适合临时一次性脚本。仓库不提供成功率数据。",
+  "stepsZh": [
+    "先用 WhiteLibrary 或 UIA 库验证企微窗口能被关键字库识别",
+    "把“激活窗口、搜索外部群、写入文案”写成独立关键字",
+    "在流程里加断言，读取会话标题与输入框内容做校验",
+    "执行到发送步骤前设置人工确认断点，由本人点发送",
+    "失败时查看 HTML 日志定位控件失效，再重跑该用例"
+  ],
+  "successRateZh": "无公开成功率数据。作为执行引擎，它不发布任务级成功率，可靠性取决于所接库与用例质量；可参考其多年 CI 结果。自测方式：固定库版本，跑 50 次同一桌面流程并统计关键字失败与控件找不到的比例。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可以用它把企业微信的外部群操作写成可读的关键字流程，配合 UIA 库完成切会话、填文案与断言。它能提供报告与重跑机制，但不自带企微能力，界面控件是否可读仍取决于库。",
+  "maturityZh": "2014 年迁入 GitHub，2026 年 11 月仍在提交，11979 星、2587 fork，Apache-2.0 许可，由 Robot Framework 基金会支持。生态成熟、文档完善，是测试自动化领域的长期基础设施。",
+  "evidence": [
+    {
+      "claim": "通用开源自动化框架，覆盖验收测试",
+      "source": "README.rst",
+      "quote": "automation framework for acceptance testing"
+    },
+    {
+      "claim": "与操作系统和应用无关",
+      "source": "README.rst",
+      "quote": "operating system and application independent"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "iflytek__astron-rpa",
+      "appium__appium"
+    ],
+    "whenZh": "要可读、可版本管理、报告完善的流程，它最稳；要可视化低代码与现成 RPA 组件，astron-rpa 更直接；要移动端标准协议测试，Appium 更专。"
+  },
+  "scores": {
+    "coverage": 3,
+    "usability": 3,
+    "docs": 5,
+    "maintenance": 5,
+    "performance": 3,
+    "stability": 5
+  }
+}

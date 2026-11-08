@@ -1,0 +1,83 @@
+{
+  "id": "HenryXiaoYang__XYBot",
+  "taglineZh": "基于 Hook 的微信机器人，V1 已停更",
+  "summaryZh": "XYBot 是运行在 Linux/Windows 的微信机器人，通过 Hook 微信 3.9.10.27 客户端收发消息，插件化提供签到、积分、抽奖、天气、新闻、ChatGPT 对话等能力，配置用 TOML、管理用管理员指令。README 首行声明 V1 已停止更新并指向 XYBotV2，因此它更像一份可运行的旧版参考实现，而不是可持续维护的生产工具。",
+  "whatItDoesZh": "按官方 Docker 或 Windows 一键包部署指定版本微信与机器人，扫码登录后由 Hook 接管消息；在 config.toml 填管理员 wxid、机器人昵称与插件开关，群内 @ 机器人触发插件；管理员可用指令热加载或卸载插件、拉黑用户、调整积分与白名单。",
+  "useCasesZh": [
+    "在群里查天气、新闻与积分排行，做日常互动",
+    "接入 ChatGPT 做群聊问答，按上下文连续对话",
+    "用签到、积分与抽奖插件维持社群日常活跃度",
+    "管理员通过指令热加载自写插件，无需重启服务",
+    "用 Docker 部署长期挂机，观察内存与掉线情况"
+  ],
+  "appsZh": [
+    "微信 3.9.10.27 PC 客户端",
+    "微信群聊与好友私聊",
+    "Docker 容器化微信",
+    "插件系统与 TOML 配置"
+  ],
+  "platformsZh": [
+    "Linux",
+    "Windows"
+  ],
+  "techApproachZh": "Hook 微信 3.9.10.27 客户端，在进程内截获消息并回调到 Python 插件系统；插件按目录加载、支持热重载，消息与指令经内存队列分发，配置读写 TOML。属于注入式 Hook，不模拟界面，因此速度取决于客户端版本与 Hook 偏移。",
+  "requirementsZh": [
+    "Linux（Docker）或 Windows 部署",
+    "微信 3.9.10.27，版本不可替换",
+    "Python 3.10+ 运行环境",
+    "需管理员 wxid 与机器人昵称",
+    "ChatGPT 插件需自备 API Key"
+  ],
+  "prosZh": [
+    "插件机制完整，支持热加载与自写插件",
+    "提供 Docker 与 Windows 一键部署",
+    "积分、签到、抽奖等社群插件随仓库提供，装好即可启用",
+    "中文文档与视频教程齐全，入门门槛相对较低"
+  ],
+  "consZh": [
+    "V1 已停止更新，官方指向 V2",
+    "微信版本锁在 3.9.10.27，过旧",
+    "采用 Hook 注入，官方明确禁止，存在封号风险",
+    "平台只标注 Linux，Windows 支持有限"
+  ],
+  "limitsZh": "README 首行即写 V1 停止更新，微信版本锁定 3.9.10.27，新客户端无法使用；Hook 注入属外挂行为，账号存在封禁风险；插件集中在积分娱乐，没有企业微信或外部客户能力。",
+  "stepsZh": [
+    "准备 Docker 与 3.9.10.27 微信镜像/一键包",
+    "按 compose 启动容器并用手机扫码登录",
+    "修改 config.toml 填管理员 wxid 与昵称",
+    "在群里 @ 机器人触发天气插件，验证插件链路",
+    "在群里 @ 机器人验证插件链路，再用管理员指令热加载插件",
+    "该仓库属于微信官方明令禁止的外挂路线，账号可能被永久封禁，不建议用于真实客户与主账号。"
+  ],
+  "successRateZh": "无公开成功率数据，README 只有插件说明与部署教程。可自测：在测试群发 50 条指令，统计插件响应数、Hook 掉线与重复回复；连续挂机 24 小时记录重连次数，用非主力账号验证。",
+  "wecomRelevance": "none",
+  "wecomUseZh": "XYBot 只 Hook 个人微信 3.9.10.27，没有企业微信客户端支持，也没有客户联系接口，无法给企微外部客户或外部群发消息；其插件框架可借鉴，但迁移到企微需重写全部通信层。",
+  "maturityZh": "533 star、68 fork，GPL-3.0，2023-05 创建，最后推送 2025-02，V1 已明确停更；文档与插件生态完整，但版本、协议与维护全部冻结，只能作为参考实现。",
+  "evidence": [
+    {
+      "claim": "V1 已停止更新并指向 V2",
+      "source": "README.md",
+      "quote": "# XYBotV1已停止更新，请前往XYBotV2"
+    },
+    {
+      "claim": "基于 Hook 的微信机器人",
+      "source": "README.md",
+      "quote": "XYBot是一个可运行于Linux和Windows的基于Hook的微信机器人"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "aixed__WeChat-Hook",
+      "mrsanshui__WeChatPYAPI"
+    ],
+    "whenZh": "想要现成插件生态与 Docker 部署的旧版微信机器人时参考 XYBot；只要底层 Hook 能力选 WeChat-Hook；要 Python 接口封装的 Hook 选 WeChatPYAPI。"
+  },
+  "scores": {
+    "coverage": 3,
+    "usability": 3,
+    "docs": 4,
+    "maintenance": 1,
+    "performance": 4,
+    "stability": 2
+  }
+}

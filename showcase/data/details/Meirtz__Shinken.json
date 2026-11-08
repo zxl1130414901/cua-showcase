@@ -1,0 +1,91 @@
+{
+  "id": "Meirtz__Shinken",
+  "taglineZh": "可检查点派生的 CUA 训练运行时",
+  "summaryZh": "Shinken 是给 computer-use agent 做训练与评测的运行时，想把「每个 episode 都重装桌面」的浪费去掉。它提供一套类型化、带版本号的 ACI，后端可插拔到 Docker 沙箱、浏览器 CDP、VNC 或云端桌面。核心卖点是运行态：桌面推进到某状态后原地检查点，沙箱继续运行，之后每个 episode 用 reset() 从已验证检查点恢复，或派生副本并行评测。最本质区别是把状态复用做成产品原语，并逐条标注哪些数字可重跑。",
+  "whatItDoesZh": "它提供 Python 与 TypeScript SDK：会话内可直接 click、type_text、screenshot，也能 exec 跑命令、checkpoint 保存、spawn 派生、spawn_many 批量造副本再用 fleet.map 并发驱动。run_eval_forked 可把任务配置一次、分叉多副本分别打分，训练侧预留与 verl、NeMo Gym 等框架的接缝，任务套件可接 OSWorld 与 CUA-Gym。",
+  "useCasesZh": [
+    "为 CUA 智能体搭建可并行的强化学习环境",
+    "把同一任务分叉成多份做批量评测对比",
+    "在 CI 里复现桌面状态而不用每次重装应用",
+    "为自研 driver 套上统一 ACI 接入训练循环",
+    "压测单进程能同时驱动多少桌面会话"
+  ],
+  "appsZh": [
+    "Docker 中的 Linux 桌面沙箱（参考镜像自带应用）",
+    "浏览器表面（通过 CDP 后端接入）",
+    "VNC 远程桌面与云端桌面后端",
+    "训练与评测任务套件中的通用桌面应用",
+    "不限具体应用：操作方式为像素与坐标，不依赖单应用 API"
+  ],
+  "platformsZh": [
+    "Windows",
+    "macOS",
+    "Linux"
+  ],
+  "techApproachZh": "走「统一接口加可插拔后端」路线：ACI 定义动词、目标与观测层级，具体由 CU/BU 后端实现，本机 Docker 是默认后端，trycua、codex 风格 MCP 桌面服务、CDP 浏览器、E2B 都能挂在下面。状态复用依赖容器层检查点，文件系统级恢复走安全的磁盘路径，进程内存级走 CRIU 但需要特权。性能靠异步事件循环与观测去重：单进程单线程维持大量会话，重复截图按命中率合并。",
+  "requirementsZh": [
+    "Docker 与 Python 3.10+，需先构建参考沙箱镜像",
+    "CRIU 进程内存检查点需特权模式，普通环境只能用文件系统级",
+    "连接远端守护进程需设置高熵 SHINKEND_TOKEN 做认证",
+    "执行任意进程需显式开启 SHINKEND_ENABLE_EXEC=1",
+    "无需 GPU；若要跑模型推理则在客户端侧另备算力"
+  ],
+  "prosZh": [
+    "检查点与派生副本省掉重复搭建桌面",
+    "单进程可驱动上百个真实桌面会话",
+    "后端可插拔，已有栈不必推倒重来",
+    "性能数字附可重跑脚本与数据目录",
+    "明确标注设计态与已验证态，不夸大"
+  ],
+  "consZh": [
+    "训练闭环只到优化器走通，未证明收敛",
+    "CRIU 路径需特权且基准待重测",
+    "原生实现与验证在 Linux/X11 最深",
+    "概念密度高，ACI 契约需先读文档"
+  ],
+  "limitsZh": "它是基础设施不是成品 agent：没有策略模型，也不规划任务。已知边界：进程内存检查点未开特权时不可用；跨后端 fork 能力不一致，不支持者只能声明 supports_fork=False；浏览器来源默认拒绝，任意进程启动默认关闭。macOS 原生版本仅有本地验证，RL 闭环只完成单步更新冒烟，不能据此推断收敛。",
+  "wecomRelevance": "none",
+  "wecomUseZh": "与企业微信外部客户或外部群发消息无关。它的用途是给 CUA 模型造训练和评测环境，不处理真实企业沟通场景；即便把企微客户端装进沙箱，也只是把它当作训练样本中的一个应用，产出的是 rollout 数据而非可用的发送流程，因此判定为 none。",
+  "maturityZh": "2026 年 6 月创建、9 月仍有提交，20 星 1 fork，Apache-2.0 许可，仓库含 CHANGELOG、SECURITY、benchmarks 与设计文档，工程化痕迹明显但社区很小。风险在于维护者单一、CRIU 等特性依赖特权环境、部分能力仍标注为待基准重测。",
+  "evidence": [
+    {
+      "claim": "检查点恢复后派生可用副本约 0.60 秒（磁盘路径，自测）",
+      "source": "README.md",
+      "quote": "| **restore → usable replica** | **0.60 s** disk/filesystem restart; process-memory CRIU is privileged and pending post-hardening rebenchmark |"
+    },
+    {
+      "claim": "存在状态时沙箱约 0.2 秒启动",
+      "source": "README.md",
+      "quote": "with provider.session(SandboxSpec()) as env:         # boots in ~0.2 s; auto-destroyed on exit"
+    },
+    {
+      "claim": "设计动机是避免重复重建同一桌面状态",
+      "source": "README.md",
+      "quote": "that compute is wasted rebuilding the same desktop state over and over: boot the desktop,"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "steel-dev__steel-browser",
+      "xlang-ai__OSWorld",
+      "instavm__clickclickclick"
+    ],
+    "whenZh": "要做大规模 RL 或批量评测并复用桌面状态，Shinken 的检查点与派生物语是核心优势；只关心浏览器内的 agent 环境，steel-browser 更聚焦；要做标准基准复现，OSWorld 是基准本身而非运行时；clickclickclick 则是轻量的本地演示工具，规模能力差一个量级。"
+  },
+  "stepsZh": [
+    "先构建参考沙箱镜像，安装 Python SDK 并确认 Docker 可用",
+    "用 DockerLocalProvider 建立会话，截图确认真实桌面已就绪",
+    "把桌面手动推进到演示所需状态，例如打开目标应用窗口",
+    "调用 checkpoint 保存该状态，再 spawn 派生一个副本来验证",
+    "在副本上执行 click 与 type_text 演示，完成后 destroy 并清理检查点"
+  ],
+  "successRateZh": "无公开成功率数据。README 给的是性能与吞吐量：恢复可用副本约 0.60 秒、act+observe 一步 13.4 毫秒、单事件循环 3096 个合成会话，不含任务成功率。自测可固定一个桌面任务派生 50 个副本各跑一次统计成功数，并按检查点未恢复、输入未生效、超时归类。",
+  "scores": {
+    "coverage": 3,
+    "usability": 3,
+    "docs": 4,
+    "maintenance": 3,
+    "performance": 5,
+    "stability": 3
+  }
+}

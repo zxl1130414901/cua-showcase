@@ -1,0 +1,82 @@
+{
+  "id": "AirtestProject__Airtest",
+  "taglineZh": "基于图像识别的游戏与 App 跨平台自动化框架",
+  "summaryZh": "网易开源的跨平台 UI 自动化框架，核心是用图像识别定位界面元素，因此不需要向游戏或 App 注入任何代码。整套工具链包含跨平台 API、图形化 IDE、带录屏的 HTML 报告，以及能读取控件树的 Poco 扩展；支持命令行与 Python API 在设备农场上批量执行，适合游戏与移动端的回归测试。",
+  "whatItDoesZh": "可以安装与启动应用、模拟点击滑动输入、截图并做模板匹配断言、录制操作生成脚本、跑完输出带步骤截图与录屏的 HTML 报告；Poco 能直接访问各平台与游戏引擎的控件层级，写出比图像匹配更稳定的定位逻辑，也支持命令行与 Python API 在设备农场上批量执行。",
+  "useCasesZh": [
+    "给手游做每日任务与登录流程的自动化回归测试",
+    "在不改包的前提下验证 App 界面跳转是否正确",
+    "用 IDE 录制操作并生成可复跑的测试脚本",
+    "在设备农场上批量跑兼容性用例并自动出报告",
+    "对游戏内相对固定的 UI 做图像匹配式断言"
+  ],
+  "appsZh": [
+    "iOS 与 Android 原生应用",
+    "Unity、Cocos 等引擎开发的游戏",
+    "Windows 桌面应用",
+    "Web 页面（经浏览器驱动）"
+  ],
+  "platformsZh": [
+    "Windows",
+    "Android",
+    "iOS",
+    "Web"
+  ],
+  "techApproachZh": "以截图模板匹配为主：用 OpenCV 在屏幕截图中查找目标图片，找到即点其中心，因此无需应用暴露控件；Poco 作为补充，直接读取引擎或平台的控件树做精确选择。执行端由 Python 驱动设备，IDE 负责录制与回放，报告把每步截图与录屏串起来。",
+  "requirementsZh": [
+    "Python 3 与 pip 安装 airtest",
+    "Android 需 adb，iOS 需配套工具与签名",
+    "游戏与 App 需可被投屏或截屏",
+    "图像匹配在 CPU 上运行，不需要 GPU"
+  ],
+  "prosZh": [
+    "图像识别免注入，游戏也能自动化",
+    "IDE 录制回放，脚本生成门槛低",
+    "报告含步骤截图与录屏，定位失败直观",
+    "Poco 可读控件树，弥补纯图像的不稳定"
+  ],
+  "consZh": [
+    "模板图受分辨率、皮肤与动画影响大",
+    "游戏更新后需要重新截取大量模板图",
+    "2026 年后更新节奏明显放缓"
+  ],
+  "limitsZh": "模板匹配对缩放、主题、抗锯齿与动态特效都敏感，界面一改就要重截素材；找不到图会直接失败，没有语义兜底；多设备分辨率差异需要多套模板。仓库未给出公开成功率，网易内部使用属自述。",
+  "stepsZh": [
+    "先在企业微信 Windows 客户端上截取搜索框与输入框的模板图",
+    "用 airtest 连接桌面设备并验证模板能稳定匹配",
+    "点击搜索框输入外部群名，匹配会话标题确认目标",
+    "点击输入框粘贴已审核文案，断言输入框截图为预期",
+    "由人工确认后发送，并再次截图断言最后一条消息"
+  ],
+  "successRateZh": "无公开成功率数据。README 只说明可在设备农场批量执行、网易以此构建 Airlab，没有任务级成功率或失败率。可自测：固定分辨率与主题，跑 50 次同一流程，统计模板匹配失败与误匹配次数。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可用图像识别操作 Windows 版企业微信：截模板找搜索框、点进外部群、粘贴文案并断言界面。适合已用 Airtest 做回归的团队顺带覆盖企微界面，但模板维护成本高，且无法确认消息送达。",
+  "maturityZh": "2018 年创建，最近一次推送在 2026 年 3 月，9642 星、2200 余 fork，Apache-2.0 许可。项目成熟、文档与 IDE 完善，但近半年无更新，属于维护放缓的稳定期。",
+  "evidence": [
+    {
+      "claim": "用图像识别定位 UI 元素，无需注入代码",
+      "source": "README.md",
+      "quote": "uses image recognition technology to locate UI elements"
+    },
+    {
+      "claim": "一次编写可在多平台运行",
+      "source": "README.md",
+      "quote": "Write Once, Run Anywhere"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "appium__appium",
+      "pywinauto__pywinauto"
+    ],
+    "whenZh": "游戏或无法注入的 App 场景，图像识别是唯一可行路线，选 Airtest；可访问性完整的原生应用，Appium 或 pywinauto 的元素定位更稳、维护更省。"
+  },
+  "scores": {
+    "coverage": 4,
+    "usability": 4,
+    "docs": 4,
+    "maintenance": 3,
+    "performance": 3,
+    "stability": 3
+  }
+}

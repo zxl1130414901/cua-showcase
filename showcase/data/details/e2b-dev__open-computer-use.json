@@ -1,0 +1,89 @@
+{
+  "id": "e2b-dev__open-computer-use",
+  "taglineZh": "云端 Linux 桌面沙箱里的开源模型 CUA",
+  "summaryZh": "Open Computer Use 把开源模型放进 E2B 的云端 Linux 桌面沙箱里操作电脑：沙箱提供键盘、鼠标、shell 与实时画面，客户端把画面流式传回本地，用户可随时暂停并插话。模型层可换 10 多个 LLM，并用 OS-Atlas、ShowUI 等专用定位模型把「点哪个元素」落到坐标。与本地 CUA 的本质区别是执行面在云端隔离环境：不碰你的真实桌面，天然可重置，适合演示、评测与不受信任务；代价是无法操作只存在于本机的应用。",
+  "whatItDoesZh": "配置 E2B 与 LLM 密钥后启动客户端，创建云端 Ubuntu 桌面并流式显示；代理按截图决策，调用键盘鼠标或 shell 操作；可在运行中暂停并补充指令；通过 config.py 替换定位模型、视觉模型与动作模型；支持 Fireworks、OpenRouter、Groq 等多家 provider，也允许接入自选模型。",
+  "useCasesZh": [
+    "在隔离的云端 Linux 桌面完整演示一次 CUA 流程",
+    "用不同开源模型对同一桌面任务进行横向对比",
+    "在沙箱里运行不受信代码而不影响本机真实环境",
+    "给团队提供一个可随时重置的共用远程实验桌面",
+    "把 CUA 代理接进团队现有的自动化评测流水线"
+  ],
+  "appsZh": [
+    "E2B 云端 Ubuntu 桌面",
+    "浏览器与网页应用",
+    "终端与 shell 环境",
+    "需要图形界面的开源软件",
+    "OS-Atlas、ShowUI 等定位模型"
+  ],
+  "platformsZh": [
+    "Windows",
+    "macOS",
+    "Linux"
+  ],
+  "techApproachZh": "客户端与 E2B Desktop Sandbox 建立会话，桌面在云端运行并回传画面帧；代理循环截图、调用视觉模型决策、用定位模型给坐标，再经桌面 API 执行键盘鼠标或 shell；provider 层抽象多家模型，改配置即可切换。",
+  "requirementsZh": [
+    "Python 3.10+ 与 git",
+    "E2B API Key",
+    "至少一个 LLM provider 的 API Key",
+    "无需本地 GPU；需要稳定网络"
+  ],
+  "prosZh": [
+    "云端隔离运行，完全不碰你的真实桌面",
+    "支持 10 多个模型与专用定位模型",
+    "画面实时流式回传，用户可随时暂停干预",
+    "沙箱环境可重置，适合反复做同一评测",
+    "开源可改，provider 容易替换"
+  ],
+  "consZh": [
+    "只能操作云端 Linux，触不到本机应用",
+    "依赖 E2B 与模型两份密钥和费用",
+    "网络延迟会明显拖慢操作与画面反馈",
+    "缺少任务编排、重试与成功率统计"
+  ],
+  "limitsZh": "沙箱是 Linux 且与本地隔离，无法操作 Windows 或 macOS 专属客户端，因此碰不到企业微信 PC 端；网络受限时部分站点不可达；模型定位在密集界面仍会偏；仓库未声明成功率与长任务稳定性。",
+  "wecomRelevance": "none",
+  "wecomUseZh": "不能直接发企业微信消息，也不会碰到你的真实客户端。间接价值是作为隔离评测场：在云端 Linux 里用网页版管理后台验证话术生成与流程编排，把有风险的动作挡在真实客户之外。",
+  "maturityZh": "2024-10 建仓，2406 stars、268 forks，Apache-2.0，最近提交 2026-10-23；有架构文章与多 provider 支持，维护稳定，但功能定位偏演示与评测。",
+  "evidence": [
+    {
+      "claim": "它是 E2B 云端 Linux 桌面上由开源模型控制的 CUA",
+      "source": "README.md",
+      "quote": "controlled by open-source LLMs."
+    },
+    {
+      "claim": "把沙箱画面实时推流到客户端",
+      "source": "README.md",
+      "quote": "Live streams the display of the sandbox on the client computer"
+    },
+    {
+      "claim": "用户可随时暂停并给代理补充指令",
+      "source": "README.md",
+      "quote": "User can pause and prompt the agent at any time"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "xlang-ai__OSWorld",
+      "arcboxlabs__arcbox"
+    ],
+    "whenZh": "要现成的云端隔离桌面跑 CUA，选 open-computer-use；要做标准化桌面任务评测，选 OSWorld；要在本机用 microVM 隔离代理，选 ArcBox。三者都提供隔离环境，前两者偏评测。"
+  },
+  "scores": {
+    "coverage": 3,
+    "usability": 3,
+    "docs": 4,
+    "maintenance": 4,
+    "performance": 4,
+    "stability": 4
+  },
+  "stepsZh": [
+    "申请 E2B API Key 与一个 LLM provider 密钥并写入环境变量",
+    "启动客户端，确认云端 Ubuntu 桌面能正常推流与操作",
+    "在企业微信网页版管理后台做只读任务，观察定位是否准确",
+    "用 config.py 换定位模型，对比同一任务的成功与耗时",
+    "确认流程稳定后，只把生成与校验搬到本机执行发送"
+  ],
+  "successRateZh": "无公开成功率数据；README 只列能力，不含任务统计。可自测：在沙箱里对同一网页后台重复 50 次「筛选客户并预填表单」，统计定位失败、输入未生效、页面加载超时三类次数，并记录不同模型的耗时。"
+}

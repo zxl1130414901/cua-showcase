@@ -1,0 +1,82 @@
+{
+  "id": "777genius__os-ai-computer-use",
+  "taglineZh": "双模型桌面 CUA 客户端，自述 OSWorld 75%",
+  "summaryZh": "OS AI Computer Use 是一个可直接下载安装的桌面 computer use 客户端：模型看到屏幕截图，输出点击、输入、滚动、拖拽动作，由跨平台执行层落到真实系统。它把 LLM 供应商抽象在 LLMClient 之后，目前支持 OpenAI GPT-5.4 与 Anthropic Claude，前者用批量动作与 previous_response_id 保持连续性，后者用单动作加缩放与完整历史。执行层按 ports/drivers 分层，各平台分别适配截图与输入。",
+  "whatItDoesZh": "提供 Flutter 桌面界面与命令行两条入口：输入一句任务后，agent 循环截图、决策、执行，界面里实时显示动作与累计成本；支持多会话、历史持久化、图片上传与粘贴、API Key 存系统钥匙串。命令行长这样：python -m os_ai_cli --provider openai --task 打开 Chrome 搜索并截图。",
+  "useCasesZh": [
+    "让 agent 在 Mac 上打开应用、搜索网页并截图留证。",
+    "演示跨应用复制粘贴：一个应用里复制，另一个应用里粘贴。",
+    "用命令行批处理固定桌面任务，接进自己的脚本。",
+    "对比 OpenAI 批量动作与 Claude 单动作两种策略。",
+    "给非技术同事一个装完即用的桌面 agent 客户端。"
+  ],
+  "appsZh": [
+    "macOS 原生应用：Finder、Safari、系统设置等",
+    "Windows 10/11 桌面程序",
+    "Linux X11 或 XWayland 下的图形应用",
+    "企业微信桌面客户端，需自写任务与校验"
+  ],
+  "platformsZh": [
+    "Windows",
+    "macOS",
+    "Linux"
+  ],
+  "techApproachZh": "截图加坐标动作，外面套一层跨平台端口抽象：LLMClient 统一两家供应商的工具协议，OS 层按平台实现截图、鼠标移动与键盘注入，动作带缓动与时序控制以模拟人手。没有无障碍树参与，识别全靠多模态模型，长任务靠 provider 侧的会话延续机制维持上下文。",
+  "requirementsZh": [
+    "Python 3.12 以上，macOS 13+、Windows 10/11 或 Linux X11",
+    "至少一个 Key：OPENAI_API_KEY 或 ANTHROPIC_API_KEY",
+    "macOS 需授予辅助功能、输入监控与屏幕录制三项权限",
+    "无需 GPU，推理在云端"
+  ],
+  "prosZh": [
+    "装完即可用的桌面客户端，非开发者也能上手",
+    "两家供应商可切换，动作策略各有侧重",
+    "实时显示每次调用的成本估算",
+    "分层架构清楚，ports/drivers 便于扩展新平台"
+  ],
+  "consZh": [
+    "全屏截图加坐标点击，DPI 与多屏场景容易偏",
+    "没有沙箱，agent 直接操作用户真实桌面",
+    "README 宣称成绩但未附可复现实验细节",
+    "无发送前审批，也没有敏感操作拦截"
+  ],
+  "limitsZh": "能力边界是全屏可见界面，读不到隐藏控件。已知失败包括多显示器坐标基准不一致、系统授权弹窗挡住主窗口、长任务里上下文被裁剪后忘记已完成的步骤，以及 macOS 权限未全开时静默失败。缺少失败回滚与二次校验机制。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "能操作企微桌面客户端：截图识别会话列表，点外部群，输入文本后发送。但没有任何发送前核对或去重能力，误点外部客户的风险要靠人盯着；适合做演示或低频操作，不适合当群发工具。",
+  "maturityZh": "Apache-2.0，182 星，2026 年 10 月仍在提交，有 CHANGELOG、用户指南、多包 monorepo 与 CI 打包。个人主导但工程结构完整，主要风险是宣称指标缺少第三方验证。",
+  "evidence": [
+    {
+      "claim": "README 宣称 OSWorld 75.0%、超过人类表现",
+      "source": "README.md",
+      "quote": "**The most capable open-source desktop automation agent — 75.0% on OSWorld, surpassing human performance.**"
+    },
+    {
+      "claim": "执行层用 ports/drivers 抽象跨平台系统操作",
+      "source": "README.md",
+      "quote": "An OS-agnostic execution layer using ports/drivers (macOS, Windows, and Linux)"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "vercel-labs__agent-desktop",
+      "bytedance__UI-TARS-desktop"
+    ],
+    "whenZh": "想要装完即用的截图型桌面 agent，选它；要稳定的元素级操作，agent-desktop 更靠谱；要国产开源且带 MCP 与本地模型的桌面客户端，UI-TARS-desktop 更成熟。"
+  },
+  "stepsZh": [
+    "装发布包或按 make install 起 CLI，先在 macOS 授权辅助功能与屏幕录制。",
+    "用 CLI 跑只读任务：截图并列出企微窗口里的外部群名称，人工核对识别是否准。",
+    "把发送拆成两步任务：第一步输入文本并截图回传，第二步才回车提交。",
+    "发送前用裁剪截图核对群名与文本，不一致立即中止并重新截图选群。",
+    "失败时重置会话再重跑，避免模型沿用旧上下文重复点同一位置。"
+  ],
+  "successRateZh": "项目自述 75.0% OSWorld 并称超过人类表现，但未在该 README 给出实验配置与复现步骤，属自述指标而非第三方实测。无端到端办公场景成功率。自测建议在 OSWorld 官方任务集复跑，另在自己环境跑 50 次同类任务统计失败类型。",
+  "scores": {
+    "coverage": 4,
+    "usability": 4,
+    "docs": 3,
+    "maintenance": 4,
+    "performance": 3,
+    "stability": 3
+  }
+}

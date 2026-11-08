@@ -1,0 +1,83 @@
+{
+  "id": "appium__appium",
+  "taglineZh": "WebDriver 协议驱动的跨平台自动化框架",
+  "summaryZh": "基于 W3C WebDriver 的模块化自动化框架，把移动端、桌面端与 IoT 的自动化统一到一套 HTTP 协议：客户端用任意语言发命令，Appium 服务器转交给对应 driver，driver 再落到 XCUITest、UiAutomator2、WinAppDriver 等原生技术栈。与单个 UIA 库最大的不同是它定义协议与插件边界，能力由驱动生态决定。",
+  "whatItDoesZh": "能创建与关闭会话、按选择器查找元素、点击输入滑动、截图、读取页面源、执行脚本与录制操作；配合 Appium Inspector 可视化查看元素层级；也支持并行会话与设备农场批量执行，测试结果可接入主流 CI 与报告体系，或用 Inspector 逐层核对。",
+  "useCasesZh": [
+    "给移动 App 做跨 iOS 与 Android 的回归测试",
+    "把桌面 Windows 应用纳入同一套测试流水线",
+    "在设备农场里并行跑上百台真机的同一批用例",
+    "用 Python 或 Java 客户端复用已有测试代码",
+    "通过 Inspector 快速定位移动端元素选择器"
+  ],
+  "appsZh": [
+    "原生 iOS 与 Android 应用",
+    "混合应用与移动网页",
+    "Windows 与 macOS 桌面应用，经对应驱动",
+    "浏览器，经 WebDriver 兼容驱动"
+  ],
+  "platformsZh": [
+    "Windows",
+    "macOS",
+    "Linux",
+    "Android",
+    "iOS"
+  ],
+  "techApproachZh": "核心是 W3C WebDriver 协议与驱动插件机制：Appium 服务器只做会话管理与命令路由，具体操作由平台驱动实现，iOS 走 XCUITest、Android 走 UiAutomator2、Windows 走 WinAppDriver 系驱动。客户端与服务器解耦，因此多语言、多平台可以共用一套调用约定。",
+  "requirementsZh": [
+    "Node.js 与 npm，用于安装 Appium 服务器",
+    "按目标平台安装对应驱动与 SDK",
+    "移动端需真机或模拟器并完成授权",
+    "桌面端需额外安装 Windows 或 Mac 驱动"
+  ],
+  "prosZh": [
+    "W3C 标准协议，多语言客户端生态成熟",
+    "驱动插件化，新增平台不用改核心",
+    "Inspector 可视化定位，调试效率高",
+    "设备农场与并行执行的支持较为完善"
+  ],
+  "consZh": [
+    "部署链长，驱动与 SDK 版本容易冲突",
+    "桌面端能力依赖第三方驱动，覆盖有限",
+    "启动会话较慢，不适合临时的小脚本"
+  ],
+  "limitsZh": "桌面自动化不是它的主战场，Windows 驱动对 UIA 的覆盖与维护都不如原生库；元素查找依赖应用提供可访问性信息，自绘界面会直接失败；版本升级常伴随驱动不兼容，需要锁版本维护。",
+  "stepsZh": [
+    "先确认企业微信 Windows 客户端有可用的 Appium 桌面驱动",
+    "启动 Appium 服务器并创建会话，指向 WXWork 进程",
+    "用 Inspector 查会话列表与输入框的可访问性选择器",
+    "用脚本切到外部群、填文案并截图，人工确认后发送",
+    "对失败用例重跑一次并记录驱动版本，避免环境漂移"
+  ],
+  "successRateZh": "无公开成功率数据。作为框架，它本身不发布任务成功率，可靠性取决于驱动与用例质量；可参考其 CI 状态与各驱动仓库的 issue。自测方式：固定驱动版本，跑 50 次同一会话流程并统计元素找不到的比例。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可以给企业微信的 Windows 客户端做半自动会话操作与回归测试，但需要先解决桌面驱动问题，链路比专门的 UIA 库长。适合已有 Appium 测试体系的团队复用，而不是为企微临时搭一套。",
+  "maturityZh": "2013 年创建，持续活跃到 2026 年 11 月，2.2 万星、1.1 万 fork，Apache-2.0 许可，由 OpenJS 基金会支持。生态成熟、文档完善，是测试领域的基础设施级项目。",
+  "evidence": [
+    {
+      "claim": "覆盖原生、混合、移动网页与桌面应用的跨平台自动化",
+      "source": "README.md",
+      "quote": "Cross-platform test automation for native, hybrid, mobile web and desktop apps."
+    },
+    {
+      "claim": "框架模块化且可扩展",
+      "source": "README.md",
+      "quote": "Appium is modular and extensible"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "pywinauto__pywinauto",
+      "AirtestProject__Airtest"
+    ],
+    "whenZh": "已有跨端测试体系、要统一移动与桌面，选 Appium；只做 Windows 桌面且追求轻量，pywinauto 更直接；要图像识别免注入的游戏自动化，Airtest 更合适。"
+  },
+  "scores": {
+    "coverage": 5,
+    "usability": 3,
+    "docs": 5,
+    "maintenance": 5,
+    "performance": 3,
+    "stability": 4
+  }
+}

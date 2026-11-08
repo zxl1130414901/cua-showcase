@@ -1,0 +1,90 @@
+{
+  "id": "microsoft__OmniParser",
+  "taglineZh": "纯视觉 GUI 截图解析与元素定位",
+  "summaryZh": "OmniParser 是微软开源的屏幕解析工具，把一张界面截图拆成结构化元素：检测所有可交互区域（图标、按钮、输入框）的坐标，再为每个元素生成功能描述，最后把带编号的截图交给视觉语言模型，让它输出能落到具体区域的动作。V2 用 YOLOv9-E 做区域检测、用 Florence 类模型做图标描述。与同类最本质的区别是它只做感知不做决策：不接管鼠标键盘，而是把「看见」标准化，供任意视觉模型或 agent 调用。",
+  "whatItDoesZh": "典型用法是加载本地权重后调用解析函数，输入一张截图，输出元素列表与标注图；demo 与 gradio_demo.py 可直接上传图片查看结果。OmniTool 把它接到 Windows 11 虚拟机，配合 OpenAI、DeepSeek、Qwen 或 Anthropic 模型完成端到端操作。V2 检测器支持更细粒度的小图标，V1.5 起还会预测元素是否可交互，仓库另附 ScreenSpot-Pro 评测代码。",
+  "useCasesZh": [
+    "给自研 GUI agent 补一层通用视觉感知",
+    "把截图转成坐标表供大模型选择点击位置",
+    "在没有无障碍树的应用上做元素定位",
+    "复现 ScreenSpot-Pro 上的 grounding 评测",
+    "为 GUI agent 训练采集带标注的界面数据"
+  ],
+  "appsZh": [
+    "Windows 11 虚拟机中的通用桌面应用",
+    "任意渲染方式的网页与客户端界面",
+    "图标密集、无文本标签的工具类软件",
+    "由 OmniTool 接入的模型可视作操作者",
+    "不限具体应用：纯视觉解析，不依赖应用接口"
+  ],
+  "platformsZh": [
+    "Windows",
+    "Linux"
+  ],
+  "techApproachZh": "两段式视觉管线：先用 YOLOv9-E 交互区域检测器找出候选框，再用 Florence 类 caption 模型为每个裁剪块生成功能描述；OCR 用 EasyOCR 或 PaddleOCR 补充文字，最后把元素编号叠加回原图，形成模型可引用的坐标表。整个流程不需要无障碍树，也不依赖应用 API，对任意渲染界面通用；代价是每帧要做一次检测加多次描述推理，延迟与显存开销明显。",
+  "requirementsZh": [
+    "Python 3.12 的 conda 环境，按 requirements.txt 安装",
+    "需下载 YOLOv9-E 检测权重与 caption 权重到 weights 目录",
+    "建议 NVIDIA GPU，CPU 推理会明显变慢",
+    "本地解析无需 API Key；用 OmniTool 接模型时需对应厂商 Key"
+  ],
+  "prosZh": [
+    "纯视觉、不挑应用，自绘界面也能解析",
+    "25k 星，社区与生态引用量大",
+    "V2 对小图标检测更细，颗粒度更准",
+    "可直接接 OmniTool 组成端到端链路",
+    "附 grounding 评测代码，结果可复核"
+  ],
+  "consZh": [
+    "只做感知，不含动作执行与状态跟踪",
+    "每帧检测加描述，推理开销大",
+    "权重需手动下载，安装步骤偏多",
+    "许可为 CC-BY-4.0，商用需署名"
+  ],
+  "limitsZh": "分辨率与缩放变化时检测框可能错位，密集小图标与低对比度界面容易漏检，caption 描述偶尔语义偏差。它不提供动作执行、状态跟踪与重试，必须由上层 agent 自行闭环。README 自述 V2 在 ScreenSpot-Pro 上 ground 到 39.5%，这是定位指标而非任务成功率。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可以用来「看」企微桌面窗口：把截图解析成带坐标的按钮、会话项与输入框，再让视觉模型选目标。但点击、输入、发送前核对、失败重试都要上层自建；它本身不含控制逻辑，也不理解会话语义，因此只能作为企微自动化的感知前端，记为 partial。",
+  "maturityZh": "2024 年 9 月创建，2026 年 7 月仍有更新，25.6k 星 2.2k fork，CC-BY-4.0 许可，微软研究院维护，论文与模型页齐全。风险在于检测器权重走 HuggingFace PR 分发、依赖版本锁定较旧，长期维护强度中等。",
+  "evidence": [
+    {
+      "claim": "把界面截图解析成结构化、可理解的元素",
+      "source": "README.md",
+      "quote": "**OmniParser** is a comprehensive method for parsing user interface screenshots into structured and easy-to-understand elements"
+    },
+    {
+      "claim": "OmniTool 可用 OmniParser 加任选视觉模型控制 Windows 11 虚拟机",
+      "source": "README.md",
+      "quote": "We introduce OmniTool: Control a Windows 11 VM with OmniParser + your vision model of choice."
+    },
+    {
+      "claim": "V2 在 ScreenSpot-Pro 上 ground 到 39.5%",
+      "source": "README.md",
+      "quote": "We achieve new state of the art results 39.5% on the new grounding benchmark"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "microsoft__Hybrid-Computer-Use",
+      "showlab__ShowUI",
+      "zai-org__CogAgent"
+    ],
+    "whenZh": "要一个可自托管的通用截图解析前端，OmniParser 生态最大；要语义化无障碍加截图双通道的现成 MCP，选 Hybrid-Computer-Use；ShowUI 是端到端模型，输出动作而非元素表；CogAgent 是整模型 agent，显存门槛更高。感知层与模型层不是替代关系。"
+  },
+  "stepsZh": [
+    "截取企微窗口截图，确保分辨率与实际显示一致",
+    "加载本地权重调用解析，得到带编号的可交互区域列表",
+    "把标注图与目标描述交给视觉模型，让它选出目标区域编号",
+    "按编号换算坐标执行点击，输入消息文本但不回车",
+    "发送前再截一帧解析，核对会话标题与输入框内容",
+    "识别失败时重新截图并换用编号重试，三次失败转人工"
+  ],
+  "successRateZh": "无公开成功率数据。README 只自述 V2 在 ScreenSpot-Pro 上 ground 到 39.5%，这是元素定位准确率，不等于端到端任务成功率，也未给方差或失败类型。自测可对同一批 50 张界面截图标注真值，统计漏检、错框、描述错误三类比例。",
+  "scores": {
+    "coverage": 3,
+    "usability": 3,
+    "docs": 3,
+    "maintenance": 4,
+    "performance": 2,
+    "stability": 3
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "id": "masone__iphone-cua",
+  "taglineZh": "用 OpenAI 规划器操作真机 iPhone 的原型",
+  "summaryZh": "iPhone CUA 是一个概念验证项目：在真实 iPhone 上观察并操作 App。它由两部分组成，设备适配层通过 Appium 的 XCUITest 驱动抓取界面状态并执行点击、滑动、输入与等待；规划层把最新截图与可选 UI 树发给 OpenAI，请求下一个安全的界面动作。与 Android 或云手机方案最本质的区别是把「真机 iOS 加 Appium 加通用视觉模型」拼成最小闭环，代码量小、目标明确，但仍是原型而非产品。",
+  "whatItDoesZh": "用 npm 安装依赖、填写 .env 与 Appium capabilities，启动 XCUITest 驱动与本机控制器；编辑 session-goal.md 描述要完成的流程，代理循环观察并请求动作；支持通过 SESSION_GOAL_PATH 切换不同目标文件；示例给出一个 App 场景的最小运行方式，便于照抄改造成自己的流程。",
+  "useCasesZh": [
+    "在真机上验证一个 App 的多步操作流程",
+    "用自然语言描述目标，让代理在真机上逐步点击",
+    "为 iOS 自动化探索 Appium 与视觉模型组合",
+    "在测试机上按步骤复现用户反馈的完整操作路径",
+    "把它当作 iOS CUA 教学与二次开发的原型起点"
+  ],
+  "appsZh": [
+    "真实 iPhone 上的 iOS App",
+    "Appium XCUITest 驱动",
+    "需要开发者模式与 USB 连接",
+    "OpenAI 规划器接口",
+    "本机 Node.js 控制器"
+  ],
+  "platformsZh": [
+    "macOS"
+  ],
+  "techApproachZh": "设备适配层用 Appium 与 XCUITest 读取 UI 树、截图并执行触摸动作；规划层把截图与可选 UI 树发给 OpenAI，返回结构化动作后由适配层执行；循环直到目标完成；配置通过 .env 与 capabilities.json 注入，目标流程用 Markdown 描述。",
+  "requirementsZh": [
+    "macOS 与 Xcode、Node.js",
+    "iPhone 开启开发者模式并 USB 连接",
+    "安装 Appium 与 xcuitest 驱动",
+    "需 OPENAI_API_KEY；无需 GPU"
+  ],
+  "prosZh": [
+    "真机 iOS 操作，不是模拟器",
+    "结构清晰，设备适配层与规划层彻底分离",
+    "用 Markdown 目标文件描述流程，修改方便",
+    "代码量小且依赖清楚，便于二次开发",
+    "复用 Appium 成熟的设备能力"
+  ],
+  "consZh": [
+    "仅 1 star，几乎没有外部验证",
+    "强依赖 OpenAI 与外部网络",
+    "真机连接、签名与开发者配置都很繁琐",
+    "缺少重试、动作校验与系统化日志"
+  ],
+  "limitsZh": "原型没有失败恢复、动作白名单与速率控制；iOS 系统弹窗、权限请求与 App 反自动化会让流程中断；依赖模型对截图的判断，复杂界面容易点错；仓库未声明成功率，也没有测试用例。被操作对象是 iPhone，不是宿主。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可在真机 iOS 企业微信 App 上做会话操作的试验，但移动端外发限制与风控更严，且真机自动化配置繁琐；只适合内部测试账号验证流程，不适合作为生产外发方案。",
+  "maturityZh": "2026-03 建仓，1 star、1 fork，许可证未明确（manifest 记为 NOASSERTION），仅一次提交且未再更新；属于个人概念验证，不能作为长期依赖。",
+  "evidence": [
+    {
+      "claim": "它是真机 iPhone App 操作代理的概念验证",
+      "source": "README.md",
+      "quote": "This repository is a proof of concept for a computer-use agent that can observe and steer an iPhone app running on a real device."
+    },
+    {
+      "claim": "设备适配层负责取状态并执行点击滑动输入",
+      "source": "README.md",
+      "quote": "A device adapter that captures state and executes taps, swipes, typing, and waits on the phone."
+    },
+    {
+      "claim": "规划层向 OpenAI 请求下一个安全动作",
+      "source": "README.md",
+      "quote": "A planner that asks OpenAI for the next safe UI action from the latest screenshot and optional UI tree."
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "X-PLUG__MobileAgent",
+      "droidrun__mobilerun"
+    ],
+    "whenZh": "只想在单台 iPhone 上做最小验证，选 iphone-cua；要成体系的移动 GUI 模型与云手机，选 Mobile-Agent；要真机双端的测试框架，选 mobilerun。前者最轻，也最不成熟。"
+  },
+  "scores": {
+    "coverage": 1,
+    "usability": 1,
+    "docs": 2,
+    "maintenance": 1,
+    "performance": 2,
+    "stability": 1
+  },
+  "stepsZh": [
+    "在 Mac 安装 Node、Appium 与 xcuitest 驱动并启动服务",
+    "用 USB 连接测试 iPhone，开启开发者模式并填写 capabilities",
+    "在 session-goal.md 写清「打开某客户会话并填入话术」",
+    "运行控制器观察动作，发送前停下由本人核对内容",
+    "记录点偏与中断次数，判断是否值得继续投入"
+  ],
+  "successRateZh": "无公开成功率数据；仓库是原型且只有一次提交。可自测：在测试机连续跑 30 次简单流程，统计动作无效、系统弹窗中断、目标识别错误三类失败，并记录每次耗时与模型调用次数。"
+}

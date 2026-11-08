@@ -1,0 +1,79 @@
+{
+  "id": "wimi321__macos-computer-use-skill",
+  "taglineZh": "零私有依赖的 macOS 桌面控制 Skill",
+  "summaryZh": "一个按 skill 形态打包的 macOS 控制层：截屏、鼠标键盘、应用启停、剪贴板、多显示器与批量动作，首次启动会自动建虚拟环境并安装依赖。全部基于公开包，包括 Node、Python、pyautogui、mss、Pillow 与 pyobjc，不依赖本地 Claude 应用，也没有私有 .node 二进制或隐藏资源，可以直接装进任意 agent 的技能目录。",
+  "whatItDoesZh": "能截取任意显示器或指定区域并放大局部，执行点击、拖拽、滚动、输入文字与组合键，启动应用、识别前台应用、列出已安装与运行中的应用，读写剪贴板。支持在一次 MCP 调用里串起多个动作以减少往返，中文输入走剪贴板粘贴路径，避免输入法候选框遮挡和回车误上屏。",
+  "useCasesZh": [
+    "在 Mac 上给 agent 补一套稳定的截图与输入工具",
+    "批量截取多显示器界面用于视觉回归比对存档",
+    "用剪贴板粘贴路径安全地输入中文长文本草稿",
+    "查询当前前台应用并按名称快速切换工作窗口",
+    "把桌面操作封装成可复用的技能包分发给团队"
+  ],
+  "appsZh": [
+    "macOS 原生应用",
+    "Electron 客户端",
+    "浏览器窗口",
+    "不限具体应用，按屏幕坐标操作"
+  ],
+  "platformsZh": [
+    "macOS"
+  ],
+  "techApproachZh": "TypeScript 负责工具定义与 MCP 协议，Python 后端用 pyautogui 发输入、mss 抓屏、pyobjc 调系统应用接口。动作批处理把多步合成一次调用，减少协议开销；首次运行自建 venv 完成依赖安装，做到装完即用，代价是运行时要同时维护两个语言栈。",
+  "requirementsZh": [
+    "macOS 系统",
+    "Node.js 20 及以上",
+    "Python 3.10 及以上",
+    "需授予辅助功能与屏幕录制权限"
+  ],
+  "prosZh": [
+    "只用公开依赖包，没有私有二进制文件",
+    "首次运行自动建环境并装好全部依赖",
+    "支持多显示器枚举与截图区域放大",
+    "一次 MCP 调用就能串起多个动作"
+  ],
+  "consZh": [
+    "纯坐标操作，没有控件语义可供定位",
+    "Node 加 Python 双运行时，体积偏大",
+    "缺少针对具体应用场景的适配与示例"
+  ],
+  "limitsZh": "没有无障碍树支持，界面改版或窗口位置变化就要重调坐标；只能判断“点了”，无法判断“点对了”。仓库未提供任何成功率或稳定性测试，也未见真实业务场景的验证记录，更没有版本适配矩阵。",
+  "stepsZh": [
+    "说明：本仓库仅支持 macOS，无法驱动 Windows 版企业微信",
+    "若做通用演示，先授予辅助功能与屏幕录制权限并启动服务器",
+    "截图枚举显示器，确认企微窗口所在屏幕与坐标范围",
+    "用批量动作串起激活窗口、点搜索框、粘贴文案三步",
+    "人工确认后手动发送，并再截一张图作为操作留痕"
+  ],
+  "successRateZh": "无公开成功率数据。README 只列功能与权限要求，没有实测次数或失败统计。可自测：固定分辨率与缩放，重复 50 次同一操作序列，统计坐标偏移与输入法干扰导致的失败占比。",
+  "wecomRelevance": "none",
+  "wecomUseZh": "用不上：只支持 macOS，也没有企业微信适配。企微外部客户与外部群的消息发送主要在 Windows 与手机端，这个工具最多只能在 Mac 上做通用桌面演示。",
+  "maturityZh": "2026 年 3 月创建，4 月后基本停更，20 星、10 fork，MIT 许可，版本 0.2.2。文档中英日三语齐全，但维护活跃度低，遇到系统升级问题可能无人修复。",
+  "evidence": [
+    {
+      "claim": "首次运行自动创建虚拟环境并安装依赖",
+      "source": "README.md",
+      "quote": "Zero-Config Bootstrap"
+    },
+    {
+      "claim": "不依赖任何私有包",
+      "source": "README.md",
+      "quote": "No Private Dependencies"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "wimi321__windows-computer-use-skill",
+      "iFurySt__open-computer-use"
+    ],
+    "whenZh": "同一个作者的 Windows 版结构几乎一致，可按平台二选一；若需要跨平台且要无障碍能力，open-computer-use 的覆盖面更广，但两者都不是企微专用方案。"
+  },
+  "scores": {
+    "coverage": 3,
+    "usability": 3,
+    "docs": 3,
+    "maintenance": 2,
+    "performance": 3,
+    "stability": 3
+  }
+}

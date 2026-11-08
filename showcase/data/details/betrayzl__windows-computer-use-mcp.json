@@ -1,0 +1,79 @@
+{
+  "id": "betrayzl__windows-computer-use-mcp",
+  "taglineZh": "DXGI 抓屏加模拟输入的 Windows 电脑操作 MCP",
+  "summaryZh": "用 DXGI 抓屏做视觉感知，再发模拟鼠标键盘，让 agent 像人一样操作任意 Windows 程序，不需要任何 API 或接口改造。作者把“降低账号封禁风险”直接写成卖点：模拟真人鼠标轨迹与打字节奏，比调用接口更难被识别。感知分三档成本，结构化描述约一千 token，整屏截图五万以内，有原生接口则零 token。",
+  "whatItDoesZh": "提供 perceive 与 describe_screen 取结构化画面描述，截图，鼠标移动点击拖拽，键盘输入，以及窗口枚举与切换。配合多模态模型时，agent 能看图理解布局、图标与界面状态，再决定下一步动作；也能只在需要视觉确认时才拉整屏截图，平时走低成本描述。",
+  "useCasesZh": [
+    "给没有 API 的老旧 Windows 软件加自动化能力",
+    "在游戏里跑重复的日常任务并尽量降低封号风险",
+    "让 agent 操作运行在虚拟机里的受限平台",
+    "用低成本的结构化感知替代高频整屏截图调用",
+    "给视觉模型提供可自由调节的截图与描述粒度"
+  ],
+  "appsZh": [
+    "任意 Windows 桌面程序",
+    "游戏与全屏渲染窗口",
+    "虚拟机与远程桌面",
+    "不限具体应用，纯视觉加模拟输入"
+  ],
+  "platformsZh": [
+    "Windows"
+  ],
+  "techApproachZh": "感知用 DXGI Desktop Duplication 抓屏，输入走系统级模拟，鼠标按人形轨迹移动、键盘按自然节奏敲击。为了省 token 做分层感知：先用紧凑的结构化描述，需要确认时再取整屏图，有原生接口则直接调用。整体是“视觉感知加模拟输入”，不依赖控件树。",
+  "requirementsZh": [
+    "Windows 系统",
+    "Node.js 运行 MCP 服务器",
+    "需要视觉模型，可本地可云端",
+    "建议在游戏或受限平台场景下自备账号风控策略"
+  ],
+  "prosZh": [
+    "DXGI 抓屏，全屏与游戏窗口也能取画面",
+    "模拟人类输入，比接口调用更难被识别",
+    "分层感知把常规检查压到千级 token",
+    "对没有 API 的软件同样适用"
+  ],
+  "consZh": [
+    "纯视觉定位，界面一变就要重新调",
+    "依赖视觉模型，响应速度受模型限制",
+    "作者非专业开发者，代码质量未知"
+  ],
+  "limitsZh": "只能看见像素，读不到控件语义，坐标偏移与遮挡都会导致点错；游戏反作弊、DPI 缩放、多屏与窗口模式切换都可能打破坐标假设；无法确认业务结果是否正确。仓库未提供任何成功率、延迟或稳定性测试数据。",
+  "stepsZh": [
+    "先在企业微信上固定窗口大小与缩放比例，避免 DXGI 画面与坐标错位",
+    "调用 describe_screen 取当前界面结构化描述，确认停留在外部群会话",
+    "用截图确认输入框位置，模拟移动鼠标点击并粘贴已审核文案",
+    "再取一次结构化描述确认输入框内容，随后由人工按发送",
+    "若描述显示界面未变化，重新截图定位重试，两次失败即停止"
+  ],
+  "successRateZh": "无公开成功率数据。README 只交代作者用本地 Gemma 加一张 RTX 5060 Ti 开发，没有任何批量测试、失败统计或第三方复现。可自测：连续 50 次打开指定会话并输入，统计坐标偏移与识别失败的比例。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "理论上可做企微的半自动辅助：截图识别会话与输入框、模拟点击后粘贴文案、再截图核对。但它面向游戏场景设计，没有企微适配，也无法判断收件人是否正确，风险高于控件级方案。",
+  "maturityZh": "2026 年 4 月创建，5 月后基本停更，4 星、0 fork，MIT 许可。单人项目、作者自述无编程经验，缺少 issue 沉淀，属于实验性作品。",
+  "evidence": [
+    {
+      "claim": "结合 DXGI 视觉感知与模拟鼠标键盘输入",
+      "source": "README.md",
+      "quote": "visual perception"
+    },
+    {
+      "claim": "把降低账号封禁风险作为设计动机",
+      "source": "README.md",
+      "quote": "Reduces account ban risk"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "sandraschi__windows-computer-use-mcp",
+      "miyahluvgames-source__helix-computer-use"
+    ],
+    "whenZh": "界面没有控件树、又必须操作游戏或全屏程序时，它的 DXGI 路线更合适；有控件树可用时，pywinauto 系方案更稳、更省 token。"
+  },
+  "scores": {
+    "coverage": 3,
+    "usability": 2,
+    "docs": 3,
+    "maintenance": 1,
+    "performance": 2,
+    "stability": 2
+  }
+}

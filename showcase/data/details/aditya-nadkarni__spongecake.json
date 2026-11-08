@@ -1,0 +1,82 @@
+{
+  "id": "aditya-nadkarni__spongecake",
+  "taglineZh": "Docker 自建 Operator，配 SDK 与聊天界面",
+  "summaryZh": "spongecake 的目标是把「自建一个 OpenAI Operator」降到最低门槛：后端拉起一个 Docker 容器作为 agent 的电脑，前端用 assistant-ui 做聊天界面，开发者用 Python SDK 下发任务。它明确面向三类人：想自己造 computer use 体验的开发者、要自动化没有 API 的行业桌面软件的人、以及内网有 VPN 与防火墙约束不能上云的企业。与托管型 agent 平台相反，它整套跑在本地 Docker 里。",
+  "whatItDoesZh": "跑 setup.sh 后同时起前端与后端，agent 在容器桌面里浏览网页、点按钮、填表单、抓取内容。仓库带三个可跑示例：LinkedIn 客户线索挖掘、亚马逊购物、以及通用表单填报，改示例脚本就能换成自己的业务流程。SDK 侧暴露创建会话、发指令、取结果的接口。",
+  "useCasesZh": [
+    "在供应链或医疗这类没有 API 的老系统里做流程自动化。",
+    "内网有 VPN 与防火墙、无法用云 agent 的企业自建方案。",
+    "用示例脚本改成自己的线索采集与表单填写流程。",
+    "做原型验证：先跑通一个业务流程再谈工程化。",
+    "给内部团队一个可视化聊天入口来触发桌面任务。"
+  ],
+  "appsZh": [
+    "容器桌面里的浏览器与网页应用",
+    "无 API 的传统行业桌面软件，需在镜像内安装",
+    "表单类后台系统，如录入、申报页面",
+    "企业微信网页版，需容器内登录"
+  ],
+  "platformsZh": [
+    "Windows",
+    "macOS",
+    "Linux"
+  ],
+  "techApproachZh": "容器化电脑加截图动作：后端在本地 Docker 起一个带图形界面的容器，模型（默认 OpenAI）看截图输出点击与输入，动作在容器内执行，宿主机不受影响。SDK 负责会话与流式消息，前端用 assistant-ui 组件渲染对话与画面。默认开启匿名遥测，可用环境变量关闭。",
+  "requirementsZh": [
+    "Docker 与本机 Docker 环境可用",
+    "Python 与 Node.js，setup.sh 会装依赖",
+    "OpenAI API Key",
+    "无需 GPU，模型在云端"
+  ],
+  "prosZh": [
+    "本地 Docker 隔离，不污染宿主环境",
+    "带三个真实示例，改造成本低",
+    "SDK 加聊天 UI 都有，原型起步快",
+    "面向内网与无 API 系统，切入点务实"
+  ],
+  "consZh": [
+    "2025 年 4 月后无提交，事实上已停更",
+    "只接 OpenAI，模型选择面窄",
+    "无评测、无成功率、无失败重试设计",
+    "遥测默认开启，企业环境需手动关闭"
+  ],
+  "limitsZh": "边界是容器内可见的界面：装不进宿主应用，也读不到无障碍结构。已知问题包括容器镜像拉取失败即无法启动、截图坐标在高分屏容器里偏移、长任务无步骤上限、以及失败后没有回滚，只能整段重跑。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可在容器浏览器里登录网页版企微，由 agent 起草并发送消息给外部群。但容器无持久登录态、项目已停更、且缺少发送前核对，实际更适合当原型参考，而不是直接用于对外客户沟通。",
+  "maturityZh": "MIT，180 星，最后提交 2025 年 4 月，已明显停更；无 CHANGELOG、无发布节奏。作为早期 Operator 复刻实现仍有参考价值，但依赖会随时间腐化，不建议新建项目采用。",
+  "evidence": [
+    {
+      "claim": "目标是让开发者最省事地自建一个能用电脑的 Operator",
+      "source": "README.md",
+      "quote": "**spongecake** is the easiest way to create your own OpenAI Operator that can use computers."
+    },
+    {
+      "claim": "面向无 API 或 API 很差的行业桌面软件做自动化",
+      "source": "README.md",
+      "quote": "Developers who want to automate workflows in desktop applications with poor / no APIs (super common in industries like supply chain and healthcare)"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "OthersideAI__self-operating-computer",
+      "SouravBeraAkaSpeed__xiryn"
+    ],
+    "whenZh": "想读一个最早期的 Operator 复刻样板，看 spongecake；要仍在维护的同类自托管方案，Xiryn 更合适；要单机轻量跑截图 agent，self-operating-computer 更简单。"
+  },
+  "stepsZh": [
+    "跑 setup.sh 起 Docker 与前后端，先确认容器桌面能正常截图。",
+    "在容器浏览器里登录网页版企微，保存会话后不重建容器。",
+    "用示例脚本改一个只读任务：列出外部群名称与未读数，人工核对。",
+    "把发送写成独立函数，调用前先在对话界面显示目标群与文本供人确认。",
+    "失败后重启容器并重跑，记录截图与动作日志用于定位卡点。"
+  ],
+  "successRateZh": "无公开成功率数据。README 只有演示 gif 与示例说明，未给任何完成率或稳定性数字。由于项目已停更，建议先自测：固定一个表单流程跑 50 次，统计容器启动失败、坐标偏移、模型重复动作的比例，再决定是否采用。",
+  "scores": {
+    "coverage": 3,
+    "usability": 3,
+    "docs": 3,
+    "maintenance": 1,
+    "performance": 2,
+    "stability": 2
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "id": "4lexxe__ag-computer-use-mcp",
+  "taglineZh": "Antigravity 的 Windows 桌面控制 MCP",
+  "summaryZh": "面向 Google Antigravity 的 Windows MCP 服务器：截屏、按标题或窗口句柄定位窗口、鼠标键盘、用 UI Automation 检查并调用控件。最显眼的差异点不是能力而是可见性——接管时桌面边缘出现半透明红色边框、粒子、光标光环，控制条写着“正在使用你的电脑”并带停止按钮，让人随时能夺回控制权。",
+  "whatItDoesZh": "能读取原生 MCP 图像、按显示器或区域截图；按标题或 hwnd 找到并聚焦窗口；执行移动、点击、拖拽、滚动、输入文本与快捷键；读取 Windows 界面元素并调用受支持的控件；同时显示活动状态与停止入口，所有动作都通过标准 MCP 协议暴露给宿主 agent。",
+  "useCasesZh": [
+    "在 Antigravity 里让 agent 操作 Windows 桌面软件",
+    "按窗口标题或句柄快速聚焦目标程序并截图核对",
+    "通过 UIA 调用按钮与输入框而非盲点坐标",
+    "演示时让观众清楚看到 agent 正在接管桌面",
+    "需要随时手动中断的高敏感桌面操作场景下使用"
+  ],
+  "appsZh": [
+    "Windows 10 与 11 原生应用",
+    "桌面聊天客户端窗口",
+    "浏览器窗口与系统文件对话框",
+    "不限具体应用，按窗口句柄与 UIA 元素操作"
+  ],
+  "platformsZh": [
+    "Windows"
+  ],
+  "techApproachZh": "标准 MCP over stdio：感知侧用系统截图与 UI Automation 元素树，动作侧走输入注入与 UIA 控件调用。外围加了一层覆盖式活动指示器，用心跳边框、粒子与光标光环显示接管状态，控制条提供停止按钮，把“agent 正在操作”这件事显式化。",
+  "requirementsZh": [
+    "Windows 10 或 11",
+    "Python 3.11 及以上",
+    "需在 Antigravity 中配置为 MCP 服务器",
+    "无需额外模型 Key，使用宿主模型"
+  ],
+  "prosZh": [
+    "活动指示器让接管过程一眼就能看见",
+    "控制条提供停止按钮，可随时手动中断",
+    "同时支持截图与 UIA 元素调用",
+    "可按窗口句柄精确定位，减少误点"
+  ],
+  "consZh": [
+    "仅面向 Antigravity，通用性有限",
+    "界面与提示文案目前仍是西班牙语",
+    "刚创建，缺少使用反馈与文档沉淀"
+  ],
+  "limitsZh": "项目创建于 2026 年 11 月，没有任何实测或 issue 反馈；UIA 对自绘界面同样无能为力，仍需退回截图加坐标；活动指示器只表明“在操作”，不保证操作正确。",
+  "stepsZh": [
+    "说明：本项目面向 Antigravity，可用其 UIA 通道操作 Windows 版企微",
+    "先配置 MCP 服务器并确认红色活动边框与停止按钮出现",
+    "用窗口标题定位 WXWork，截图确认当前会话与账号",
+    "通过 UIA 元素定位输入框并填入已审核文案，截图核对",
+    "由人工确认后发送；异常时立即点停止按钮中断流程"
+  ],
+  "successRateZh": "无公开成功率数据。仓库创建当天即发布，尚未积累 issue、测试或第三方复现。可自测：在目标机器上跑 50 次“聚焦窗口—截图—点击元素”，统计定位失败与误点次数。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可用来在 Windows 上按窗口句柄聚焦企业微信、读 UIA 元素并填内容，配合可见的停止按钮做人盯机辅助。它没有企微适配，也不校验消息是否发出。",
+  "maturityZh": "2026 年 11 月 6 日创建，当天推送，0 星、0 fork，许可证为 NOASSERTION。全新项目，无版本发布、无 issue、无使用验证，成熟度最低档。",
+  "evidence": [
+    {
+      "claim": "用 UI Automation 检查并调用 Windows 控件",
+      "source": "README.md",
+      "quote": "UI Automation"
+    },
+    {
+      "claim": "接管时显示可见的活动指示器与停止按钮",
+      "source": "README.md",
+      "quote": "Antigravity is using your computer"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "wwwzzzxxx__winch-opencode-computer-use-mcp",
+      "shayann07__antigravity-computer-use"
+    ],
+    "whenZh": "同样服务 Antigravity，它的优势是可见指示器与 UIA 元素调用；winch 的树过滤与批量步骤更成熟，shayann07 则强调无需额外 MCP 的 skill 形态。"
+  },
+  "scores": {
+    "coverage": 3,
+    "usability": 2,
+    "docs": 3,
+    "maintenance": 1,
+    "performance": 2,
+    "stability": 1
+  }
+}

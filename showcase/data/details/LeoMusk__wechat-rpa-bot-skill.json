@@ -1,0 +1,89 @@
+{
+  "id": "LeoMusk__wechat-rpa-bot-skill",
+  "taglineZh": "AI Agent 可调用的微信 RPA 技能",
+  "summaryZh": "wechat-rpa-bot-skill 是把微信桌面操作打包成 AI Agent 技能的本地服务：后台常驻，以约 27 个 MCP 工具和 REST API（127.0.0.1:9922）暴露发消息、群发、朋友圈、语音等能力，Agent 装上即可调用。技术路线是纯 RPA，模拟真人鼠标键盘，不读数据库、不改内存、不碰私有协议，并提供本地 Web UI 做复杂配置。",
+  "whatItDoesZh": "安装 MCP 包或接入 YoBot 客户端后，Agent 可调用工具发文本/文件、按标签群发、发真实语音气泡、定时发朋友圈、读取群聊与联系人；本地 Web UI 管理账号、任务与配置；REST 接口供非 MCP 客户端调用，默认监听 9922。",
+  "useCasesZh": [
+    "让 Agent 用自然语言发微信消息与文件",
+    "按联系人标签分批群发活动通知与节日问候语",
+    "发送真实语音气泡，用于客户语音问候与触达",
+    "用定时任务在固定时段自动发布朋友圈图文内容",
+    "汇总群聊记录内容，自动生成待办清单与摘要"
+  ],
+  "appsZh": [
+    "Windows 微信客户端",
+    "微信群聊与好友会话",
+    "微信朋友圈",
+    "本地 MCP 服务与 REST API",
+    "本地 Web 配置界面"
+  ],
+  "platformsZh": [
+    "Windows"
+  ],
+  "techApproachZh": "本地常驻服务，用 Windows 原生 UI 自动化模拟鼠标键盘完成操作，对外暴露约 27 个 MCP 工具与 REST；微信界面与 RPA 记录都留在本机，接入外部模型时按配置把所需消息或附件发出去。不注入、不读库。",
+  "requirementsZh": [
+    "Windows 与已登录微信",
+    "Node/npm 或支持 MCP 的客户端",
+    "本地 9922 端口可用",
+    "需保持桌面会话与窗口可见",
+    "无需 GPU"
+  ],
+  "prosZh": [
+    "Agent 原生 MCP 接入，工具约 27 个",
+    "不读库、不改内存、不碰私有协议",
+    "覆盖群发、朋友圈与语音等高频 RPA 场景",
+    "本地 Web UI 做人机分工",
+    "108 star，2026-10 仍更新"
+  ],
+  "consZh": [
+    "依赖桌面 UI，微信升级需适配",
+    "仅 Windows 微信，覆盖面窄",
+    "批量群发仍可能触发风控，需要控制频率",
+    "社区规模与第三方评测都很少，资料有限"
+  ],
+  "limitsZh": "README 自述依赖微信桌面 UI，版本升级偶需适配；所有操作要窗口可见，锁屏或 RDP 断开会失败；虽不读库不注入，但批量群发与自动加好友仍可能触发微信风控；接入外部模型时消息会离开本机，需评估隐私。",
+  "stepsZh": [
+    "在本机安装微信并登录，保持窗口可见不锁屏",
+    "安装 MCP 包或接入 YoBot 并启动服务",
+    "确认 9922 端口可访问，且工具清单完整可调用",
+    "让 Agent 给文件传输助手发一条文本",
+    "建标签群发任务，先小批量试跑观察风控提示",
+    "连续跑 50 条，记录失败次数与风控提示"
+  ],
+  "successRateZh": "无公开成功率数据，README 只有功能清单与对比表。可自测 50 条发送与 10 条群发任务，统计送达、漏发、重复；再锁屏复测，确认 RPA 的失效边界。",
+  "wecomRelevance": "none",
+  "wecomUseZh": "它只操作个人微信 Windows 客户端，没有企业微信入口与客户联系接口，无法给企微外部客户或外部群发消息。RPA + MCP 的封装方式可参考，但落地企微要重写工具层并面对官方合规限制。",
+  "maturityZh": "108 star、29 fork，许可 NOASSERTION，2026-04 创建、2026-10 推送；单人项目、文档面向 Agent 阅读，生态小、无第三方复现，长期维护存在不确定性。",
+  "evidence": [
+    {
+      "claim": "不是 SDK，而是给 AI 智能体安装的 RPA 技能",
+      "source": "README.md",
+      "quote": "不是给开发者写代码用的 SDK，而是一个能被 AI 智能体一键安装、渐进式读文档自主调用的\"技能\""
+    },
+    {
+      "claim": "技术路线是纯 RPA，模拟真人鼠标键盘",
+      "source": "README.md",
+      "quote": "技术路线是纯 RPA / 系统原生 UI 自动化（完全模拟真人鼠标键盘）"
+    },
+    {
+      "claim": "以 MCP 工具与本地 REST 暴露能力",
+      "source": "README.md",
+      "quote": "以标准 **MCP 工具**（约 27 个）及 REST API 暴露微信能力（`http://127.0.0.1:9922`）"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "LAVARONG__wechat-automation-api",
+      "Hello-Mr-Crab__pywechat"
+    ],
+    "whenZh": "要让 Agent 通过 MCP 直接操作微信、且接受 RPA 限制时选它；要稳定的 HTTP 发送服务选 wechat-automation-api；要成熟的 Python 库与更多功能选 pywechat。"
+  },
+  "scores": {
+    "coverage": 3,
+    "usability": 4,
+    "docs": 4,
+    "maintenance": 3,
+    "performance": 2,
+    "stability": 2
+  }
+}

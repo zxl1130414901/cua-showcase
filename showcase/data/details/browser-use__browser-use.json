@@ -1,0 +1,82 @@
+{
+  "id": "browser-use__browser-use",
+  "taglineZh": "把网页操作交给大模型的 Python 浏览器智能体",
+  "summaryZh": "Browser Use 是一个让大模型直接操作浏览器的 Python 智能体框架。它把当前页面的可交互元素整理成结构化状态（元素索引、文本、属性）交给模型决策，再把模型输出的点击、输入、滚动等指令经由 CDP/Playwright 作用到真实浏览器，循环直到任务完成。与只做脚本回放的自动化工具不同，它每一步都重新观察页面，能应对改版和未知弹窗；与纯坐标点击的视觉 agent 不同，它优先用元素语义索引定位，稳定性更高但受页面可访问性信息质量约束。仓库同时提供本地库、CLI 与云端浏览器三条路径。",
+  "whatItDoesZh": "可用一句任务描述驱动浏览器完成多步操作：打开页面、检索信息、填表、点击按钮、下载文件、读取正文并汇总。开发者在 Python 里构造 Agent(task, llm) 后调用 run() 即自主执行；也可通过 Claude 的 browser toolset、MCP 或浏览器技能接入既有 agent。云端模式额外提供带住宅代理、验证码处理与隐身特征的浏览器，并给出实时查看链接。",
+  "useCasesZh": [
+    "定时抓取竞品官网定价页并整理成表格，页面小改版仍能自适配。",
+    "在后台管理系统里批量填写工单或报销表单，减少重复录入。",
+    "对需要登录的 SaaS 后台做巡检，截图并记录异常页面。",
+    "把长网页或在线 PDF 读成摘要，写入内部知识库初稿。",
+    "用同一任务横向对比不同模型在同一网站上的完成度。"
+  ],
+  "appsZh": [
+    "任意 Chromium/Chrome 系浏览器页面，本地或云端均可",
+    "需要登录态的 SaaS 后台与电商站点",
+    "带验证码或反爬的公开网站，需配合云端隐身浏览器",
+    "企业微信网页版 work.weixin.qq.com，需自行编排流程"
+  ],
+  "platformsZh": [
+    "Web"
+  ],
+  "techApproachZh": "以浏览器为中心：通过 CDP 与 Playwright 读取页面 DOM 与可访问性信息，把可操作元素编号后写进提示词，模型返回动作（按索引点击、输入文本、滚动、按键、等待），执行后再读新状态形成闭环。截图与视觉信息只作补充，不依赖固定像素坐标。模型层抽象成 Chat* 类，可换 OpenAI、Anthropic、Gemini、Ollama 等后端。",
+  "requirementsZh": [
+    "Python 3.11 以上，README 推荐 3.12 并用 uv 安装",
+    "至少一个大模型 API Key，示例用 OPENAI_API_KEY，也可用本地 Ollama",
+    "云端浏览器需 BROWSER_USE_API_KEY，按每浏览器小时 0.02 美元计费",
+    "本机需能安装 Chrome/Chromium，云端模式可免装"
+  ],
+  "prosZh": [
+    "元素索引定位，页面小改版不会立刻失效",
+    "同一套代码可在本地浏览器与云端隐身浏览器间切换",
+    "接入面广：Python 库、CLI、MCP、Claude 工具集都有",
+    "文档与示例齐全，装完即可跑通一个真实任务",
+    "社区体量大，踩坑经验容易检索到"
+  ],
+  "consZh": [
+    "只能操作浏览器，桌面客户端与系统弹窗不在范围内",
+    "模型调用成本随步数线性增长，长任务不便宜",
+    "页面可访问性差时会漏元素，仍需回退到截图判断",
+    "默认链路依赖若干第三方服务，纯离线场景受限"
+  ],
+  "limitsZh": "能力边界停在浏览器内部：点不了桌面客户端，也处理不了系统级授权弹窗。已知失败模式包括元素索引指向隐藏节点导致点错、页面异步渲染时读到旧状态、验证码与登录风控直接卡死、长任务上下文膨胀后重复同一动作。README 只披露隐身基准得分，未给出通用任务成功率。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "只能走浏览器通道：让 agent 登录网页版企微，进入客户联系或外部群会话，读取列表、填入文本并发送。难点是扫码登录、会话页元素索引不稳定与企业风控，需要自建登录保持和发送前人工确认，不能直接当成企微群发工具。",
+  "maturityZh": "MIT 许可，12 万星，2026 年 11 月仍按日更新，主仓库与云端产品同步演进。维护由商业公司承担，路线清晰；风险是云端服务收费与接口变更可能影响本地库行为，且依赖版本钉得比较死。",
+  "evidence": [
+    {
+      "claim": "定位为开源浏览器 agent，可本地跑也可用云端隐身浏览器",
+      "source": "README.md",
+      "quote": "The open-source browser agent. Run it locally with any LLM, or on [Browser Use Cloud](https://cloud.browser-use.com): stealth browsers from $0.02/hour, top score (90.5%) on [Stealth Bench V2](https://browser-use.com/benchmarks/browsers)."
+    },
+    {
+      "claim": "以 Python 库方式本地运行，模型与浏览器可自选",
+      "source": "README.md",
+      "quote": "Run the Browser Use agent locally from Python, with your choice of model and a local or cloud browser:"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "microsoft__magentic-ui",
+      "bytedance__UI-TARS-desktop",
+      "steel-dev__steel-browser"
+    ],
+    "whenZh": "只做网页任务、想快速接入现成模型时选 Browser Use；需要浏览器与本地文件混用、还要人工审批断点，选 MagenticLite；只需要浏览器沙箱基础设施、模型自己写，则选 Steel。要操作非浏览器桌面软件，这三者都不合适。"
+  },
+  "stepsZh": [
+    "用 Python 3.12 装 browser-use，在 .env 写 OPENAI_API_KEY 或本地 Ollama 地址。",
+    "以 headless=False 起持久化用户目录，扫码登录网页版企微并保持会话。",
+    "先只做只读任务：打开客户联系，列出外部群名称与未读数，人工核对。",
+    "发送前加确认断点：agent 把目标群名与拟发文本写文件，由人确认后再执行。",
+    "发送后读取会话最后一条消息做校验，不匹配就重观察页面并重试一次。"
+  ],
+  "successRateZh": "无公开成功率数据。README 只披露云端浏览器在 Stealth Bench V2 的 90.5% 反检测得分，属项目自述的隐身能力，不等于任务完成率。自测建议：固定 3 个站点各跑 50 次同类任务，按元素定位失败、超时、风控拦截三类统计。",
+  "scores": {
+    "coverage": 4,
+    "usability": 5,
+    "docs": 5,
+    "maintenance": 5,
+    "performance": 4,
+    "stability": 4
+  }
+}

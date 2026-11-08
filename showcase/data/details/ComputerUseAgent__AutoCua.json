@@ -1,0 +1,95 @@
+{
+  "id": "ComputerUseAgent__AutoCua",
+  "taglineZh": "跨六端自动化的多智能体桌面代理",
+  "summaryZh": "AutoCua 是一个跨端电脑操作智能体团队，用一个 mode 字符串切换驱动对象：桌面、shell、浏览器、iOS 与 Android。桌面侧不靠像素猜测，而把系统无障碍树与 OCR 融合成带编号的元素视图，模型只能选编号，没出现过的编号在下发前被拒绝；输入走操作系统原生输入层而非调试端口。浏览器侧用自带扩展接管用户自己的 Chrome，只有无头模式才开调试端口。与同类最本质的区别是编号元素、原生输入与上下文压缩代理三件事同时做，且覆盖手机与桌面。",
+  "whatItDoesZh": "pip install AutoCua 后四行代码即可启动：run_agent 传入 mode、provider、model 与 task。mode 覆盖 computer use、daisy chain、shell use、web use 与 iOS/Android 两种手机驱动；桌面模式自动识别系统。另有桌面应用、并行任务与 Telegram 远程控制。Linux 需 GNOME，iOS 需自备 WebDriverAgent。",
+  "useCasesZh": [
+    "用一句自然语言驱动本机桌面应用完成任务",
+    "让 agent 在真实终端里写代码并跑命令",
+    "接管用户自己的 Chrome 执行网页任务",
+    "通过 USB 驱动 iPhone 或 Android 实机",
+    "把重复流程写成可并行跑的自动化测试"
+  ],
+  "appsZh": [
+    "Windows、macOS、Linux 上的通用桌面应用",
+    "Chrome、Firefox、Edge、Brave 与 Opera 浏览器",
+    "iOS 模拟器与真机、Android 模拟器与真机",
+    "真实终端中的 shell 与编码任务",
+    "不限具体应用：以无障碍树加 OCR 感知，不绑定单应用接口"
+  ],
+  "platformsZh": [
+    "Windows",
+    "macOS",
+    "Linux",
+    "Android",
+    "iOS",
+    "Web"
+  ],
+  "techApproachZh": "感知层把系统无障碍树与 OCR 结果融合成编号元素视图，模型输出编号而非坐标；输入层直接注入 macOS 的 kCGHIDEventTap、Windows 的 pywinauto 真实输入路径，UAC 拦截时用内核驱动；浏览器层通过扩展在启动时注入脚本，普通运行不暴露调试端口，只有无头模式才开端口。运行期由独立压缩代理监控对话，拼接交接摘要以避免上下文耗尽。",
+  "requirementsZh": [
+    "Python 3.10 以上，pip 安装即可获得预编译的 Rust 扩展",
+    "Linux 需 GNOME 桌面，并安装 pip 无法覆盖的发行版依赖",
+    "Windows 的 UAC 场景需另行安装内核驱动，pip 无法完成",
+    "iOS 自动化需 Xcode 与自备 WebDriverAgent",
+    "需所选模型 provider 的 API Key"
+  ],
+  "prosZh": [
+    "六端统一接口，只改一个 mode 字符串",
+    "不猜坐标，未展示的编号直接拒绝",
+    "原生输入层注入，不依赖调试端口",
+    "长任务有独立压缩代理续接",
+    "默认无遥测，只连所选模型商"
+  ],
+  "consZh": [
+    "版本 0.1.9，仍处 Beta 早期",
+    "Windows 需内核驱动，安全合规成本高",
+    "手机与 iOS 另需工具链与连线",
+    "仓库体积大，依赖面广"
+  ],
+  "limitsZh": "仍需模型自行规划，编号视图在无无障碍树的自绘界面上高度依赖 OCR；Windows 内核驱动带来安全与合规负担；手机实机需要线缆或同网 Wi-Fi。已知失败模式包括 OCR 漏读导致目标编号缺失、长任务压缩后丢失细节、UAC 下驱动加载失败，以及 iOS 缺 WebDriverAgent 时移动能力暂停。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可直接在桌面模式下驱动企微客户端：无障碍树加 OCR 给出会话与输入框编号，模型选编号后由原生输入层点击与键入，适合做端到端发送演示。但客户名单、消息模板、发送前核对与失败重试要自建流程，它只提供通用的「看与操作」能力，因此记为 partial。",
+  "maturityZh": "2026 年 10 月创建，一个月内即到 1078 星 46 fork，次月仍在推送，MIT 许可，版本 0.1.9 自标 Beta。文档与目录结构完整，但项目极新，接口与打包方式仍可能变动。",
+  "evidence": [
+    {
+      "claim": "模型只选编号元素，不看坐标",
+      "source": "README.md",
+      "quote": "**No pixel guessing.** The model never sees a coordinate. It picks a numbered element from a"
+    },
+    {
+      "claim": "输入在操作系统原生输入层注入",
+      "source": "README.md",
+      "quote": "**No debugging port on your desktop.** Input goes in at the operating system's own input"
+    },
+    {
+      "claim": "一个 mode 字符串决定驱动哪种界面",
+      "source": "README.md",
+      "quote": "One string decides what the agent drives. Everything else stays the same."
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "bytedance__UI-TARS-desktop",
+      "microsoft__Hybrid-Computer-Use",
+      "agent-sh__computer-use-linux"
+    ],
+    "whenZh": "要同时覆盖桌面、手机与浏览器且在意坐标误点，AutoCua 的编号元素加原生输入最对路；要成熟稳定的视觉桌面助手，UI-TARS-desktop 更久经使用；要在编码 agent 里加桌面工具，Hybrid-Computer-Use 的 MCP 更轻。AutoCua 更重但面更广。"
+  },
+  "stepsZh": [
+    "pip 安装 AutoCua，Linux 先装齐发行版依赖并确认 GNOME 可用",
+    "配置模型 provider 与 Key，先跑一个只读任务验证桌面感知",
+    "用 mode 为 computer use 的任务描述「打开企微并进入某外部群」",
+    "在任务里要求发送前确认会话标题与接收人，再做点击",
+    "对编号失效或 OCR 漏读设置最多三次重试，失败即停",
+    "批量发外部客户时改用并行任务接口，并逐条记录结果"
+  ],
+  "successRateZh": "无公开成功率数据。README 只给出演示耗时，例如一次航班搜索 6.1 秒、质量模式下不到一分钟完成三件网页任务，这是单次演示的时长而非成功率。自测可对同一企微发送任务连跑 50 次，按编号缺失、点错元素、上下文压缩丢步、超时四类统计失败。",
+  "scores": {
+    "coverage": 5,
+    "usability": 4,
+    "docs": 4,
+    "maintenance": 4,
+    "performance": 4,
+    "stability": 3
+  }
+}

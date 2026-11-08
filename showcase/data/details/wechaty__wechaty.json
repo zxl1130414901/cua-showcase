@@ -1,0 +1,86 @@
+{
+  "id": "wechaty__wechaty",
+  "taglineZh": "多协议 chatbot SDK，微信机器人事实标准",
+  "summaryZh": "Wechaty 是 TypeScript 写的 Conversational RPA SDK，用统一事件模型把不同 IM 的登录、收发与群成员操作抽象成一套 API：机器人代码写一次，换 puppet provider 就能跑在微信、WhatsApp、Telegram、Line 等渠道。微信侧通过 puppet 服务扫码登录，支持私聊/群消息回调、建群拉人、发文件。它不操作客户端界面，也不接企业微信。",
+  "whatItDoesZh": "用 puppet provider 扫码登录微信，注册 onMessage 回调即可自动回复私聊与群消息；提供 Contact、Room、Message 对象，可建群、拉人、改群名、发文本/图片/文件/链接，处理好友请求与撤回事件。官方示例六行代码就能跑通 echo 机器人，也可接 padlocal 等付费网关服务。",
+  "useCasesZh": [
+    "扫码登录后监听私聊消息，按关键词规则自动回复",
+    "群内消息命中关键词时，自动触发机器人应答",
+    "用多语言 SDK 接入客服系统或社群助手",
+    "用 puppet 网关把微信消息接入自有业务系统",
+    "社群运营场景下自动发欢迎语并邀请新成员入群"
+  ],
+  "appsZh": [
+    "微信个人号（puppet 协议登录）",
+    "WhatsApp（puppet）",
+    "Telegram（puppet）",
+    "Line 与 TikTok（社区 puppet）",
+    "任意实现 puppet 协议的 IM 渠道"
+  ],
+  "platformsZh": [
+    "Windows",
+    "macOS",
+    "Linux"
+  ],
+  "techApproachZh": "TypeScript SDK + puppet 抽象层：puppet provider 负责与各 IM 网关或协议通信，上层统一 Contact/Room/Message 事件模型；微信侧可用 Web 协议或 padlocal 等网关服务，不注入客户端、不模拟界面。运行时为 Node.js，puppet 通过 WECHATY_PUPPET 环境变量切换。",
+  "requirementsZh": [
+    "Node.js 与 npm 环境",
+    "一个可扫码登录的微信账号",
+    "微信 puppet 服务或自建 provider（部分需付费）",
+    "无需 GPU，模型能力需自行接入",
+    "需网络可访问 puppet 网关"
+  ],
+  "prosZh": [
+    "生态最大，文档站、示例与多语言 SDK 都很全",
+    "一套代码可切换多个 IM 渠道",
+    "Contact/Room/Message 抽象清晰",
+    "Apache-2.0，23.5k star 长期维护",
+    "社区 puppet 与插件资源丰富"
+  ],
+  "consZh": [
+    "完全不接企业微信，无法触达外部客户",
+    "微信 puppet 多依赖第三方服务，存在停更",
+    "协议登录方式仍有风控与封号风险，不建议主号",
+    "大群高频消息下性能与稳定性下降"
+  ],
+  "limitsZh": "微信侧依赖 puppet 网关，padlocal 等主流服务已停止更新，网页协议也长期受限；README 未给出任何成功率或并发数据；不覆盖企业微信；群发与高频操作容易触发微信风控，账号随时可能被限制登录。",
+  "stepsZh": [
+    "初始化 Node 项目并执行 npm install wechaty",
+    "申请 puppet 服务，配置 WECHATY_PUPPET 与 token",
+    "按示例注册 onMessage，先做 echo 回复",
+    "node 运行示例后在终端扫码登录，确认 puppet 就绪",
+    "用另一账号私聊测试回复到达，再在群里 @ 机器人记录掉线",
+    "该仓库属于微信官方明令禁止的外挂路线，账号可能被永久封禁，不建议用于真实客户与主账号。"
+  ],
+  "successRateZh": "无公开成功率数据，README 与文档站只讲用法，不给统计。可自测：用 10 个好友、3 个群各发 5 条，统计回复率、平均延迟与掉线次数；再连续挂机 24 小时记录重连，区分 puppet 服务故障与代码异常。",
+  "wecomRelevance": "none",
+  "wecomUseZh": "Wechaty 的官方 puppet 覆盖微信个人号、WhatsApp、Telegram 等，没有企业微信客户联系 puppet，也没有外部群接口，无法给企微外部客户或外部群发消息。它适合做个人号或多渠道客服，不适合企微私域群发。",
+  "maturityZh": "23.5k star、2.9k fork，Apache-2.0，2016 年创建、2026-11 仍在推送，基金会式维护、文档站完善；但微信 puppet 多由第三方商业服务提供，上游停更会直接影响可用性。",
+  "evidence": [
+    {
+      "claim": "通过 npm 安装并以 SDK 方式使用",
+      "source": "README.md",
+      "quote": "npm install wechaty"
+    },
+    {
+      "claim": "可切换不同协议与 puppet 渠道",
+      "source": "README.md",
+      "quote": "Wechaty is very powerful that it can run over different protocols. You can specify the protocol by set the environment variable `WECHATY_PUPPET` to different puppet provider."
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "wangrongding__wechat-bot",
+      "wechatpy__wechatpy"
+    ],
+    "whenZh": "要自建跨渠道 chatbot、需要成熟 SDK 与社区时选 wechaty；只想开箱即用的多 IM Agent 选 wechat-bot；要做企业微信官方接口与外部客户管理则选 wechatpy。"
+  },
+  "scores": {
+    "coverage": 4,
+    "usability": 4,
+    "docs": 5,
+    "maintenance": 4,
+    "performance": 3,
+    "stability": 3
+  }
+}

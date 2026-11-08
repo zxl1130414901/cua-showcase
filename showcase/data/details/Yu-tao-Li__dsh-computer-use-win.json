@@ -1,0 +1,85 @@
+{
+  "id": "Yu-tao-Li__dsh-computer-use-win",
+  "taglineZh": "给 DSH 的 Windows 桌面操控插件",
+  "summaryZh": "dsh-computer-use-win 是 DeepSeek Harness（DSH）的电脑操控插件，让 DSH 的 agent 操作真实 Windows 程序与网页。它把 25 个工具加 1 个管理入口接进 DSH，后端是常驻 PowerShell，用 UI Automation 读控件、发输入、截图，控件稀少时切到系统 OCR。网页默认交给 DSH 自带浏览器，经调试协议读写，不移动用户鼠标。区别在区分「已发送」与「已确认」：输入成功只算 sent，等到目标出现才算 observed。",
+  "whatItDoesZh": "在 DSH 终端执行一条插件安装命令并完全退出重启桌面应用后，设置页会出现电脑操控选项，默认加载全部工具。agent 可按「观察、定位、执行、确认」循环干活：列窗口、读控件或截图 OCR、在后台按控件操作，必要时临时借用前台鼠标键盘再归还；batch 一次执行最多 20 个已规划动作。运行时有浮窗显示思考与步骤，Esc 可随时停止，所有桌面操作在对话里留步骤记录。",
+  "useCasesZh": [
+    "在 Windows 桌面上用自然语言完成跨应用任务",
+    "给企业微信或办公软件批量操作加 agent 入口",
+    "后台填网页表单而不打扰用户当前工作",
+    "用批量动作减少模型往返轮次",
+    "把桌面操作过程可视化并随时中止"
+  ],
+  "appsZh": [
+    "Windows 原生应用（UI Automation 可读控件）",
+    "Chrome 与 Edge 网页（经浏览器调试协议）",
+    "画面文字密集的自绘界面（OCR 兜底）",
+    "DSH Desktop 与 DSH Web 两种宿主",
+    "单独的 MCP 客户端也可启动该服务",
+    "不限具体应用：语义控件优先，OCR 与坐标兜底"
+  ],
+  "platformsZh": ["Windows"],
+  "techApproachZh": "分层后端：MCP 服务由 DSH 官方桥启动，负责工具选择与参数校验；桌面操作交给常驻 PowerShell 进程，用 UI Automation 读写控件、用系统 API 截图与注入输入，请求排队保证同一时刻只有一段对话在操作；浏览器通道走 Chrome DevTools 协议直接操作标签页，不经过 PowerShell；接管助手独立进程负责提示与 Esc 监听，后端忙时也能中止。",
+  "requirementsZh": [
+    "Windows 电脑并已安装 DSH Desktop",
+    "插件使用系统自带 PowerShell 5.1，无需另装",
+    "单独作 MCP 客户端运行时需 Node.js 22 以上",
+    "操作网页需 Chrome 或 Edge；操作已打开浏览器需手动允许调试",
+    "打开 DSH 后才加载插件，安装后必须完全退出再启动"
+  ],
+  "prosZh": [
+    "后台按控件操作，不动鼠标不抢前台",
+    "区分已发送与已确认，避免误判完成",
+    "25 个工具加懒加载，可按需裁剪",
+    "浮窗与步骤记录让过程可见可停",
+    "网页走调试协议，不占用用户鼠标"
+  ],
+  "consZh": [
+    "仅 Windows，且强绑定 DSH 生态",
+    "安装后必须完全重启应用才生效",
+    "已打开浏览器的操作仍是实验性",
+    "工具较多，需要理解加载策略"
+  ],
+  "limitsZh": "只在 Windows 与 DSH 生态内可用，脱离 DSH 虽能当 MCP 服务跑，但设置页、操作记录与浮窗都不存在。已知失败模式包括未完全退出导致插件未加载、自绘界面只能靠 OCR 而漏字、后台控件操作在部分应用被拒后需临时占用前台、以及输入返回 sent 但实际未生效时若未配置 wait_for 会被误当成功。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可直接操作 Windows 版企微：用 UIA 找到搜索框与会话列表，后台按控件输入消息，再用 wait_for 确认消息出现在会话里，配合浮窗与 Esc 适合有人在场的半自动场景。但外部客户名单、分批策略与失败重试仍要自建，且大批量发送会与前台抢占，因此记为 partial。",
+  "maturityZh": "2026 年 8 月创建，2026 年 11 月仍在推送，565 星 13 fork，MIT 许可，版本 0.5.5，带 CHANGELOG、发布说明与文档目录。维护活跃，风险在于强绑定 DSH 插件机制与单一平台。",
+  "evidence": [
+    {
+      "claim": "让 DSH 中的 agent 看到并操作真实 Windows 程序与网页",
+      "source": "README.md",
+      "quote": "这个插件让 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness)（DSH）里的 agent 看到并操作你电脑上真实的 Windows 程序和网页"
+    },
+    {
+      "claim": "提供 25 个操作工具加 1 个管理入口",
+      "source": "README.md",
+      "quote": "**网页在后台完成 · 浮窗按步骤显示 DSH 在想什么、做什么 · 25 个操作工具 + 1 个管理入口"
+    },
+    {
+      "claim": "输入类操作只返回已发送，需等待观察才确认完成",
+      "source": "README.md",
+      "quote": "插件会区分两种结果。输入类操作只返回“已发送”（`verification: \"sent\"`），因为程序收到了输入，不等于任务完成了。"
+    }
+  ],
+  "compareTips": {
+    "vs": ["microsoft__Hybrid-Computer-Use", "ComputerUseAgent__AutoCua", "bytedance__UI-TARS-desktop"],
+    "whenZh": "已经在用 DSH 且要 Windows 桌面操控，这个插件接入最省事；要给任意编码 agent 加 AX 加 GUI 双通道，选 Hybrid-Computer-Use；要跨手机与桌面的统一 agent 选 AutoCua；要开箱视觉桌面助手选 UI-TARS-desktop。"
+  },
+  "stepsZh": [
+    "在 DSH 终端执行插件安装命令，随后完全退出并重启 DSH Desktop",
+    "打开设置里的电脑操控页，确认工具加载策略与前台提示",
+    "布置任务：打开企微、搜索某外部客户并输入消息",
+    "在任务里写明发送后要 wait_for 看到消息出现再结束",
+    "开启浮窗观察每步，异常时按 Esc 立即停止",
+    "批量发送前用 batch 控制动作数，逐条记录确认结果"
+  ],
+  "successRateZh": "无公开成功率数据。README 详述工作机制、设置项与失败分类，但未给出任务成功率、重试次数或延迟数字，也没有第三方实测。自测可对同一企微发送流程连跑 50 次，统计返回 sent 但未 observed、控件找不到、OCR 漏字、被前台抢占四类占比。",
+  "scores": {
+    "coverage": 4,
+    "usability": 5,
+    "docs": 5,
+    "maintenance": 4,
+    "performance": 4,
+    "stability": 4
+  }
+}

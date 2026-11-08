@@ -1,0 +1,81 @@
+{
+  "id": "vercel-labs__agent-desktop",
+  "taglineZh": "读系统无障碍树来操作桌面应用的 Rust CLI",
+  "summaryZh": "agent-desktop 是 Vercel Labs 出的桌面 computer use 工具，不做截图也不做像素匹配，而是读取目标应用的操作系统无障碍树，把整棵界面树连同每个可操作元素的 ref 编号以 JSON 返回。外部 agent 拿 ref 点击或输入，再重新 snapshot 验证结果，循环完全跑在 agent 里，这个工具本身不含模型。形态是 CLI 加一个 C 库，同一核心通过 PlatformAdapter 分别对接 macOS、Windows、Linux 的无障碍接口。",
+  "whatItDoesZh": "可快照应用界面、按角色或名称查找元素、按 ref 点击/双击/右键/输入/设值/勾选/展开/滚动，还能列出窗口与应用、启动关闭、移动缩放窗口、读写剪贴板、列出与处理系统通知。命令统一输出 JSON 信封，错误带 STALE_REF、AMBIGUOUS_TARGET 等码，并标明该错误能否安全重试；另有 mcp 子命令把全部命令摊成 MCP 工具。",
+  "useCasesZh": [
+    "让编码 agent 自动操作 Finder、Slack、系统设置等 Mac 应用。",
+    "给自家 agent 补一层不抢鼠标键盘的后台桌面操作能力。",
+    "为桌面软件写回归脚本，用元素 ref 断言界面状态变化。",
+    "在 CI 或无头环境里驱动原生应用完成安装、配置类任务。",
+    "把桌面操作封装成 MCP 工具，供多个 agent 复用。"
+  ],
+  "appsZh": [
+    "macOS 原生应用：Finder、系统设置、备忘录等",
+    "Electron 类应用如 Slack，需先 skeleton 快照再局部下钻",
+    "窗口、菜单、通知、剪贴板等系统级界面",
+    "企业微信 Mac 客户端，理论可读可点，需自行编排"
+  ],
+  "platformsZh": [
+    "macOS"
+  ],
+  "techApproachZh": "核心是 Accessibility 树而非视觉：snapshot 把窗口树转成带 ref 的 JSON，动作按 ref 走无障碍 API，默认不移动指针、不抢焦点，加 --headed 才走真实输入。ref 与快照绑定，界面变化后返回 STALE_REF 强制重新观察；多窗口用窗口 ID 消歧。相比截图方案省掉视觉模型，但对应用自身的无障碍实现质量高度依赖。",
+  "requirementsZh": [
+    "npm 全局安装或 Homebrew，也可下载对应平台原生包",
+    "macOS 需在系统设置里授予辅助功能权限，可用 permissions --guide 引导",
+    "从源码构建需 Rust 1.89 与 edition 2024",
+    "无需模型与 API Key，模型由外部 agent 自带"
+  ],
+  "prosZh": [
+    "不截图不匹配像素，token 消耗与推理成本低",
+    "ref 与快照绑定，界面变了会报错而不是误点",
+    "错误码区分可否安全重试，便于写稳定的重试逻辑",
+    "自带 MCP 服务，接 Claude、Cursor 等几乎零成本",
+    "60 个命令覆盖面广，窗口、通知、剪贴板都有"
+  ],
+  "consZh": [
+    "完全依赖应用的无障碍实现，自绘界面会读不到元素",
+    "README 讲三平台，但 manifest 只标 macOS，跨平台成熟度待验证",
+    "没有内置任务循环与规划，业务逻辑要自己写",
+    "密集界面需先 skeleton 再下钻，调试有一定门槛"
+  ],
+  "limitsZh": "边界是「无障碍树里有的才能操作」：游戏、Canvas 自绘控件、未适配的 Electron 页面常常只有空壳节点。已知失败包括快照过期后动作被拒、多窗口同名导致歧义、应用切前台后 ref 失效、系统级安全弹窗（如钥匙串授权）无法通过树操作。没有任务成功率，只有结构化错误码。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可用于企微 Mac 客户端：快照会话列表，按名称找外部群，点输入框键入文本再点发送，全程可后台执行不抢焦点。但要自己编排选群、去重、发送前核对，且企微 Electron 控件命名不稳定，仍需人工兜底。",
+  "maturityZh": "Apache-2.0，1.8 万星，2026 年 11 月仍在更新，版本 1.2.0，有 CHANGELOG、SECURITY 与完整 docs 目录。属于 Vercel Labs 的实验产品线，维护活跃但无长期支持承诺，接口仍在演进。",
+  "evidence": [
+    {
+      "claim": "不做截图与像素匹配，靠无障碍树返回带 ref 的 JSON",
+      "source": "README.md",
+      "quote": "agent-desktop gives an AI agent computer use without screenshots or pixel matching. It reads the accessibility tree of a desktop app and returns it as JSON, with a ref for every element the agent can act on."
+    },
+    {
+      "claim": "ref 属于特定快照，裸 ref 或界面变化会被拒绝",
+      "source": "README.md",
+      "quote": "- **Refs belong to their snapshot.** A bare"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "browser-use__browser-use",
+      "OthersideAI__self-operating-computer"
+    ],
+    "whenZh": "目标是原生桌面应用时选 agent-desktop，成本低且可控；只在浏览器里干活，Browser Use 更成熟；若应用无障碍树很差、只能靠看屏幕，就要退回 self-operating-computer 那类视觉方案。"
+  },
+  "stepsZh": [
+    "npm 装 agent-desktop，先跑 status 与 permissions --guide 完成辅助功能授权。",
+    "snapshot --app 企业微信 -i 拿到 ref 列表，确认能读到会话列表与输入框节点。",
+    "用 click 点目标外部群，再 type 输入文本，避免全屏坐标点击。",
+    "发送前用 get 读输入框内容做核对，不一致就清空重输，不直接回车。",
+    "发送后重新 snapshot 校验最后一条消息，遇 STALE_REF 就重新取快照重试。"
+  ],
+  "successRateZh": "无公开成功率数据。README 未给任何任务完成率，只定义了 STALE_REF、AMBIGUOUS_TARGET 等失败码与 retry 安全标记。自测建议：同一群发流程跑 50 次，统计因 ref 失效、窗口歧义、元素缺失导致的失败比例。",
+  "scores": {
+    "coverage": 4,
+    "usability": 4,
+    "docs": 5,
+    "maintenance": 5,
+    "performance": 4,
+    "stability": 4
+  }
+}

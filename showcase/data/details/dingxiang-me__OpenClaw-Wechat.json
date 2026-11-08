@@ -1,0 +1,88 @@
+{
+  "id": "dingxiang-me__OpenClaw-Wechat",
+  "taglineZh": "OpenClaw 企微双模式渠道插件",
+  "summaryZh": "OpenClaw-Wechat 是 OpenClaw 的企业微信渠道插件，支持 Agent 模式（自建应用 XML 回调）与 Bot 模式（智能机器人 JSON 回调、原生 stream），并能把消息主动投递到企微群 Webhook 或命名 Webhook。它覆盖文本、图片、语音、链接、文件/视频的入站处理，适合员工问答助手与多业务线分流。",
+  "whatItDoesZh": "在企微后台建自建应用或智能机器人，配置回调 URL、Token、AES Key 与可信 IP；OpenClaw 侧填对应凭证后即可收发消息，Agent 模式走 XML 加密回调，Bot 模式走 JSON；出站可调群 Webhook 发通知，支持 heartbeat 巡检与会话路由。",
+  "useCasesZh": [
+    "个人微信扫码进入企微应用会话，开始对话流程",
+    "给企业内员工提供可检索的私有知识库问答助手",
+    "多个账户按业务线分流消息，避免彼此相互串扰",
+    "通过企微群 Webhook 主动推送通知",
+    "让 Agent 读写企微文档、表格与日程"
+  ],
+  "appsZh": [
+    "企业微信自建应用",
+    "企业微信智能机器人",
+    "企业微信群 Webhook",
+    "企业微信文档"
+  ],
+  "platformsZh": [
+    "Web"
+  ],
+  "techApproachZh": "JavaScript 插件运行在 OpenClaw 网关，按模式解析 XML（AES 解密）或 JSON 回调，把消息转成 OpenClaw 事件；出站调用群 Webhook 或回复接口，stream 模式边生成边下发。纯官方接口，无客户端自动化。",
+  "requirementsZh": [
+    "OpenClaw 网关与 Node 环境",
+    "企微自建应用或机器人凭证",
+    "公网可达的回调 URL",
+    "Agent 模式需配置可信 IP",
+    "无需 GPU"
+  ],
+  "prosZh": [
+    "同时支持 Agent 与 Bot 两种模式",
+    "原生 stream，长回答体验好",
+    "支持群 Webhook 主动出站",
+    "文档含部署、运维与常见故障排查章节",
+    "531 star，MIT 许可"
+  ],
+  "consZh": [
+    "2026 年 3 月之后已停更，后续接口变更无人跟进",
+    "能力仅限内部应用与机器人，不覆盖外部客户",
+    "配置步骤多，容易漏配可信 IP 与回调地址",
+    "不覆盖外部客户与外部群，群发场景不适用"
+  ],
+  "limitsZh": "群 Webhook 只适用于内部群，外部群不开放 webhook；Agent 模式未配可信 IP 会『能收不能回』；Bot 模式受智能机器人能力限制；项目已停更，企微接口变更后可能失配。",
+  "stepsZh": [
+    "在企微后台创建自建应用或智能机器人并授权",
+    "配置回调 URL、Token 与 AES Key",
+    "把 OpenClaw 网关出网 IP 加入可信 IP",
+    "在 OpenClaw 填入企微凭证，启动插件并看日志",
+    "在企微内给应用或机器人发消息，验证收与回",
+    "调群 Webhook 地址，验证主动出站消息"
+  ],
+  "successRateZh": "无公开成功率数据，README 只列能力与排障。可自测 20 条消息，分别统计能收不能回、回调解密失败、webhook 发送失败；重点验证可信 IP 与回调地址配置。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "它能让 Agent 接入企微自建应用或机器人，在内部单聊、群聊里问答，也能向内部群 Webhook 推通知。但外部客户与外部群没有开放通道，群发外部客户用不上，只适合内部助手与通知。",
+  "maturityZh": "531 star、65 fork，MIT，2026-01 创建、2026-03 最后推送，已停更；文档完整、实现清晰，但企微接口持续演进，长期可用性有风险。",
+  "evidence": [
+    {
+      "claim": "支持 Agent 与 Bot 两种接入模式",
+      "source": "README.md",
+      "quote": "`Agent 模式`：企业微信自建应用（XML 回调，经典模式）"
+    },
+    {
+      "claim": "可主动出站到企微群 Webhook",
+      "source": "README.md",
+      "quote": "`Webhook 目标出站`：将消息主动投递到企业微信群 Webhook 或命名 Webhook 目标"
+    },
+    {
+      "claim": "Agent 模式需配置可信 IP",
+      "source": "README.md",
+      "quote": "在企业微信自建应用后台请配置**可信 IP**"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "WecomTeam__wecom-openclaw-plugin",
+      "sunnoy__openclaw-plugin-wecom"
+    ],
+    "whenZh": "需要 Agent 模式 XML 回调或群 Webhook 出站时选它；要官方长期维护选腾讯官方插件；要多账号与配额补发选 sunnoy 增强版。"
+  },
+  "scores": {
+    "coverage": 3,
+    "usability": 3,
+    "docs": 4,
+    "maintenance": 2,
+    "performance": 3,
+    "stability": 3
+  }
+}

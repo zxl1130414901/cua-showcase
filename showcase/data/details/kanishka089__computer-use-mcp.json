@@ -1,0 +1,86 @@
+{
+  "id": "kanishka089__computer-use-mcp",
+  "taglineZh": "让 Claude 驱动真实鼠标键盘的 MCP 服务",
+  "summaryZh": "computer-use-mcp（注册名 realhands）是一个 MCP 服务器，让 Claude 像人一样操作真实 Windows 电脑：移动系统光标、点击、敲键盘、读取真实屏幕。它不启动隔离浏览器，因此能直接使用用户已登录的 Chrome 和其他应用。工作循环是截图→模型给出动作与像素坐标→真实输入→自动回传新截图。它处理了两个关键细节：导入时设置进程 DPI 感知，使截图像素与光标坐标一致；截图按最长边缩放到约 1280 像素，坐标再按显示器几何换算回真实像素。",
+  "whatItDoesZh": "提供单个 computer 工具，支持截图、移动并点击、双击、右键、拖动、滚轮、键入文本、按组合键、等待，以及枚举多显示器并指定在哪个屏幕操作。每次动作后自动返回新截图，形成观察-思考-行动闭环；坐标会被限制在目标显示器内，避免误点跑到屏幕外。适合让 Claude Desktop 或 Claude Code 直接接管本机应用，而不只是浏览器。",
+  "useCasesZh": [
+    "在已登录的后台里按步骤上传应用并填写发布说明",
+    "用真实鼠标操作没有可访问性接口的老式桌面软件",
+    "让 Claude 在多个显示器间切换并截图核对结果",
+    "在已登录浏览器里完成需要登录态的重复表单提交",
+    "作为桌面自动化的最小可用底座做人工监督试验"
+  ],
+  "appsZh": [
+    "Windows 桌面应用与系统对话框",
+    "已登录的 Chrome 及其他浏览器",
+    "多显示器与高 DPI 缩放环境",
+    "任意可用鼠标键盘操作的界面",
+    "Claude Desktop 与 Claude Code 的 MCP 工具面板"
+  ],
+  "platformsZh": [
+    "Windows"
+  ],
+  "techApproachZh": "Python 3.10/3.11 实现，基于 FastMCP 的 stdio 服务，底层用 pyautogui 发真实输入、mss 抓屏、pillow 缩放、pynput 与 keyboard 监听。关键机制是 DPI 感知加无状态坐标缩放：缩放比例只由显示器几何和最大边长决定，不依赖上一张截图，故多次调用坐标始终一致；每轴坐标按 28 像素视觉块向下取整。",
+  "requirementsZh": [
+    "Windows 系统与 Python 3.10 或 3.11",
+    "安装 mcp、pyautogui、mss、pillow、pynput 等依赖",
+    "在 Claude Desktop 或 Claude Code 注册为 stdio MCP 服务",
+    "无需 GPU，但需要能调用 Claude 的账号与额度"
+  ],
+  "prosZh": [
+    "直接使用真实登录态，不需要重新登录网站",
+    "DPI 感知与坐标换算处理得细，点击落点准",
+    "单工具接口简单，模型不易选错动作",
+    "每次动作自动回传截图，闭环清晰"
+  ],
+  "consZh": [
+    "只支持 Windows，且强依赖 Claude 的视觉能力",
+    "项目仅 1 star、0 fork，缺少社区验证",
+    "操作期间会抢占真实鼠标键盘，无法后台并行",
+    "没有沙箱隔离，误操作会直接影响本机文件与登录态"
+  ],
+  "limitsZh": "截图降采样后再让模型给坐标，细小控件与小字容易点偏；屏幕缩放、远程桌面、锁屏或 UAC 弹窗会打断流程；没有任务级重试策略与成功判定，只能靠模型自觉检查截图。仓库未声明成功率，也没有自动化测试覆盖。",
+  "wecomRelevance": "direct",
+  "wecomUseZh": "可在 Windows 企业微信客户端里用真实鼠标键盘执行「搜索客户—打开会话—粘贴话术」，由 Claude 逐步看截图确认；发送前必须停下等人确认，否则既不稳也触碰平台对自动群发的限制。它更适合小批量、有人值守的外部客户消息准备。",
+  "maturityZh": "2026-06 建仓，1 star、0 fork，MIT 许可，最近提交 2026-08-25；作者自述已在真实环境跑通一次完整发布流程，但属于个人项目，缺少测试、issue 沉淀与多人维护，长期可用性存疑。",
+  "evidence": [
+    {
+      "claim": "它移动真实鼠标键盘而不是驱动隔离浏览器",
+      "source": "README.md",
+      "quote": "moving the **actual mouse**, clicking, typing, and reading the **actual screen**"
+    },
+    {
+      "claim": "通过 DPI 感知保证截图坐标与光标坐标一致",
+      "source": "README.md",
+      "quote": "**DPI awareness** — `SetProcessDpiAwareness(2)` is set at import time"
+    },
+    {
+      "claim": "作者称曾用它完成一次真实的发布后台操作",
+      "source": "README.md",
+      "quote": "drove the user's real, logged-in Chrome"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "pphouse__screenpilot",
+      "ctoldigital__axuse"
+    ],
+    "whenZh": "要最低门槛、纯截图驱动真实桌面，选 computer-use-mcp；要带规划、记忆与自愈的桌面自动化管线，选 screenpilot；要可访问性树与低 token，选 axuse。三者都能操作企业微信客户端，稳定性和工程化程度差别明显。"
+  },
+  "scores": {
+    "coverage": 3,
+    "usability": 3,
+    "docs": 2,
+    "maintenance": 2,
+    "performance": 3,
+    "stability": 2
+  },
+  "stepsZh": [
+    "在 Windows 上创建 Python 3.10 虚拟环境并安装仓库依赖",
+    "把服务注册为 Claude Code 的 realhands stdio MCP 工具",
+    "打开企业微信客户端，先用截图确认目标外部群在可视范围内",
+    "让 Claude 依次点击搜索框、输入客户名、打开会话并粘贴话术",
+    "发送前要求它截图回报群名与内容，由本人确认后再点发送"
+  ],
+  "successRateZh": "无公开成功率数据；README 只记录一次完整的 Google Play 发布流程跑通，属于单次案例而非统计。可自测：连续 50 次执行「搜索客户并打开会话」，统计点偏、输入未聚焦、弹窗遮挡、会话找错四类失败，并分别在 100% 与 150% 缩放下各测 10 次。"
+}

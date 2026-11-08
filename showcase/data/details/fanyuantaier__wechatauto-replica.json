@@ -1,0 +1,90 @@
+{
+  "id": "fanyuantaier__wechatauto-replica",
+  "taglineZh": "微信 4.x 解密读库 + UIA/OCR 收发复刻",
+  "summaryZh": "wechatauto-replica 是对 wxauto 的复刻升级：面向微信 4.1.12+ Windows 客户端，直接解密读取本地 contact、message、sns 加密库，再配合 UIA 与 OCR 混合驱动完成收发、朋友圈与媒体下载。它提供 CLI 与可绑定窗口的 Python API，支持 4.2 多开实例。与只读控件树的 wxauto 最大不同是读库，因此历史消息、联系人和朋友圈数据更完整。",
+  "whatItDoesZh": "用 wxautox 命令体检环境、安装修复依赖、列会话、发文本或文件、拉历史消息、下载图片语音视频；Python 端 WeChat(bind=...) 绑定指定窗口后发送、监听、发朋友圈、读联系人；带 selftest 自检，能定位密钥、数据库、窗口与账号不匹配等问题。",
+  "useCasesZh": [
+    "解密本地数据库，导出指定会话的完整聊天记录",
+    "按会话名定位并发送文本，随后回读校验是否送达",
+    "批量下载聊天中的图片、语音与文件到本地目录",
+    "多开微信时按窗口句柄绑定账号，避免消息串号",
+    "用命令行一键体检账号状态与数据库密钥是否可用"
+  ],
+  "appsZh": [
+    "微信 4.1.12+ Windows 客户端",
+    "本地 contact.db / message_*.db / sns.db",
+    "微信群聊与好友会话",
+    "微信朋友圈",
+    "多开微信实例"
+  ],
+  "platformsZh": [
+    "Windows",
+    "Web"
+  ],
+  "techApproachZh": "Python；消息读取走 SQLCipher 4 本地库解密（contact.db、message_*.db、sns.db），发送走 UIA + OCR 混合驱动并在两套引擎间自动回退，打开自绘界面时靠热激活控件；另提供 Web 入口。官方强调纯本地、无 Web API，绑定窗口可区分多开账号。",
+  "requirementsZh": [
+    "Windows 10/11",
+    "Python 3.9+（作者在 3.12 验证）",
+    "微信 4.1.12+（验证 4.1.15.53）",
+    "需可读取 xwechat_files 本地目录",
+    "多开需按窗口 bind，避免读错库"
+  ],
+  "prosZh": [
+    "读库 + 发送一体，历史数据完整",
+    "UIA/OCR 自动回退，适配自绘界面",
+    "多开时按窗口绑定账号，实例之间隔离比较清楚",
+    "自带 selftest 与极详细故障排查",
+    "发送后回读目标会话，降低『以为发出』的误报"
+  ],
+  "consZh": [
+    "只覆盖 4.1.12 之后少数版本",
+    "作者自述精力有限，长期维护存疑",
+    "解密依赖密钥获取路径，环境敏感",
+    "自动化批量发送仍可能触发风控与账号限制"
+  ],
+  "limitsZh": "README 维护声明写明作者时间有限，只保证所列版本；解密依赖本地库结构与密钥获取方式，微信升级可能改变；发送仍靠界面，窗口被占用、DPI 变化会失败。项目自述的 561/0 是开发自测通过数，不等于线上发送成功率。",
+  "stepsZh": [
+    "安装微信 4.1.12+ 并登录，确认本地库已生成",
+    "pip 安装后用 wxautox status 检查环境与密钥",
+    "列出会话列表，确认能解密读到联系人与历史记录",
+    "用 bind 绑定目标窗口，发给文件传输助手",
+    "回读校验并下载图片验证媒体链路，连续 50 次记录失败",
+    "该仓库属于微信官方明令禁止的外挂路线，账号可能被永久封禁，不建议用于真实客户与主账号。"
+  ],
+  "successRateZh": "无公开成功率数据。README 自述 selftest 561/0、五套离线回归全绿，并逐条列出多开、发送、读库回归项，但那是开发自测，不是线上成功率。可自测 50 次发送、20 次媒体下载，记录窗口绑定失败、解密失败、发送无回显三类。",
+  "wecomRelevance": "none",
+  "wecomUseZh": "它面向个人微信 4.x，解密的是个人号本地库，没有企业微信客户端或客户联系接口，无法给企微外部客户、外部群发消息。读库能力也不能迁移到企微，企微本地数据结构与登录态完全不同。",
+  "maturityZh": "623 star、272 fork，Apache-2.0，2026-08 创建、2026-11 仍在推送，但 README 明确维护者精力有限；文档异常详尽（含按 issue 编号的失败复盘），代码新、生态尚未沉淀，长期风险中等偏高。",
+  "evidence": [
+    {
+      "claim": "用本地库解密读消息，发送用 UIA+OCR 混合",
+      "source": "README.md",
+      "quote": "messages are read through **local database decryption** (SQLCipher 4), and sending uses a **UIA + OCR hybrid** driver that auto-falls back between engines"
+    },
+    {
+      "claim": "支持微信 4.1.12+ 并在 4.1.15.53 验证",
+      "source": "README.md",
+      "quote": "WeChat **4.1.12+** (verified on 4.1.15.53)"
+    },
+    {
+      "claim": "直接读取本地加密库，不走 Web API",
+      "source": "README.md",
+      "quote": "Reading the encrypted `contact.db` / `message_*.db` / `sns.db` files directly from `xwechat_files/.../db_storage/` — no web API, all local."
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "Hello-Mr-Crab__pywechat",
+      "cluic__wxauto"
+    ],
+    "whenZh": "要导出完整聊天记录、发完还要回读校验、或需要多开窗口绑定时选它；只发消息、不读库且想用成熟库选 pywechat；停在微信 3.9 的老项目选 wxauto。"
+  },
+  "scores": {
+    "coverage": 4,
+    "usability": 3,
+    "docs": 4,
+    "maintenance": 3,
+    "performance": 4,
+    "stability": 3
+  }
+}

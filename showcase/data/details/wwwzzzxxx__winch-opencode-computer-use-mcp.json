@@ -1,0 +1,80 @@
+{
+  "id": "wwwzzzxxx__winch-opencode-computer-use-mcp",
+  "taglineZh": "用 UIA 控件树替代看图的 Windows MCP",
+  "summaryZh": "不问屏幕、直接问应用：winch 通过 UI Automation 树拿到带索引的控件，state 返回可裁剪的文本树，click 在点击瞬间重读控件实时矩形并取中心，所以窗口移动或 DPI 缩放不会让坐标失效。一次 MCP 调用可批量执行最多四十步，观察成本从一张图变成一段可按集合裁剪的文本，也不需要任何视觉模型。",
+  "whatItDoesZh": "能返回当前窗口的无障碍树并给每个控件编号，按编号点击、设值、读取值回验；支持键盘输入、剪贴板读写、窗口枚举与截图；用 skip 与 keep 按角色或分组折叠整棵子树，把浏览器工具栏压成一行；接管桌面时屏幕出现发光边框与横幅，按 Esc 可中止正在运行的批量步骤。",
+  "useCasesZh": [
+    "在 Windows 上给 agent 提供不依赖视觉模型的控件定位",
+    "读取表单控件值并在填写完成后立即回读校验",
+    "把四十步操作合并成一次调用以减少往返开销",
+    "对元素庞大的浏览器窗口做按集合裁剪的树压缩",
+    "需要看得见接管状态、能一键中止的演示场景"
+  ],
+  "appsZh": [
+    "实现 UIAutomation Provider 的 Windows 应用",
+    "WinForms、WPF 与 MFC 程序",
+    "Chrome、Edge 等浏览器窗口",
+    "Electron 应用，需开启可访问性参数"
+  ],
+  "platformsZh": [
+    "Windows"
+  ],
+  "techApproachZh": "Rust 实现的 MCP 服务器，感知完全走 UI Automation 树而不是像素：每个控件带索引、角色与实时矩形，点击时重新解析索引再取中心，避免快照过期。批量步骤在一次调用内顺序执行并逐步校验，坐标统一转成窗口相对值，由服务端处理多显示器与 DPI 差异。",
+  "requirementsZh": [
+    "Windows 系统",
+    "任意 MCP 客户端，如 Claude Desktop、Codex CLI",
+    "需 Rust 工具链自行编译，或使用预编译二进制",
+    "不需要视觉模型与 API Key"
+  ],
+  "prosZh": [
+    "用控件树定位，完全不靠像素与视觉模型",
+    "点击时重读矩形，窗口移动也不易点偏",
+    "一次调用最多执行四十步，往返开销低",
+    "树可按集合裁剪，token 成本可控",
+    "接管时有可见提示，Esc 能中止批量"
+  ],
+  "consZh": [
+    "仅支持 Windows，且依赖应用实现 UIA",
+    "全新项目，尚无外部团队的使用反馈",
+    "自绘界面与游戏窗口基本拿不到控件"
+  ],
+  "limitsZh": "只有实现了 UIAutomation Provider 的应用才有效，游戏、自绘 Canvas 与部分 Electron 窗口只能拿到空壳；索引在界面重排后需要重新取树；批量步骤虽逐步校验，但中途失败后的回滚仍需调用方自己设计。仓库未给任务成功率。",
+  "stepsZh": [
+    "先在企业微信上打开目标外部群，并用 state 取一次完整控件树",
+    "确认搜索框与输入框都有可读的控件名，记下对应索引",
+    "用 keep 只保留会话列表与输入区，缩小观察体积",
+    "按索引点击输入框、设值写入已审核文案，再读值确认",
+    "由人工确认收件人后回车发送，发送后用 state 复核最后一条消息"
+  ],
+  "successRateZh": "无公开成功率数据。README 给的是工程测量：真实 Edge 窗口未过滤时 116 个节点、6.7k 字符，加默认黑名单后 73 个节点、4.1k 字符，单进程内存约 6 MB。可自测 50 次控件定位与点击，统计索引失效与误点比例。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "若企业微信客户端暴露了可读的 UIA 控件，它可稳定定位搜索框与输入框、填完后回读校验，比坐标点击可靠。但企微 4.x 自绘成分较多，实际能不能取到内部控件必须先现场验证。",
+  "maturityZh": "2026 年 10 月 28 日创建，11 月仍在提交，0 星、0 fork，Apache-2.0 许可。全新项目，代码量不大、文档结构清晰，但没有任何 issue 与使用验证，长期维护未知。",
+  "evidence": [
+    {
+      "claim": "不用视觉模型，也不猜像素坐标",
+      "source": "README.md",
+      "quote": "no vision model, no pixel guessing"
+    },
+    {
+      "claim": "单进程空闲内存约 6 MB",
+      "source": "README.md",
+      "quote": "A single process idles around 6 MB"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "mrpulor-gh__nuphus-mcp",
+      "zavora-ai__computer-use-mcp"
+    ],
+    "whenZh": "同样在 Windows 上做控件级操作，它的差异是纯 UIA 树加索引重解析、无视觉模型；nuphus 更像通用原语集合，zavora 则有视觉兜底通道。"
+  },
+  "scores": {
+    "coverage": 3,
+    "usability": 3,
+    "docs": 4,
+    "maintenance": 3,
+    "performance": 5,
+    "stability": 3
+  }
+}

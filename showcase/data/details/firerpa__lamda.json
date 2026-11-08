@@ -1,0 +1,90 @@
+{
+  "id": "firerpa__lamda",
+  "taglineZh": "Android 全栈设备控制平台",
+  "summaryZh": "lamda 是一个面向 Android 的一体化设备控制平台：设备上跑服务端，PC 上跑 Python 客户端，两端通过 RPC 通信，把界面自动化、远程桌面、应用管理、文件传输、OCR、网络代理与逆向工具收进同一套接口。它既能用选择器按文本、ID、图像匹配驱动界面，也能创建虚拟显示在后台跑应用与自动化，不干扰主屏。与同类最本质的区别是「全栈」：不仅操作界面，还提供 MITM 抓包、Frida 注入、frp 内网穿透与 MCP 智能体入口，覆盖测试、运维与逆向三类需求。",
+  "whatItDoesZh": "安装设备端服务后，客户端可列出与控制设备，按文本、ID、XPath 或图像匹配选择控件并点击输入滑动；可开远程桌面看实时画面、录制与回放操作；可启虚拟显示在后台运行应用并做自动回复；可用 OCR 与截图比对做断言；还能装卸应用、读写文件、设代理、抓包、注入 Frida 脚本。多设备场景可批量分发任务，配套的 MCP 与 agent 模块让模型直接调用这些能力。",
+  "useCasesZh": [
+    "用选择器给 Android 应用写稳定自动化脚本",
+    "在多台真机上批量跑回归与巡检",
+    "用虚拟显示做后台自动回复而不占主屏",
+    "用 MITM 与 Frida 分析应用网络与行为",
+    "让 AI 智能体通过 MCP 调用设备能力"
+  ],
+  "appsZh": [
+    "Android 原生应用界面（无障碍与 uiautomator）",
+    "设备主屏与虚拟显示中已安装的 Android 应用",
+    "远程桌面投屏中的实时画面",
+    "通过代理与抓包观察的应用网络流量",
+    "不限具体应用：选择器与图像匹配均不绑定单应用"
+  ],
+  "platformsZh": [
+    "Android"
+  ],
+  "techApproachZh": "客户端服务端分离：设备端常驻服务暴露 RPC，PC 端 Python 客户端封装调用；界面侧组合无障碍服务与 uiautomator，并提供选择器引擎与图像模板匹配；显示侧用 H.264 编码加 WebRTC 传输实现低延迟远程桌面；后台自动化依托虚拟显示隔离；网络侧内置代理、MITM 与 frp 隧道，逆向侧接 Frida。多设备由客户端统一调度。",
+  "requirementsZh": [
+    "需一台 Android 设备并安装官方服务端应用",
+    "PC 端需 Python 3 与 lamda 客户端包",
+    "多数界面功能无需 root，MITM 与部分逆向能力需额外配置",
+    "虚拟显示需系统支持，部分定制 ROM 可能受限",
+    "网络功能需可用的代理或隧道环境"
+  ],
+  "prosZh": [
+    "8.7k 星，功能覆盖面在同类中最广",
+    "虚拟显示可在后台跑应用，不占主屏",
+    "选择器比 uiautomator2 在多设备下更稳",
+    "内置远程桌面、抓包与 Frida",
+    "提供 MCP 与 agent 接口供模型调用"
+  ],
+  "consZh": [
+    "模块极多，学习曲线陡",
+    "MITM 与逆向能力涉及合规风险",
+    "文档分散在站点与示例中",
+    "Python 客户端对版本较敏感"
+  ],
+  "limitsZh": "只覆盖 Android，无法操作 iOS、桌面或网页；虚拟显示与部分网络能力依赖系统版本与 ROM 支持。已知失败模式包括选择器在 WebView 与自绘界面上失效、远程桌面在高负载下掉帧、MITM 证书未信任导致抓包为空、多设备并发时端口与 ADB 会话冲突。README 未给出任务成功率或稳定性数字。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可用 Android 端能力操作企业微信手机客户端：按文本或图像匹配找到外部群会话与输入框，用虚拟显示在后台做自动回复，不打扰主屏。但外部客户名单、消息模板、发送前核对与失败重试要自建；它提供的是通用设备能力，不含企微语义，因此记为 partial。",
+  "maturityZh": "2023 年 10 月创建，2026 年 11 月仍在推送，8.7k 星 1.1k fork，README 标注 Apache-2.0 但 manifest 记为 NOASSERTION，需核对 LICENSE。文档站与示例齐全，维护活跃，风险主要在合规使用边界。",
+  "evidence": [
+    {
+      "claim": "定位为一体化 Android 设备控制平台",
+      "source": "README.md",
+      "quote": "FIRERPA is an **all-in-one Android device control platform**."
+    },
+    {
+      "claim": "虚拟显示可在后台运行应用而不影响主屏",
+      "source": "README.md",
+      "quote": "**Virtual Display** is a differentiator: create isolated background displays on the device and run apps and automation there **without affecting the main screen**"
+    },
+    {
+      "claim": "选择器在多设备场景下比 uiautomator2 更稳",
+      "source": "README.md",
+      "quote": "**more stable than uiautomator2 in multi-device scenarios**."
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "Tongyi-MAI__MAI-UI",
+      "ComputerUseAgent__AutoCua",
+      "agent-sh__computer-use-linux"
+    ],
+    "whenZh": "要做 Android 设备集群的脚本化自动化与运维，lamda 覆盖最全；要让模型直接看屏决策选 MAI-UI；要跨桌面与手机的统一 agent 选 AutoCua；只做 Linux 桌面控制则选 computer-use-linux。"
+  },
+  "stepsZh": [
+    "在 Android 手机安装 lamda 服务端，PC 装客户端并确认能连上",
+    "用设备列表确认目标机，打开企微并用选择器定位搜索框",
+    "输入外部群名称，进入会话后定位输入框并填入消息",
+    "发送前用截图比对确认会话标题与输入内容一致",
+    "把流程封装成函数，批量传入不同群名循环执行",
+    "失败时记录选择器未命中的步骤，改用图像匹配重试"
+  ],
+  "successRateZh": "无公开成功率数据。README 只描述能力矩阵与稳定性对比的定性判断，称选择器在多设备下比 uiautomator2 更稳，但没有给出通过率、失败率或延迟数字。自测可对同一发送流程在 3 台设备各跑 30 次，按选择器未命中、输入失败、会话错位、超时四类统计。",
+  "scores": {
+    "coverage": 5,
+    "usability": 4,
+    "docs": 4,
+    "maintenance": 5,
+    "performance": 4,
+    "stability": 4
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "id": "appium__appium-uiautomator2-server",
+  "taglineZh": "Android 设备内的 UiAutomator2 服务端",
+  "summaryZh": "跑在 Android 设备里的 netty 服务器，监听来自 Appium 的命令并用 UiAutomator V2 执行，是 Appium Android 驱动的执行端。它被编译成 APK 推到设备上，通过 instrumentation 启动，由 adb 转发端口接收请求。仓库已明确标注迁移到 appium-android 单体仓库，本仓库不再接收新功能。",
+  "whatItDoesZh": "接收元素查找、点击、输入、滑动、截图、读取界面层级等命令并在设备内执行；提供调试与端到端测试构建变体，可用 Gradle 打出带版本号的 APK，安装后通过 instrumentation 启动并跑通单元测试，适合排查驱动与设备之间的交互问题。",
+  "useCasesZh": [
+    "排查 Appium Android 驱动在真机上的执行问题",
+    "给自研测试框架复用 UiAutomator2 的设备端服务",
+    "构建带指定版本号的 server APK 做灰度验证",
+    "在模拟器上跑端到端测试来验证命令处理逻辑",
+    "理解 Appium 移动端命令如何落到设备执行"
+  ],
+  "appsZh": [
+    "Android 应用界面",
+    "Android 系统设置与弹窗",
+    "不限具体应用，依赖 UiAutomator 节点"
+  ],
+  "platformsZh": [
+    "Android"
+  ],
+  "techApproachZh": "设备内 netty 服务器加 UiAutomator V2：宿主侧通过 adb 转发端口下发命令，服务端解析后调用 UiAutomator 的节点查找与手势接口执行，结果序列化返回。构建产物是 instrumentation APK，随测试 APK 一起安装并启动。",
+  "requirementsZh": [
+    "Android SDK 与 Java 构建环境",
+    "Gradle 构建 server APK",
+    "已连接的真机或模拟器与 adb",
+    "需配合 Appium 驱动使用，不能单独工作"
+  ],
+  "prosZh": [
+    "官方执行端，与 Appium 协议完全契合",
+    "可用 Gradle 打出指定版本号的 APK",
+    "自带单元测试与端到端测试两种变体",
+    "问题定位可以精确到设备内的执行层"
+  ],
+  "consZh": [
+    "仓库已迁移，后续不会再加入新功能",
+    "必须配合 Appium 与驱动，不能独立使用",
+    "仅覆盖 Android，无桌面能力"
+  ],
+  "limitsZh": "只负责设备内执行，选择器与会话管理都在驱动侧；UiAutomator 拿不到自绘游戏画面里的节点；迁移后版本演进在单体仓库，此处文档可能落后。仓库不提供任务成功率。",
+  "stepsZh": [
+    "说明：本仓库是 Android 执行端，无法操作 Windows 版企业微信",
+    "若做通用演示，先用 Gradle 构建并安装 server 与测试 APK",
+    "启动 instrumentation 并通过 adb 转发端口连上服务",
+    "下发查找与点击命令，观察返回的节点与执行结果",
+    "结束演示后卸载 APK 并关闭端口转发通道"
+  ],
+  "successRateZh": "无公开成功率数据。README 只给构建与测试命令，没有成功率或失败率；仓库迁移后也不再更新基准。可自测：在同一设备上跑 50 次元素查找与点击，统计节点找不到与超时比例。",
+  "wecomRelevance": "none",
+  "wecomUseZh": "用不上：它是 Android 测试执行端，不面向企业微信外部客户消息场景，也没有任何聊天客户端适配。即便操作 Android 版企微，也需要上层驱动与脚本自行实现。",
+  "maturityZh": "2016 年创建，2026 年 10 月仍有推送，414 星、400 余 fork，Apache-2.0 许可。作为官方组件长期稳定，但已迁入 appium-android 单体仓库，本仓库进入只读状态。",
+  "evidence": [
+    {
+      "claim": "仓库已迁移到 appium-android 单体仓库",
+      "source": "README.md",
+      "quote": "This repository has moved."
+    },
+    {
+      "claim": "运行在设备上监听命令并用 UiAutomator V2 执行",
+      "source": "README.md",
+      "quote": "A netty server that runs on the device"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "appium__appium",
+      "Core-Mate__OpenGUI"
+    ],
+    "whenZh": "它是 Appium 的底层组件，选它意味着已经在用 Appium；要做智能化的手机 agent 而非标准测试，OpenGUI 更合适。"
+  },
+  "scores": {
+    "coverage": 2,
+    "usability": 2,
+    "docs": 3,
+    "maintenance": 2,
+    "performance": 4,
+    "stability": 4
+  }
+}

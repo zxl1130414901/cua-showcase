@@ -1,0 +1,80 @@
+{
+  "id": "alexshpunt__pi-agent-computer-use",
+  "taglineZh": "Pi agent 的 Windows 桌面与浏览器操作层",
+  "summaryZh": "给 Pi coding agent 一套统一接口来操作 Windows 应用与浏览器：agent 先找到窗口，读取无障碍树与截图，再输入、点击、拖拽或执行浏览器动作；输入始终指向它最近一次看到的目标，每次结果都会说明发生了什么。演示里 agent 用 GIMP 的各种工具自己画完一幅机器人插画，过程中反复对照参考图修正。",
+  "whatItDoesZh": "能按窗口标题定位应用、读取控件树与截图、点击输入拖拽，也能在浏览器里执行动作；提供共享的读取、搜索与删除工具需另装 Pi Agent IDE；支持在 Windows Sandbox 里运行，或用隔离会话在 Windows 11 24H2 以上系统上跑任务。",
+  "useCasesZh": [
+    "让 Pi agent 在 GIMP 或画图里完成绘图任务",
+    "自动填写浏览器里的表单并逐项核对填写结果",
+    "读取设置窗口里的控件文字并整理成一段汇报",
+    "在 Windows Sandbox 里隔离运行桌面任务",
+    "把桌面与浏览器操作统一到一个 agent 接口"
+  ],
+  "appsZh": [
+    "Windows 11 原生桌面应用",
+    "GIMP、画图等创意工具",
+    "Chrome 与 Edge 浏览器",
+    "设置、文件管理等系统界面"
+  ],
+  "platformsZh": [
+    "Windows",
+    "Web"
+  ],
+  "techApproachZh": "以无障碍树为主、截图为辅：读树拿到可操作控件，再用真实鼠标键盘执行，动作后重新读取以确认结果；底层用作者维护的 Cua Driver 分支，包内自带 Windows 运行时，安装后无需另外下载驱动。浏览器侧通过驱动执行页面动作。",
+  "requirementsZh": [
+    "Windows 11 x64，暂不支持 macOS 与 Linux",
+    "Pi 需装在 Windows 或 WSL 中",
+    "通过 pi install npm:pi-agent-computer-use 安装",
+    "隔离会话需 Windows 11 24H2 及以上"
+  ],
+  "prosZh": [
+    "读树加截图双通道，动作后有结果回读",
+    "包内自带驱动运行时，免额外下载",
+    "支持 WSL 与 SSH 跨机控制同一台 Windows",
+    "演示完整，能看到长任务的真实执行过程"
+  ],
+  "consZh": [
+    "只支持 Windows 11 x64，平台面窄",
+    "依赖 Pi 生态，其他 agent 需自行适配",
+    "项目自述为实验性，接口可能变动"
+  ],
+  "limitsZh": "macOS 与 Linux 明确不支持，运行时会直接报错；无障碍信息缺失的界面只能靠截图，精度下降；隔离会话与新特性绑定 Windows 11 24H2；长任务依赖模型持续纠错。仓库未给出成功率数据。",
+  "stepsZh": [
+    "先确认企业微信 Windows 客户端在 Windows 11 上可被读到控件树",
+    "在 Pi 里安装该包，验证能列出 WXWork 窗口并截图",
+    "按窗口定位外部群，读取会话标题控件确认目标",
+    "输入已审核文案，再读一次控件树确认写入内容",
+    "由人工确认发送，发送后读取消息列表最后一项校验"
+  ],
+  "successRateZh": "无公开成功率数据。README 展示了 GIMP 作画的完整演示与 CI 状态，但没有任务次数、失败率或对照实验。可自测：固定 Windows 版本，跑 50 次“定位窗口—读树—点击—输入”，统计定位与读回失败比例。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可在 Windows 上读企微控件树、定位外部群、写入文案并回读校验，适合做半自动辅助。它没有企微专用流程，也不校验收件人，最后一步仍需人工确认。",
+  "maturityZh": "2026 年 10 月创建，11 月仍在提交，52 星、10 余 fork，MIT 许可。作者维护着自己的驱动分支，更新活跃，但明确标注为实验性项目。",
+  "evidence": [
+    {
+      "claim": "读无障碍树与截图后执行动作并回读",
+      "source": "README.md",
+      "quote": "reads its accessibility tree and screenshot"
+    },
+    {
+      "claim": "仅支持 Windows 11 x64",
+      "source": "README.md",
+      "quote": "Computer use works on Windows 11 x64"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "munimtechnologies__munim-computer-use",
+      "zavora-ai__computer-use-mcp"
+    ],
+    "whenZh": "已经在用 Pi，它是最顺手的接入方式；要跨三平台且后台输入不抢鼠标，munim 更强；要可回读校验的通用 MCP，zavora 的演示更完整。"
+  },
+  "scores": {
+    "coverage": 3,
+    "usability": 4,
+    "docs": 4,
+    "maintenance": 4,
+    "performance": 4,
+    "stability": 3
+  }
+}

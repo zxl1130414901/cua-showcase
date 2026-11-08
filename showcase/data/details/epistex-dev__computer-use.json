@@ -1,0 +1,79 @@
+{
+  "id": "epistex-dev__computer-use",
+  "taglineZh": "Linux Wayland 桌面操作 Skill",
+  "summaryZh": "面向 Linux Wayland 的 agent skill：用 vptr 这个百行 C 客户端走 wlr virtual-pointer 协议，一次绝对跳转就能精确落到任意显示器，一到两毫秒完成，不需要 root 也不需要 uinput；截图用 grim 按输出或区域抓取；找标签用 tesseract 做模糊匹配；还能起一个私有 headless Sway 把 agent 的操作与主人的鼠标键盘完全隔离。",
+  "whatItDoesZh": "能截取单个显示器或区域、精确点击拖拽滚动、键盘输入、用 OCR 文本搜索定位按钮、通过 AT-SPI 直接按控件名按下与填值并回读；提供 agent-seat.sh 启动独立会话，让 agent 打开的应用跑在自己的 Wayland socket、D-Bus 与 AT-SPI 总线上，不干扰主人的桌面。",
+  "useCasesZh": [
+    "在 niri 或 Sway 上让 agent 操作 Wayland 桌面应用",
+    "在多显示器布局下做精确到像素级的指针点击",
+    "用 OCR 在界面文字里模糊搜索并定位按钮",
+    "通过 AT-SPI 在未聚焦窗口上完成填值与校验",
+    "让 agent 在隔离的私有桌面里跑任务不抢鼠标"
+  ],
+  "appsZh": [
+    "niri、Sway、Hyprland 等 Wayland 合成器",
+    "GTK 与 Qt 桌面应用",
+    "Chromium 浏览器窗口",
+    "不限具体应用，按输出与坐标操作"
+  ],
+  "platformsZh": [
+    "Linux"
+  ],
+  "techApproachZh": "放弃 ydotool 的相对位移，改用 wlr virtual-pointer 的绝对坐标协议做指针跳转；截图走 grim 逐输出抓取，避免门户权限弹窗；文本定位用 tesseract 加越南语感知的模糊匹配；控件操作走 AT-SPI，并用私有 headless Sway 会话隔离 agent 与用户的输入。",
+  "requirementsZh": [
+    "Linux Wayland 桌面，niri 为实测环境",
+    "需安装 grim、wtype、tesseract 与 AT-SPI 相关组件",
+    "Sway 与 Hyprland 通过各自 IPC 接线但未测试",
+    "无需 root，也不需要 /dev/uinput"
+  ],
+  "prosZh": [
+    "绝对坐标跳转，多显示器下不点错屏",
+    "一到两毫秒完成指针定位，几乎无延迟",
+    "可起私有桌面会话，不抢用户鼠标键盘",
+    "OCR 模糊匹配能吸收界面文字识别噪声"
+  ],
+  "consZh": [
+    "只支持 Linux Wayland，覆盖面窄",
+    "Sway 与 Hyprland 通道未经验证",
+    "依赖多个系统命令行组件，环境要求多"
+  ],
+  "limitsZh": "只在 niri 上实测，换合成器可能要改 IPC 调用；wtype 输入曾出现丢字符，emoji 会变成私有区码点；GTK4 的复选按钮不暴露动作，只能退回 OCR 加坐标点击；企业微信没有 Linux 客户端，无法用于外部客户消息。",
+  "stepsZh": [
+    "说明：企业微信没有 Linux 客户端，本仓库无法用于外部客户消息",
+    "若做通用演示，先确认运行在 niri 并装好 grim、wtype 与 tesseract",
+    "用 grim 截取目标显示器，确认坐标范围与缩放比例",
+    "调用 vptr 做绝对坐标点击，再用 AT-SPI 按控件名填值并回读",
+    "需要隔离时用 agent-seat.sh 起私有会话，结束再回收"
+  ],
+  "successRateZh": "无公开成功率数据，只有一条可核对的输入观察：wtype 在 2026-10-26 于 Chromium 中正确输入越南语 10/10，但 10-21 曾丢字符；这类是小样本观察，不是任务成功率。可自测 50 次点击与输入并统计偏移。",
+  "wecomRelevance": "none",
+  "wecomUseZh": "用不上：企业微信没有 Linux 桌面客户端，这个 skill 只覆盖 Wayland 合成器上的 Linux 应用。对“给外部客户与外部群发消息”这一场景没有可落地的入口。",
+  "maturityZh": "2026 年 10 月 21 日创建，11 月仍在提交，0 星、0 fork，MIT 许可。作者单人维护、文档诚实标注未测试项，工程小巧但生态很窄。",
+  "evidence": [
+    {
+      "claim": "在 niri 上构建并实测",
+      "source": "README.md",
+      "quote": "Built and measured on niri"
+    },
+    {
+      "claim": "可启动私有 headless Sway 会话隔离操作",
+      "source": "README.md",
+      "quote": "a private headless Sway"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "appium__appium",
+      "go-vgo__robotgo"
+    ],
+    "whenZh": "只有 Wayland 桌面才需要它，X11 或跨平台场景用 robotgo 更省事；Appium 覆盖移动端与桌面，但对 Wayland 的指针精度没有这套专门优化。"
+  },
+  "scores": {
+    "coverage": 2,
+    "usability": 2,
+    "docs": 4,
+    "maintenance": 3,
+    "performance": 5,
+    "stability": 3
+  }
+}

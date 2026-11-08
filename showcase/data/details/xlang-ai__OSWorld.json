@@ -1,0 +1,92 @@
+{
+  "id": "xlang-ai__OSWorld",
+  "taglineZh": "真实操作系统里的 CUA 基准与虚拟环境",
+  "summaryZh": "OSWorld 是 NeurIPS 2024 的基准与环境工程，用来评测多模态代理在真实计算机环境里完成开放式任务的能力。它提供可编程的桌面虚拟机（Ubuntu、Windows 等），代理通过截图、鼠标键盘或脚本动作操作真实应用，任务完成后由预写的评测脚本检查文件、页面或系统状态是否达标。和普通 CUA 工具最本质的区别是：它不是能替你干活的自动化产品，而是一把尺子——统一环境、统一任务、统一判分，用来比较不同代理与模型谁更可靠。",
+  "whatItDoesZh": "仓库提供 desktop_env 环境包、VMware/VirtualBox/Docker/Modal/Daytona/AWS 等多种虚拟机后端、agent 基线与批量评测脚本；支持截图观察加 pyautogui 动作空间，也支持并行多环境跑分；结果目录会保存截图、动作与录像，show_result.py 可输出分领域成功率与总分。OSWorld-Verified 版本修复了社区反馈的问题，并支持用 AWS 并行把评测压到一小时以内。",
+  "useCasesZh": [
+    "在统一虚拟机上横向比较两个 CUA 代理的任务成功率",
+    "为自己的桌面代理跑回归，确认改动没有降低完成率",
+    "用指定应用域（如表格、演示、浏览器）做专项评测",
+    "复现论文数值，并与官网最新榜单按任务对照",
+    "作为训练环境的初始状态来源，做小规模数据试验"
+  ],
+  "appsZh": [
+    "Ubuntu 与 Windows 虚拟机内的桌面应用",
+    "LibreOffice 等办公套件",
+    "Chrome 等浏览器与网页任务",
+    "文件管理器、终端与系统设置",
+    "多应用组合的跨软件流程"
+  ],
+  "platformsZh": [
+    "Linux",
+    "Windows"
+  ],
+  "techApproachZh": "环境层把虚拟机抽象成 DesktopEnv，统一暴露截图、点击、键入、执行脚本等原语；评测层为每个任务配初始化脚本与判分函数，任务结束后读取文件内容、页面状态或应用数据判定成败；运行层提供单机与多环境并行两种执行器，支持把主机密钥挂载进虚拟机。基准发布按版本锁定代码、任务与镜像，保证可比性。",
+  "requirementsZh": [
+    "Python 3.10 及以上",
+    "VMware Workstation Pro 或 Docker（KVM）等虚拟机后端",
+    "运行基线代理需 OPENAI_API_KEY 等模型密钥",
+    "部分任务需 Google 账号、OAuth 与代理网络配置"
+  ],
+  "prosZh": [
+    "真实应用与真实文件系统，不是模拟点击",
+    "任务有可执行判分脚本，结果可复现",
+    "后端多，可从笔记本扩到云端并行",
+    "学术引用广，模型分数可直接对照"
+  ],
+  "consZh": [
+    "搭建环境成本高，虚拟机与镜像体积很大",
+    "评测慢，单机跑全量耗时以小时计",
+    "任务域偏办公，不覆盖企业微信类客户端",
+    "部分任务依赖外部账号与网络，易失败"
+  ],
+  "limitsZh": "它是评测资源而非生产工具：没有面向业务的发送、审批、风控处理能力，也不提供企业微信接口。虚拟机内的应用版本、网络与账号状态会显著影响分数；任务判分只看终态，不衡量中间操作是否合规。仓库未给出单一代理的通用成功率承诺，分数随模型与版本变化。",
+  "wecomRelevance": "none",
+  "wecomUseZh": "不能直接用于企业微信外部群发消息，它既不驱动企业微信客户端也不接官方接口。间接价值是：若你自建了半自动发送流程，可用 OSWorld 的评测方法学（初始化状态、终态判分、批量重复）来设计成功率测试，量化「找群、填字、校验」每一步的失败率。",
+  "maturityZh": "2023-10 建仓，3256 stars、556 forks，Apache-2.0，最近提交 2026-11-02；有 NeurIPS 论文、Verified 版本与官网榜单，社区活跃、维护稳定，是同类基准中被引用最多的一档。",
+  "evidence": [
+    {
+      "claim": "它是面向真实计算机环境的开放式任务基准",
+      "source": "README.md",
+      "quote": "OSWorld: Benchmarking Multimodal Agents for Open-Ended Tasks in Real Computer Environments"
+    },
+    {
+      "claim": "提供可独立安装的环境包",
+      "source": "README.md",
+      "quote": "pip install desktop-env"
+    },
+    {
+      "claim": "用云端并行可把评测时间压到一小时以内",
+      "source": "README.md",
+      "quote": "can reduce evaluation time to within 1 hour through parallelization!"
+    },
+    {
+      "claim": "全量基准为 369 个任务",
+      "source": "desktop_env/providers/modal/MODAL_GUIDELINE.md",
+      "quote": "run full benchmark (369 tasks)"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "xlang-ai__OSWorld-V2",
+      "yjyddq__RiOSWorld"
+    ],
+    "whenZh": "要经典、可对照榜单的桌面任务评测，选 OSWorld；要长周期真实任务、更新发布更勤，选 OSWorld-V2；要专门评估代理操作的风险与越界行为，选 RiOSWorld。三者都是评测资源，不替代生产自动化。"
+  },
+  "scores": {
+    "coverage": 3,
+    "usability": 2,
+    "docs": 5,
+    "maintenance": 5,
+    "performance": 2,
+    "stability": 4
+  },
+  "stepsZh": [
+    "先明确目标：用它验证「外部群发半自动流程」的成功率而非直接发送",
+    "在虚拟机里装好企业微信并登录测试账号，制作固定初始快照",
+    "把「找群—填话术—停在发送前」写成可重复任务与终态判分脚本",
+    "连续跑 30 至 50 次，统计成功率、平均步数与失败类型",
+    "把结果与改动前后版本对比，确认流程没有退化"
+  ],
+  "successRateZh": "有公开榜单数据，但那是各模型在 OSWorld 任务上的得分，不是本流程的成功率；榜单随版本更新，需按官网最新结果对照。自测方法：固定快照与任务，重复 50 次，用终态判分统计成功次数，并按找群、输入、校验三类失败归因。"
+}

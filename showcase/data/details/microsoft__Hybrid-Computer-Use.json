@@ -1,0 +1,92 @@
+{
+  "id": "microsoft__Hybrid-Computer-Use",
+  "taglineZh": "给编码 agent 的 AX+GUI 双通道 MCP",
+  "summaryZh": "Hybrid Computer Use（HCU）是微软研究院开源的 MCP 服务，给 Codex、Claude Code、Gemini CLI 等编码 agent 补上桌面操作能力。它保留 agent 原有 shell 与文件工具，另加两个工具：AX 读精简无障碍树并用短引用（a1、w1、r12）批量执行动作、内置等待并返回差异；GUI 做全屏截图、局部放大与指针键盘输入。最本质区别是输入前活性校验：AX 动作核对目标是否仍存在，GUI 坐标核对窗口布局，计划过期就拒绝下发而非点错控件。",
+  "whatItDoesZh": "一个 Go 核心实现统一契约，coding agent 通过 MCP 调用，shell 与 Python SDK 共用同一桌面守护进程，引用编号可跨入口延续。命令行可列出窗口拿到 w1、w2 引用，按角色与名称找到 r12 类元素引用，点击并等待某窗口出现；GUI 侧可截全屏或放大密集区域。结果首行是 JSON 状态（ok、code、hint、input_emitted、completed），后跟目标效果、当前窗口与无障碍树差异。",
+  "useCasesZh": [
+    "让编码 agent 在真实桌面上操作 IDE 以外的客户端",
+    "在 OSWorld 等基准上替换 GUI 循环以降低步数",
+    "用无障碍树批量改设置，遇密集区域再截图确认",
+    "给内部 agent 平台接入一个统一的桌面操作后端",
+    "在一次性虚拟机里跑不受信任的桌面任务"
+  ],
+  "appsZh": [
+    "Linux X11 下的 GTK/Qt 原生应用（AT-SPI2 可读）",
+    "macOS 14+ 原生应用（AXUIElement 暴露控件）",
+    "Windows 10/11 应用（UI Automation 与 Win32）",
+    "需要批量改参数、核对渲染结果的办公类客户端",
+    "不限具体应用：只要能暴露无障碍树或可截图即可操作"
+  ],
+  "platformsZh": [
+    "Windows",
+    "macOS",
+    "Linux"
+  ],
+  "techApproachZh": "混合三通道而非单一视觉：语义层通过 AT-SPI2、AXUIElement、UI Automation 读取控件树，视觉层用 CoreGraphics 或 ScreenCaptureKit 截图并注入坐标输入，程序层保留 agent 的 shell 与文件工具。下发前复核：AX 动作核对目标活性，GUI 坐标核对窗口布局，跨通道的过期计划会被拦截；AX 还支持批内等待窗口出现。",
+  "requirementsZh": [
+    "Go 1.22+ 构建 Linux 二进制；macOS 需 Swift 6.2+，Windows 需 .NET 8 与 PowerShell 7",
+    "需以已登录桌面的用户身份运行，并提供辅助功能/屏幕录制等系统权限",
+    "Windows 包需 UI Automation 与 Win32 访问，Linux 需 AT-SPI2 与 X11",
+    "不需要 GPU；模型推理由外部 agent 侧承担，需相应模型 API Key",
+    "处理不可信任务时应使用专用桌面或一次性虚拟机"
+  ],
+  "prosZh": [
+    "AX 与 GUI 双通道，agent 可按场景自选",
+    "下发前校验目标活性，避免点到过期控件",
+    "单次调用可批量 64 个动作并内置等待",
+    "公开四个基准对比，附成本与步数变化",
+    "MCP 原生接入，不改动 agent 既有工具"
+  ],
+  "consZh": [
+    "需要构建三平台原生包，首次部署步骤偏多",
+    "会向已登录桌面发送真实输入，隔离要求高",
+    "无障碍树质量取决于目标应用实现",
+    "Windows 侧依赖 .NET 8 与 PowerShell 7"
+  ],
+  "limitsZh": "边界首先是无障碍覆盖：自绘界面、游戏画布、远程桌面画面没有可读控件，只能退化为截图加坐标，活性校验随之失效。其次缺辅助功能或屏幕录制授权时读不到窗口内容。已知失败模式包括批内某步等待超时导致整批部分完成、DPI 缩放变化后坐标偏移、跨通道并发修改桌面时的竞态。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可以承担企微桌面客户端的最后一步操作：用 AX 定位搜索框、会话列表与输入框，用 GUI 截图确认当前会话确实是目标外部群或外部客户，再下发点击与回车。但选择哪些客户、发什么内容、如何分批次与重试都需要自建流程，它本身只提供通用的桌面读写通道，因此记为 partial。",
+  "maturityZh": "2026 年 10 月创建，39 星 3 fork，MIT 许可，归属微软研究院，文档分 MCP、CODE、PLATFORMS、OSWORLD、ARCHITECTURE 多册，并带 CHANGELOG 与安全策略。早期但结构完整，风险主要是三平台原生包维护与论文级代码向产品过渡。",
+  "evidence": [
+    {
+      "claim": "AX 工具读无障碍树并以短引用批量执行动作",
+      "source": "README.md",
+      "quote": "| Semantic | `AX` | Read a compact accessibility tree with short refs (`a1`, `w1`, `r12`), run up to 64 actions in one call with waits, and get back a diff |"
+    },
+    {
+      "claim": "作者自述在 OSWorld 1.0 上得分 70.13%，优于基线 62.47%",
+      "source": "README.md",
+      "quote": "| OSWorld 1.0 (360 tasks) | Linux | GPT-5.4 | **70.13%** | 62.47% | **−59.1%** |"
+    },
+    {
+      "claim": "Windows 后端基于 .NET 8 的 UI Automation 与 Win32",
+      "source": "README.md",
+      "quote": "| Windows 10/11 | C# .NET 8: UI Automation (FlaUI UIA3), Win32 | Windows Agent Arena |"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "xa11y__xa11y",
+      "bytedance__UI-TARS-desktop",
+      "steel-dev__steel-browser"
+    ],
+    "whenZh": "要立刻给 Claude Code、Codex 这类编码 agent 加桌面能力，HCU 是现成 MCP 服务，装好即用；要自己写控制逻辑并嵌入自有系统，xa11y 更轻；要面向最终用户的成品桌面助手，UI-TARS-desktop 体验更完整；只做浏览器内任务则 steel-browser 更合适。"
+  },
+  "stepsZh": [
+    "按平台构建二进制：Linux 用 make build-local，Windows 用 make build-windows",
+    "以已登录桌面用户运行 computer-use doctor，确认无障碍与截图权限齐全",
+    "在 Codex 或 Claude Code 配置里注册 computer_use MCP 并设超时",
+    "用 computer-use apps 列出窗口，find 定位企微搜索框与输入区引用",
+    "点击进入目标外部群后，先截图核对会话标题再输入并回车发送",
+    "对超时或目标失效返回码做退避重试，失败三次转人工"
+  ],
+  "successRateZh": "作者自述固定模型与步数预算下，OSWorld 1.0 得 70.13%、Windows Agent Arena 得 80.86%，高于 CUA Driver 基线；但这是基准得分，非发送成功率，且为项目方自测。无公开成功率数据，自测可对同一企微流程连跑 50 次并按失败类型归类。",
+  "scores": {
+    "coverage": 5,
+    "usability": 4,
+    "docs": 5,
+    "maintenance": 4,
+    "performance": 5,
+    "stability": 4
+  }
+}

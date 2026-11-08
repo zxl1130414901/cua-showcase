@@ -1,0 +1,87 @@
+{
+  "id": "TongUI-agent__TongUI-agent",
+  "taglineZh": "看教程视频合成百万级 GUI 数据的 VLA 模型",
+  "summaryZh": "TongUI 是 AAAI 2026 的工作，用「看在线教程视频」的方式低成本生成 GUI 训练数据：把教程里的操作步骤与界面变化对齐，构建 GUI-Net-1M 数据集，再训练 TongUI-3B、7B、32B 视觉-语言-动作模型，并给出完整训练流水线与智能体框架。它面向屏幕元素定位与 GUI 操作任务，在多个 GUI 基准上自述达到 SOTA。与人工标注数据集最本质的区别是数据来源为公开教程视频，成本低且规模可扩。",
+  "whatItDoesZh": "提供 GUI-Net-1M 数据集与 3B、7B、32B 三档模型权重；开源数据处理、训练与评测流水线；模型可做界面元素定位、指令理解与动作预测；配套 HuggingFace 集合与论文；可用于 GUI 代理的预训练、微调与基准对比，也适合作为教学与研究素材。",
+  "useCasesZh": [
+    "为 GUI 代理预训练准备大规模界面数据",
+    "用 TongUI 模型做截图上的屏幕元素定位",
+    "复现论文在 ScreenSpot 等基准上的结果",
+    "用自己录制的教程视频扩充自有 GUI 训练数据",
+    "可当作 GUI 理解课程与研究项目的教学素材"
+  ],
+  "appsZh": [
+    "网页与桌面截图的元素定位",
+    "教程视频中的操作界面",
+    "GUI 基准测试集",
+    "HuggingFace 模型与数据集",
+    "训练与推理流水线"
+  ],
+  "platformsZh": [
+    "Web"
+  ],
+  "techApproachZh": "从在线教程视频抽取操作步骤与画面变化，对齐成指令、截图与动作三元组，构建百万级数据集；在此之上用视觉-语言-动作模型训练，让模型同时理解界面与预测动作；训练与评测脚本全部开源，可替换数据与 3B 至 32B 基座模型。",
+  "requirementsZh": [
+    "Python 环境与训练依赖",
+    "下载 GUI-Net-1M 与模型权重需 HuggingFace 访问",
+    "训练需多卡 GPU，3B 推理也需显卡",
+    "评测需 GUI 基准数据与运行环境"
+  ],
+  "prosZh": [
+    "数据集、模型权重与训练流水线全部开源",
+    "百万级数据把人工标注成本压得非常低",
+    "提供 3B 到 32B 三档模型，覆盖不同算力",
+    "论文给出多个 GUI 基准对比",
+    "数据来源可扩展到自有的教程视频"
+  ],
+  "consZh": [
+    "文档偏重论文复现，工程化程度较弱",
+    "训练门槛高，需要多卡 GPU 与较大存储",
+    "视频数据与真实桌面之间仍有分布差异",
+    "社区规模很小，版本更新节奏偏慢"
+  ],
+  "limitsZh": "它交付数据与模型，不是可直接用的桌面自动化工具；模型只在截图与指令层面做定位与动作预测，执行、重试与安全校验需自行实现；教程视频偏向常见软件，企业微信类客户端覆盖不足；仓库未声明业务任务成功率。",
+  "wecomRelevance": "none",
+  "wecomUseZh": "不能发消息，也不操作任何客户端。间接价值是为自建 CUA 提供低成本训练数据与定位模型：可录制企业微信操作视频扩充数据，再微调出更懂该客户端的定位能力，最后由自写工具层执行。",
+  "maturityZh": "2025-03 建仓，118 stars、10 forks，许可证未明确（manifest 记为 NOASSERTION），最近提交 2025-12-01；论文与数据集齐全，但社区规模小、更新慢。",
+  "evidence": [
+    {
+      "claim": "通过观看在线教程训练 GUI 的 VLA 模型",
+      "source": "README.md",
+      "quote": "Training Vision-Language-Action(VLA) Model for GUI & Computer Use tasks by watching online tutorials."
+    },
+    {
+      "claim": "数据集、模型与训练流水线全部开源",
+      "source": "README.md",
+      "quote": "Fully open-sourced dataset, model and training pipeline."
+    },
+    {
+      "claim": "用百万级数据版本可带来性能扩展",
+      "source": "README.md",
+      "quote": "Training with 1M version of dataset make the performance"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "microsoft__fara",
+      "xlang-ai__CUA-Gym"
+    ],
+    "whenZh": "要现成的网页代理模型与评测集，选 Fara；要自动合成带判分的训练任务，选 CUA-Gym；要用教程视频造百万级 GUI 数据，选 TongUI。三者都是数据与模型层，不做实际发送。"
+  },
+  "scores": {
+    "coverage": 2,
+    "usability": 1,
+    "docs": 3,
+    "maintenance": 2,
+    "performance": 3,
+    "stability": 3
+  },
+  "stepsZh": [
+    "先明确目标：为企业微信场景补一个更懂界面的定位模型",
+    "录制测试账号上的操作视频，按仓库格式整理成教程数据",
+    "用 GUI-Net-1M 与自有数据混合，训练 3B 或 7B 模型",
+    "在标注好的企业微信客户端截图上测定位准确率",
+    "把模型接到自写工具层，统计找群与填话术的失败类型"
+  ],
+  "successRateZh": "无公开成功率数据；论文报告的是 ScreenSpot 等 GUI 基准分数，不是企业微信流程。可自测：从客户端抽 200 张截图人工标注目标元素，统计模型点击落点命中率，并按会话列表、输入框、发送按钮分组。"
+}

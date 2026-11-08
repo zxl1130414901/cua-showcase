@@ -1,0 +1,79 @@
+{
+  "id": "wimi321__windows-computer-use-skill",
+  "taglineZh": "Windows 版电脑操作 Skill，自带独立运行时",
+  "summaryZh": "与作者 macOS 版同构的 Windows 实现：顶层 skill 加独立运行时加 MCP 服务器，提供截图、鼠标键盘、启动应用、窗口与显示器映射、剪贴板。依赖只用公开包，包括 pyautogui、mss、Pillow、psutil 与 pywin32，不依赖本地 Claude 应用或私有二进制。作者明确写道实现已完成，但尚未在真实 Windows 机器上做端到端验证。",
+  "whatItDoesZh": "能枚举显示器并截图，执行鼠标移动点击拖拽与滚动，输入文字与组合键，查询前台应用、某坐标下的应用、运行中与已安装应用，做窗口与显示器的映射，读写剪贴板；安装时会把整个项目复制到 agent 的技能目录下供后续调用，安装动作本身也可由脚本完成。",
+  "useCasesZh": [
+    "给 Windows 上的 agent 补一套截图与输入原语",
+    "在多显示器与混合缩放环境下做窗口坐标映射",
+    "查询某个屏幕坐标下是哪个应用并据此做决策",
+    "用剪贴板粘贴路径输入中文以避免输入法干扰",
+    "把整套电脑操作能力打包成可直接分发的技能包"
+  ],
+  "appsZh": [
+    "Windows 原生桌面应用",
+    "浏览器窗口",
+    "多显示器与混合缩放环境",
+    "不限具体应用，按屏幕坐标操作"
+  ],
+  "platformsZh": [
+    "Windows"
+  ],
+  "techApproachZh": "TypeScript 工具层定义 MCP 工具，后端用 Python 直调 pyautogui 发输入、mss 抓屏、psutil 与 pywin32 查进程和窗口。首次运行自建虚拟环境安装依赖，把 Node 与 Python 两层绑在一起分发；能力全是屏幕与输入原语，没有控件树解析。",
+  "requirementsZh": [
+    "Windows 系统",
+    "Node.js 20 及以上",
+    "Python 3.10 及以上",
+    "需授予屏幕与输入控制权限"
+  ],
+  "prosZh": [
+    "依赖链全是公开包，无私有二进制",
+    "自带运行时，装完即可被 agent 调用",
+    "覆盖显示器枚举与窗口坐标的双向映射",
+    "与 macOS 版接口同构，便于迁移"
+  ],
+  "consZh": [
+    "作者声明未在真实 Windows 上端到端验证",
+    "纯坐标方案，没有控件语义可以依赖",
+    "Node 加 Python 双运行时，安装体积偏大"
+  ],
+  "limitsZh": "README 明说当前实现尚未在真机上验证，UAC 提权窗口、安全桌面、多屏缩放与焦点切换都属于待验证项；纯坐标定位在界面改版后必然失效。仓库没有任何实测数据支撑稳定性。",
+  "stepsZh": [
+    "先在真实 Windows 机器上按 README 构建并跑通一次截图与点击",
+    "给企业微信授权并记录窗口坐标，验证多屏缩放下的偏移",
+    "用窗口映射工具确认 WXWork 窗口位置，截图核对会话",
+    "粘贴已审核文案后由人工确认发送，脚本只做预填",
+    "记录每次偏移量，若超过阈值就重新校准坐标"
+  ],
+  "successRateZh": "无公开成功率数据。README 明确写着本次开发会话没有连接真实 Windows 机器，运行时行为只实现未验证。可自测：在目标机器上跑 50 次截图加点按，统计坐标偏差、焦点丢失与输入法干扰次数。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可做企微半自动辅助的骨架：激活窗口、点搜索框、粘贴文案、截图核对，但未经真机验证，也不支持控件级定位。用于正式客户消息前必须先自行验证坐标稳定性。",
+  "maturityZh": "2026 年 3 月创建，4 月后停更，3 星、0 fork，MIT 许可，版本 0.1.1。文档写明未端到端验证，属于早期骨架而非可用成品。",
+  "evidence": [
+    {
+      "claim": "作者声明未在真实 Windows 机器上端到端验证",
+      "source": "README.md",
+      "quote": "not end-to-end verified here"
+    },
+    {
+      "claim": "依赖链只使用公开包",
+      "source": "README.md",
+      "quote": "public dependency chain only"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "wimi321__macos-computer-use-skill",
+      "24kchengYe__desktop-controller-skill"
+    ],
+    "whenZh": "与作者的 macOS 版同构，可成对使用；若目标是立刻能对企微发消息，24kchengYe 有现成命令，但仍属演示级，两者都需要自行验证。"
+  },
+  "scores": {
+    "coverage": 3,
+    "usability": 2,
+    "docs": 2,
+    "maintenance": 1,
+    "performance": 2,
+    "stability": 1
+  }
+}

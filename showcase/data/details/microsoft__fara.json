@@ -1,0 +1,87 @@
+{
+  "id": "microsoft__fara",
+  "taglineZh": "微软开源的三档计算机使用代理模型",
+  "summaryZh": "Fara1.5 是微软开源的一族原生计算机使用代理模型，含 4B、9B、27B 三个规模，基于 Qwen3.5 并用 FaraGen1.5 流水线数据训练，权重发布在 HuggingFace，也可通过 Microsoft Foundry 托管。它面向网页与桌面任务，输出结构化的界面动作；配套放出 WebTailBench 与 CUAVerifierBench 两个评测集以及 CLI 与 Magentic-UI。与成品 CUA 工具最本质的区别是：交付的是模型与评测数据，环境与工具层需自建。",
+  "whatItDoesZh": "提供三档模型权重与推理代码，可用 vLLM 本地部署或走 Foundry；附带 fara-cli 与 Magentic-UI 界面来跑网页任务；支持搜索、信息汇总、表单填写等常见操作；发布 WebTailBench 与 CUAVerifierBench 供评测；Windows 环境建议在 WSL2 中安装运行。",
+  "useCasesZh": [
+    "在自己的产品里嵌入可本地部署的 GUI 代理模型",
+    "用 4B 小模型做低成本的网页表单填写任务",
+    "用 27B 模型对比更大规模闭源系统的效果",
+    "在 WebTailBench 上评测自建代理",
+    "为浏览器自动化研究提供可复现的评测基线数据"
+  ],
+  "appsZh": [
+    "浏览器与网页任务",
+    "表单填写与信息检索页面",
+    "桌面与虚拟机中的 GUI 环境",
+    "Magentic-UI 交互界面",
+    "vLLM 或 Foundry 推理服务"
+  ],
+  "platformsZh": [
+    "Windows"
+  ],
+  "techApproachZh": "原生 GUI 代理模型：输入截图与任务，直接输出可执行的界面动作；训练数据由 FaraGen1.5 流水线生成，覆盖网页轨迹、合成环境、表单填写、元素定位与 VQA 等；部署侧提供 vLLM 推理与 Foundry 托管两条路径，工具执行层由使用方自行接。",
+  "requirementsZh": [
+    "Python 环境与 pip 安装依赖",
+    "本地推理需 vLLM 与足够显存，27B 门槛较高",
+    "或使用 Microsoft Foundry 托管与账号",
+    "Windows 建议 WSL2；无需额外 API Key"
+  ],
+  "prosZh": [
+    "三档参数规模可选，模型权重完全开放",
+    "9B 在同参数规模模型中表现领先",
+    "附带两个可复现的网页代理评测数据集",
+    "可本地部署，数据与截图不出内网",
+    "微软维护，文档、论文与权重齐全"
+  ],
+  "consZh": [
+    "只提供模型，不提供完整的桌面工具链",
+    "27B 本地部署的显存门槛较高",
+    "偏重网页任务，桌面场景泛化有限",
+    "执行、判分与重试环境需自行搭建"
+  ],
+  "limitsZh": "模型输出的是动作意图，真正执行、重试与校验要使用方实现；对需要登录态、验证码与复杂桌面客户端的任务支持有限；基准分数针对网页任务，不能直接外推到企业微信客户端；仓库未声明业务场景成功率。",
+  "wecomRelevance": "none",
+  "wecomUseZh": "不能直接发消息，也不含企业微信工具层。间接价值是作为自建 CUA 的模型底座：在内部环境里微调或提示「找外部群—填话术—校验」，再用自写工具执行；对不愿把客户数据交给云端的团队更有意义。",
+  "maturityZh": "2025-10 建仓，6248 stars、603 forks，MIT，最近提交 2026-09-22；有论文、博客、权重与数据集，维护稳定，但更新节奏比消费级产品慢。",
+  "evidence": [
+    {
+      "claim": "提供三个规模的原生计算机使用代理模型",
+      "source": "README.md",
+      "quote": "family of native Computer Use Agents (CUAs) at three scales"
+    },
+    {
+      "claim": "9B 在 Online-Mind2Web 上达到 63.4%",
+      "source": "README.md",
+      "quote": "63.4% on Online-Mind2Web"
+    },
+    {
+      "claim": "三档模型权重均已发布",
+      "source": "README.md",
+      "quote": "All three models have weights available on"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "Mininglamp-AI__Mano-P",
+      "X-PLUG__MobileAgent"
+    ],
+    "whenZh": "要微软生态、可本地部署的网页代理模型，选 Fara；要 Mac 端侧隐私推理，选 Mano-P；要通义 GUI-Owl 与云手机，选 Mobile-Agent。三者都是模型层，落地都要自建工具链。"
+  },
+  "scores": {
+    "coverage": 3,
+    "usability": 2,
+    "docs": 3,
+    "maintenance": 3,
+    "performance": 4,
+    "stability": 3
+  },
+  "stepsZh": [
+    "按安装文档建虚拟环境，安装 fara 与 vLLM、Playwright",
+    "启动本地推理服务，确认模型能返回界面动作",
+    "写一层工具适配，把动作映射到浏览器或桌面输入",
+    "在企业微信管理后台做只读测试，记录定位与动作失败",
+    "按失败样本调整提示词或微调，再统计成功率变化"
+  ],
+  "successRateZh": "有公开基准：README 自述 9B 在 WebVoyager 达 86.6%、在 Online-Mind2Web 达 63.4%，但属于网页任务，不是企业微信流程。无本场景数据；可自测 50 次后台操作，统计动作格式错误、元素定位失败、任务提前终止三类问题。"
+}

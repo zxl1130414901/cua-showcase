@@ -1,0 +1,81 @@
+{
+  "id": "steel-dev__steel-browser",
+  "taglineZh": "给 AI agent 用的自托管浏览器 API 与沙箱",
+  "summaryZh": "Steel Browser 是一个可自托管的浏览器 API 层，把会话管理、页面生命周期、代理链、反检测与调试界面都做进一个服务里。它底层用 Puppeteer 与 CDP 控制 Chrome，因此你能用 Puppeteer、Playwright 或 Selenium 任一种客户端接上来。与直接跑 Playwright 脚本的差别在于它把浏览器当长期运行的基础设施：会话可复用、cookies 与 localStorage 能跨请求保留，还提供页面转 Markdown、截图、PDF 这类快捷端点。",
+  "whatItDoesZh": "提供三类用法：会话式（创建 session 拿 CDP 地址自己接管）、快捷动作（把任意 URL 转 Markdown、可读文本、截图或 PDF）、命令 API（在会话里执行点击、输入、导航等指令）。附带一个 Web UI 可以实时看会话、回放操作、查请求日志，适合调试 agent 到底看到了什么。",
+  "useCasesZh": [
+    "给自研浏览器 agent 提供统一的浏览器后端，免去自己管进程。",
+    "批量把网页转 Markdown 灌进检索库，顺带保留截图证据。",
+    "需要多地区 IP 时用内置代理链轮换，降低被封概率。",
+    "在 Docker 或云主机上一键起浏览器服务，供多个 agent 共享。",
+    "用 UI 回放会话，排查 agent 为什么在某个页面卡住。"
+  ],
+  "appsZh": [
+    "任意网页与单页应用，通过 CDP 控制的 Chrome 实例",
+    "需要登录态与持久 cookie 的站点，靠会话复用维持",
+    "需要加载 Chrome 扩展才能用的内部系统",
+    "企业微信网页版，需自行完成扫码登录"
+  ],
+  "platformsZh": [
+    "Linux",
+    "Web"
+  ],
+  "techApproachZh": "服务端浏览器编排：Fastify 提供 REST 接口，Puppeteer 驱动 Chrome，CDP 暴露给外部客户端接管。会话对象保存浏览器上下文、页面与代理配置，空闲时自动回收。反检测靠 stealth 插件与指纹管理，快捷动作端点内部调用 readability 与截图管线，把结果直接返回。",
+  "requirementsZh": [
+    "Docker 运行最省事，或 Node 22/24/26 加本机 Chrome",
+    "自托管无需 API Key，用 Steel Cloud 则要账号",
+    "Linux 需 Xvfb 或 headless 模式，Chrome 路径可用环境变量指定",
+    "无需 GPU，CPU 与内存按并发会话数规划"
+  ],
+  "prosZh": [
+    "会话、代理、扩展、反检测一次配齐，不用自己造轮子",
+    "同时兼容 Puppeteer、Playwright、Selenium 三种客户端",
+    "自带可视化 UI，能回放会话定位 agent 卡点",
+    "一个 Docker 命令就能起完整服务，部署简单"
+  ],
+  "consZh": [
+    "只管浏览器，没有任何桌面或系统级操作能力",
+    "公开 beta，接口与行为仍在变，升级需回归测试",
+    "多会话并发时内存占用高，需要配额与回收策略",
+    "反检测只到常规指纹层面，强风控站点仍会拦"
+  ],
+  "limitsZh": "边界是「Chrome 能做的事」：桌面应用、系统弹窗、需要硬件密钥的登录都不支持。已知失败模式包括站点检测到 headless 特征直接 403、会话空闲被回收导致 CDP 断连、代理链某跳超时拖慢整条请求、页面转 Markdown 丢失动态渲染内容。没有任何任务成功率指标。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可作为企微网页版的浏览器底座：给 agent 一个稳定会话，保持扫码后的登录态，再经 CDP 打开客户联系页执行点击与输入。它本身不提供消息编排、去重或发送校验，这些都要在调用方实现。",
+  "maturityZh": "Apache-2.0，7.9 千星，2026 年 11 月仍在提交，版本 0.5.4。README 自述处于公开 beta，功能在快速演进；有商业云服务作为主要收入来源，开源自托管版长期维护的确定性略低。",
+  "evidence": [
+    {
+      "claim": "定位为面向 AI agent 与应用的开源浏览器 API",
+      "source": "README.md",
+      "quote": "<b>The open-source browser API for AI agents & apps.</b>"
+    },
+    {
+      "claim": "用 Puppeteer 与 CDP 完整控制 Chrome，可被三种客户端接管",
+      "source": "README.md",
+      "quote": "**Full Browser Control**: Uses Puppeteer and CDP for complete control over Chrome instances -- allowing you to connect using Puppeteer, Playwright, or Selenium."
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "browser-use__browser-use",
+      "CelestoAI__celesto"
+    ],
+    "whenZh": "已经有自己的 agent 逻辑、只缺浏览器后端，用 Steel；想让现成 agent 端到端跑任务，Browser Use 更省事；除浏览器还要桌面与代码执行环境，则上 Celesto 的虚拟机。"
+  },
+  "stepsZh": [
+    "docker 起 steel-browser，暴露 3000 与 9223 端口，确认 UI 能打开。",
+    "调用创建会话接口拿到 CDP 地址，用 Playwright connect_over_cdp 接管。",
+    "在会话里打开网页版企微，扫码登录后不做任何刷新以保持会话。",
+    "用命令 API 逐个打开外部群，把消息文本填入输入框但不提交。",
+    "提交前读输入框与群名做断言，失败就丢弃该会话重建，避免串号发送。"
+  ],
+  "successRateZh": "无公开成功率数据。README 通篇讲能力与部署，未给任何任务完成率或稳定性指标。自测方向：并发起 50 个会话统计创建失败与空闲回收导致的断连比例，再在同一站点跑 50 次页面转 Markdown 统计解析缺失率。",
+  "scores": {
+    "coverage": 3,
+    "usability": 4,
+    "docs": 4,
+    "maintenance": 4,
+    "performance": 4,
+    "stability": 4
+  }
+}

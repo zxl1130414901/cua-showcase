@@ -1,0 +1,92 @@
+{
+  "id": "zai-org__CogAgent",
+  "taglineZh": "开源端到端 VLM GUI 智能体",
+  "summaryZh": "CogAgent 是智谱开源的第一代端到端 GUI 智能体模型。最新版 CogAgent-9B-20241220 基于 GLM-4V-9B 双语视觉语言底座，输入屏幕截图加自然语言，直接输出界面坐标与操作决策，不依赖 DOM 或无障碍树。它支持中英文交互，并在 Screenspot、OmniAct、CogAgentBench 与 OSWorld 上做过对比评测。与同类最本质的区别是模型即 agent：不做感知与决策分层，一次前向就给出动作，且已被智谱用于 GLM-PC 产品。",
+  "whatItDoesZh": "仓库提供推理脚本与 CLI 演示、Gradio 应用、微调代码与动作空间文档。使用时把截图与指令喂给模型，模型输出坐标或高层动作（点击、输入、滚动等），上层脚本按动作注入系统输入即可。它附中英文双语的动作空间说明，便于把模型输出映射到实际控制；也提供从 Hugging Face、ModelScope 等渠道下载权重的路径与显存建议，并说明 SFT 的成本结构。",
+  "useCasesZh": [
+    "研究中英文双语 GUI 智能体的端到端表现",
+    "在自己的应用中微调领域专属 GUI agent",
+    "在 OSWorld 等基准上复现论文对比结果",
+    "给桌面自动化提供坐标级动作模型",
+    "做 GUI grounding 与单步操作的对比实验"
+  ],
+  "appsZh": [
+    "Windows 与 Linux 桌面软件的截图界面",
+    "Android 移动应用的界面操作",
+    "中英文双语界面与提示",
+    "网页与客户端的通用视觉界面",
+    "不限具体应用：模型只看截图，不绑定应用接口"
+  ],
+  "platformsZh": [
+    "Windows",
+    "Linux",
+    "Android"
+  ],
+  "techApproachZh": "端到端视觉语言动作：以 GLM-4V-9B 为底座，视觉编码器处理高分辨率截图，语言侧接收指令，模型直接生成坐标或动作 token，再把坐标映射回原图。没有独立的检测器与 OCR 模块，感知与决策共享同一前向；训练用多阶段数据与策略优化提升定位精度与动作空间完整度。部署侧依赖 Transformers 与 GPU，支持 BF16、INT8 与 INT4 三种精度。",
+  "requirementsZh": [
+    "推理至少需 29GB 显存（BF16），INT8 约 15GB，INT4 约 8GB",
+    "官方建议 A100 或 H100，其他设备需按比例折算显存",
+    "Python 环境按 requirements.txt 安装，含 torch 2.5 与 transformers 4.47 以上",
+    "微调需更多显存与多卡，训练数据需自行准备",
+    "无需 API Key，模型本地推理"
+  ],
+  "prosZh": [
+    "端到端一次前向出动作，链路简单",
+    "中英文双语交互，中文界面友好",
+    "CVPR 2024 亮点论文，方法有据",
+    "权重与动作空间文档齐备",
+    "已在 GLM-PC 产品中落地验证"
+  ],
+  "consZh": [
+    "29GB 显存门槛，消费级显卡难跑",
+    "INT4 量化官方明确不推荐，精度损失大",
+    "仓库以模型与脚本为主，无完整 agent 循环",
+    "2024 年底版本后主线更新放缓"
+  ],
+  "limitsZh": "显存门槛高，INT4 虽能跑但官方承认性能明显下降；模型不含重试、状态校验与任务规划，多步任务需上层编排。已知失败模式包括高分辨率下坐标偏移、相似控件混淆、长指令下目标指代错误，以及中英混排界面上的理解偏差。README 的对比分数为作者自测，未给逐次失败率或端到端任务成功率。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可在 Windows 或 Linux 企微客户端上做视觉定位与单步操作：截图给模型，让它给出搜索框或发送按钮的坐标，再由脚本点击。它不理解会话与客户关系，也不做发送前核对；且 29GB 显存门槛使部署成本偏高，只能作为自建流程中的动作模型，因此记为 partial。",
+  "maturityZh": "2023 年 11 月创建，2026 年 10 月仍有推送，1.2k 星 106 fork，Apache-2.0 许可，论文、模型卡与微调代码齐全，是较早开源且被广泛引用的 GUI agent。风险在于主力版本停留在 2024 年底、显存要求高，社区活跃度不及新模型。",
+  "evidence": [
+    {
+      "claim": "以 GLM-4V-9B 双语底座构建",
+      "source": "README.md",
+      "quote": "`CogAgent-9B-20241220` model is based on [GLM-4V-9B](https://huggingface.co/THUDM/glm-4v-9b), a bilingual open-source"
+    },
+    {
+      "claim": "BF16 推理至少需要 29GB 显存",
+      "source": "README.md",
+      "quote": "The model requires at least 29GB of VRAM for inference at `BF16` precision."
+    },
+    {
+      "claim": "自述在 GUI 定位与单步操作等基准上领先",
+      "source": "README.md",
+      "quote": "demonstrate that **CogAgent leads in GUI localization (Screenspot), single-step operations (OmniAct),"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "showlab__ShowUI",
+      "Tongyi-MAI__MAI-UI",
+      "microsoft__OmniParser"
+    ],
+    "whenZh": "要中英双语且方法成熟的桌面 GUI 模型，CogAgent 引用最多；显存有限或要微调，ShowUI 的 2B 体量更实际；要移动端真机与混合动作空间，MAI-UI 覆盖更全；只想补感知层不训模型，OmniParser 更省事。"
+  },
+  "stepsZh": [
+    "按显存档位准备 GPU 机器，下载 CogAgent-9B 权重到本地",
+    "安装依赖并跑通 CLI 演示，确认截图输入能得到坐标输出",
+    "对企微窗口截图并给出「点击搜索框」指令，取得坐标后注入点击",
+    "输入客户名后再次请求「点击发送按钮」的坐标",
+    "发送前截图复查会话标题与输入内容，不一致则中止",
+    "记录坐标偏差样本，必要时用领域数据做小规模微调"
+  ],
+  "successRateZh": "无公开成功率数据。README 只说明模型在 Screenspot、OmniAct、CogAgentBench 与 OSWorld 上做过对比，未给出任务成功率；这些均为作者自报的基准结果。自测可对同一企微发送流程连跑 50 次，按坐标偏移、控件混淆、指令误解三类统计失败。",
+  "scores": {
+    "coverage": 4,
+    "usability": 2,
+    "docs": 3,
+    "maintenance": 3,
+    "performance": 2,
+    "stability": 3
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "id": "wangrongding__wechat-bot",
+  "taglineZh": "多 IM 渠道接入大模型的微信机器人框架",
+  "summaryZh": "基于 Wechaty 的微信与多 IM Agent 项目：扫码登录微信后，把私聊和白名单群里的 @ 消息交给 ChatGPT、DeepSeek、Ollama、Claude、Pi 等模型处理，再把结果发回微信；同一套命令还可接入飞书、Telegram、WhatsApp。它不操作企业微信，定位是个人号自动回复、群分析与本地聊天数据读取；与纯 RPA 工具最本质的区别是走 Wechaty 协议/网关而不是模拟点击界面。",
+  "whatItDoesZh": "扫码登录后按白名单接管消息：私聊要求好友备注或昵称在 ALIAS_WHITELIST，群聊要求群名在 ROOM_WHITELIST 且消息 @ 机器人，非文本消息不会进入回复链路。另提供 wb wx sessions/history/members 读取本机会话、联系人与群成员，wb analyze 对群或好友做统计和 AI 分析，并支持飞书、Telegram、WhatsApp 的登录、收发与事件驱动回复。",
+  "useCasesZh": [
+    "只对白名单好友私聊接入大模型完成自动答疑",
+    "在群里 @ 机器人查询资料，由大模型直接给出答复",
+    "用 wb analyze 统计群活跃度与热门关键词",
+    "通过 Telegram 或飞书远程触发微信回复",
+    "把本地微信聊天记录导出后，用 AI 做客户沟通复盘分析"
+  ],
+  "appsZh": [
+    "微信个人号（扫码登录，非企业微信客户端）",
+    "飞书 IM（登录、读、搜、发）",
+    "Telegram Bot",
+    "WhatsApp Cloud API",
+    "本机微信会话/联系人/群成员数据"
+  ],
+  "platformsZh": [
+    "Windows",
+    "macOS",
+    "Linux"
+  ],
+  "techApproachZh": "Node.js 工具，微信侧通过 Wechaty puppet 协议网关登录与收发，不做桌面 UIA 模拟；飞书走开放平台 SDK，Telegram 走 Bot API 轮询，WhatsApp 走 Cloud API webhook。回复侧是 provider 抽象，可切换 OpenAI、DeepSeek、Ollama、Claude、Pi 等；本地数据通过 OpenCLI 的 wx-cli 读取。",
+  "requirementsZh": [
+    "Node.js 与 npm，执行 npm i 安装依赖",
+    "一个可扫码登录的微信账号",
+    "至少一个模型服务：API Key 或本地 Ollama",
+    "需在 .env 配置私聊与群聊白名单",
+    "需网络可访问所选 IM 平台接口"
+  ],
+  "prosZh": [
+    "一套代码同时接入微信、飞书、Telegram、WhatsApp",
+    "白名单机制把回复范围收得很窄，便于控制风险",
+    "模型 provider 多，可换本地 Ollama 降低成本",
+    "自带本地聊天、群成员与朋友圈缓存分析命令",
+    "11.5k star，中英双语文档，生态成熟"
+  ],
+  "consZh": [
+    "登录依赖第三方 puppet 协议，存在风控与封号风险",
+    "完全不支持企业微信，无法触达外部客户",
+    "群聊必须 @ 机器人才回复，非文本消息直接丢弃",
+    "README 自述 padlocal 协议作者已停止维护"
+  ],
+  "limitsZh": "README 明确提示微信 Web 协议存在风控和封号风险，并建议只在明确接受风险的账号与场景使用；群聊只处理 @ 消息，图片、语音等非文本消息不入回复链路；协议或 puppet 停更会直接导致扫码登录失败，且不覆盖企业微信外部客户场景。",
+  "stepsZh": [
+    "准备 Node 环境，执行 npm i 并复制 .env.example 为 .env",
+    "在 .env 填入 BOT_NAME、私聊白名单与群白名单",
+    "配置一个模型服务的 API Key，或改用本地 Ollama",
+    "执行 wb agent --im wechat --agent pi，终端扫码登录",
+    "用白名单好友发文本验证回复，再到群里 @ 机器人验证规则",
+    "该仓库属于微信官方明令禁止的外挂路线，账号可能被永久封禁，不建议用于真实客户与主账号。"
+  ],
+  "successRateZh": "无公开成功率数据。项目只声明可扫码登录与白名单回复，未给出任何实测数字。可自测：用 10 个白名单好友、5 个群各发 5 条文本，统计回复条数、平均延迟与掉线次数；非文本消息按设计不回复，应单独统计。协议登录失效会直接导致零回复，需记录掉线时间点。",
+  "wecomRelevance": "none",
+  "wecomUseZh": "它登录的是个人微信，既没有企业微信客户端控制能力，也没有客户联系/外部群接口，无法给企微外部客户或外部群发消息。若只是想给内部同事发通知，可改用它的飞书或 Telegram 通道；但在『企微外部客户群发』这件事上用不上。",
+  "maturityZh": "MIT 许可，11.5k star、1.3k fork，最近推送 2026-09，仍在维护；但 README 自述微信审查趋严、协议作者停更，维护重心已转向多 IM Agent。代码与文档质量较高，风险主要来自登录协议而非项目本身。",
+  "evidence": [
+    {
+      "claim": "微信侧依赖 Wechaty 协议而非桌面 UI 自动化",
+      "source": "README.zh-CN.md",
+      "quote": "一个基于 `Wechaty` 的微信 / IM agent 项目。"
+    },
+    {
+      "claim": "作者明确提示协议登录有风控与封号风险",
+      "source": "README.zh-CN.md",
+      "quote": "微信 Web 协议存在风控和封号风险。"
+    },
+    {
+      "claim": "群聊必须 @ 机器人才会进入回复链路",
+      "source": "README.zh-CN.md",
+      "quote": "群聊：群名需要在 `ROOM_WHITELIST`，并且消息里需要 `@BOT_NAME`。"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "cluic__wxauto",
+      "wechaty__wechaty"
+    ],
+    "whenZh": "要个人微信自动回复、还需要一套代码兼顾飞书/Telegram 且能接受协议登录风险时选它；只想在 Windows 本机稳定收发、不碰协议时选 wxauto；要自建 puppet 或接多语言 SDK 时选 wechaty。"
+  },
+  "scores": {
+    "coverage": 3,
+    "usability": 4,
+    "docs": 4,
+    "maintenance": 3,
+    "performance": 3,
+    "stability": 2
+  }
+}

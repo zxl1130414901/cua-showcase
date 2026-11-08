@@ -1,0 +1,89 @@
+{
+  "id": "sunnoy__openclaw-plugin-wecom",
+  "taglineZh": "OpenClaw 社区增强版企微多账号插件",
+  "summaryZh": "它是 OpenClaw 企业微信渠道的社区增强插件，基于官方插件的 WebSocket 长连接骨架，补上多账号独立配置、动态 Agent 隔离、Agent API 主动出站、部门/标签寻址、配额感知与断连补发。适合一个实例里跑多个企微机器人，把消息按业务线分给不同 Agent。它与官方插件的差别主要在运营增强，而不是新的接入协议。",
+  "whatItDoesZh": "安装后在配置里填多个 Bot 的 ID/Secret，为每个账号绑定 Agent 与指令白名单；被动回复走 WebSocket，主动出站走 Agent API 发文本/图片/文件，可寻址到部门（party:）或标签（tag:）；内置配额追踪与 24 小时窗口提醒，WS 断连后把未送达回复补发。",
+  "useCasesZh": [
+    "多个企微机器人按业务线分账号接待不同客户",
+    "把 Agent 回复发送到指定部门或标签范围",
+    "群内通过 Webhook 主动发送通知消息",
+    "主动发送额度不足时触发告警并自动降级处理",
+    "断连恢复后自动补发此前未送达的回复消息内容"
+  ],
+  "appsZh": [
+    "企业微信智能机器人",
+    "企业微信自建应用 Agent API",
+    "企微部门与标签",
+    "企业微信文档与智能表格",
+    "企业微信群聊"
+  ],
+  "platformsZh": [
+    "Web"
+  ],
+  "techApproachZh": "Node/JavaScript 插件，复用官方 @wecom/wecom-openclaw-plugin 的 WebSocket 长连接骨架，叠加多账号路由、Agent 映射、Agent API 出站与 MCP 文档能力；消息走企微官方接口，不做客户端注入。",
+  "requirementsZh": [
+    "Node.js 与 OpenClaw 网关",
+    "多个企微智能机器人 Bot ID/Secret",
+    "自建应用 Agent API 权限",
+    "企微管理员后台配置权限",
+    "无需 GPU 与客户端"
+  ],
+  "prosZh": [
+    "多账号独立配置，共享字段可继承",
+    "按 Agent 隔离业务线消息",
+    "支持按部门与标签寻址，主动发送更精准",
+    "有配额感知与断连补发，适合长期挂机",
+    "701 star，2026 年持续更新"
+  ],
+  "consZh": [
+    "依赖官方插件骨架，升级可能受影响",
+    "主动消息只能触达企业内部成员与内部群",
+    "配置项多，首次接入需要完整读一遍文档",
+    "社区维护，非腾讯官方，接口变更跟进较慢"
+  ],
+  "limitsZh": "主动发送仍受企微额度与 24 小时窗口限制；只能触达企业成员、部门与标签，不能给外部客户或外部群发消息；Agent API 需自建应用权限；依赖官方插件升级，骨架变更可能破坏兼容。",
+  "stepsZh": [
+    "安装 OpenClaw 与官方企微插件骨架",
+    "配置两个企微机器人的 ID 与 Secret",
+    "为每个账号绑定 Agent 与指令白名单",
+    "给部门或标签发一条主动消息，验证寻址是否正确",
+    "在外部客户群尝试推送，确认报错并记录错误码",
+    "断开 WebSocket 验证补发与配额告警"
+  ],
+  "successRateZh": "无公开成功率数据，README 以功能对比表为主。可自测 50 条被动回复与 10 条主动发送，统计送达、配额报错、断连补发成功；外部客户群应单独记录失败原因。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "它增强的是 OpenClaw 接企微机器人的运营能力，可给内部成员、部门、标签主动发消息，也能在已有机器人会话里回复。外部客户与外部群不在能力范围，群发外部客户这一步用不上。",
+  "maturityZh": "701 star、91 fork，ISC，2026-01 创建、2026-05 推送；社区项目更新较快但已数月未动，功能对比表清晰，长期兼容性依赖官方插件。",
+  "evidence": [
+    {
+      "claim": "基于官方插件的社区增强插件",
+      "source": "README.md",
+      "quote": "基于官方 [`@wecom/wecom-openclaw-plugin`](https://github.com/WecomTeam/wecom-openclaw-plugin) 的 WebSocket 长连接骨架，提供多账号管理、动态 Agent 隔离、Agent API / Webhook 增强出站"
+    },
+    {
+      "claim": "支持部门/标签寻址发送",
+      "source": "README.md",
+      "quote": "部门 / 标签目标发送"
+    },
+    {
+      "claim": "断连后补发未送达回复",
+      "source": "README.md",
+      "quote": "Pending Reply 重试"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "WecomTeam__wecom-openclaw-plugin",
+      "dingxiang-me__OpenClaw-Wechat"
+    ],
+    "whenZh": "要多账号、按 Agent 分流、需要配额与补发时选社区增强版；要官方支持与最稳兼容选腾讯官方插件；要双模式与群 webhook 出站选 OpenClaw-Wechat。"
+  },
+  "scores": {
+    "coverage": 3,
+    "usability": 3,
+    "docs": 3,
+    "maintenance": 3,
+    "performance": 4,
+    "stability": 3
+  }
+}

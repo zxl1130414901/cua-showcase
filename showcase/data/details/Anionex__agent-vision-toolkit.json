@@ -1,0 +1,91 @@
+{
+  "id": "Anionex__agent-vision-toolkit",
+  "taglineZh": "给纯文本模型加视觉的编码 agent 工具箱",
+  "summaryZh": "agent-vision-toolkit 是一套给纯文本编码 agent 补视觉能力的工具集。它提供三条路径：一是可直接调用的视觉命令行，让 agent 用一个命令完成看图、长图 OCR、界面还原与 GUI 自动化；二是同名 skill，把「何时该看图、怎么看」的用法写成提示给 agent；三是本地代理与原生插件，让粘贴的图片与 agent 内建图片工具无缝可用。与同类最本质的区别是不换模型：DeepSeek 这类文本模型配上它就能看图并驱动界面。",
+  "whatItDoesZh": "安装后 agent 可通过命令行上传图片并提问，例如读图表、读报错截图、从长截图抽出文字；界面还原命令把截图重建成接近原稿的 HTML；GUI 自动化命令把「点击搜索框」这类意图转成屏幕坐标并在截图里校验。skill 目录提供完整用法剧本，可装进 Codex、Claude Code、Pi、OpenCode。代理模式在本地起一个转发层，让原生的图片粘贴与图片读取工具照常工作，不必额外装工具。",
+  "useCasesZh": [
+    "让 DeepSeek 等文本模型读出报错截图内容",
+    "从超长网页截图里抽取结构化文字",
+    "把界面截图还原成可编辑的 HTML",
+    "给纯文本 agent 加截图点击的 GUI 能力",
+    "在 Claude Code 或 Codex 里粘贴图片直接用"
+  ],
+  "appsZh": [
+    "浏览器与网页截图",
+    "桌面应用窗口截图与界面还原",
+    "图表、报错页与长截图中的文字识别",
+    "Codex、Claude Code、Pi、OpenCode 等宿主",
+    "不限具体应用：以截图与坐标为主，不绑定单应用接口"
+  ],
+  "platformsZh": [
+    "Windows",
+    "macOS",
+    "Linux"
+  ],
+  "techApproachZh": "工具层而非模型层：通过命令行把图片交给视觉服务，返回结构化描述、OCR 文本或坐标；界面还原用视觉模型重建布局与样式；GUI 自动化把意图映射到坐标并用截图回验。代理模式在本地拦截请求，把图片转成文本模型可读的形式，并保留原生图片工具的行为。宿主适配靠一份 skill 说明与插件文件，不改模型权重。",
+  "requirementsZh": [
+    "需一个可用的视觉模型 API Key 与网络访问",
+    "Python 或 Node 运行环境按安装说明准备",
+    "宿主需支持 skill 或插件机制（Codex、Claude Code 等）",
+    "GUI 自动化需操作系统屏幕录制与输入权限"
+  ],
+  "prosZh": [
+    "不换模型就能给文本 agent 补视觉",
+    "一条命令覆盖看图、OCR、还原与点击",
+    "提供完整 skill 剧本，接入成本低",
+    "代理模式兼容原生图片工具",
+    "在四个宿主上做过端到端验证"
+  ],
+  "consZh": [
+    "每个视觉请求都走外部模型，产生费用",
+    "坐标点击依赖截图分辨率与缩放",
+    "界面还原质量随页面复杂度下降",
+    "工具较多，首次配置需要读文档"
+  ],
+  "limitsZh": "视觉能力来自外部模型服务，断网或无 Key 时整条链路不可用；坐标点击在缩放、跨屏与高 DPI 下需要重新校准。已知失败模式包括长截图被压缩后小字丢失、界面还原把动态组件画成静态、GUI 自动化在弹窗遮挡时点偏，以及代理层对非图片请求改写过度导致宿主工具异常。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可让纯文本编码 agent 看企微截图并定位控件：读窗口截图、找外部群会话、把「点发送」转成坐标并回验。但它不提供消息语义、名单管理与发送校验，仍需自建流程；GUI 自动化也只是工具层，因此记为 partial。",
+  "maturityZh": "2026 年 5 月创建，2026 年 9 月仍在推送，1.5k 星 115 fork，MIT 许可，带多宿主安装说明与验证记录。维护节奏正常，风险在于依赖外部视觉服务与宿主插件机制的稳定性。",
+  "evidence": [
+    {
+      "claim": "针对文本模型缺多模态能力的问题",
+      "source": "README.md",
+      "quote": "If your agent already runs on a text-only model such as DeepSeek but is held back by the lack of multimodality"
+    },
+    {
+      "claim": "用本地代理与原生插件实现无缝图片支持",
+      "source": "README.md",
+      "quote": "a transparent local proxy and single-file native plugins, so **images we paste and the agent's built-in image tools both work seamlessly**"
+    },
+    {
+      "claim": "已在 Codex、Claude Code、Pi、Oh My Pi 与 OpenCode 上端到端验证",
+      "source": "README.md",
+      "quote": "All code has been verified in real Codex + DeepSeek sessions, and the same pipeline has been live-verified end-to-end in Claude Code, Pi, Oh My Pi, and OpenCode."
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "microsoft__OmniParser",
+      "showlab__ShowUI",
+      "ComputerUseAgent__AutoCua"
+    ],
+    "whenZh": "已有文本编码 agent、只想加视觉与截图点击，选本工具箱改动最小；要可自托管的解析前端选 OmniParser；要轻量 GUI 模型选 ShowUI；要完整多端 agent 平台则 AutoCua 一步到位。"
+  },
+  "stepsZh": [
+    "安装工具箱并配置视觉模型 Key，先测一次截图问答",
+    "把 skill 装进 Codex 或 Claude Code，确认能读到用法说明",
+    "截取企微窗口，用 GUI 自动化命令定位搜索框并点击",
+    "输入外部群名后再次定位输入框，填入消息文本",
+    "发送前再截一帧让 agent 核对会话标题与输入内容",
+    "坐标偏移时重截全屏并重新校准，失败三次转人工"
+  ],
+  "successRateZh": "无公开成功率数据。README 强调在真实 Codex 加 DeepSeek 会话里验证过，并在多个宿主上端到端跑通，但只说明「验证过」而非统计通过率，也未给失败类型分布。自测可对同一批 50 张企微截图做定位，统计坐标命中率，并分别记录缩放 100% 与 150% 下的差异。",
+  "scores": {
+    "coverage": 3,
+    "usability": 4,
+    "docs": 4,
+    "maintenance": 4,
+    "performance": 3,
+    "stability": 3
+  }
+}

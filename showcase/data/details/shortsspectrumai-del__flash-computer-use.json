@@ -1,0 +1,82 @@
+{
+  "id": "shortsspectrumai-del__flash-computer-use",
+  "taglineZh": "DOM 与系统无障碍优先、视觉兜底的混合 MCP",
+  "summaryZh": "先用 Playwright 的 DOM 和系统无障碍树直接定位元素，命中时两到七毫秒完成、零视觉模型调用；只有在密集页面或语义模糊时才裁图交给 LiquidAI D1 视觉模型，并做候选预筛与紧裁剪。鼠标始终沿最小 jerk 轨迹移动真实光标，兼顾速度与拟人化，是典型的“确定性优先、视觉兜底”混合路线。",
+  "whatItDoesZh": "支持浏览器导航、点击、填表、滚动与离屏滚动到可见；桌面侧查询 Windows UIA、Linux AT-SPI 与 macOS AX 无障碍树；密集页面可生成 SoM 标注并只保留候选；用九点 elementFromPoint 命中测试确认坐标未被遮挡，再执行点击。",
+  "useCasesZh": [
+    "在复杂网页里稳定点击多个同名按钮中的某一个",
+    "给浏览器与桌面应用提供统一的元素定位入口",
+    "用系统无障碍树替代高频截图以降低调用成本",
+    "在需要拟人化操作的场景里生成平滑鼠标轨迹",
+    "对元素密集的列表页做候选预筛与区域裁剪识别"
+  ],
+  "appsZh": [
+    "Chromium 浏览器页面，走 Playwright DOM",
+    "Windows UIA 应用",
+    "Linux AT-SPI 应用",
+    "macOS AX 应用"
+  ],
+  "platformsZh": [
+    "Web",
+    "Windows",
+    "macOS",
+    "Linux"
+  ],
+  "techApproachZh": "三层定位：DOM 与原生无障碍优先，命中即返回坐标并做遮挡校验；语义不足时把候选区域裁图，交给 D1 视觉模型在 SoM 标注上选。输入层用最小 jerk 多项式轨迹驱动真实系统鼠标，可见浏览器模式下把视口坐标映射到全局屏幕，保证点击落到物理位置。",
+  "requirementsZh": [
+    "Python 3 环境",
+    "需安装 Playwright 与对应浏览器",
+    "D1 视觉兜底需 API Key",
+    "桌面侧需系统无障碍权限"
+  ],
+  "prosZh": [
+    "DOM 与无障碍命中时快且零视觉调用",
+    "九点命中测试能提前发现按钮被遮挡",
+    "鼠标轨迹拟人化，适合风控敏感的界面",
+    "视觉兜底只在语义不足时才按需启用"
+  ],
+  "consZh": [
+    "三套系统接口，跨平台维护成本高",
+    "宣称的 200 倍加速缺少独立复现",
+    "仅 1 星，缺少真实项目的落地验证"
+  ],
+  "limitsZh": "速度对比是相对截图型 agent 的自述，不是标准化基准；自绘画布、跨域 iframe 与阴影 DOM 仍会退化为视觉识别；桌面侧只有部分系统做过验证。仓库未给出任务级成功率。",
+  "stepsZh": [
+    "先在企业微信里确认窗口可被无障碍树识别，记录控件角色与名称",
+    "用无障碍查询直接定位搜索框与输入框，避开坐标点击",
+    "填入已审核文案，读取控件值确认内容确实写入",
+    "截图留痕并由人工确认收件人信息后再点击发送",
+    "发送后回读最后一条消息控件，失败则重试一次并记录"
+  ],
+  "successRateZh": "无公开成功率数据。README 给出的是定位耗时对比，两到七毫秒对截图型方案的二十到五十秒，以及渲染基准，没有任务完成率统计。可自测 50 次同类点击并统计命中与遮挡误判。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "若企业微信控件能被系统无障碍树暴露，可用它做元素级定位与输入，比坐标点击稳；但企微 4.x 自绘界面常拿不到内部元素，届时会退化到视觉兜底，速度与准确率都下降。",
+  "maturityZh": "2026 年 10 月创建，当天之后无提交，1 星、0 fork，MIT 许可。单人新项目，没有 issue 与发布记录，成熟度很低。",
+  "evidence": [
+    {
+      "claim": "确定性定位路径耗时为两到七毫秒",
+      "source": "README.md",
+      "quote": "2–7 ms"
+    },
+    {
+      "claim": "结合 DOM、系统无障碍与视觉兜底三种定位",
+      "source": "README.md",
+      "quote": "native OS accessibility"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "mrpulor-gh__nuphus-mcp",
+      "munimtechnologies__munim-computer-use"
+    ],
+    "whenZh": "要极致速度且主要跑浏览器，它的 DOM 优先路线最合适；要桌面端稳定跨平台，munim 的无障碍加后台输入更成体系，nuphus 则胜在单二进制。"
+  },
+  "scores": {
+    "coverage": 3,
+    "usability": 2,
+    "docs": 3,
+    "maintenance": 1,
+    "performance": 4,
+    "stability": 2
+  }
+}

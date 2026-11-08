@@ -1,0 +1,82 @@
+{
+  "id": "vercel-labs__ai-sdk-computer-use",
+  "taglineZh": "Vercel 沙箱里跑 Claude computer 工具",
+  "summaryZh": "这是 Vercel 官方的一个教学型示例：用 Next.js 与 AI SDK 接 Claude Sonnet 4.5，让模型通过 computer 与 bash 两个工具操作一台跑在 Vercel Sandbox 里的远程桌面。沙箱镜像预装了 Xvnc 虚拟显示、openbox 窗口管理器、Chrome、noVNC 串流与 xdotool，聊天界面旁边嵌一个可缩放的实时桌面画面。它把「模型怎么调 computer use 工具」这件事完整摊开，适合当架构样板而不是产品。",
+  "whatItDoesZh": "用户在对话框里提一句任务，Claude 就会循环调用 computer 工具截图、点击、输入、滚动，或用 bash 执行命令，结果通过 noVNC 实时显示在右侧面板。示例覆盖了工具定义、消息流式返回、沙箱快照创建与前端布局，改一改就能验证自己的提示词与工具策略。",
+  "useCasesZh": [
+    "作为团队内部 computer use 原型的起点，直接 fork 改造。",
+    "演示 Claude computer 工具与 bash 工具如何协同。",
+    "在云端沙箱里复现问题，避免污染本机环境。",
+    "教学场景里展示截图流、动作循环与前端串流。",
+    "对比不同提示词下模型完成任务所需的步数。"
+  ],
+  "appsZh": [
+    "沙箱内的 Chrome 浏览器",
+    "Xvnc 虚拟桌面上的 openbox 窗口",
+    "可执行 shell 命令的 Linux 环境",
+    "不限具体应用，但受沙箱镜像内已装软件限制"
+  ],
+  "platformsZh": [
+    "Windows",
+    "macOS",
+    "Linux"
+  ],
+  "techApproachZh": "云端沙箱加视觉动作：Vercel Sandbox 从预建快照起机，里面跑 Xvnc 与 openbox，Chrome 自动打开；动作由 Claude 的 computer 工具下发，靠 xdotool 注入鼠标键盘，截图由 ImageMagick 抓取；noVNC 通过 websockify 把桌面以 WebSocket 推到浏览器。模型只看到截图，不读无障碍树。",
+  "requirementsZh": [
+    "Node 18 以上，pnpm 安装依赖",
+    "Vercel 账号与 Sandbox 权限，需 OIDC 或 Token 认证",
+    "Anthropic API Key",
+    "首次需跑约 10 分钟创建沙箱快照"
+  ],
+  "prosZh": [
+    "架构极简清晰，工具定义与沙箱接线一目了然",
+    "noVNC 实时画面，调试时能看到 agent 在点什么",
+    "Vercel 部署链路成熟，示例可直接上线",
+    "同时演示 computer 与 bash 两类工具组合"
+  ],
+  "consZh": [
+    "定位是 demo，无持久化、无多用户、无权限体系",
+    "强绑 Vercel Sandbox，换自建环境要重写大半",
+    "沙箱内只有一个 Chrome，桌面应用无法安装使用",
+    "2026 年 4 月后无更新，模型版本已落后"
+  ],
+  "limitsZh": "边界由沙箱镜像决定：只有预装的 Chrome 与基础 X 工具，装不了企微客户端，也无法保存跨会话登录态。已知失败包括截图分辨率与点击坐标换算偏差、模型在长任务中重复点同一处、沙箱冷启动慢导致首步超时，以及无任何发送前校验机制。",
+  "wecomRelevance": "none",
+  "wecomUseZh": "用不上：它是一份教学 demo，沙箱每次重建都会丢登录态，也没有任何消息编排、去重或发送校验。若强行在沙箱 Chrome 里登录网页版企微，扫码与风控会直接卡住，实际价值接近零。",
+  "maturityZh": "许可为 NOASSERTION（仓库未给标准 SPDX 标识），221 星，最后提交 2026 年 4 月，已停止跟随模型迭代。适合作为参考代码阅读，不适合当成长期维护的依赖。",
+  "evidence": [
+    {
+      "claim": "用 Claude Sonnet 4.5 与 Vercel Sandbox 演示 computer use",
+      "source": "README.md",
+      "quote": "An open-source AI chatbot demonstrating computer use capabilities with Anthropic Claude Sonnet 4.5, Vercel Sandboxes, and the AI SDK by Vercel."
+    },
+    {
+      "claim": "模型通过 computer 与 bash 两个工具操作沙箱桌面",
+      "source": "README.md",
+      "quote": "When a user sends a message, Claude uses the `computer` tool (screenshot, click, type, scroll) and the `bash` tool (run shell commands) to interact with the sandbox desktop."
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "E2b-dev__open-computer-use",
+      "browser-use__browser-use"
+    ],
+    "whenZh": "想读一份最小可运行的云端 computer use 样板，看这个；要在自己的环境里长期跑浏览器任务，Browser Use 更实用；需要可编程的沙箱与工具链，e2b 系的 open-computer-use 更贴近生产。"
+  },
+  "stepsZh": [
+    "fork 仓库，按 README 装依赖并创建沙箱快照，拿到 snapshot ID 填进环境变量。",
+    "先把任务改成只读：让 Claude 截屏并描述当前页面，验证动作与画面一致。",
+    "接企微网页版时要单独处理登录：快照里预置会话，避免每次重建都扫码。",
+    "发送步骤改成两段工具调用，中间插入人工确认，不允许一次调用直接提交。",
+    "每次会话结束记录截图与动作序列，用于回看失败点并调整提示词。"
+  ],
+  "successRateZh": "无公开成功率数据。README 只描述架构与本地启动步骤，没有任何评测结果。自测建议在沙箱里跑 50 次同一网页任务，统计首步超时、点击偏移、模型重复动作三类失败，另记录平均步数。",
+  "scores": {
+    "coverage": 2,
+    "usability": 2,
+    "docs": 3,
+    "maintenance": 2,
+    "performance": 3,
+    "stability": 3
+  }
+}

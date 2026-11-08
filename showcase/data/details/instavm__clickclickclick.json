@@ -1,0 +1,81 @@
+{
+  "id": "instavm__clickclickclick",
+  "taglineZh": "规划与定位分工的双模型 Android/桌面点击框架",
+  "summaryZh": "ClickClickClick 把 computer use 拆成三个角色：planner 负责理解任务并拆成下一步，finder 负责在截图里定位要点哪个元素，executor 负责把动作打到设备上。Android 侧用 adb 发点击与输入，macOS 侧用 PyAutoGUI 与 AppleScript。这种双模型分工和「一个多模态模型包办全部」的路线不同：planner 可以选便宜的小模型，只有 finder 需要强视觉能力，成本与速度更好权衡。作者也坦言当前代码高度实验性。",
+  "whatItDoesZh": "可执行一句自然语言任务，例如打开浏览器搜内容、在应用里点按钮、在邮件客户端起草一封信。支持命令行、Gradio 网页界面、Python API 与 FastAPI 的 REST 接口四种调用方式；可分别指定 planner 与 finder 的模型来源（OpenAI、Gemini、Ollama），还能调低截图质量换速度。",
+  "useCasesZh": [
+    "在真机 Android 上自动打开应用并完成几步导航操作。",
+    "用本地 Ollama 跑 planner、云端跑 finder，压低调用成本。",
+    "把任务执行包装成 REST 接口，供内部系统触发。",
+    "在 macOS 上做轻量桌面点击演示，验证双模型分工思路。",
+    "对比同一任务下不同 planner/finder 组合的完成情况。"
+  ],
+  "appsZh": [
+    "Android 应用界面，通过 adb 操作",
+    "macOS 桌面应用，通过 PyAutoGUI 与 AppleScript",
+    "浏览器与应用内的列表、按钮、输入框",
+    "Android 版企业微信 App，需自己写任务脚本"
+  ],
+  "platformsZh": [
+    "Android",
+    "macOS"
+  ],
+  "techApproachZh": "规划与定位分离：planner 读任务与历史步骤产出下一步意图，finder 在截图上按意图定位可点元素坐标，executor 用 adb（Android）或 PyAutoGUI/AppleScript（macOS）执行。图像质量可降到 45% 以缩短上传与推理时间。没有无障碍树参与，定位全靠视觉模型。",
+  "requirementsZh": [
+    "Python 3.11 以上，装 requirements 或 pip 装 whl",
+    "Android 侧需 adb 与已连接设备，macOS 侧需辅助功能权限",
+    "至少一个模型 Key：OpenAI、Google AI Studio 或本地 Ollama",
+    "无需 GPU，除非本地跑视觉模型"
+  ],
+  "prosZh": [
+    "planner 与 finder 可分开选模型，成本控制灵活",
+    "四种接入方式，从 CLI 到 REST 都覆盖",
+    "代码结构清晰，三组件职责一眼看懂",
+    "支持本地 Ollama，可离线跑规划环节"
+  ],
+  "consZh": [
+    "作者自述高度实验性，默认链路随时可能变",
+    "仅覆盖 Android 与 macOS，没有 Windows 与 Linux",
+    "免费本地模型作 finder 时定位很差，作者已明确说明",
+    "无发送校验、无权限管理、无审计日志"
+  ],
+  "limitsZh": "失败集中在这几类：finder 在密集列表里点错行、滚动后坐标基于旧截图、Android 输入法弹窗遮挡目标、长任务无步骤上限导致反复同一动作。README 明说 qwen3.5:4b 作 planner 慢且只能做基础导航、作 finder 不可靠，等于承认本地模型组合的下限。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可操作 Android 版企业微信：用 adb 拉起 App，找到外部群并输入发送。但企微 Android 端有设备验证与风控，finder 在会话列表里容易点错群，必须加群名核对与发送前停手，否则不适合对外客户。",
+  "maturityZh": "MIT，715 星，最后提交 2026 年 3 月，版本 0.3.1，作者明确标注实验性。更新频率不高、无正式发布节奏，属于早期探索项目，不建议压生产。",
+  "evidence": [
+    {
+      "claim": "用任意本地或远程 LLM 驱动 Android 与桌面操作",
+      "source": "README.md",
+      "quote": "### A framework to enable autonomous android and computer use using any LLM (local or remote)"
+    },
+    {
+      "claim": "作者自述 Gemini 3.1 Flash-Lite 做 planner 与 finder 效果最好",
+      "source": "README.md",
+      "quote": "The best result currently comes from using Gemini 3.1 Flash-Lite as both planner and finder."
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "droidrun__mobilerun",
+      "appium__appium"
+    ],
+    "whenZh": "想用 LLM 直接点 Android 界面，ClickClickClick 属于轻量实验路线；要更工程化的移动端 agent 可看 mobilerun；只要求可靠的控件级自动化、不掺模型，Appium 仍是正解。"
+  },
+  "stepsZh": [
+    "adb 连上 Android 真机，装企微并登录，确认 python main.py setup 能选模型。",
+    "把任务写成最小步骤：只打开外部群会话列表，不发送，先验证 finder 定位。",
+    "在列表页用群名匹配做二次校验，点错就回退重截屏，不继续输入。",
+    "输入文本后停手，读取屏幕上群名与输入框内容截图，人工确认再点发送。",
+    "连续失败两次就终止任务并记录截图，避免在错误会话里反复尝试。"
+  ],
+  "successRateZh": "无公开成功率数据。README 只给出模型选择建议与主观判断（例如 qwen3.5:4b 作 finder 不可靠），没有量化数字。自测建议在固定页面上跑 50 次单步定位，统计点错元素与空点比例，再跑 20 条完整任务统计完成率。",
+  "scores": {
+    "coverage": 3,
+    "usability": 3,
+    "docs": 2,
+    "maintenance": 2,
+    "performance": 3,
+    "stability": 2
+  }
+}

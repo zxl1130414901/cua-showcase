@@ -1,0 +1,87 @@
+{
+  "id": "ajokhai__computer-use-lite",
+  "taglineZh": "菜单栏里的 Mac 全机 AI 操作器，带 MCP",
+  "summaryZh": "Computer Use (lite) 是一个 macOS 菜单栏应用，让任意 AI 驱动整台 Mac 而非仅浏览器：可通过内置 cu-mcp 服务让 Claude、Cursor、VS Code 等 MCP 客户端操作本机，也可以直接在菜单栏输入任务，由应用自带代理执行。它不绑定模型供应商，Claude、OpenAI、Gemini、OpenRouter 或 Ollama、LM Studio 本地模型都能接，密钥可选。与浏览器代理的本质区别是操作面覆盖整个桌面，并且会从失败中总结经验、复用技能。",
+  "whatItDoesZh": "提供截图、枚举屏幕元素、按元素点击、按坐标点击、输入文本、按键、滚动、拖拽、移动鼠标、打开应用、打开网址、选择菜单、读取元素等工具；通过 check_permissions 检查辅助功能与屏幕录制授权；菜单栏图标显示工作与监听状态；失败后自行分析原因换一种做法，并保留经验与可导出的技能。",
+  "useCasesZh": [
+    "让 Claude Code 通过 MCP 操作本机的桌面软件",
+    "在菜单栏用一句话让代理整理桌面文件与窗口",
+    "用本地 Ollama 模型离线执行简单桌面任务",
+    "把成功的操作经验导出为技能文件，供同事复用",
+    "对没有 API 的 Mac 应用做重复录入"
+  ],
+  "appsZh": [
+    "macOS 桌面应用与系统菜单",
+    "任意浏览器网页",
+    "文件、窗口与系统设置",
+    "本地模型与云端模型客户端",
+    "通过 MCP 接入的 IDE 与助手"
+  ],
+  "platformsZh": [
+    "macOS"
+  ],
+  "techApproachZh": "应用常驻菜单栏，内置用 Rust 写的原生 MCP 服务 cu-mcp；工具层把截图、可访问性枚举与原生输入封装为原子动作；代理循环观察屏幕、选工具、执行并检查结果，失败时生成原因假设并换策略；模型层可接云端 API 或本地 OpenAI 兼容端点，密钥存在 Keychain。",
+  "requirementsZh": [
+    "macOS 与对应 dmg 安装包",
+    "授予辅助功能与屏幕录制权限",
+    "自带代理需模型 API Key 或本地模型服务",
+    "走 MCP 时无需密钥，但需支持 MCP 的客户端"
+  ],
+  "prosZh": [
+    "覆盖整台 Mac，不只浏览器页面",
+    "模型供应商不锁定，可用本地模型",
+    "API Key 可选，MCP 模式零密钥",
+    "能从失败中总结原因并把经验复用为技能",
+    "工具集较细，支持按可访问性元素点击"
+  ],
+  "consZh": [
+    "仅 macOS，Windows 用户无法使用",
+    "新项目仅 4 stars，缺社区验证",
+    "常驻后台并持续持有辅助功能等系统权限",
+    "技能沉淀的质量依赖所选模型的强弱"
+  ],
+  "limitsZh": "依赖辅助功能树与截图，自绘界面与远程桌面会退化；误操作直接作用于真机，缺少沙箱；失败自愈只在应用层，无法处理系统权限弹窗；仓库未声明成功率与长任务稳定性，也没有自动化测试证据。",
+  "wecomRelevance": "direct",
+  "wecomUseZh": "macOS 版企业微信是普通桌面应用，可用它定位会话列表、点开外部群、填入话术并在发送前停下；按元素点击比坐标稳，适合小批量、有人值守的客户消息准备。发送动作仍应由本人确认，避免误发与平台风控。",
+  "maturityZh": "2026-10 建仓，4 stars、0 fork，许可证仓库未明确声明（manifest 记为 NOASSERTION），最近提交 2026-10-26；功能描述完整但极新，几乎没有外部使用与问题反馈，适合试用不适合依赖。",
+  "evidence": [
+    {
+      "claim": "定位是操作整台 Mac 而不只是浏览器",
+      "source": "README.md",
+      "quote": "AI computer use for the whole Mac, not just a browser."
+    },
+    {
+      "claim": "不绑定单一模型供应商",
+      "source": "README.md",
+      "quote": "It isn't tied to one provider."
+    },
+    {
+      "claim": "内置用 Rust 写的原生 MCP 服务",
+      "source": "README.md",
+      "quote": "a native MCP server written in Rust"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "pphouse__screenpilot",
+      "kanishka089__computer-use-mcp"
+    ],
+    "whenZh": "用 Mac、要覆盖整机并接多种模型，选 computer-use-lite；用 Windows、要视觉规划与自愈，选 ScreenPilot；要最简 Claude 截图操作桌面，选 computer-use-mcp。前两者互补，后者最轻。"
+  },
+  "scores": {
+    "coverage": 3,
+    "usability": 4,
+    "docs": 3,
+    "maintenance": 3,
+    "performance": 4,
+    "stability": 3
+  },
+  "stepsZh": [
+    "安装 dmg 并在设置里授予辅助功能与屏幕录制权限",
+    "连接 Claude 或 Cursor，让 MCP 客户端接管菜单栏应用",
+    "打开企业微信 Mac 客户端，先用枚举元素确认能读到会话",
+    "按群名找到外部群，填入话术并在发送前暂停等本人确认",
+    "把成功的选群流程导出为技能，失败时回看日志再调整"
+  ],
+  "successRateZh": "无公开成功率数据；README 只说明失败会自行总结并换策略，没有量化指标。可自测：对 30 个外部群重复「定位并填入话术」，统计元素定位失败、点错群、输入未生效三类次数，并分别在缩放 100% 与 150% 下各跑 10 次。"
+}

@@ -1,0 +1,88 @@
+{
+  "id": "cluic__wxauto",
+  "taglineZh": "微信 3.9 的 UIAutomation 自动化库",
+  "summaryZh": "wxauto 用 Windows UI Automation 读取微信 PC 客户端（3.9.X）的控件树，实现消息收发与简单微信机器人，不 hook、不改内存、不逆向协议。作者把它定位为 UIAutomation 技术交流项目，README 只保留环境矩阵、获取渠道和免责声明，明确禁止用于生产与商业用途。它与 hook 系工具最本质的区别是只模拟界面操作，因此稳定性取决于微信控件树而不是协议版本。",
+  "whatItDoesZh": "在已登录的 Windows 微信 3.9 客户端上，按联系人名或群名定位会话，发送文本、图片和文件；轮询或监听新消息并交给回调，可据此搭关键词自动回复；也能获取会话列表、聊天记录与联系人。所有动作都依赖微信窗口可见、控件树可读，窗口被遮挡、缩放变化或版本升级都会影响定位。",
+  "useCasesZh": [
+    "给指定好友定时发送提醒，并留人值守观察结果",
+    "监听客户发来的消息，命中关键词后自动回复",
+    "把同一份周报文件依次批量发送到多个内部群",
+    "导出全部会话列表后逐一核对客户名称与备注",
+    "在测试机上验证 UIA 控件定位是否准确"
+  ],
+  "appsZh": [
+    "Windows 微信 3.9.X 主窗口",
+    "微信会话列表与独立聊天窗口",
+    "微信搜索框（按联系人/群名定位）",
+    "微信文件传输助手",
+    "微信通讯录与群成员面板"
+  ],
+  "platformsZh": [
+    "Windows"
+  ],
+  "techApproachZh": "基于 Windows UIAutomation 读取微信控件树，用控件 Name/AutomationId 定位会话行、输入框与发送按钮，再通过 UIA 的 Invoke/ValuePattern 完成输入与发送；不注入进程、不解密数据库。由于完全依赖控件层级，微信小版本调整 UI 就可能让节点路径失效。",
+  "requirementsZh": [
+    "Python 3.9+",
+    "Windows 10/11 或 Server 2016+",
+    "微信 3.9.X 客户端并已登录",
+    "无需 GPU 与模型 API Key",
+    "需保持微信窗口可被 UIA 识别"
+  ],
+  "prosZh": [
+    "纯 UIA 实现，不注入、不改内存，技术风险相对低",
+    "API 简单，几行代码即可完成收发",
+    "支持监听新消息并按关键词规则自动回复",
+    "7.4k star，社区认知度高，有独立文档站"
+  ],
+  "consZh": [
+    "只支持微信 3.9.X，4.x 更换 UI 栈后不能用",
+    "README 明确禁止用于生产与商业项目",
+    "控件树随微信版本变化，长期维护成本高",
+    "窗口必须可见，锁屏或最小化可能失败"
+  ],
+  "limitsZh": "README 仅 800 余字节，只声明 3.9.X 环境与免责声明，没有功能清单与成功率；作者明确『禁止用于实际生产项目』。微信 4.x 关闭部分 Accessibility 导出后 UIA 可能整窗只识别为一个大框，发送后也无法可靠判断消息是否真正发出。",
+  "stepsZh": [
+    "在 Windows 安装微信 3.9.X，登录并保持窗口不遮挡",
+    "pip 安装 wxauto，运行最小示例连接微信实例",
+    "用 SendMsg 给文件传输助手发一条文本验证定位",
+    "调用 AddListenChat 监听指定会话，用另一账号发消息",
+    "用 GetSessionList 枚举会话，核对名称是否精确匹配",
+    "连续发 50 条，记录失败类型、耗时与窗口状态"
+  ],
+  "successRateZh": "无公开成功率数据，README 未给出任何实测。可自测：固定微信 3.9.X 版本与 100% 缩放，向 5 个会话各发 10 条，统计『未找到会话、发送后无回显、窗口失焦』三类失败占比；再用监听模式统计漏收率，并记录版本号与 DPI。",
+  "wecomRelevance": "none",
+  "wecomUseZh": "wxauto 只面向个人微信 3.9 客户端，企业微信是另一个客户端、控件树与版本节奏都不同，无法直接用于企微外部客户或外部群。它的 UIA 定位思路可以借鉴，但落到企微要重写全部节点路径，且同样会被客户端更新打断。",
+  "maturityZh": "Apache-2.0，7.4k star、1.4k fork，最近推送 2026-04；但 README 停留在 2021-2025 口径、只支持 3.9.X，作者重心已转向 wxauto.org 的商业版本。代码仍可用，文档与维护活跃度偏低，新版本微信用户不建议采用。",
+  "evidence": [
+    {
+      "claim": "作者限定用途，禁止生产与商业使用",
+      "source": "README.md",
+      "quote": "代码仅用于对UIAutomation技术的交流学习使用，禁止用于实际生产项目"
+    },
+    {
+      "claim": "只覆盖微信 3.9.X",
+      "source": "README.md",
+      "quote": "3.9.X-07c160"
+    },
+    {
+      "claim": "项目版本口径停在 2021-2025",
+      "source": "README.md",
+      "quote": "# wxauto (2021-2025)"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "Hello-Mr-Crab__pywechat",
+      "fanyuantaier__wechatauto-replica"
+    ],
+    "whenZh": "仍在使用微信 3.9、只要基础收发与监听时选 wxauto；已升级 4.x 时选 pywechat 或 wechatauto-replica；需要解密读库、导出历史时选 wechatauto-replica。"
+  },
+  "scores": {
+    "coverage": 2,
+    "usability": 4,
+    "docs": 2,
+    "maintenance": 2,
+    "performance": 4,
+    "stability": 2
+  }
+}

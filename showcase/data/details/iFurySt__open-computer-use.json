@@ -1,0 +1,81 @@
+{
+  "id": "iFurySt__open-computer-use",
+  "taglineZh": "以 MCP 形式开放的 Codex 电脑操作替代实现",
+  "summaryZh": "把 Computer Use 做成开源服务并以 MCP 暴露，任何 agent 或 MCP 客户端都能调用，支持 macOS、Linux 与 Windows。项目受 OpenAI Codex Computer Use 启发，同样基于 Accessibility 做非侵入式操作，而不是靠截图猜坐标；在 macOS 上还实现了锁屏后临时解锁继续工作的 Locked Use，并配有全屏防护遮罩。",
+  "whatItDoesZh": "通过 npm 全局安装后可用 ocu 命令启动 MCP 服务器，提供窗口枚举、无障碍树读取、截图、点击、输入与滚动等能力，可一键写入 Codex 配置或手动注册进任意客户端；也提供 skill 形式安装到 Codex 与 Claude Code，演示覆盖 Codex App、Codex CLI、Gemini CLI 与 Linux。",
+  "useCasesZh": [
+    "给 Codex 或 Gemini CLI 补上官方之外的电脑操作能力",
+    "在 Linux 桌面上跑无障碍驱动的 agent 任务",
+    "在 macOS 锁屏后继续执行长任务并加防护遮罩",
+    "用 MCP 标准接口替换商业 Computer Use 服务",
+    "对比无障碍路线与截图路线在同一任务上的表现"
+  ],
+  "appsZh": [
+    "macOS 原生应用",
+    "Windows 原生应用",
+    "Linux 桌面应用",
+    "浏览器与 Electron 客户端"
+  ],
+  "platformsZh": [
+    "macOS",
+    "Windows",
+    "Linux"
+  ],
+  "techApproachZh": "以系统无障碍接口为核心做非侵入式操作，读取控件树后直接调用控件动作，必要时辅以截图确认；对外统一封装成 MCP 工具，由宿主 agent 决策。另通过 macOS 的解锁与屏幕防护机制实现 Locked Use，使长任务在锁屏期间仍可继续。",
+  "requirementsZh": [
+    "Node.js 环境，npm 全局安装",
+    "macOS 14.0 及以上；Windows 与 Linux 无需授权步骤",
+    "macOS 需授予辅助功能与屏幕录制权限",
+    "无需自带模型 Key，推理由宿主 agent 提供"
+  ],
+  "prosZh": [
+    "一套接口覆盖 macOS、Windows 与 Linux",
+    "走无障碍通道，非侵入且无需视觉模型",
+    "支持一键写入 Codex 配置与 skill 安装",
+    "macOS 可实现锁屏期间继续执行任务"
+  ],
+  "consZh": [
+    "清单标注平台仅 macOS，其余靠 README 声明",
+    "Locked Use 涉及解锁，安全边界需评估",
+    "无障碍信息缺失的应用仍然会直接失效"
+  ],
+  "limitsZh": "能力上限取决于目标应用暴露的无障碍信息，自绘界面与游戏会退化；Locked Use 在锁屏期间接管桌面，安全与合规风险需要自行评估；不同平台的实现完成度不一，README 演示多于系统测试。",
+  "stepsZh": [
+    "先在企业微信里确认 Windows 或 macOS 客户端可被无障碍树读取",
+    "npm 全局安装后用 ocu 启动服务器并注册进所用 agent",
+    "读取窗口与控件树，定位外部群会话与输入框",
+    "写入已审核文案，截图或读值确认后再由人工发送",
+    "发送后重新读取消息列表，失败则重试并记录控件失效情况"
+  ],
+  "successRateZh": "无公开成功率数据。README 展示了 Codex、Gemini CLI 与 Linux 的运行视频，但没有任务次数、失败率或对照实验。可自测：固定平台与客户端版本，跑 50 次“读树—点击—输入”，统计控件缺失与动作无效的比例。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可在 Windows 或 macOS 的企业微信客户端上读控件树、切会话、填文案并截图核对，适合做半自动辅助。它没有企微专用适配，也不负责消息送达校验，仍需人工确认发送。",
+  "maturityZh": "2026 年 4 月创建，2026 年 11 月仍有提交，2878 星、200 余 fork，MIT 许可。维护活跃、文档中英双语，但项目自述接近全部由 AI 生成，长期质量仍需观察。",
+  "evidence": [
+    {
+      "claim": "非侵入式 CUA 可建立在无障碍能力之上",
+      "source": "README.md",
+      "quote": "non-intrusive CUA can be built on top of Accessibility"
+    },
+    {
+      "claim": "通过 npm 全局安装并提供 ocu 命令",
+      "source": "README.md",
+      "quote": "npm i -g open-computer-use"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "munimtechnologies__munim-computer-use",
+      "tmustier__codex-computer-use-mcp"
+    ],
+    "whenZh": "想开源替代 Codex 官方电脑操作，它的接口与安装最接近；要后台输入不抢鼠标并看重基准数据，munim 更成熟；只想桥接官方运行时，则是 tmustier 的路线。"
+  },
+  "scores": {
+    "coverage": 3,
+    "usability": 4,
+    "docs": 4,
+    "maintenance": 4,
+    "performance": 3,
+    "stability": 3
+  }
+}

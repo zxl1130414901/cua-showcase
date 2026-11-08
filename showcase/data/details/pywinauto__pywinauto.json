@@ -1,0 +1,79 @@
+{
+  "id": "pywinauto__pywinauto",
+  "taglineZh": "Python 操作 Windows GUI 的经典控件级库",
+  "summaryZh": "一套 Python 模块，用于自动化 Microsoft Windows 的图形界面：最简单地能向窗口对话框和控件发送鼠标键盘操作，也支持读取文本等更复杂动作。底层可选 Win32 API（默认 win32 后端）或 MS UI Automation（uia 后端），另有 mouse 与 keyboard 输入模拟模块同时支持 Windows 与 Linux，是众多 Windows CUA 项目的共同底座。",
+  "whatItDoesZh": "能枚举顶层窗口与子控件、按标题或类名定位、读取控件文本与状态、点击按钮、勾选菜单、向编辑框输入文本、等待窗口出现、处理文件选择对话框；uia 后端还能遍历更丰富的控件树，适合 WPF 与 UWP 应用，并内置等待与超时机制来减少界面抖动导致的失败。",
+  "useCasesZh": [
+    "给企业内部 Windows 客户端写自动化回归脚本",
+    "按控件属性精确填写老式 Win32 表单",
+    "自动点过安装程序的下一步与文件选择对话框",
+    "读取窗口中的文本内容并做数据抽取与字段校验",
+    "作为自建 CUA 或 MCP 服务器的操作内核"
+  ],
+  "appsZh": [
+    "Win32、MFC 与 WinForms 应用",
+    "WPF 与 UWP 应用（uia 后端）",
+    "浏览器与 Electron 客户端",
+    "部分 Qt 应用，取决于其可访问性实现"
+  ],
+  "platformsZh": [
+    "Windows"
+  ],
+  "techApproachZh": "双后端设计：win32 后端直接调 Win32 API 枚举窗口与发送消息，适合传统控件；uia 后端走 MS UI Automation，能拿到更完整的控件树与模式接口。上层用 Python 对象包装控件，提供 wait 与重试机制；输入模拟由独立的 mouse 与 keyboard 模块完成。",
+  "requirementsZh": [
+    "Python 3 环境，通过 pip 安装",
+    "Windows 系统（输入模拟模块另支持 Linux）",
+    "操作提权窗口需以管理员身份运行",
+    "无需 GPU 与 API Key"
+  ],
+  "prosZh": [
+    "win32 与 uia 双后端，覆盖面广",
+    "按控件属性定位，比坐标点击稳定",
+    "内置等待与超时机制，脚本更耐界面抖动",
+    "社区历史长，示例与问答资料都很丰富"
+  ],
+  "consZh": [
+    "仅支持 Windows，无法跨平台复用",
+    "uia 后端对自绘控件支持有限",
+    "Electron 应用需开启可访问性参数"
+  ],
+  "limitsZh": "只能操作暴露了 Win32 或 UIA 控件的界面，游戏、Canvas 与部分 Chromium 自绘区域拿不到内部元素；提权窗口与安全桌面无法直接操作；跨进程拖拽等复杂交互支持较弱。仓库不提供成功率数据。Linux 仅输入模拟模块可用，控件层只支持 Windows。",
+  "stepsZh": [
+    "先用 Application 连上 WXWork 进程并打印控件树确认可读性",
+    "按控件类名或标题定位搜索框，输入外部群名并回车",
+    "读取会话标题控件文本，确认停在正确的外部群",
+    "向输入框写入已审核文案，读取值回验后由人工发送",
+    "发送后重新读取消息列表最后一个控件文本做校验"
+  ],
+  "successRateZh": "无公开成功率数据。README 只描述能力与后端，不含任何实测统计。可自测：固定客户端版本，跑 50 次“找窗口—定位输入框—写值—回读”，统计控件找不到与写入失败的比例。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "适合作为操作企业微信 Windows 客户端的控件级底座：定位会话、读标题、写输入框并回读校验。企微 4.x 自绘较多时控件可能不完整，需要先验证 uia 树再决定是否采用。",
+  "maturityZh": "2015 年创建，2026 年 10 月仍在更新，6388 星、1400 余 fork，BSD-3-Clause 许可。老牌项目、维护稳定、文档在线，但更新以兼容性修复为主。",
+  "evidence": [
+    {
+      "claim": "用于自动化 Windows 图形界面的 Python 模块集合",
+      "source": "README.md",
+      "quote": "pywinauto is a set of python modules to automate the Microsoft Windows GUI."
+    },
+    {
+      "claim": "底层支持 MS UI Automation 后端",
+      "source": "README.md",
+      "quote": "MS UI Automation"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "yinkaisheng__Python-UIAutomation-for-Windows",
+      "appium__appium"
+    ],
+    "whenZh": "要 win32 与 uia 双后端、生态资料多，选它；只做纯 UIAutomation 且偏好轻量单文件，uiautomation 更直接；要做跨端标准化测试，才考虑 Appium。"
+  },
+  "scores": {
+    "coverage": 4,
+    "usability": 4,
+    "docs": 4,
+    "maintenance": 4,
+    "performance": 4,
+    "stability": 4
+  }
+}

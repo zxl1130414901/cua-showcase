@@ -1,0 +1,81 @@
+{
+  "id": "go-vgo__robotgo",
+  "taglineZh": "Go 原生跨平台桌面自动化与 RPA 库",
+  "summaryZh": "用 Go 封装的跨平台桌面操作库，支持 Mac、Windows 与 Linux，也支持 arm64 与 amd64：提供鼠标键盘控制、屏幕读取与截图、窗口句柄与进程操作、图像与位图处理、全局事件监听。和 Python 系方案相比，它能编译成单个二进制分发，适合做 Windows 上轻量的 RPA 或自建 CUA 的底座。",
+  "whatItDoesZh": "能移动点击鼠标、按名字或组合键发送键盘事件、抓取屏幕像素与区域截图、在屏幕上查找图像与颜色、枚举与激活窗口、读取进程信息、注册全局热键与事件监听；配合 OCR 库还能扩展出文字识别与自动化断言，也能把整段脚本编译成单个二进制文件后分发到多台机器。",
+  "useCasesZh": [
+    "用 Go 写一个可单文件分发的 Windows 自动化工具",
+    "在游戏窗口里做图像查找与重复性的定点点击",
+    "监听全局热键并触发自定义的桌面自动化脚本",
+    "抓取屏幕的指定区域来完成颜色与像素级校验",
+    "给内部运维工具补上窗口枚举与进程控制能力"
+  ],
+  "appsZh": [
+    "任意桌面应用，按坐标与窗口操作",
+    "游戏与全屏渲染窗口",
+    "Windows、macOS、Linux 系统级界面",
+    "不限具体应用，需自行处理定位逻辑"
+  ],
+  "platformsZh": [
+    "Windows",
+    "macOS",
+    "Linux"
+  ],
+  "techApproachZh": "Go 通过 cgo 绑定各平台原生接口：Windows 侧调 User32 与 GDI 做输入、窗口与截屏，macOS 走 CoreGraphics 事件，Linux 依赖 X11。图像查找与位图处理在进程内完成，事件监听用平台钩子，整体是坐标级原语库而非控件级框架。",
+  "requirementsZh": [
+    "Go 工具链与 cgo 编译环境",
+    "Windows 上需准备 C 编译器与对应头文件",
+    "运行时按平台授予辅助功能或输入权限",
+    "不需要 GPU 与模型 Key"
+  ],
+  "prosZh": [
+    "跨三大桌面平台，arm64 与 amd64 都支持",
+    "可编译成单二进制，分发部署方便",
+    "鼠标键盘、截图、窗口、图像一应俱全",
+    "全局事件监听适合用来做热键触发器"
+  ],
+  "consZh": [
+    "坐标级操作，完全没有控件语义可用",
+    "需要 cgo，交叉编译配置麻烦",
+    "文档以示例为主，缺少系统化的教程"
+  ],
+  "limitsZh": "所有操作基于屏幕坐标与窗口句柄，界面缩放、主题变化与多屏布局都会影响结果；Wayland 下窗口与输入支持有限；没有内置等待与重试机制，业务稳定性要调用方自己兜。仓库未提供任务成功率数据。",
+  "stepsZh": [
+    "先在企业微信上固定窗口位置，记录窗口标题与尺寸",
+    "用窗口查找接口拿到 WXWork 句柄并激活到前台",
+    "截图后用模板或 OCR 定位搜索框，点击并输入群名",
+    "把已审核文案写入输入框，截图核对后由人工发送",
+    "发送后截屏比对最后一条消息，失败则重置窗口位置重试"
+  ],
+  "successRateZh": "无公开成功率数据。README 只列能力与平台支持，没有任务级测试或失败率统计。可自测：锁定分辨率与缩放，跑 50 次“找窗口—点击—输入”，按窗口未激活、坐标偏移、输入丢失三类统计失败。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可以作为企业微信半自动辅助的底层：找窗口、点搜索框、发键盘输入、截图留痕。它不认控件也不校验会话对象，需要自己写目标确认与失败重试，适合有 Go 工程能力的团队。",
+  "maturityZh": "2016 年创建，2026 年 11 月仍在提交，1.09 万星、1000 余 fork，Apache-2.0 许可。长期维护、社区活跃，但大版本迭代少，接口稳定、文档偏旧。",
+  "evidence": [
+    {
+      "claim": "支持 Mac、Windows 与 Linux 三个平台",
+      "source": "README.md",
+      "quote": "RobotGo supports Mac, Windows, and Linux"
+    },
+    {
+      "claim": "覆盖鼠标键盘、屏幕读取与窗口句柄",
+      "source": "README.md",
+      "quote": "Control the mouse, keyboard, read the screen, process, Window Handle"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "pywinauto__pywinauto",
+      "epistex-dev__computer-use"
+    ],
+    "whenZh": "要单二进制分发或已用 Go 技术栈，它最顺手；要控件级语义与 Windows 深度适配，pywinauto 更强；只跑 Wayland Linux 则 epistex 的指针方案更精确。"
+  },
+  "scores": {
+    "coverage": 4,
+    "usability": 3,
+    "docs": 3,
+    "maintenance": 4,
+    "performance": 4,
+    "stability": 4
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "id": "xa11y__xa11y",
+  "taglineZh": "跨平台桌面无障碍树驱动库",
+  "summaryZh": "xa11y 是 Playwright 风格的跨平台桌面自动化库，用统一 API 读取 macOS、Windows、Linux 原生应用的无障碍树并执行操作。它把三套系统接口抽象成一层：macOS 走 AXUIElement，Linux 走 AT-SPI2，Windows 走 UI Automation。开发者用类 CSS 选择器定位元素，再调用 press、set_value、toggle 等语义动作。与截图坐标点击的 CUA 本质区别是不猜像素位置而直接命中控件语义，分辨率变化不会让脚本失效。",
+  "whatItDoesZh": "它提供 Rust 核心与 Python、JavaScript 绑定：App::by_name 按名称附着实时的应用窗口，locator 支持角色、名称精确/前缀/包含匹配、父子层级与序号，每次调用重新解析元素以免拿到过期句柄。动作覆盖点击、聚焦、勾选、展开折叠、下拉选择、写文本、微调数值与弹出上下文菜单。生态里 pytest-xa11y 提供测试夹具与失败时打印无障碍树，agent-desktop 是基于它的命令行前端。",
+  "useCasesZh": [
+    "给桌面客户端写不依赖分辨率的端到端回归测试",
+    "让 agent 通过控件名称而非像素坐标操作应用",
+    "把 pytest 用例扩展成跨三平台的 UI 冒烟测试",
+    "为辅助技术读取并驱动原生控件",
+    "在 CI 里失败时自动导出无障碍树定位问题"
+  ],
+  "appsZh": [
+    "macOS 原生应用（Safari、Finder 等 AXUIElement 暴露控件）",
+    "Windows 原生与部分 Electron 应用（UI Automation 可读）",
+    "Linux GTK/Qt 应用（需 AT-SPI2 服务运行）",
+    "桌面测试与被测应用的自动化夹具",
+    "不限具体应用：只要能向系统无障碍接口暴露控件树即可操作"
+  ],
+  "platformsZh": [
+    "Windows",
+    "macOS",
+    "Linux"
+  ],
+  "techApproachZh": "走无障碍语义通道而非视觉：Rust 核心为每平台实现 provider，macOS 用 AXUIElement、Linux 用 AT-SPI2、Windows 用 UI Automation。locator 惰性解析，每次动作前重新查询目标，避免元素重建后点击落空。Python 与 JS 绑定为原生扩展而非进程外 RPC，单步开销小；截图在 Linux 上依赖 slice::as_chunks。",
+  "requirementsZh": [
+    "Python 3.9+ 或 Node.js 18+，Rust 侧需 1.88 以上工具链",
+    "macOS 需在隐私与安全性中授予终端辅助功能与屏幕录制权限",
+    "Linux 需 AT-SPI2 正常运行，GNOME 等环境默认已启",
+    "Windows 安装即用，无需额外授权",
+    "无需 GPU，也无需任何模型 API Key"
+  ],
+  "prosZh": [
+    "语义选择器不依赖坐标，窗口缩放后依然可用",
+    "三平台统一 API，同一套用例可跨系统跑",
+    "每次动作重新解析元素，避免过期句柄",
+    "MIT 许可且依赖经 cargo-deny 审计",
+    "提供 Python/JS 绑定与 pytest 集成"
+  ],
+  "consZh": [
+    "只能操作暴露无障碍树的应用，自绘 UI 读不到",
+    "macOS 新版需两套权限，配错时只能看到菜单栏",
+    "Electron 应用树质量参差，需逐个验证",
+    "纯键盘/鼠标底层事件不在其抽象范围内"
+  ],
+  "limitsZh": "能力受制于目标应用的无障碍实现：游戏、远程桌面画布、自绘渲染界面没有可读控件，locator 会直接找不到元素。macOS 26 起未授予屏幕录制权限时只能看到菜单栏；Linux 无 AT-SPI2 则后端整体不可用。已知失败模式包括同名控件匹配多个、元素在解析与动作之间被销毁、以及窗口未注册时的超时等待。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可用于企微桌面客户端的窗口定位与控件操作：若客户端把搜索框、会话列表、输入框暴露给无障碍接口，就能按名称直接命中，绕开坐标点击。但它只提供「找到并点击/输入」这一层，选择外部联系人与外部群、校验发送对象要自己写。Electron 版企微的树是否完整需实测，故记为 partial。",
+  "maturityZh": "2026 年 3 月创建、当日仍有提交，87 星 12 fork，MIT 许可，版本已到 0.15.4，带 CI、fuzz 目标与设计文档，属于活跃的中早期基础设施项目。风险主要来自三平台后端维护成本与无障碍接口随系统升级变化，而非停滞。",
+  "evidence": [
+    {
+      "claim": "定位为三平台桌面应用驱动库，面向测试、CUA 与辅助工具",
+      "source": "README.md",
+      "quote": "A Playwright-style library for driving native desktop apps on macOS, Windows, and Linux."
+    },
+    {
+      "claim": "用类 CSS 选择器查询无障碍树",
+      "source": "README.md",
+      "quote": "Query accessibility trees with CSS-like selectors:"
+    },
+    {
+      "claim": "各平台后端分别为 AXUIElement、AT-SPI2、UI Automation",
+      "source": "README.md",
+      "quote": "| macOS | AXUIElement |"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "microsoft__Hybrid-Computer-Use",
+      "vercel-labs__agent-desktop"
+    ],
+    "whenZh": "xa11y 是库，负责把无障碍树读写成可编程接口，适合自己写控制逻辑；Hybrid-Computer-Use 是开箱的 MCP 服务，直接把 AX 与 GUI 两个工具交给编码 agent；agent-desktop 则是基于 xa11y 构建的命令行产品。要嵌入自有系统选 xa11y，要立刻给 agent 加桌面能力选后两者。"
+  },
+  "stepsZh": [
+    "在 macOS 上给终端授予辅助功能与屏幕录制权限并重启终端",
+    "pip install xa11y，用 App.by_name 附着到企业微信主窗口",
+    "用 locator 按角色与名称定位搜索框，set_value 输入客户昵称",
+    "press 进入会话后定位输入框，写入消息文本但先不发送",
+    "发送前重新 locator 校验会话标题与接收人，再 press 发送按钮",
+    "捕获未找到元素的异常，退避 200ms 重试并记录失败类型"
+  ],
+  "successRateZh": "无公开成功率数据。README 未给出任何任务成功率或延迟数字，仅有功能与平台矩阵描述；仓库自称用于端到端测试，但未附基准。可自测：对同一发送流程连跑 50 次，统计元素未找到、匹配到多个、动作后状态未变化三类失败，并分别在窗口最大化与缩放两种布局下各跑一轮。",
+  "scores": {
+    "coverage": 4,
+    "usability": 4,
+    "docs": 4,
+    "maintenance": 5,
+    "performance": 4,
+    "stability": 4
+  }
+}

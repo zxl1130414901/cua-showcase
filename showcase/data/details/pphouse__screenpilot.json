@@ -1,0 +1,87 @@
+{
+  "id": "pphouse__screenpilot",
+  "taglineZh": "视觉加 LLM 的桌面自动化，替代脆弱 RPA",
+  "summaryZh": "ScreenPilot 用截图分析加 LLM 来操作任意桌面应用，不依赖 CSS 选择器、XPath 或可访问性 API，用户用自然语言描述任务即可。它的核心做法是 Set-of-Mark 提示：在截图上叠加编号标记，让模型把「点第 7 个控件」落到具体像素；再用两级任务分解（高层策略加单步执行）与任务记忆树维持长流程一致。和传统 RPA 的本质区别是定位依据从固定选择器变成模型对当前画面的理解，界面改版时不必重写脚本，代价是每一步都要调用视觉模型。",
+  "whatItDoesZh": "支持用自然语言下达任务、按截图理解界面、逐步点击输入滚动；内置层级规划、任务记忆树、工作流模板（表单填写、数据提取等）、录制人工操作并按视觉理解智能回放、错误自愈（重定位、滚动、关弹窗、模型兜底）以及类 cron 的定时任务。还有 WebSocket 远程控制、动作日志与破坏性操作的二次确认，适合长时间无人值守的流程。",
+  "useCasesZh": [
+    "每天定时打开桌面客户端导出报表并另存归档",
+    "按自然语言描述批量填写内部业务系统的多页表单",
+    "把人工演示一遍的流程录下来，换数据后智能回放",
+    "界面改版后无需改脚本，靠视觉重新定位控件",
+    "对删除等破坏性操作加确认后做夜间批量处理"
+  ],
+  "appsZh": [
+    "Windows 桌面应用与常见办公软件",
+    "浏览器窗口内的网页表单与后台",
+    "无稳定选择器的自绘界面",
+    "可通过 WebSocket 远程控制的远端桌面",
+    "定时任务场景下的常驻桌面环境"
+  ],
+  "platformsZh": [
+    "Windows"
+  ],
+  "techApproachZh": "感知层定时截屏并用 Set-of-Mark 给候选元素编号，交给视觉模型输出动作与坐标；规划层做两级分解，任务记忆树保存已完成步骤与中间结果；执行层用系统级鼠标键盘 API，失败进入分级恢复策略。模型接入走 LiteLLM，可换 Claude、GPT-4 或其他兼容端点；另有录制回放模块把人工轨迹转成可复用流程。",
+  "requirementsZh": [
+    "Python 3.10 及以上",
+    "设置 ANTHROPIC_API_KEY 或 OPENAI_API_KEY 等模型密钥",
+    "需要可交互桌面会话与截图、输入控制权限",
+    "无需本地 GPU，推理在模型服务侧完成"
+  ],
+  "prosZh": [
+    "不依赖选择器，界面改版后仍可工作",
+    "有任务记忆与层级规划，长流程不易跑偏",
+    "错误自愈与破坏性操作确认做得较完整",
+    "支持录制回放和定时调度，能无人值守",
+    "README 标注 156 个测试通过"
+  ],
+  "consZh": [
+    "每步都调视觉模型，token 成本与时延高",
+    "视觉定位对密集表格与小控件仍会点偏",
+    "仓库体积大、以实现为主，文档偏营销",
+    "仅 Windows 平台经验被验证"
+  ],
+  "limitsZh": "截图理解受分辨率、缩放与主题影响，密集表格和小字号按钮是主要失败点；模型对多步骤任务的遗忘需要靠记忆树补偿，但仍可能在长流程后段重复动作；无法处理系统级 UAC、锁屏与安全桌面。仓库未公布任务成功率，只声明测试数量。",
+  "wecomRelevance": "direct",
+  "wecomUseZh": "可把企业微信 PC 端的「按标签筛客户—逐个打开会话—粘贴个性化话术」录成工作流，换数据后回放，并在发送动作前用确认机制停下等人点。它的视觉定位能适应客户端小版本改版，但仍无法突破官方「必须人工确认」的限制。",
+  "maturityZh": "2026-02 建仓，0 star、0 fork，Apache-2.0 许可，最近提交 2026-10-31；有发布记录与测试徽章，更新较勤，但几乎没有外部用户与 issue 沉淀，属于作者自用型项目。",
+  "evidence": [
+    {
+      "claim": "用截图加 LLM 替代选择器定位控件",
+      "source": "README.md",
+      "quote": "ScreenPilot uses screenshot analysis and large language models to automate any desktop application — no brittle CSS selectors, no XPath, no accessibility APIs required."
+    },
+    {
+      "claim": "在截图上叠加编号标记帮助模型定位元素",
+      "source": "README.md",
+      "quote": "**Set-of-Mark (SoM) Prompting**: Overlays numbered markers on screenshots for precise element grounding"
+    },
+    {
+      "claim": "录制人工工作流后可智能回放",
+      "source": "README.md",
+      "quote": "**Workflow Recording**: Record human workflows, replay them intelligently with vision-based adaptation"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "A9T9__RPA",
+      "kanishka089__computer-use-mcp"
+    ],
+    "whenZh": "要视觉理解加规划、自愈与定时，选 ScreenPilot；要轻量录制回放并在真实浏览器跑，选 Ui.Vision；要最简 MCP 截图操作桌面，选 computer-use-mcp。ScreenPilot 更完整，成本也更高。"
+  },
+  "scores": {
+    "coverage": 3,
+    "usability": 3,
+    "docs": 3,
+    "maintenance": 3,
+    "performance": 3,
+    "stability": 3
+  },
+  "stepsZh": [
+    "在 Windows 上安装依赖并配置 Claude 或 OpenAI 模型密钥",
+    "让 ScreenPilot 先截屏识别企业微信窗口，确认能定位会话列表",
+    "用自然语言下达「找到客户张三的外部群并打开」作为单步任务",
+    "录制一次人工的选群、填话术、发送前确认流程并保存模板",
+    "回放时对发送动作启用确认，失败则记录截图并转人工处理"
+  ],
+  "successRateZh": "无公开成功率数据；README 只标注 tests 徽章为 156 passing，属于单元测试而非端到端任务成功率。可自测：用 50 个不同客户群做「找群并打开会话」，统计视觉定位失败、打开错误群、输入未生效的比例，并记录平均步数与耗时。"
+}

@@ -1,0 +1,87 @@
+{
+  "id": "xlang-ai__OSWorld-V2",
+  "taglineZh": "长周期真实任务的 OSWorld 第二代基准",
+  "summaryZh": "OSWorld-V2 是 OSWorld 的第二代基准，面向长周期、跨应用、接近真实工作流的桌面任务。它把环境、任务文件与配套资产解耦，用版本化 release（如 osworld-v2.1）锁定代码、任务与镜像，通过 uv 同步宿主环境、脚本从 HuggingFace 下载任务与资产，再在 Docker 或 AWS 上跑评测；官网提供轨迹查看器与轨迹数据下载。与一代最本质的区别是任务更长、资产更真实、发布机制更工程化，分数更贴近实际办公流程。",
+  "whatItDoesZh": "提供版本化 benchmark release 与升级指引；脚本按 release 下载 Python 任务文件与完整资产；支持 Docker 镜像与 AWS AMI 两种运行后端；可先跑小规模 sanity 评测再全量；评测网站 Task-Web 与轨迹查看器用于回放每个任务的截图与动作；HuggingFace 上放出任务与轨迹数据，便于复现与二次分析。",
+  "useCasesZh": [
+    "比较两个代理在同一版本长周期任务上的完成率",
+    "为桌面代理跑版本化回归，防止改动导致分数下降",
+    "分析轨迹数据，定位代理在哪一步开始偏离目标",
+    "用 Docker 后端在单机复现论文中的评测设置",
+    "作为长流程自动化任务的设计参考与回归模板"
+  ],
+  "appsZh": [
+    "Ubuntu 桌面应用与系统设置",
+    "浏览器与本地网页服务",
+    "办公套件与文件管理",
+    "需要跨应用连续操作的长任务界面",
+    "Docker 或 AWS 上的可复原虚拟机"
+  ],
+  "platformsZh": [
+    "Linux"
+  ],
+  "techApproachZh": "环境、任务与资产三层解耦：任务文件按 release 从 HuggingFace 下载，资产用目录镜像与 base URL 注入，运行后端抽象为 Docker 与 AWS；每个 release 锁定镜像 digest、AMI 与任务版本，网站子模块同步发布，避免旧任务配新资产导致不可复现；评测器按任务终态判分。",
+  "requirementsZh": [
+    "Python 3.10+ 与 uv 包管理",
+    "Docker 或 AWS 账号及对应镜像、AMI",
+    "需访问 HuggingFace 下载受控资产",
+    "跑代理需模型 API Key；无需本地 GPU"
+  ],
+  "prosZh": [
+    "版本化 release 让评测结果可复现，升级路径清晰",
+    "长周期任务更接近真实办公流程与跨应用协作",
+    "轨迹查看器便于逐步排查失败原因",
+    "文档给出从 2.0 到 2.1 的完整迁移步骤",
+    "任务与轨迹数据公开，可做二次分析"
+  ],
+  "consZh": [
+    "资产与镜像体积大，首次部署耗时",
+    "受控资产需要额外申请访问权限，准备周期长",
+    "长任务评测成本高，不适合频繁跑",
+    "只在 Linux 环境验证，平台覆盖单一"
+  ],
+  "limitsZh": "它是评测资源，不提供业务自动化能力；长周期任务对代理的上下文、记忆与错误恢复要求很高，单步失败会连锁影响终态；任务依赖网络与账号状态，离线或限流会显著拉低分数。仓库未声明单一代理的通用成功率，分数需按具体 release 与榜单对照。",
+  "wecomRelevance": "none",
+  "wecomUseZh": "不能直接操作企业微信，也不接官方接口。间接价值在于方法：把「找外部群—填话术—校验—人工确认」拆成有初始状态与终态判分的长任务，重复跑几十次统计失败点；它的轨迹回放思路也可用来定位流程在哪一步开始出错。",
+  "maturityZh": "2025-10 建仓，411 stars、60 forks，Apache-2.0，最近提交 2026-10-23；由 xlang 团队维护，有论文、官网、版本化 release 与轨迹数据，工程化程度高但生态仍在成长。",
+  "evidence": [
+    {
+      "claim": "推荐使用版本化的 osworld-v2.1 release",
+      "source": "README.md",
+      "quote": "is now available and recommended"
+    },
+    {
+      "claim": "用 uv 锁定依赖同步宿主环境",
+      "source": "README.md",
+      "quote": "uv sync --frozen"
+    },
+    {
+      "claim": "公开资产由代码固定到具体版本",
+      "source": "README.md",
+      "quote": "are pinned by the code"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "xlang-ai__OSWorld",
+      "yjyddq__RiOSWorld"
+    ],
+    "whenZh": "要经典、可对照榜单的桌面任务评测，选 OSWorld；要更长周期、版本化发布更工程化的评测，选 OSWorld-V2；要评估代理操作风险与越界，选 RiOSWorld。三者都是评测资源，不能替代生产自动化。"
+  },
+  "scores": {
+    "coverage": 3,
+    "usability": 2,
+    "docs": 4,
+    "maintenance": 4,
+    "performance": 2,
+    "stability": 4
+  },
+  "stepsZh": [
+    "选定 osworld-v2.1 release 并切到对应 tag，保证环境一致",
+    "用 uv 同步宿主环境，再下载匹配的任务文件与完整资产",
+    "在虚拟机里装好企业微信测试账号，制作固定初始快照",
+    "把找群、填话术、发送前校验写成可重复任务与终态判分",
+    "按轨迹定位失败步骤，统计成功率后再决定是否上线"
+  ],
+  "successRateZh": "有公开榜单与轨迹数据，但那是各代理在该基准任务上的分数，不是企业微信流程的成功率；仓库未按场景给出百分比。可自测：固定 release 与快照，重复 50 次长流程，按终态判分统计成功次数，并用轨迹查看器归类失败步骤。"
+}

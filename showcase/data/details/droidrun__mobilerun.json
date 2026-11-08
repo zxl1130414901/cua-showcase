@@ -1,0 +1,88 @@
+{
+  "id": "droidrun__mobilerun",
+  "taglineZh": "自然语言驱动真机的 Android/iOS 代理框架",
+  "summaryZh": "Mobilerun 是一个开源框架，让 AI 代理在真实 Android 与 iOS 设备上运行，用于移动应用测试、QA 与自动化。它给代理移动端原生工具：读取 UI 层级、理解截图、点击、滑动、输入、规划多步流程，并通过 CLI 或 Python API 返回结果；真机可走 adb 或 Portal 应用，iOS 走专用驱动，也可接模拟器。与桌面 CUA 的本质区别是操作对象为手机真机与移动 App，而不是浏览器或桌面窗口，因此要处理设备连接、系统弹窗与移动端风控。",
+  "whatItDoesZh": "安装后可用 CLI 下达自然语言任务，或用 Python API 嵌入测试脚本；支持 Android 真机、模拟器与 iOS 真机；提供 UI 状态检查、截图理解、点击滑动输入等原子工具；支持多步工作流规划与结果回传；文档站与云服务提供托管选项，便于团队批量跑移动 QA 与回归。",
+  "useCasesZh": [
+    "按自然语言跑一遍 App 注册与登录流程",
+    "在真机上回归下单、支付与退款等核心业务流程",
+    "用 Python API 把移动测试接进 CI",
+    "对 Android 与 iOS 双端做同一任务对比",
+    "批量检查 App 各页面元素是否存在且可见"
+  ],
+  "appsZh": [
+    "Android 真机与模拟器",
+    "iOS 真机（需专用驱动）",
+    "各类移动 App 的界面",
+    "移动系统设置与权限弹窗",
+    "CI 中的设备农场与云真机"
+  ],
+  "platformsZh": [
+    "Android",
+    "iOS"
+  ],
+  "techApproachZh": "设备侧通过 adb（Android）或 Portal、iOS 驱动读取 UI 层级与截图，代理把自然语言任务拆成动作序列，调用点击、滑动、输入等原语；动作结果回传后再决策。CLI 与 Python API 共用同一执行引擎，云服务在托管设备上跑同样流程。",
+  "requirementsZh": [
+    "Python 3.11 至 3.13，不支持 3.14",
+    "Android 设备开启 USB 调试或安装 Portal",
+    "iOS 真机需专用驱动与签名配置",
+    "需模型 API Key；无需本地 GPU"
+  ],
+  "prosZh": [
+    "同时支持 Android 与 iOS 真机",
+    "CLI 与 Python API 两个入口",
+    "移动原生工具覆盖点击、滑动与文本输入",
+    "文档站、Discord 与云服务较完整",
+    "可接进 CI 流水线做移动端自动回归"
+  ],
+  "consZh": [
+    "iOS 真机的配置与签名门槛较高",
+    "真机操作速度受设备性能与网络状况限制",
+    "强依赖模型对移动界面与弹窗的理解",
+    "云服务与自托管的能力边界需提前看清"
+  ],
+  "limitsZh": "移动 App 的反自动化、验证码与系统权限弹窗会阻断流程；不同厂商 ROM 的 UI 差异导致定位不稳；代理不处理支付密码等敏感输入；仓库未声明具体任务成功率，徽章 91.4% 指向外部基准页，口径需自行核对。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可在 Android 或 iOS 企业微信 App 上做会话操作与内部 QA，但移动端对外群发限制更严、设备级自动化更易触发风控；适合自有测试账号的流程验证与回归，不建议用于真实外部客户的批量发送。",
+  "maturityZh": "2025-04 建仓，9993 stars、1083 forks，MIT，最近提交 2026-11-05；文档、Discord 与云服务齐全，迭代活跃，是移动代理里工程化较好的一档。",
+  "evidence": [
+    {
+      "claim": "它面向 Android 与 iOS 真机的代理运行",
+      "source": "README.md",
+      "quote": "Mobilerun is an open-source framework for mobile app testing, QA, and running AI agents on real Android and iOS devices."
+    },
+    {
+      "claim": "结果可通过 CLI 或 Python API 返回",
+      "source": "README.md",
+      "quote": "return results through a CLI or Python API"
+    },
+    {
+      "claim": "当前支持的 Python 版本区间",
+      "source": "README.md",
+      "quote": "Please use Python `>=3.11,<3.14`"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "X-PLUG__MobileAgent",
+      "simular-ai__Agent-S"
+    ],
+    "whenZh": "要真机双端跑移动 QA，选 mobilerun；要用通义 GUI-Owl 模型与云手机，选 Mobile-Agent；要桌面三平台 GUI 操作，选 Agent S。前两者面向手机，后者面向电脑。"
+  },
+  "scores": {
+    "coverage": 4,
+    "usability": 4,
+    "docs": 5,
+    "maintenance": 5,
+    "performance": 4,
+    "stability": 4
+  },
+  "stepsZh": [
+    "用 uv 安装 mobilerun，确认 Python 版本在 3.11 至 3.13",
+    "连接 Android 测试机并开启 USB 调试，或部署 Portal 应用",
+    "在测试账号的企业微信 App 里下达「打开某客户会话」的任务",
+    "让代理读取会话标题核对群名，再填入预设话术并停下",
+    "统计双端执行结果，失败时检查权限弹窗与界面差异"
+  ],
+  "successRateZh": "README 徽章标注 Benchmark 91.4%，但指向 mobilerun.ai/benchmark 的外部页面，不属于本场景，也未说明任务口径。无移动办公场景的公开成功率数据；可自测 50 次打开指定客户会话并填入话术，按 Android 与 iOS 分组统计失败类型。"
+}

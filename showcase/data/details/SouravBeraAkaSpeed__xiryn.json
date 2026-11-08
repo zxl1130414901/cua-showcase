@@ -1,0 +1,82 @@
+{
+  "id": "SouravBeraAkaSpeed__xiryn",
+  "taglineZh": "多 agent Docker 桌面，Telegram 遥控",
+  "summaryZh": "Xiryn 是一个自托管的个人 agent 平台：每个 agent 分到一台跑在 Docker 里的 Linux 桌面，带 shell、文件系统和真实 Chromium，与你的宿主系统完全隔离，因此它工作时不抢鼠标、不读你的文件。所有数据存在本地 SQLite 与一个加密保险库，模型走你自己的 Key，可接 11 家 provider 或本地 Ollama。与云端个人 agent 产品最大的差别是数据主权：对话、记忆、登录态都留在你自己的磁盘上。",
+  "whatItDoesZh": "装好后在本地起一个 Web 控制台，可建多个 agent，各配角色、常驻指令与独立模型；它们能在各自桌面里浏览网页、跑代码、写文件，并把任务转交给同一小队里的其他 agent。可以设定时例程在后台跑，也能通过 Telegram 配对后从手机远程下指令、收到带截图的实时进度。",
+  "useCasesZh": [
+    "让 agent 在隔离桌面里做网页调研，不打断本机工作。",
+    "建一队 agent 分别负责搜集、写稿与校对，互相交接。",
+    "每天定时汇总几个信息源，推送到手机上的 Telegram。",
+    "用本地模型在断网机器上跑私有任务，数据不出本机。",
+    "给每个客户项目开一个独立桌面，环境互不串味。"
+  ],
+  "appsZh": [
+    "容器内的 Linux 桌面与 Chromium 浏览器",
+    "网页版 SaaS 后台与公开站点",
+    "容器内的终端与文件系统",
+    "企业微信网页版，需在容器内登录"
+  ],
+  "platformsZh": [
+    "macOS",
+    "Linux",
+    "Windows"
+  ],
+  "techApproachZh": "容器化桌面加多 agent 编排：每个 agent 对应一个 Docker 容器，内含窗口环境、Chromium 与 shell，宿主只通过受控接口下发任务与收截图。编排层是 Next.js 加 AI SDK，模型抽象统一，11 家 provider 与 OpenAI 兼容端点都能接；记忆与配置存 SQLite，凭据放加密保险库，远端控制用 Telegram 长轮询而非公网回调。",
+  "requirementsZh": [
+    "Node 20.9 以上，Docker 必需，安装脚本会一并装 Git 与 Node",
+    "macOS、Linux 或 Windows（Windows 需调高 Docker 资源上限）",
+    "至少一个模型 Key，或用 --local 装 Ollama 跑本地模型",
+    "无需 GPU，除非本地跑大模型"
+  ],
+  "prosZh": [
+    "agent 跑在独立容器里，不碰宿主鼠标、屏幕与文件",
+    "多 agent 组队与定时例程，能长期后台运行",
+    "数据本地存储，密钥与登录态放加密保险库",
+    "模型供应商覆盖面广，可完全本地离线运行"
+  ],
+  "consZh": [
+    "只提供 Linux 桌面，没有 Windows 或 macOS 客户端环境",
+    "Windows 宿主需手动调整 Docker 资源，配置门槛偏高",
+    "远程控制绑 Telegram，企微场景没有原生通道",
+    "0.7 版本迭代快，接口与配置格式还在变"
+  ],
+  "limitsZh": "能力边界受限于容器：Linux 桌面里装不了 Windows 专属客户端，浏览器是主战场。已知问题是容器资源占用高、本地模型质量明显弱于云端、定时任务依赖宿主常开，以及沙箱内登录态在容器重建后需要重新扫码。没有任务成功率数据。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可在容器内的 Chromium 登录网页版企微，由 agent 读取外部客户会话并起草回复，再经 Telegram 让你确认。它没有企微客户端能力，也没有消息去重或客户标签管理，只能覆盖网页端的一小部分流程。",
+  "maturityZh": "MIT，425 星，2026 年 11 月仍在提交，版本 0.7.0，有 CHANGELOG、SECURITY 与架构文档。个人主导但工程完整，迭代快；风险是单人维护与快速演进带来的兼容性问题。",
+  "evidence": [
+    {
+      "claim": "每个 agent 在 Docker 里拥有独立 Linux 桌面，不打断本机使用",
+      "source": "README.md",
+      "quote": "Each agent gets its own Linux desktop in Docker, so it works in the background and never interrupts what you're doing on your laptop."
+    },
+    {
+      "claim": "agent 的桌面是隔离容器，含 shell、文件与真实 Chromium",
+      "source": "README.md",
+      "quote": "**🖥️ It never touches your computer.** Every agent works on its **own** sandboxed Linux desktop — a Docker container with a shell, files and a real Chromium — completely separate from your system."
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "CelestoAI__celesto",
+      "microsoft__magentic-ui"
+    ],
+    "whenZh": "要一套装完就能用的多 agent 加桌面方案、还要手机遥控，选 Xiryn；只需要虚拟机底座自己写编排，Celesto 更底层；在浏览器与本地文件上要严格人工审批，MagenticLite 更合适。"
+  },
+  "stepsZh": [
+    "用安装脚本起 Xiryn，确认 Docker 容器内的 Linux 桌面能打开 Chromium。",
+    "在该桌面里登录网页版企微，把登录态留在容器内，不重启容器。",
+    "给 agent 写常驻指令：只允许读取客户列表与草拟回复，禁止直接点发送。",
+    "把草稿经 Telegram 推给你确认，确认后再由同一 agent 执行填入并发送。",
+    "每天定时跑一次未回复客户扫描，异常时保留截图并在 Telegram 里报错。"
+  ],
+  "successRateZh": "无公开成功率数据。README 通篇是能力与隐私设计说明，没有任何任务完成率或失败率。自测建议：让同一 agent 在容器内跑 50 次网页任务，统计浏览器崩溃、登录态失效、模型调用超时三类失败占比。",
+  "scores": {
+    "coverage": 4,
+    "usability": 4,
+    "docs": 3,
+    "maintenance": 4,
+    "performance": 3,
+    "stability": 3
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "id": "bo-516__computer-use",
+  "taglineZh": "Grok Build 的电脑操作子 agent 插件",
+  "summaryZh": "给 Grok Build 加一层电脑操作能力：一个 computer-use 插件加一个专用 MCP 服务器，让主 agent 把界面工作委派给拥有独立上下文的 computer 子 agent，截图不进入主会话，只把结论回传。桌面操作走 Cua Driver，浏览器走隔离的 Playwright MCP，并配 guard 风险分级确认、audit 审计、verify_gate 报告与自检钩子。",
+  "whatItDoesZh": "能让子 agent 查看屏幕、在桌面应用里点击与输入、在隔离浏览器里执行页面动作，并把执行结果与验证结论回报主 agent；guard 会在高风险动作前要求确认，audit 记录操作轨迹，verify_gate 在结束时检查报告一致性，自检钩子用于环境体检。",
+  "useCasesZh": [
+    "在开发循环里启动应用看界面并检查实际效果",
+    "操作没有开放 API 的桌面工具与网页后台",
+    "把截图与视觉上下文隔离在子 agent 里",
+    "给高危敏感操作加上风险分级与人工确认环节",
+    "需要保留完整操作审计轨迹的桌面自动化任务"
+  ],
+  "appsZh": [
+    "macOS、Windows 与 Linux 桌面应用",
+    "浏览器页面，走隔离 Playwright",
+    "开发工具与本地启动的应用",
+    "不限具体应用，依赖 Cua Driver 能力"
+  ],
+  "platformsZh": [
+    "Windows",
+    "macOS",
+    "Linux",
+    "Web"
+  ],
+  "techApproachZh": "主 agent 与 computer 子 agent 分离：子 agent 独占截图与视觉上下文，只回传文字结论，避免主会话被图像撑爆。桌面动作经 grok-computer-mcp 外观层转给 Cua Driver，浏览器用 isolated 模式的 Playwright MCP；外层用 hooks 做风险分级、审计与结果闸门。",
+  "requirementsZh": [
+    "已安装 Grok Build",
+    "Windows、macOS 或 Linux 桌面",
+    "需安装 Cua Driver 运行时",
+    "需授予屏幕与输入控制权限"
+  ],
+  "prosZh": [
+    "子 agent 隔离，截图不污染主会话上下文",
+    "guard 做风险分级，高危动作先确认",
+    "带审计日志与验证闸门，流程可追溯",
+    "桌面与浏览器双通道各走专门驱动"
+  ],
+  "consZh": [
+    "强绑定 Grok Build，通用性有限",
+    "组件较多，安装与权限配置偏复杂",
+    "全新项目，尚无外部团队的使用验证"
+  ],
+  "limitsZh": "依赖 Grok Build 的插件机制与 Cua Driver 的运行时，换宿主就要重做；子 agent 只回传文字，主 agent 对界面细节的感知会丢失；风险分级依赖规则配置，未必覆盖所有危险动作。仓库未提供成功率数据。",
+  "stepsZh": [
+    "先确认企业微信在本机可被 Cua Driver 捕获窗口画面",
+    "让主 agent 委派 computer 子 agent 打开并定位 WXWork",
+    "子 agent 截图确认外部群，填入已审核文案并回读",
+    "guard 判定为发送类高风险动作，转人工确认",
+    "verify_gate 核对报告与截图后再执行发送"
+  ],
+  "successRateZh": "无公开成功率数据。README 讲的是架构与钩子设计，没有任务次数、失败率或对照实验。可自测：固定平台与客户端版本，跑 50 次“委派—截图—输入—回读”，统计子 agent 误判与确认拦截比例。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可让子 agent 在半隔离环境里操作企业微信：截图、切外部群、填文案、回读，并由 guard 拦截发送类高危动作转人工确认。它没有企微适配，价值主要在上下文隔离与审计。",
+  "maturityZh": "2026 年 10 月 3 日创建，10 月 7 日后再无提交，0 星、0 fork，Apache-2.0 许可。新项目、文档以中文为主，工程思路清晰但无使用验证。",
+  "evidence": [
+    {
+      "claim": "截图与视觉上下文不进入主会话",
+      "source": "README.md",
+      "quote": "Screenshots stay out of the main session"
+    },
+    {
+      "claim": "guard 负责风险分级与确认",
+      "source": "README.md",
+      "quote": "guard (risk grading and confirmation)"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "tmustier__codex-computer-use-mcp",
+      "4lexxe__ag-computer-use-mcp"
+    ],
+    "whenZh": "担心截图撑爆主上下文、又要审计与确认，它的子 agent 架构最对症；只想桥接官方 Mac 运行时，tmustier 更轻；Antigravity 用户则看 4lexxe。"
+  },
+  "scores": {
+    "coverage": 3,
+    "usability": 2,
+    "docs": 4,
+    "maintenance": 2,
+    "performance": 3,
+    "stability": 2
+  }
+}

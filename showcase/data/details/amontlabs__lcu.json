@@ -1,0 +1,91 @@
+{
+  "id": "amontlabs__lcu",
+  "taglineZh": "脱离 Codex 应用的电脑操控运行时",
+  "summaryZh": "Local Computer Use（lcu）把 Codex 内置的电脑操控运行时单独暴露出来，让你自己的 agent 框架不登录 Codex 也能调用。它复用你机器上已安装的 ChatGPT 桌面应用所带的运行时，通过本地桥接让任一工具驱动 Codex 原本的桌面能力：读窗口、点击、输入、截图。与同类最本质的区别是权限粒度：lcu 在运行时层面按应用逐项授权，高风险应用需要 Touch ID 确认，终端类应用则被直接拒绝执行，这种管控不依赖上层 agent 自觉。",
+  "whatItDoesZh": "安装桌面应用后执行一键安装脚本，即可选适配器启动会话：Pi、Codex CLI 或 Claude Code 三条路径都已接好。运行时提供读窗口、点击、输入、截图等桌面动作，并可区分不同应用的安全等级；被放行的动作在本地执行，凭证与授权由系统钥匙串和 Touch ID 承接。文档给出各适配器的接入方式，也说明如何自行写一个适配器。Windows 版本当时标注为尚未交付。",
+  "useCasesZh": [
+    "让 Pi 获得桌面操作能力而不用登录 Codex",
+    "在 Claude Code 里调用本机桌面控制",
+    "给自研 agent 接一层有应用级授权的运行时",
+    "在不改 Codex 的前提下复用其桌面驱动",
+    "研究如何用系统权限替代 agent 自律"
+  ],
+  "appsZh": [
+    "macOS 桌面应用（读窗口、点击、输入、截图）",
+    "支持 Pi、Codex CLI 与 Claude Code 三类宿主",
+    "按应用分级放行或拒绝的受控应用",
+    "不限具体应用：能力在运行时层，需逐应用授权"
+  ],
+  "platformsZh": [
+    "macOS",
+    "Linux",
+    "Web"
+  ],
+  "techApproachZh": "桥接而非重写：lcu 调用 ChatGPT 桌面应用自带的电脑操控运行时，把其能力以本地接口暴露给外部宿主，因此不需要安装 Python，也不复制其实现。权限模型做在运行时层：每个应用单独授权，高风险操作要求 Touch ID，终端类应用默认拒绝。适配器模式让不同 agent 框架以统一方式接入，动作与截图在本地闭环。",
+  "requirementsZh": [
+    "需先安装并登录 ChatGPT 桌面应用，运行时随其分发",
+    "macOS 需授予辅助功能与屏幕录制权限",
+    "高风险应用确认需 Touch ID 或系统认证",
+    "宿主侧需支持 Pi、Codex CLI 或 Claude Code，或自写适配器",
+    "无需安装 Python"
+  ],
+  "prosZh": [
+    "复用成熟运行时，能力与 Codex 一致",
+    "按应用逐项授权，限制面小",
+    "高风险应用强制 Touch ID 确认",
+    "终端类应用直接拒绝，防误操作",
+    "三种宿主适配器开箱可用"
+  ],
+  "consZh": [
+    "强依赖 ChatGPT 桌面应用已安装",
+    "Windows 版本当时尚未交付",
+    "可用能力受上游运行时限制",
+    "1.1k 星但文档偏简，示例有限"
+  ],
+  "limitsZh": "能力上限跟随上游运行时：上游不支持的动作这里也没有，且应用更新可能改变桥接方式。Linux 与 Web 的标注与实现不完全对应。已知失败模式包括 ChatGPT 应用未登录导致运行时不可用、应用未授权时动作被静默拒绝、Touch ID 确认超时导致任务中断，以及终端类应用被策略拒绝时上层 agent 误判为失败。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可在 macOS 上让宿主 agent 操作企微客户端：读窗口、点击会话、输入消息并截图核对，权限由运行时按应用授权。但企微作为高风险应用可能触发 Touch ID 确认，批量发送会被频繁打断；客户名单与发送校验仍需自建，因此记为 partial。",
+  "maturityZh": "2026 年 2 月创建，2026 年 10 月仍在推送，1.1k 星 77 fork，MIT 许可，版本迭代持续。依赖上游应用的结构与登录状态是主要风险，项目本身维护节奏正常。",
+  "evidence": [
+    {
+      "claim": "无需 Codex 认证即可暴露其电脑操控运行时",
+      "source": "README.md",
+      "quote": "LCU exposes Codex's original computer-use runtime to your harness without requiring Codex authentication."
+    },
+    {
+      "claim": "桌面动作包括读窗口、点击、输入与截图",
+      "source": "README.md",
+      "quote": "- **Desktop apps:** read windows, click, type, and take screenshots."
+    },
+    {
+      "claim": "不需要安装 Python",
+      "source": "README.md",
+      "quote": "LCU needs nothing else: no Python on any platform."
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "microsoft__Hybrid-Computer-Use",
+      "xa11y__xa11y",
+      "ghostwright__ghost-os"
+    ],
+    "whenZh": "要用 Codex 同源运行时且在意应用级授权，lcu 最合适；要跨平台语义化 MCP 选 Hybrid-Computer-Use；要自己写控制逻辑选 xa11y；要用录制配方复用流程选 Ghost OS。"
+  },
+  "stepsZh": [
+    "安装并登录 ChatGPT 桌面应用，确认其电脑操控可用",
+    "执行 lcu 安装脚本，给终端授予辅助功能与屏幕录制",
+    "用支持的适配器启动会话，先试一次只读窗口查询",
+    "在应用授权列表里放行企业微信并确认权限范围",
+    "布置任务：搜索外部客户、输入消息、截图核对后发送",
+    "被 Touch ID 或策略打断时记录原因，改为分批或改授权"
+  ],
+  "successRateZh": "无公开成功率数据。README 未给出任务成功率、失败率或延迟数据，只有能力说明与权限模型描述；上游运行时的表现也未被本项目量化。自测可对同一企微发送任务连跑 50 次，按授权拒绝、Touch ID 超时、定位失败、发送未生效四类统计。",
+  "scores": {
+    "coverage": 4,
+    "usability": 4,
+    "docs": 4,
+    "maintenance": 4,
+    "performance": 4,
+    "stability": 3
+  }
+}

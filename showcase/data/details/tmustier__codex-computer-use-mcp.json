@@ -1,0 +1,79 @@
+{
+  "id": "tmustier__codex-computer-use-mcp",
+  "taglineZh": "把官方 macOS 电脑操作运行时接进 MCP",
+  "summaryZh": "不自己实现桌面控制，而是复用 ChatGPT macOS 客户端安装的签名 Computer Use 组件，把官方的 cua_repl 暴露成两个 MCP 工具：调用方 agent 自己写 JavaScript 去拿应用、点元素、输文本、读无障碍状态。项目本身不含内嵌模型，也不生成计划，等于把 OpenAI 自己的运行时桥接给 Pi 或任意 MCP 客户端。",
+  "whatItDoesZh": "拿到某个 Mac 应用的无障碍树后按元素编号点击、输入文本、读取 AX 状态；也能列出浏览器标签，并通过 ChatGPT 的 Chrome 扩展操作真实浏览器。绑定在多次调用与多轮对话之间保持，直到显式重置或会话结束；结束时发送 turn_ended 通知，让服务端清理该轮的软件光标。",
+  "useCasesZh": [
+    "在 Pi 里直接调用官方 Mac 电脑操作能力",
+    "让自建 agent 复用已签名运行时而非重造轮子",
+    "对比官方 CUA 与开源实现在同一任务上的差异",
+    "在 TextEdit 等原生应用上做元素级操作验证",
+    "通过已登录的 Chrome 完成需要登录态的操作"
+  ],
+  "appsZh": [
+    "macOS 原生应用，走无障碍树",
+    "Chrome，经 ChatGPT 的浏览器扩展",
+    "TextEdit 等系统自带应用"
+  ],
+  "platformsZh": [
+    "macOS"
+  ],
+  "techApproachZh": "读取 ChatGPT 应用里已安装的 Computer Use 组件与实验性 app-server 接口，把官方 js 工具注册成 MCP 工具；JavaScript 运行时持久保存 app 与 tab 绑定，工具描述直接取自官方运行时。所有点击与输入都发生在官方 runtime 内，本项目只负责协议转换与生命周期通知。",
+  "requirementsZh": [
+    "macOS，且用户会话已解锁",
+    "Node.js 22 及以上",
+    "需安装含统一 Computer Use 插件的 ChatGPT macOS 应用",
+    "需屏幕录制、辅助功能与 TCC 授权",
+    "使用 Pi 集成需 Pi 0.99 以上"
+  ],
+  "prosZh": [
+    "直接复用官方签名运行时，行为最接近原生",
+    "工具描述来自官方运行时，模型上手成本低",
+    "不含内嵌模型，调用链与成本都清晰",
+    "支持操作已登录的真实 Chrome 标签"
+  ],
+  "consZh": [
+    "强依赖 ChatGPT 应用版本与实验接口",
+    "仅支持 macOS，无法覆盖 Windows 企微",
+    "账户未开统一运行时就会退回旧工具"
+  ],
+  "limitsZh": "依赖实验性 app-server API 与本机安装的 ChatGPT 组件，任一升级都可能让桥接失效；账户若未开启统一 Computer Use 运行时，会退回旧的 typed 工具，行为与文档不一致；只能在 macOS 解锁会话下工作。",
+  "stepsZh": [
+    "说明：本仓库仅支持 macOS，无法在企业微信 Windows 客户端上落地",
+    "若做通用演示，先安装 ChatGPT 应用并确认已写入运行时配置",
+    "在 Pi 或 MCP 客户端里注册本服务器，调用 cua_repl 拿应用对象",
+    "用元素编号点击、输入，再读回 AX 状态确认界面确实变化",
+    "演示结束调用重置工具，清理脚本绑定与残留软件光标"
+  ],
+  "successRateZh": "无公开成功率数据。README 只说明依赖与用法，没有任务级测试；所有稳定性证据都指向官方运行时加实验接口这一前提。可自测：在同一台 Mac 上跑 50 次“取应用—点按钮—读状态”，记录接口失败与组件版本变化。",
+  "wecomRelevance": "none",
+  "wecomUseZh": "用不上：它只支持 macOS，且链路依赖 ChatGPT 客户端组件。给企业微信外部客户与外部群发消息的主战场在 Windows 与手机端，这个桥接既没有企微适配，也无法稳定批量运行。",
+  "maturityZh": "2026 年 7 月创建，11 月仍在维护，63 星、16 fork，MIT 许可。作者明确声明依赖实验接口、随时可能变化，属于研究型桥接工具而非生产组件。",
+  "evidence": [
+    {
+      "claim": "项目本身不含模型、不生成操作计划",
+      "source": "README.md",
+      "quote": "This package runs no nested model and generates no action plan."
+    },
+    {
+      "claim": "依赖实验性 app-server 接口与本机 ChatGPT 组件",
+      "source": "README.md",
+      "quote": "an experimental app-server API"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "iFurySt__open-computer-use",
+      "24kchengYe__desktop-controller-skill"
+    ],
+    "whenZh": "同样想给 agent 加 Mac 控制力，它的优势是官方运行时、劣势是绑定 ChatGPT；open-computer-use 是开源替代且跨平台，24kchengYe 则只做 Windows 双引擎。"
+  },
+  "scores": {
+    "coverage": 3,
+    "usability": 2,
+    "docs": 3,
+    "maintenance": 3,
+    "performance": 3,
+    "stability": 2
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "id": "injaneity__pi-computer-use",
+  "taglineZh": "给 Pi 代理操作桌面应用的工具扩展",
+  "summaryZh": "pi-computer-use 是 Pi 编码代理的扩展，装上后代理获得操作桌面应用的工具：查找窗口、观察可见内容、按文字或控件搜索界面、查看细节、点击输入滚动、等待界面变化。它面向 macOS、Windows 与 Linux，macOS 需要 14 以上并安装按用户级 helper；作者明确它不替代应用 API 或 MCP，只有在「屏幕上那个应用」是唯一接口时才该用。与通用 CUA 的本质区别是它把计算机操作做成代理工具箱里的一件工具，而不是让模型从第一帧接管全部操作。",
+  "whatItDoesZh": "执行 pi install 后完成平台设置，代理即可枚举应用与窗口、读取可见文本与控件、在窗口内搜索目标、放大查看局部、执行点击键入滚动与按键、等待界面变化；工具返回结构化观察结果，便于代理判断下一步；支持多窗口切换与按需深挖界面细节，也适用于没有 API 的传统桌面软件。",
+  "useCasesZh": [
+    "让 Pi 代理在本机桌面应用里完成重复录入工作",
+    "在无 API 的桌面软件里按文字定位按钮",
+    "让代理先观察窗口变化，确认后再执行下一步",
+    "把桌面操作与代码修改串进同一个代理任务里",
+    "在 macOS 与 Windows 间复用同一套工具"
+  ],
+  "appsZh": [
+    "macOS 14+ 桌面应用",
+    "Windows 桌面应用",
+    "Linux 桌面应用（仓库声明支持）",
+    "没有 API 的传统业务软件",
+    "Pi 代理与其工具调用界面"
+  ],
+  "platformsZh": [
+    "Windows",
+    "macOS",
+    "Linux"
+  ],
+  "techApproachZh": "以 Pi 扩展形式注册工具，底层按平台调用可访问性 API 与原生输入；观察层返回窗口内可见文本、控件与截图局部，搜索工具在界面内按文本匹配；动作层执行点击、键入、滚动与等待并回传结果；macOS helper 按用户安装，权限受系统管束。",
+  "requirementsZh": [
+    "安装 Pi 并执行 pi install npm 包",
+    "macOS 14+ 需安装 helper 并授权辅助功能",
+    "Windows 需可交互的桌面会话",
+    "需模型支持工具调用；无需 GPU"
+  ],
+  "prosZh": [
+    "作为 Pi 扩展，接入成本较低",
+    "工具粒度细，包含界面搜索与等待变化",
+    "跨三个平台，按各自系统能力做适配",
+    "作者明确不滥用，优先用 API",
+    "文档提供各平台实现方式的详细对照"
+  ],
+  "consZh": [
+    "依赖 Pi 生态，不是通用 MCP 服务",
+    "macOS 版本与授权门槛较高",
+    "Linux 支持缺少完整的验证与文档",
+    "新项目，长期维护仍存在不确定性"
+  ],
+  "limitsZh": "它只覆盖「有可访问性信息的桌面窗口」，自绘界面与游戏式渲染会退化；不处理验证码与系统安全桌面；工具调用依赖模型判断，长流程需自行编排重试；仓库未声明成功率，也没有端到端测试证据。",
+  "wecomRelevance": "direct",
+  "wecomUseZh": "可在 macOS 或 Windows 企业微信客户端里按文字搜索会话与输入框、点击并填入话术，等待界面变化后再继续；适合接进已有的 Pi 工作流做半自动外发准备，发送仍由本人确认。",
+  "maturityZh": "2026-04 建仓，2135 stars、153 forks，MIT，最近提交 2026-11-01；文档站与平台参考较完整，但生态绑定 Pi，外部验证仍少。",
+  "evidence": [
+    {
+      "claim": "它让代理使用 macOS、Windows 与 Linux 的桌面应用",
+      "source": "README.md",
+      "quote": "lets AI agents use desktop apps on macOS, Windows, and Linux"
+    },
+    {
+      "claim": "macOS 辅助程序要求系统 14 以上",
+      "source": "README.md",
+      "quote": "The macOS helper requires macOS 14 or newer"
+    },
+    {
+      "claim": "作者明确它不替代应用 API 或 MCP",
+      "source": "README.md",
+      "quote": "is not a replacement for app APIs or MCP servers"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "kanishka089__computer-use-mcp",
+      "ctoldigital__axuse"
+    ],
+    "whenZh": "已在用 Pi 并想给代理加桌面工具，选 pi-computer-use；要通用 MCP 截图操作桌面，选 computer-use-mcp；要可访问性树与低 token，选 axuse。三者都强调优先用 API。"
+  },
+  "scores": {
+    "coverage": 3,
+    "usability": 3,
+    "docs": 4,
+    "maintenance": 4,
+    "performance": 4,
+    "stability": 3
+  },
+  "stepsZh": [
+    "安装 Pi 并执行 pi install 添加 pi-computer-use 扩展",
+    "在 macOS 完成 helper 安装与辅助功能、屏幕录制授权",
+    "启动企业微信客户端，让代理先枚举窗口并读取可见控件",
+    "按文本搜索外部群名，点击会话并填入预设话术",
+    "发送前由本人确认，失败时回看工具返回的观察结果"
+  ],
+  "successRateZh": "无公开成功率数据；README 未给任务统计，只有平台实现说明。可自测：连续 50 次「搜索会话并填入话术」，统计搜索不中、点击偏、输入未聚焦三类失败，并对比 macOS 与 Windows 的表现。"
+}

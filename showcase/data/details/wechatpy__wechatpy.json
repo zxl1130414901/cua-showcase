@@ -1,0 +1,91 @@
+{
+  "id": "wechatpy__wechatpy",
+  "taglineZh": "覆盖公众号/企业微信/支付的 Python SDK",
+  "summaryZh": "wechatpy 是微信生态的老牌 Python SDK，覆盖公众平台、企业微信、微信支付与小程序：统一封装 access_token、签名验签、消息加解密与回调解析，业务侧只需按模块调用。企业微信部分提供通讯录、应用消息、外部联系人、客户群与群发任务接口。与自写 HTTP 请求相比，它把易错的加密与令牌管理收进了库。",
+  "whatItDoesZh": "用 corp_id 与 secret 初始化 WeChatWorkClient 后，可读写通讯录、发应用消息、管理外部联系人与客户标签、获取客户群列表、创建 add_msg_template 群发任务并用 msgid 查结果；公众号侧处理被动回复、素材、模板消息与菜单；支付侧做统一下单与回调验签；小程序侧做登录与订阅消息。",
+  "useCasesZh": [
+    "用企微自建应用向内部成员批量推送通知消息",
+    "管理外部联系人与客户标签，维护客户分层结构",
+    "创建客户群群发任务，并按 msgid 查询结果",
+    "处理公众号被动回复消息，并管理图文素材库",
+    "微信支付统一下单，并处理异步回调与签名校验"
+  ],
+  "appsZh": [
+    "企业微信自建应用",
+    "企业微信外部联系人与客户群",
+    "微信公众号",
+    "微信支付商户平台",
+    "微信小程序"
+  ],
+  "platformsZh": [
+    "Windows",
+    "macOS",
+    "Linux"
+  ],
+  "techApproachZh": "纯 Python 库，按 official_account、work、payment、miniprogram 分模块；基于 requests 调官方 REST API，内置 token 缓存与刷新、AES 消息加解密、XML 解析与签名校验。企业微信侧走开放平台接口，不涉及客户端自动化或注入。",
+  "requirementsZh": [
+    "Python 3.7+ 与 pip",
+    "企业微信 corp_id 与自建应用 secret",
+    "客户联系接口需企业认证并开通权限",
+    "无需 GPU 与桌面环境",
+    "需公网回调地址接收事件"
+  ],
+  "prosZh": [
+    "模块覆盖公众号、企微、支付、小程序",
+    "token 与加解密、签名全部封装",
+    "全部走官方接口，合规使用，没有封号风险",
+    "4.3k star，维护超过十年",
+    "文档与示例清晰，中文社区使用者较多"
+  ],
+  "consZh": [
+    "只是 API 封装，没有 UI 与运营后台",
+    "企微新接口的封装跟进存在滞后，需自己补调用",
+    "客户群群发仍需成员在客户端确认，无法全自动",
+    "不能操作客户端，无法做界面自动化"
+  ],
+  "limitsZh": "只能调用官方接口，不能绕过成员确认直接群发；外部群没有开放 API，SDK 只能管客户群列表与群发任务；客户联系接口需企业认证，个人号用不了；企业微信废弃旧接口时需等库更新。",
+  "stepsZh": [
+    "完成企业认证，并开通客户联系与群发所需的权限",
+    "pip install wechatpy，配置 corp_id 与 secret",
+    "初始化 WeChatWorkClient 并拉取通讯录验证",
+    "调外部联系人接口，获取客户列表与客户群列表",
+    "调 add_msg_template 创建群发任务",
+    "成员在客户端确认后，按 msgid 查询群发发送结果"
+  ],
+  "successRateZh": "无公开成功率数据。成功率不取决于库，而取决于官方接口配额与成员是否确认：任务创建成功不等于送达。可自测 3 个成员各 10 条，统计任务创建成功、成员确认率、结果查询成功率，并记录接口错误码。",
+  "wecomRelevance": "direct",
+  "wecomUseZh": "它直接封装企业微信客户联系接口：能拉外部联系人与客户群、创建 add_msg_template 群发任务并查询结果，是这批里少数合规可用的底座。限制来自官方：群发要成员在客户端确认，外部群本身没有开放接口，无法做到无人值守直发。",
+  "maturityZh": "4313 star、818 fork，MIT，2014 年创建、2026-05 推送，维护十年以上但节奏放缓；文档完整、接口稳定，企业微信新能力跟进需看 issue 与版本日志。",
+  "evidence": [
+    {
+      "claim": "定位为公众平台第三方 Python SDK",
+      "source": "README.md",
+      "quote": "微信(WeChat) 公众平台第三方 Python SDK。"
+    },
+    {
+      "claim": "包含企业微信 API 模块",
+      "source": "README.md",
+      "quote": "2. 企业微信 API"
+    },
+    {
+      "claim": "通过 pip 安装",
+      "source": "README.md",
+      "quote": "pip install wechatpy"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "ArtisanCloud__PowerWeChat",
+      "mochat-cloud__mochat"
+    ],
+    "whenZh": "Python 技术栈、只要官方 API 封装时选 wechatpy；Go 后端选 PowerWeChat；需要开箱即用的私域运营后台则选 mochat。"
+  },
+  "scores": {
+    "coverage": 4,
+    "usability": 4,
+    "docs": 4,
+    "maintenance": 4,
+    "performance": 3,
+    "stability": 4
+  }
+}

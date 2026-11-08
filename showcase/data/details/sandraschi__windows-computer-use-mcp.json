@@ -1,0 +1,79 @@
+{
+  "id": "sandraschi__windows-computer-use-mcp",
+  "taglineZh": "基于 pywinauto 的 Windows CUA 工具箱",
+  "summaryZh": "把 Windows 桌面操作拆成二十个 MCP 工具，同时提供能接收一句目标就自动规划、执行、重试的 mission agent，还配了带人工确认的 React 控制台与一体化安装包。底层是 pywinauto，所以走 Win32 与 UIA 控件属性，而不是纯视觉。作者自己把“每次点击都作用于真实桌面”标成危险，建议开启人工审批或放进虚拟机。",
+  "whatItDoesZh": "三个入口：automation_windows 管窗口与屏幕，automation_elements 读控件树并操作元素，automation_mission 接收自然语言目标后自主跑完整任务并截图报告。也能启动本地 Web 控制台，查看执行日志、人工接管和爬取结果，或用 NSIS 安装包在没装 Python 的机器上一键部署。",
+  "useCasesZh": [
+    "批量安装并逐个验证桌面软件安装包是否可用",
+    "让 agent 自动填写企业内部老系统的固定表单",
+    "给测试团队做窗口级界面巡检并自动截图存档",
+    "在虚拟机里跑无人值守的重复性桌面操作任务",
+    "把长流程交给 mission 模式自动执行并重试"
+  ],
+  "appsZh": [
+    "Windows 原生应用，走 Win32 与 UIA",
+    "Tauri、NSIS 等安装程序界面",
+    "浏览器窗口与系统文件对话框",
+    "不限具体应用，按控件属性定位"
+  ],
+  "platformsZh": [
+    "Windows"
+  ],
+  "techApproachZh": "以 pywinauto 为操作内核，win32 与 uia 两种后端按控件类型切换；上层用 FastMCP 3.2 暴露工具，mission agent 负责把目标拆成步骤、执行并在失败时重试；Web 端用 React 做人工确认、日志与任务看板，桌面端用 NSIS 把整套东西打包成一键安装。",
+  "requirementsZh": [
+    "Python 3.12 及以上",
+    "Windows 桌面会话，需可见桌面",
+    "mission 模式需自备大模型 API Key",
+    "生产使用建议开启人工审批或使用虚拟机"
+  ],
+  "prosZh": [
+    "既有工具集也有端到端任务 agent",
+    "20 个工具覆盖窗口、元素与任务三层",
+    "自带 Web 控制台和人工接管入口",
+    "有一体化安装包，非开发者也能装"
+  ],
+  "consZh": [
+    "默认操作真实桌面，误点代价很高",
+    "依赖 pywinauto，自绘界面控件常缺失",
+    "mission 模式的成本与稳定性未量化"
+  ],
+  "limitsZh": "对 Chromium 自绘或游戏类界面，控件树经常只剩一个大容器，pywinauto 无法定位内部按钮；mission 模式一旦目标描述含糊就会反复试探。README 自述的百次安装包无人值守案例没有给出失败率与可复现环境。",
+  "stepsZh": [
+    "先在企业微信上固定窗口位置，用元素工具确认 WXWork 控件树可读",
+    "让 automation_elements 抓取会话列表与输入框元素，保存定位路径",
+    "用 automation_windows 激活目标外部群，粘贴已审核文案",
+    "开启人工审批模式，截图核对收件人后才允许执行点击发送",
+    "失败时按指数退避重试一次，连续两次失败即停机并告警"
+  ],
+  "successRateZh": "无公开成功率数据。只有项目自述：作者称一次无人值守跑完 100 个 Tauri/NSIS 安装包，花费约 2 美元模型成本，但未给失败数量与复现脚本。可自测 50 次同类安装流程并统计失败类型。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可用于读取企业微信控件树、切会话、填内容并做截图验证，配合控制台的人工确认能做成“人盯机”的半自动发送。它没有企微模板，界面一改版就要重新抓控件。",
+  "maturityZh": "2025 年 7 月创建，2026 年 11 月仍在更新，52 星、16 fork，MIT 许可。个人维护但提交稳定，文档量中等、代码体量不小，长期质量取决于作者投入。",
+  "evidence": [
+    {
+      "claim": "底层操作基于 pywinauto",
+      "source": "README.md",
+      "quote": "Built on pywinauto."
+    },
+    {
+      "claim": "作者明确提示操作真实桌面有风险",
+      "source": "README.md",
+      "quote": "Dangerous by nature:"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "betrayzl__windows-computer-use-mcp",
+      "24kchengYe__desktop-controller-skill"
+    ],
+    "whenZh": "要控件级定位加完整任务编排，选它；只有像素可用、面对游戏或自绘界面时，betrayzl 的 DXGI 视觉更合适；只想在 Claude Code 里发消息，24kchengYe 更轻。"
+  },
+  "scores": {
+    "coverage": 4,
+    "usability": 3,
+    "docs": 3,
+    "maintenance": 3,
+    "performance": 3,
+    "stability": 2
+  }
+}

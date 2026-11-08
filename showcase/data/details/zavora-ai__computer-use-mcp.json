@@ -1,0 +1,81 @@
+{
+  "id": "zavora-ai__computer-use-mcp",
+  "taglineZh": "Rust 进程内执行的高性能桌面控制 MCP 服务器",
+  "summaryZh": "面向 MCP 客户端的桌面操作层：能用应用脚本接口和无障碍控件就优先用，控件不够时才退回截屏加鼠标键盘。核心用 Rust 通过 NAPI 在宿主进程内执行，省掉多进程往返。仓库自带两个可复现演示：agent 用真实鼠标笔画作画，以及在只有像素的画布发票上完成十个字段录入并回读校验，用来证明输入确实来自 UI 事件。",
+  "whatItDoesZh": "提供应用发现、控件树读取、窗口信息、截图、鼠标移动点击拖拽、键盘输入与剪贴板，外加应用启动管理。附带一个运行控制台，可以看到 agent 声明的计划、每次工具调用与耗时。演示脚本能直接跑 OpenAI 或 DeepSeek 两种 agent，用来观察完整的感知与操作链路。",
+  "useCasesZh": [
+    "让 agent 填写只有像素、没有控件信息的表单",
+    "在自绘 UI 的桌面软件里做可回读的录入校验",
+    "给内部工具加一层可观测、可回放的桌面操作",
+    "跑自动化演示并统计每步耗时与 token 消耗",
+    "验证注入的输入事件是否被目标应用真正接收"
+  ],
+  "appsZh": [
+    "原生 macOS 应用，走无障碍与脚本接口",
+    "原生 Windows 应用",
+    "自绘画布类应用，如演示中的发票与画板",
+    "浏览器与 Electron 应用"
+  ],
+  "platformsZh": [
+    "Windows",
+    "macOS",
+    "Linux"
+  ],
+  "techApproachZh": "双通道感知：优先读取应用脚本接口与无障碍控件并直接调用，界面缺少控件语义时退回截图识别加真实鼠标键盘事件。核心逻辑用 Rust 写成并通过 NAPI 跑在 Node 进程内，减少 IPC 开销。每次提交都带 isTrusted 标记，非 UI 途径写入的输入会被判定无效，保证演示不是作弊。",
+  "requirementsZh": [
+    "Node.js 与 npm 环境",
+    "Windows 或 macOS，README 另称也支持 Linux，清单未列",
+    "需授予辅助功能与屏幕录制权限",
+    "跑演示 agent 需要 OpenAI 或 DeepSeek 的 API Key"
+  ],
+  "prosZh": [
+    "Rust 进程内执行，省去跨进程往返开销",
+    "无障碍优先、视觉兜底的双通道设计",
+    "演示可复现，还公布了 token 消耗",
+    "用 isTrusted 证明输入真的走了界面"
+  ],
+  "consZh": [
+    "演示场景是自建页面，第三方应用未验证",
+    "安装依赖 Node 与 Playwright 浏览器",
+    "文档以演示为主线，缺生产部署说明"
+  ],
+  "limitsZh": "公开演示集中在作者自建的画板与发票页面，没有针对真实第三方客户端或 ERP 的适配与实测；纯视觉路径仍依赖模型能力，画布滚动、主题切换或缩放都会明显影响识别。仓库未声明任何真实业务场景下的成功率。",
+  "stepsZh": [
+    "先在企业微信里手动打开目标外部群，保持窗口可见并记录控件特征",
+    "让 agent 用应用发现工具定位 WXWork 进程与它的主窗口",
+    "优先按无障碍控件名定位输入框，找不到再退回截图取坐标",
+    "把已审核文案写入输入框，截图核对群名与内容后交人工确认",
+    "发送后用控件回读最后一条消息，未命中则重试一次并记录失败"
+  ],
+  "successRateZh": "只有作者自建的演示数据：画布发票录入首次验证 10/10 通过，用了 12 次模型调用、23 次工具调用；作画演示为 105 笔、7 种颜色、15 次模型调用。这些是项目自述的小样本，不等于通用成功率，也未见第三方复现。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可用于半自动定位企业微信窗口、读写控件、把文案填进输入框并截图核对，最后一步仍要人点发送。仓库没有企微适配，控件命名与窗口结构一变就要自己维护。",
+  "maturityZh": "2026 年 4 月创建，10 月底仍在更新，90 星、19 fork，MIT 许可。团队维护、节奏稳定，但版本号与 API 尚未定型，生产接入需要自行做回归测试。",
+  "evidence": [
+    {
+      "claim": "优先使用脚本与无障碍控件，必要时退回截图和输入",
+      "source": "README.md",
+      "quote": "Use app scripting and accessibility controls when available"
+    },
+    {
+      "claim": "演示中完成 105 笔真实鼠标笔画",
+      "source": "README.md",
+      "quote": "seven colors and 15 model calls"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "munimtechnologies__munim-computer-use",
+      "alexshpunt__pi-agent-computer-use"
+    ],
+    "whenZh": "看重无障碍优先加可回读校验的工程实现，它和 munim、pi-agent 同路；差别在于它用 Rust 进程内执行并提供可复现演示，munim 更强调后台输入与跨平台。"
+  },
+  "scores": {
+    "coverage": 3,
+    "usability": 3,
+    "docs": 4,
+    "maintenance": 3,
+    "performance": 4,
+    "stability": 3
+  }
+}

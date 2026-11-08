@@ -1,0 +1,79 @@
+{
+  "id": "Core-Mate__OpenGUI",
+  "taglineZh": "让 AI 看见并操作 Android 界面的框架",
+  "summaryZh": "面向 Android 的移动 GUI agent 框架：用真实截图理解界面，再按自然语言指令在手机上执行操作与测试任务。它提供 WorkBuddy 与 DeepSeek Harness 插件、用 agent 引导安装的 bootstrap skill，以及多角色操作体系；部署侧通过宿主 ADB 与 scrcpy 投屏，配合设备端 AccessibilityService 与悬浮窗权限完成点击与读取。",
+  "whatItDoesZh": "能截取手机画面并理解当前界面，按指令完成多步手机操作，执行 App 功能测试并记录问题与复现步骤，读取屏幕内容整理信息、填写表单；支持在 WorkBuddy 或 DeepSeek Harness 中以插件方式接入，也可走完整 Android 客户端方案。",
+  "useCasesZh": [
+    "在真机上按自然语言指令跑 App 功能巡检",
+    "让 agent 完成多步手机操作并截图记录问题",
+    "给移动端测试补上界面理解与复现步骤的记录",
+    "在 WorkBuddy 里直接指挥手机完成日常任务",
+    "读取手机屏幕里的内容并整理成一份结构化信息"
+  ],
+  "appsZh": [
+    "Android 手机上的各类 App",
+    "Android 系统设置与通知界面",
+    "TikTok 等内容类应用",
+    "不限具体应用，按截图与无障碍服务操作"
+  ],
+  "platformsZh": [
+    "Android"
+  ],
+  "techApproachZh": "双通道感知：用真实截图理解界面语义，用设备端 AccessibilityService 获取节点并执行动作；桌面侧通过宿主 ADB 与 scrcpy 投屏与控制，插件版只需 USB 调试授权，完整客户端则要装 Android 11 以上的配套应用并授予悬浮窗与电池优化豁免。",
+  "requirementsZh": [
+    "Android 11（API 30）及以上设备",
+    "开启 USB 调试并在手机上授权",
+    "完整客户端需无障碍、悬浮窗与电池优化权限",
+    "WorkBuddy 方案需 5.5.3 及以上版本"
+  ],
+  "prosZh": [
+    "截图加无障碍双通道，界面理解更完整",
+    "提供插件与完整客户端两种接入方式",
+    "能记录复现步骤，适合移动端测试",
+    "文档覆盖从安装到部署的完整流程"
+  ],
+  "consZh": [
+    "只覆盖 Android，无法操作桌面企微",
+    "完整方案需多项手机权限，配置繁琐",
+    "部分机型还要额外的厂商 USB 输入授权"
+  ],
+  "limitsZh": "界面理解依赖截图质量与设备分辨率，动画与弹窗会干扰判断；无障碍服务在部分国产 ROM 上会被限制或被杀；无法操作 iOS，也不能用于 Windows 或 macOS 上的企业微信桌面客户端。仓库未提供成功率数据。",
+  "stepsZh": [
+    "先确认要操作的场景在 Android 版企业微信上（桌面版不在覆盖范围）",
+    "在手机上开启 USB 调试并授权，装好无障碍与悬浮窗权限",
+    "用插件连上设备，截屏确认已登录正确的外部客户账号",
+    "让 agent 搜索并进入外部群，输入已审核文案但不发送",
+    "由人工确认收件人后点发送，再截图核对消息是否出现"
+  ],
+  "successRateZh": "无公开成功率数据。README 展示的是功能与部署方式，没有任务完成率、失败分类或设备覆盖统计。可自测：在同一机型上跑 50 次“打开 App—进会话—输入”，统计截图误判与无障碍节点缺失次数。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "只能在 Android 手机上操作企业微信：进入外部群、填文案、截图核对，仍要人工确认发送。桌面端的外部客户批量消息场景用不上，它也没有企微专用流程。",
+  "maturityZh": "2026 年 4 月创建，10 月仍有提交，1807 星、100 余 fork，许可证标为 NOASSERTION。社区活跃度不错、文档完整，但许可不明确，商用前需先确认授权。",
+  "evidence": [
+    {
+      "claim": "用真实截图理解 App 并执行手机操作",
+      "source": "README.md",
+      "quote": "OpenGUI uses real screenshots to understand apps"
+    },
+    {
+      "claim": "完整客户端需要无障碍服务与悬浮窗权限",
+      "source": "README.md",
+      "quote": "AccessibilityService, overlay permission"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "appium__appium-uiautomator2-server",
+      "appium__appium"
+    ],
+    "whenZh": "要做看得懂界面的手机 agent，它比纯测试框架更偏智能操作；只做稳定回归测试，Appium 的设备端执行更成熟可靠，也更省心。"
+  },
+  "scores": {
+    "coverage": 3,
+    "usability": 3,
+    "docs": 4,
+    "maintenance": 4,
+    "performance": 3,
+    "stability": 3
+  }
+}

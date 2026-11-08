@@ -1,0 +1,88 @@
+{
+  "id": "A9T9__RPA",
+  "taglineZh": "浏览器与桌面的宏录制 RPA，带 MCP 接口",
+  "summaryZh": "Ui.Vision RPA 以浏览器扩展为主体，用宏命令表、JavaScript（uiv.* API）、OCR 与图像识别操作网页和桌面。原理是把每一步写成可回放的命令序列，有选择器时用选择器，没有时用图像或屏幕文字定位；桌面输入由 XModules 提供。它与同类最本质的区别：自动化跑在真实登录的浏览器会话里，而非隔离浏览器；并通过 uivision-mcp-bridge 暴露 MCP，让 Claude 等助手直接创建、修改、运行宏并查看日志截图。",
+  "whatItDoesZh": "可以录制或手写宏，完成填表、网页取数、下载报表、重复点击、Selenium IDE 风格脚本回放；用 OCR 在屏幕上找文字、用图片匹配找按钮，处理没有稳定选择器的老系统；借助 XModules 在 Windows 桌面应用和远程桌面界面里移动鼠标、敲键盘；也能让接入的 AI 助手根据页面内容现场写宏、执行宏，再用日志与截图核对结果。宏可以保存成文件重复运行，也能作为 AI 助手的固定动作库。",
+  "useCasesZh": [
+    "每天在已登录的 CRM 后台按固定筛选条件导出客户报表",
+    "在没有 DOM 的老旧桌面客户端里按截图位置重复录入表单",
+    "把客服重复使用的查单、复制、粘贴话术流程录成宏模板",
+    "让 AI 助手调用宏检查后台页面状态并截图留证",
+    "网站改版后用它回放交互脚本做基础回归测试"
+  ],
+  "appsZh": [
+    "Chrome、Edge、Firefox 浏览器内任意网页",
+    "Windows 桌面应用（需安装 XModules 组件）",
+    "远程桌面界面与虚拟桌面",
+    "无稳定选择器但屏幕可见的旧版业务系统",
+    "Selenium IDE 风格的网页表单与列表"
+  ],
+  "platformsZh": [
+    "Web",
+    "Windows"
+  ],
+  "techApproachZh": "核心是命令表加解释器：每条宏命令描述一个动作，JS 模式通过 uiv.* 调用浏览器 API；定位层支持 CSS/XPath、图像匹配与 OCR 三档回退。桌面能力由本地 XModules 负责真实鼠标键盘输入；MCP 层用 uivision-mcp-bridge 把扩展能力包装成工具，代理可查看页面、生成或编辑宏、执行并读取日志与截图，形成可审计的闭环。",
+  "requirementsZh": [
+    "安装 Chrome/Edge/Firefox 扩展，无需编译本仓库",
+    "使用 MCP 连接时需 Node.js 与 npm 运行安装器",
+    "桌面自动化需另装 Ui.Vision XModules 桌面组件",
+    "AI 撰写宏需接入任一 MCP 客户端；无需 GPU"
+  ],
+  "prosZh": [
+    "录制即可复用，非开发者也能改宏",
+    "在已登录的真实浏览器会话中执行，少踩登录态",
+    "OCR 与图像匹配可作为选择器失效时的兜底",
+    "提供 MCP 接口，宏能被 AI 助手读写执行",
+    "浏览器扩展免费且可商用，适合个人与小团队"
+  ],
+  "consZh": [
+    "桌面输入依赖额外的 XModules，能力不在开源范围",
+    "宏对界面布局变化敏感，改版后需人工修",
+    "AGPLv3 与商业双许可，闭源集成需评估合规",
+    "命令表语法偏命令式，调试与错误提示不够友好"
+  ],
+  "limitsZh": "它本质是回放器而非理解器：窗口位置、DPI、弹窗、主题变化都可能让图像匹配或 OCR 失准，失败后不会自行改策略。桌面自动化只在 XModules 覆盖的平台可靠；对外部客户批量群发这类受平台风控约束的动作，它只能做到预填与人工确认，不能安全地无人值守。仓库未声明识别准确率。",
+  "wecomRelevance": "direct",
+  "wecomUseZh": "可直接用于企业微信 PC 客户端的半自动流程：录制「打开指定外部群会话—定位输入框—粘贴话术模板」，在发送按钮前插入人工确认断点；发送前用 OCR 核对群名与客户备注，不匹配就中止并截图。它不能替代官方群发接口，只适合把重复的选人、填字、翻页动作固化下来，最后一步仍由本人点击。",
+  "maturityZh": "项目自 2017 年持续维护，2101 stars，最近提交在 2026-11-04；扩展本体 AGPLv3 或商业授权双许可，桌面组件为付费产品。代码与论坛活跃，但核心由商业公司主导，路线以产品化为先，社区贡献空间有限。",
+  "evidence": [
+    {
+      "claim": "它把浏览器自动化、OCR 与图像识别和 MCP 服务组合在一起",
+      "source": "README.md",
+      "quote": "Ui.Vision combines browser automation, OCR and image recognition, with an MCP server that lets AI agents create, edit and run reusable macros in your browser."
+    },
+    {
+      "claim": "桌面自动化需要额外的桌面组件",
+      "source": "README.md",
+      "quote": "Desktop automation requires the additional Ui.Vision desktop components (XModules)."
+    },
+    {
+      "claim": "源码采用 AGPLv3 与商业双许可",
+      "source": "LICENSE.txt",
+      "quote": "Ui.Vision RPA is dual-licensed:  Open-Source AGPLv3 or Commercial Licensing."
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "tebelorg__RPA-Python",
+      "iflytek__astron-rpa"
+    ],
+    "whenZh": "要浏览器里录制回放、并让 AI 助手改宏，选 Ui.Vision；要写 Python 代码编排桌面自动化，选 RPA-Python；要国产可视化 RPA 平台与流程编排，选 astron-rpa。三者都属规则型自动化，界面大改都会失效。"
+  },
+  "scores": {
+    "coverage": 4,
+    "usability": 4,
+    "docs": 4,
+    "maintenance": 4,
+    "performance": 4,
+    "stability": 4
+  },
+  "stepsZh": [
+    "在已登录企业微信网页版的 Chrome 中安装扩展并打开宏编辑器",
+    "录制「切换到外部群会话—点输入框—粘贴模板」三步并保存为宏",
+    "在发送动作前插入暂停或人工确认，确保本人点击发送",
+    "发送前用 OCR 读取群名与客户备注，比对名单不匹配就中止",
+    "失败重试两次后转人工，并把日志与截图写进当日记录"
+  ],
+  "successRateZh": "无公开成功率数据，README 只描述能力未给量化指标，OCR 识别率也未声明。可自测：对同一外部群连续执行 50 次「打开会话+预填话术」，记录定位失败、OCR 误读、发送前中断三类次数；再在 100% 与 150% 缩放、浅色与深色主题各跑 10 次对比。"
+}

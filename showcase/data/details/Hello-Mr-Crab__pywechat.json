@@ -1,0 +1,89 @@
+{
+  "id": "Hello-Mr-Crab__pywechat",
+  "taglineZh": "pywinauto 实现的微信纯 UI 自动化工具",
+  "summaryZh": "pywechat 用 pywinauto 操作 Windows PC 微信，覆盖 3.9.12.x 与 4.1.6+，主打纯 UIAutomation、不涉及逆向 Hook。它把常用动作封装成类：消息收发与记录导出、通讯录读取、文件发送、朋友圈、群 @、监听新消息、自动回复。与 wxauto 相比，它覆盖更新的 4.1 系列，并已把 4.1 维护分支拆成 pyweixin。",
+  "whatItDoesZh": "安装后按微信版本选择 pywechat 或 pyweixin，用 Navigator 打开微信主界面，再调用 Messages 发送文本/文件、拉取聊天记录，Contacts 获取联系人/企微联系人/公众号，Moments 发朋友圈，Monitor 监听会话，Utils 完成群内 @ 与未读统计；还提供 Skill 形式给 OpenClaw 等 Agent 调用。",
+  "useCasesZh": [
+    "批量给多个群的全体成员发送同一份会议通知",
+    "按会话批量导出聊天记录及其中的图片视频文件",
+    "自动通过好友申请，并按备注信息立即发送个性化欢迎语",
+    "按时段定时发布朋友圈，并读取好友最新动态内容做记录",
+    "监听指定客户会话，处理新到达的文本消息并触发回复流程"
+  ],
+  "appsZh": [
+    "Windows 微信 3.9.12.x 客户端",
+    "Windows 微信 4.1.6+ 客户端（pyweixin）",
+    "微信通讯录与企业微信联系人面板",
+    "微信朋友圈",
+    "微信会话列表与群聊窗口"
+  ],
+  "platformsZh": [
+    "Windows"
+  ],
+  "techApproachZh": "基于 pywinauto 的 UIAutomation 后端，读取微信窗口控件树并按控件定位会话与输入框，再用键盘/鼠标模式完成输入与发送；不走 Hook、不解密数据库。4.1 系列的维护分支 pyweixin 单独适配新版 UI，旧分支保留 3.9 实现。",
+  "requirementsZh": [
+    "Python 3.10+（使用 TypeHint）",
+    "Windows 7/10/11",
+    "微信 3.9.12.x 或 4.1.6+，需与分支匹配",
+    "微信窗口需可被 UIA 识别并保持可见",
+    "无需 GPU 与 API Key"
+  ],
+  "prosZh": [
+    "纯 UIA 不注入，技术路线相对克制",
+    "功能覆盖面广：消息、文件、朋友圈、通讯录",
+    "同时维护 3.9 与 4.1 两套实现",
+    "提供 Skill 封装，可被 AI Agent 调用",
+    "2k star，中文文档与示例完整"
+  ],
+  "consZh": [
+    "强依赖微信 UI 控件树，小版本更新就会失效",
+    "文档与代码分支较多，新手容易选错版本",
+    "窗口必须可见，无法真正后台运行",
+    "README 未给出任何成功率数据"
+  ],
+  "limitsZh": "README 明确 4.1 系列由 pyweixin 维护、pywechat 只覆盖旧版；UIA 走不通时作者建议改用 OCR，但仓库本身未内置完整 OCR 方案。微信窗口被遮挡、缩放变化或客户端改版都会让定位失败，发送后也缺少可靠回读确认。",
+  "stepsZh": [
+    "确认微信版本，3.9 用 pywechat、4.1+ 用 pyweixin",
+    "安装依赖并运行 QuickStart 中的最小示例",
+    "用 Navigator.open_weixin 打开微信主窗口",
+    "用 Messages 给文件传输助手发一条文本验证链路",
+    "用 Monitor 监听指定会话，另一账号发消息测试",
+    "连续跑 50 次，记录找不到窗口与发送无回显次数"
+  ],
+  "successRateZh": "无公开成功率数据，README 只有功能清单与截图。可自测：固定微信版本与 DPI，向 5 个会话各发 10 条并监听回执，统计『控件定位失败、输入未上屏、发送后无回显』三类；同时记录微信小版本号，升级后复测一次。",
+  "wecomRelevance": "none",
+  "wecomUseZh": "它驱动的是个人微信 PC 客户端，虽然能读到『企业微信联系人』分区，但那只是微信里的联系人分类，不等于企业微信客户端，不能给企微外部客户或外部群发消息，也无法调用客户联系接口。",
+  "maturityZh": "2092 star、545 fork，许可为 NOASSERTION，最近推送 2026-11，仍在跟进微信 4.1；作者把 4.1 主线拆到 pyweixin 并维护 Skill。项目活跃，但版本分支多、API 变动快，升级前需先确认对应微信版本。",
+  "evidence": [
+    {
+      "claim": "技术路线是 pywinauto 纯 UIA，不做 Hook",
+      "source": "README.md",
+      "quote": "pywechat是一个基于pywinauto实现的Windows系统下PC微信自动化(pure uiautomation)的项目(**不涉及逆向Hook操作**)"
+    },
+    {
+      "claim": "覆盖 3.9.12.x 与 4.1.6+",
+      "source": "README.md",
+      "quote": "微信版本**:3.9.12.x，4.1.6+"
+    },
+    {
+      "claim": "4.1 系列已转由 pyweixin 维护",
+      "source": "README.md",
+      "quote": "现在主要维护与更新支持4.1系列自动化的pyweixin"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "cluic__wxauto",
+      "fanyuantaier__wechatauto-replica"
+    ],
+    "whenZh": "微信 4.1 且想用纯 UIA 做收发、朋友圈、通讯录时选 pywechat/pyweixin；还停在 3.9 只要基础能力选 wxauto；需要读本地库导出与发送回读校验时选 wechatauto-replica。"
+  },
+  "scores": {
+    "coverage": 4,
+    "usability": 3,
+    "docs": 3,
+    "maintenance": 4,
+    "performance": 3,
+    "stability": 2
+  }
+}

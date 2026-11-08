@@ -1,0 +1,88 @@
+{
+  "id": "scottfly189__WeChatAuto.SDK",
+  "taglineZh": "C# 微信 UIA + OCR 自动化 SDK",
+  "summaryZh": "WeChatAuto.SDK 是 C#/.NET 的微信自动化 SDK：通过 UI Automation 操作微信，配合 OCR 识别聊天内容，明确不注入内存、不破解数据库、不越权访问数据。它提供内嵌与 HTTP WebAPI 两种用法，WebAPI 模式会把抓到的消息写入指定数据库，业务系统直接读库即可。与 Python 系工具相比，它更适合 .NET 企业应用集成。",
+  "whatItDoesZh": "内嵌方式在 .NET 项目里初始化 SDK、开启 OCR、注册消息回调；HTTP WebAPI 方式启动服务后由 SDK 抓取微信消息写入数据库，业务系统轮询库表；支持发送文本/文件、获取联系人与群、监听新消息，OCR 模型文件需单独下载放到运行目录。",
+  "useCasesZh": [
+    "在 C# 业务项目里内嵌微信收发与抓取能力",
+    "通过 WebAPI 抓取消息落库，供业务系统消费",
+    "用 OCR 识别自绘界面里的聊天内容与头像",
+    "按联系人名称发送文件、图片与文本通知内容",
+    "作为企业内部微信 Agent 的底层收发能力"
+  ],
+  "appsZh": [
+    "Windows 微信客户端",
+    "微信会话与群聊窗口",
+    "OCR 识别的聊天区域",
+    "HTTP WebAPI 与数据库"
+  ],
+  "platformsZh": [
+    "Windows"
+  ],
+  "techApproachZh": "C#/.NET 6+，基于 Windows UIAutomation 读控件与消息，OCR（本地模型）兜底识别自绘界面，键鼠模拟完成发送；WebAPI 模式把消息落库供外部系统消费。不注入、不读数据库。注意 manifest 平台标为 Web，实际是 Windows 桌面 SDK。",
+  "requirementsZh": [
+    ".NET 6+ 与 Windows",
+    "微信客户端已登录",
+    "需下载 OCR 模型文件到运行目录",
+    "WebAPI 模式需数据库",
+    "无需 GPU（CPU 跑 OCR）"
+  ],
+  "prosZh": [
+    ".NET 生态集成顺畅，C# 项目可直接引用",
+    "明确不注入内存、不破解数据库，合规边界清楚",
+    "OCR 弥补自绘界面控件缺失，适配新版客户端",
+    "WebAPI 模式免写代码接入",
+    "MIT，2026-11 仍在更新"
+  ],
+  "consZh": [
+    "实际只支持 Windows 微信",
+    "OCR 模型体积较大，识别速度与资源占用一般",
+    "依赖前台界面与窗口可见，锁屏或遮挡即失败",
+    "299 star，社区很小，遇到问题基本只能看源码"
+  ],
+  "limitsZh": "README 风险提示写明频繁操作可能触发微信风控；OCR 对分辨率、主题、遮挡敏感，识别错误会导致回复错人；WebAPI 模式依赖数据库写入，库表结构变更需同步升级；仅支持 Windows 微信，客户端改版会让控件与截图策略失效。",
+  "stepsZh": [
+    "Windows 安装微信并登录，保持窗口可见",
+    "新建 .NET 项目并引入 WeChatAuto.SDK",
+    "下载 OCR 模型文件并放到 SDK 指定的运行目录",
+    "开启 EnableOCR 并注册消息回调",
+    "给文件传输助手发一条文本，验证消息能否被抓取",
+    "连发 50 条，统计漏抓、误识别与发送失败"
+  ],
+  "successRateZh": "无公开成功率数据，README 只写能力与风险提示。OCR 准确率取决于分辨率与界面主题，可自测 50 条消息统计识别正确、漏抓、错发；再切深色模式复测，记录差异。",
+  "wecomRelevance": "none",
+  "wecomUseZh": "它是个人微信 PC 客户端的自动化 SDK，没有企业微信客户端支持，也没有客户联系接口，无法给企微外部客户或外部群发消息；其 UIA+OCR 思路可迁移，但企微界面与权限模型完全不同。",
+  "maturityZh": "299 star、83 fork，MIT，2025-08 创建、2026-11 高频推送；作者维护积极、文档有独立站点，但用户基数小、企业级案例少，长期依赖单一维护者。",
+  "evidence": [
+    {
+      "claim": "不注入内存、不破解数据库，靠 UIA 操作微信",
+      "source": "README.md",
+      "quote": "通过 UI Automation 操作微信"
+    },
+    {
+      "claim": "频繁操作有微信风控风险",
+      "source": "README.md",
+      "quote": "**风控风险**：频繁操作可能触发微信风控机制"
+    },
+    {
+      "claim": "提供 HTTP WebAPI 接入方式",
+      "source": "README.md",
+      "quote": "HTTP WebAPI 方式不写代码即可接消息"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "LAVARONG__wechat-automation-api",
+      "Hello-Mr-Crab__pywechat"
+    ],
+    "whenZh": ".NET 技术栈、需要 WebAPI 落库时选 WeChatAuto.SDK；Python 技术栈选 wechat-automation-api 或 pywechat；需要读库导出历史再考虑 wechatauto-replica。"
+  },
+  "scores": {
+    "coverage": 3,
+    "usability": 3,
+    "docs": 4,
+    "maintenance": 4,
+    "performance": 2,
+    "stability": 3
+  }
+}

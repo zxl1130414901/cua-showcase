@@ -1,0 +1,88 @@
+{
+  "id": "showlab__computer_use_ootb",
+  "taglineZh": "免 Docker 的桌面 GUI 代理，带图形界面",
+  "summaryZh": "Computer Use OOTB 是一个开箱即用的桌面 GUI 代理方案，同时支持 API 型（Claude 3.5 Computer Use）与本地模型（ShowUI、UI-TARS），不需要 Docker，覆盖 Windows 与 macOS，并提供基于 Gradio 的图形界面。它把截图、模型决策与 pyautogui 动作串成闭环，还能用手机远程控制电脑而无需装 App。与需要自己搭环境的框架相比，本质区别是「下载即用」：模型接入、界面与远程控制都预置好，代价是可定制性较弱。",
+  "whatItDoesZh": "启动 Gradio 界面后输入任务，代理循环截图并请求所选模型，执行点击、输入、滚动等动作；可在 Claude 3.5、ShowUI 2B、UI-TARS 之间切换；支持用手机浏览器远程控制本机；提供安装脚本与 API Key 配置；记录执行过程便于观察，适合快速验证桌面代理是否可用。",
+  "useCasesZh": [
+    "在 Windows 或 macOS 上快速试跑桌面 GUI 代理",
+    "用 ShowUI 小模型低成本完成界面点击",
+    "用手机浏览器远程指挥家里电脑执行桌面任务",
+    "对比闭源 Claude 与开源 UI-TARS 的效果",
+    "给非技术同事演示 GUI 代理到底能做哪些事"
+  ],
+  "appsZh": [
+    "Windows 桌面应用与窗口",
+    "macOS 桌面应用与窗口",
+    "浏览器与网页界面",
+    "手机浏览器远程控制端",
+    "ShowUI、UI-TARS、Claude 3.5 模型"
+  ],
+  "platformsZh": [
+    "Windows",
+    "macOS"
+  ],
+  "techApproachZh": "Gradio 前端采集任务与展示状态，后端用截图观察、模型决策、pyautogui 执行的三段循环；模型层抽象 API 型 Claude 与本地 ShowUI、UI-TARS，定位由模型输出坐标；远程控制通过浏览器访问本机 Gradio 服务，无需安装手机 App。",
+  "requirementsZh": [
+    "Windows 或 macOS 桌面环境",
+    "Python 环境与仓库依赖",
+    "Claude 或 GPT-4o 的 API Key，或本地模型权重",
+    "本地模型需 GPU；不需要 Docker"
+  ],
+  "prosZh": [
+    "免 Docker，安装步骤较少",
+    "同时支持闭源 API 与开源模型",
+    "自带 Gradio 界面，操作直观",
+    "手机浏览器即可远程控制本机，无需装 App",
+    "可在闭源与开源模型间切换对比成本"
+  ],
+  "consZh": [
+    "仓库自 2025-05 后未再更新",
+    "可定制性较弱，很难接进自有编排系统",
+    "本地模型需要显卡，推理速度受限",
+    "缺少失败重试、任务队列与审计日志"
+  ],
+  "limitsZh": "它面向演示与个人使用，没有多任务调度、成功率统计与审计；对自绘界面、多显示器与高 DPI 支持有限；远程控制会暴露本机服务，需注意网络隔离；仓库未声明成功率与长期稳定性。",
+  "wecomRelevance": "direct",
+  "wecomUseZh": "可在 Windows 企业微信客户端里跑「打开外部群—填入话术」的半自动流程，并用手机远程查看进度；发送前仍需本人确认，且不要把 Gradio 服务直接暴露到公网，避免被他人操作。",
+  "maturityZh": "2024-10 建仓，1979 stars、196 forks，Apache-2.0，最近提交 2025-05-21；论文与项目页齐全，但已一年多未更新，模型与依赖存在过期风险。",
+  "evidence": [
+    {
+      "claim": "它是开箱即用的桌面 GUI 代理方案",
+      "source": "README.md",
+      "quote": "is an out-of-the-box (OOTB) solution for Desktop GUI Agent"
+    },
+    {
+      "claim": "不需要 Docker，并支持 Windows 与 macOS",
+      "source": "README.md",
+      "quote": "is required, and it supports both"
+    },
+    {
+      "claim": "支持用手机远程控制电脑",
+      "source": "README.md",
+      "quote": "Remotely Control"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "simular-ai__Agent-S",
+      "ajokhai__computer-use-lite"
+    ],
+    "whenZh": "要免 Docker、带界面快速试跑，选 OOTB；要成熟跨平台代理与基准，选 Agent S；要 macOS 菜单栏常驻与 MCP，选 computer-use-lite。OOTB 胜在开箱，弱在维护。"
+  },
+  "scores": {
+    "coverage": 3,
+    "usability": 3,
+    "docs": 3,
+    "maintenance": 2,
+    "performance": 3,
+    "stability": 3
+  },
+  "stepsZh": [
+    "按安装脚本配置 Python 环境与 API Key 或本地模型",
+    "启动 Gradio 界面，先跑一个只读桌面任务确认可用",
+    "打开企业微信客户端，输入「找某客户的外部群并打开」",
+    "在界面上观察动作，发送前停止并人工核对群名与话术",
+    "记录失败步骤，必要时换 UI-TARS 或 Claude 再对比"
+  ],
+  "successRateZh": "无公开成功率数据；论文与项目页展示的是能力演示，没有给企业微信类任务统计。可自测：同一客户端连续 30 次「找群并填话术」，统计定位失败、点错群、输入丢失三类次数，并记录不同模型的耗时与费用。"
+}

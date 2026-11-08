@@ -1,0 +1,91 @@
+{
+  "id": "WecomTeam__wecom-openclaw-plugin",
+  "taglineZh": "腾讯官方 OpenClaw 企微渠道插件",
+  "summaryZh": "这是腾讯企业微信团队维护的 OpenClaw 插件，提供 Bot 模式（WebSocket 长轮询或 HTTP webhook JSON 回调）与 Agent 模式（XML 加密回调），覆盖单聊、群聊、流式回复、主动消息，并内置 wecom-cli 业务技能，可让 Agent 在企微里发消息、建文档、排日程。与社区增强版的区别是官方维护、边界严格。",
+  "whatItDoesZh": "用 wecom-cli 一条命令安装插件并完成机器人配置；之后 OpenClaw 可接收企微单聊/群聊消息并流式回复，向最近互动过的用户或群主动推送，按部门/标签群发；通过内置 wecom-cli 技能操作文档、日程、会议、待办、微盘与通讯录。",
+  "useCasesZh": [
+    "在企微群里 @ 机器人提问，由知识库作答",
+    "主动给指定部门或标签范围推送通知消息内容",
+    "用 wecom-cli 建企微文档、表格与日程",
+    "长答案通过流式分段推送，显著减少等待焦虑",
+    "多个账号按业务线独立配置凭证，彼此互不影响"
+  ],
+  "appsZh": [
+    "企业微信智能机器人",
+    "企业微信自建应用",
+    "企微单聊与群聊",
+    "企微文档、日程与待办",
+    "微盘与通讯录"
+  ],
+  "platformsZh": [
+    "Windows",
+    "macOS",
+    "Linux"
+  ],
+  "techApproachZh": "TypeScript 插件，Bot 模式走 WebSocket 长连接或 HTTP webhook 的 JSON 回调，Agent 模式走 XML 加密回调；主动消息调用企微接口；业务能力通过内置 wecom-cli 子进程暴露为 Skills。官方维护、官方接口。",
+  "requirementsZh": [
+    "Node.js、npm 与 OpenClaw",
+    "企微智能机器人 Bot ID/Secret",
+    "Agent 模式需自建应用与加密配置",
+    "企微管理员授权",
+    "无需 GPU"
+  ],
+  "prosZh": [
+    "腾讯企业微信官方团队维护，接口行为权威",
+    "Bot 与 Agent 双模式",
+    "支持流式回复与主动消息，交互接近真人",
+    "内置 wecom-cli 办公技能",
+    "支持多账号独立配置，适合多业务线部署"
+  ],
+  "consZh": [
+    "主动消息仅限最近互动过的单聊与群聊",
+    "外部客户与外部群完全不可达，群发用不上",
+    "能力依赖官方接口节奏，扩展受平台限制",
+    "安装与配置都需要企业微信管理员权限配合"
+  ],
+  "limitsZh": "主动消息只能发给最近与机器人互动过的单聊/群聊；外部客户与外部群不在开放范围；Bot 需管理员创建并授权；官方接口调整会直接影响插件行为，社区无法自行修补协议层。",
+  "stepsZh": [
+    "创建企微智能机器人并获取 ID/Secret",
+    "用 wecom-cli 安装插件并完成配置",
+    "选择 Bot 或 Agent 模式填入凭证",
+    "在企微内 @ 机器人提问，验证流式回复效果",
+    "给部门或标签发一条主动消息，验证可达范围",
+    "在外部群测试推送，记录不可用现象与错误码"
+  ],
+  "successRateZh": "无公开成功率数据，官方未披露。可自测 20 条单聊/群聊消息统计送达、流式完整性、权限报错；再测部门/标签主动发送，记录配额限制；外部群预期不可用。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "官方插件能把 OpenClaw 接进企微，在内部单聊/群聊问答，并按部门或标签主动发通知，还能调 wecom-cli 办公能力。但它不能触达外部客户与外部群，做外部客户群发这一步用不上。",
+  "maturityZh": "475 star、83 fork，NOASSERTION，2026-03 创建、2026-10 推送；腾讯企微团队维护，迭代稳定、文档规范，是这几个 OpenClaw 企微插件里最可靠的。",
+  "evidence": [
+    {
+      "claim": "腾讯官方团队维护的 OpenClaw 插件",
+      "source": "README.md",
+      "quote": "**WeCom channel and business capability plugin for [OpenClaw](https://github.com/openclaw)** — by the Tencent WeCom team."
+    },
+    {
+      "claim": "支持主动消息到用户、群、部门、标签",
+      "source": "README.md",
+      "quote": "📤 Proactive messaging to specific users, groups, departments, or tags"
+    },
+    {
+      "claim": "主动消息只限最近互动过的会话",
+      "source": "README.md",
+      "quote": "Proactively send messages to direct or group chats that recently interacted with the bot"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "sunnoy__openclaw-plugin-wecom",
+      "dingxiang-me__OpenClaw-Wechat"
+    ],
+    "whenZh": "优先选官方插件，稳定且文档规范；需要多账号配额与补发再选 sunnoy；需要 Agent XML 回调与群 webhook 出站选 OpenClaw-Wechat。"
+  },
+  "scores": {
+    "coverage": 3,
+    "usability": 4,
+    "docs": 4,
+    "maintenance": 5,
+    "performance": 4,
+    "stability": 4
+  }
+}

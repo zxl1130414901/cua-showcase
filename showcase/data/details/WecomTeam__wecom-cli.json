@@ -1,0 +1,90 @@
+{
+  "id": "WecomTeam__wecom-cli",
+  "taglineZh": "腾讯官方企业微信命令行工具",
+  "summaryZh": "企业微信官方开源的 CLI，用一条 npm 命令把企微的消息、文档、日程、会议、待办、微盘、通讯录能力暴露成命令行，并配套 CLI Skill 供 AI Agent 调用。消息能力只覆盖『机器人最近对话过的单聊/群聊』主动推送，需先创建智能机器人并拿到 Bot ID 与 Secret。与 SCRM/API SDK 不同，它是官方办公场景工具，不面向外部客户群发。",
+  "whatItDoesZh": "wecom-cli init 扫码或填 Bot ID/Secret 完成配置；之后用 contact 查成员、msg 发文本/图片/文件/语音/视频到机器人会话、doc 新建与读取文档、schedule 建日程、meeting 预约会议、todo 建待办、sheet 读写表格、drive 传微盘文件；同时提供 Skill 让 Agent 自动选择命令。",
+  "useCasesZh": [
+    "在终端给智能机器人会话推送通知、任务与提醒",
+    "让 AI Agent 通过命令行读写企微文档与表格",
+    "批量创建日程，并查询参会人忙闲与可用会议室",
+    "上传微盘文件，并生成分享链接发送给相关同事",
+    "按姓名查询通讯录成员，拿到 open_id 与部门"
+  ],
+  "appsZh": [
+    "企业微信智能机器人会话",
+    "企业微信文档",
+    "日程、会议与待办",
+    "微盘与通讯录"
+  ],
+  "platformsZh": [
+    "Windows",
+    "macOS",
+    "Linux"
+  ],
+  "techApproachZh": "Rust 编译的单体 CLI，通过 npm 分发；内部调用企业微信开放平台接口与机器人回调通道，认证信息本地保存；输出结构化 JSON 供 Agent 解析，配套 Skill 描述命令语义。官方维护，不涉及客户端 Hook 或界面自动化。",
+  "requirementsZh": [
+    "Node.js 与 npm",
+    "企业微信账号及相应权限",
+    "智能机器人 Bot ID 与 Secret（消息功能必需）",
+    "需管理员在企微后台创建机器人",
+    "无需 GPU 与客户端"
+  ],
+  "prosZh": [
+    "腾讯官方团队维护，接口行为与文档一致",
+    "一条命令覆盖文档、日程、会议、待办",
+    "输出 JSON，天然适合 AI Agent 调用",
+    "npm 一键安装，Windows、macOS、Linux 通用",
+    "3309 star，文档与命令参考完整"
+  ],
+  "consZh": [
+    "消息只能发给机器人互动过的会话",
+    "不支持外部客户与外部群主动推送",
+    "需要管理员创建智能机器人并完成权限授权",
+    "功能随官方接口调整，版本迭代快"
+  ],
+  "limitsZh": "消息只能发给机器人最近对话过的单聊/群聊，不能主动加外部客户，也不能向未互动的外部群推送；外部群本身不在开放范围；机器人需管理员创建并授权，普通员工无法自行开通；CLI 依赖官方接口，权限或接口变更会直接失效。",
+  "stepsZh": [
+    "管理员在企微后台创建智能机器人并拿 Bot ID/Secret",
+    "npm i -g @wecom/cli 并安装 CLI Skill",
+    "执行 wecom-cli init 完成扫码与认证",
+    "先用 msg 命令给机器人会话发一条文本验证",
+    "在外部客户群 @ 机器人，观察是否只能被动回复",
+    "记录向外部群主动推送失败时的错误码与提示"
+  ],
+  "successRateZh": "无公开成功率数据，官方未披露；可自测 20 条机器人会话消息，统计送达、延迟与权限报错；外部群主动推送预期不可用，应单独记录错误码，不要把内部会话的成功率套到外部客户场景。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "官方工具，可直接给『和机器人对话过』的内部单聊/群聊推消息，也能让 Agent 在企微里建文档、日程、待办。但它不能主动加外部客户，也不能向未互动的外部群推送，外部客户群发这一步用不上，只适合内部协作与已有会话通知。",
+  "maturityZh": "3309 star、228 fork，MIT，2026-03 创建、2026-11 高频推送，腾讯官方团队维护；文档与版本迭代快，是目前最稳的企微官方入口之一，但功能边界严格受官方接口约束。",
+  "evidence": [
+    {
+      "claim": "覆盖消息、文档、日程、会议等办公能力",
+      "source": "README.md",
+      "quote": "企业微信命令行工具，覆盖消息、邮件、文档、待办、日程、会议、微盘、通讯录等业务功能。"
+    },
+    {
+      "claim": "消息只能发给机器人最近对话过的会话",
+      "source": "README.md",
+      "quote": "向机器人最近对话过的单聊/群聊主动推送消息，支持 Markdown/图片/文件/语音/视频消息"
+    },
+    {
+      "claim": "通过 npm 全局安装",
+      "source": "README.md",
+      "quote": "npm install -g @wecom/cli"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "wechatpy__wechatpy",
+      "sunnoy__openclaw-plugin-wecom"
+    ],
+    "whenZh": "要 AI Agent 在企微里发消息、建文档、排日程且接受机器人会话边界时选官方 CLI；要外部客户群发任务选 wechatpy；要多机器人与部门标签路由选 openclaw-plugin-wecom。"
+  },
+  "scores": {
+    "coverage": 3,
+    "usability": 5,
+    "docs": 4,
+    "maintenance": 5,
+    "performance": 4,
+    "stability": 4
+  }
+}

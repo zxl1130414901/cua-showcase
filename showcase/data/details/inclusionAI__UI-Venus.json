@@ -1,0 +1,89 @@
+{
+  "id": "inclusionAI__UI-Venus",
+  "taglineZh": "纯截图输入的通用 GUI 基础智能体",
+  "summaryZh": "UI-Venus 是蚂蚁 inclusionAI 的通用 GUI 基础智能体模型，2026 年 8 月发布 9B 与 27B 两档 UI-Venus-2，只用截图作为输入，覆盖移动端、网页与桌面系统。它在闭环里同时扩展环境、任务与反馈：用深度检索生成可执行指令，用任务相关视觉关键点做完成判定，再用多模型投票聚合评判以抑制单评审偏差。与同类最本质的区别是把验证反馈蒸馏回训练成为反思监督，让模型区分部分进展与真正完成，从而在长程交互中不至于误判终止。",
+  "whatItDoesZh": "仓库提供模型权重、技术报告、领域示例脚本与两套运行框架。Mobile Framework 基于 Android 与 ADB，支持单任务、多设备批量、轨迹录制与反思；Browser Plugin 是 Chrome 侧边栏扩展，把模型接到当前标签页执行。快速开始只需配置兼容 OpenAI 协议的服务地址与模型名，跑 scripts 下的示例；mobile 与 computer 默认只做推理并校验动作格式，不直接执行。",
+  "useCasesZh": [
+    "在 Android 真机上批量执行移动端 GUI 任务",
+    "用 Chrome 侧边栏扩展跑网页交互任务",
+    "在桌面截图序列上验证多轮动作格式",
+    "用 VenusBench 系列基准评测 grounding 与完成判定",
+    "研究关键点验证与反思监督对长任务的作用"
+  ],
+  "appsZh": [
+    "Android 应用界面（ADB 框架驱动）",
+    "Chrome 浏览器中的网页与标签页",
+    "桌面操作系统截图序列",
+    "需验证码处理的 GUI 场景",
+    "不限具体应用：模型只看截图，不绑定应用接口"
+  ],
+  "platformsZh": [
+    "Android"
+  ],
+  "techApproachZh": "端到端视觉语言动作：模型接收多帧截图与指令，输出结构化动作并被框架校验。训练侧用多语言可执行环境与深度检索生成任务；评测侧以任务相关视觉关键点做完成判定，并由多个异构模型投票聚合，降低单评审偏差；验证后的反馈被蒸馏成反思监督写回训练，使模型能识别部分进展、减少观察误读导致的提前终止。",
+  "requirementsZh": [
+    "Python 3.10 以上，按 requirements.txt 安装依赖",
+    "需部署 9B 或 27B 模型，走兼容 OpenAI 协议的服务，需 GPU",
+    "需配置 MODEL_URL、MODEL_NAME 与 API_KEY 或 MODEL_API_KEY",
+    "移动端真机自动化需 Android 设备与 ADB"
+  ],
+  "prosZh": [
+    "9B 与 27B 双档，按算力选择",
+    "移动、网页、桌面统一在一个模型内",
+    "用关键点加多模型投票做完成判定",
+    "反思监督减少长任务提前终止",
+    "附两套可运行的移动与浏览器框架"
+  ],
+  "consZh": [
+    "模型需自建推理服务，部署成本高",
+    "manifest 仅标 Android，桌面覆盖有限",
+    "示例脚本默认只推理，不执行动作",
+    "仓库 230MB，含报告与多分支内容"
+  ],
+  "limitsZh": "manifest 的平台标注只有 Android，桌面与网页能力在示例层面可用，但缺少 macOS 与 Windows 客户端的框架支持。模型需自行部署服务才能跑，示例脚本默认只校验动作而不执行。已知失败模式包括高分辨率截图下坐标偏移、关键点判定把部分进展误判为完成、多设备并发时 ADB 会话抢占。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可用 Android 端能力操作企业微信手机客户端：模型看截图找到外部群会话、点击输入并发送，Mobile Framework 支持多设备批量。但它需要自建模型服务、配置 ADB 与编写任务指令，外部客户名单与发送前核对仍要自建，因此记为 partial 而非 direct。",
+  "maturityZh": "2025 年 8 月创建，2026 年 10 月仍在推送，1077 星 88 fork，README 标注 Apache-2.0 但 manifest 记为 NOASSERTION，需自行核对 LEGAL.md。团队持续发布新基准与新分支，风险在于许可口径与模型部署门槛。",
+  "evidence": [
+    {
+      "claim": "面向移动、网页与桌面的通用 GUI 基础智能体，仅用截图输入",
+      "source": "README.md",
+      "quote": "A <strong>general-purpose foundation GUI agent</strong> for mobile apps, web platforms, and desktop operating systems — scaling <strong>environments, tasks, and feedback</strong> jointly within one closed-loop perception–reasoning–action agent."
+    },
+    {
+      "claim": "用任务相关视觉关键点加多模型投票验证完成",
+      "source": "README.md",
+      "quote": "- 🎯 **Keypoint-grounded verification:** Task completion is judged on **task-relevant visual keypoints** rather than a coarse holistic look at the final screen, with **multi-model voting** aggregating heterogeneous judges"
+    },
+    {
+      "claim": "提供 Android/ADB 移动框架与 Chrome 侧边栏插件",
+      "source": "README.md",
+      "quote": "| Mobile Framework | Android/ADB agent framework for single-task execution, multi-device batch execution, trajectory recording, and reflection. |"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "Tongyi-MAI__MAI-UI",
+      "showlab__ShowUI",
+      "ComputerUseAgent__AutoCua"
+    ],
+    "whenZh": "要在移动端批量跑任务且看重完成判定的可靠性，UI-Venus 的关键点验证与反思监督更有针对性；要混合 GUI 与命令行动作空间选 MAI-UI；只要轻量定位模型选 ShowUI；要现成的跨端桌面产品则选 AutoCua。"
+  },
+  "stepsZh": [
+    "部署 UI-Venus-2 服务并配置 MODEL_URL、MODEL_NAME 与 API_KEY",
+    "用 ADB 连接一台 Android 手机，确认截图与点击注入可用",
+    "启动 Mobile Framework，任务写成「打开企微进入某外部群发消息」",
+    "在关键点里标注会话标题与发送按钮，作为完成判定依据",
+    "发送后由框架回读屏幕，核对消息是否出现在会话中",
+    "失败时保留轨迹并触发反思，调整动作后重试最多三次"
+  ],
+  "successRateZh": "无公开成功率数据。README 说明评测口径：MobileWorld 用 117 个任务、50 步预算、仅 GUI 成功率，WebVoyager 用 595 任务切分，具体数值见报告，属作者自述。自测可在同一台手机对企微发送任务连跑 50 次，按找错会话、输入失败、判定误报统计。",
+  "scores": {
+    "coverage": 4,
+    "usability": 3,
+    "docs": 4,
+    "maintenance": 5,
+    "performance": 3,
+    "stability": 3
+  }
+}

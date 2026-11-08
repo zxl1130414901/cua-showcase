@@ -1,0 +1,86 @@
+{
+  "id": "anaishowland__agent-CE",
+  "taglineZh": "容器化的网页智能体持续评测平台",
+  "summaryZh": "Agent-CE 是容器化的持续评测平台，给网页浏览类智能体打分。它把 Browser Use、Notte 以及 Anthropic 与 OpenAI 的 Computer Use 四个框架各打一个 Docker 镜像，统一入口传任务与 episode 参数；容器内跑浏览器任务、截屏并记录 token 与延迟，结果上传 GCS 后交给 neurosim 的 LLM judge 评分。区别在面向 CI：Actions 构建镜像并可触发评测，评的是框架在固定任务上的表现，而非交出 agent 产品。",
+  "whatItDoesZh": "使用前需准备 neurosim 核心包与 GCP 存储桶，把服务账号写进环境变量。本地可直接在 BrowseruseEvaluation 等目录执行 main.py，传入 jobId、任务描述、taskId、模型名与最大步数等设置。Docker 路径则先构建 neurosim-base 基础镜像，再构建各 agent 镜像并推送 Artifact Registry，最后逐 episode 运行，结果含截图、token 与延迟。",
+  "useCasesZh": [
+    "在 CI 中对多个网页智能体框架做同题横评",
+    "把新模型接入后自动跑一轮回归并对比旧版本",
+    "统一收集截图、token 与延迟做成本分析",
+    "为内部评测集搭建可复现的容器环境",
+    "上线前用固定任务集筛查框架版本退化"
+  ],
+  "appsZh": [
+    "Chromium 中运行的通用网页（搜索、导航、表单）",
+    "Browser Use 与 Notte 支持的浏览器任务界面",
+    "Anthropic 与 OpenAI Computer Use 的浏览器操作面",
+    "不限具体站点：评测任务由命令行参数给出，不绑定应用"
+  ],
+  "platformsZh": [
+    "Web"
+  ],
+  "techApproachZh": "走容器隔离加云端流水线：基础镜像统一 Python 3.11 与 neurosim 评测基类，各 agent 镜像在其上叠加 Playwright、Chrome 与对应 SDK；一个容器对应一个 episode，保证环境一致可复现。调度侧由 GitHub Webhook 触发 Actions，构建镜像后推送仓库并触发评测作业；结果与截图写入 GCS，评分交由外部 LLM judge 完成。",
+  "requirementsZh": [
+    "Python 3.11+ 与 Docker，用于构建和运行容器",
+    "需 GCP 账号、GCS 存储桶与服务账号凭证",
+    "运行时需至少一个模型 API Key（OpenAI、Anthropic 或 Google）",
+    "可选 Firestore 用于作业状态跟踪，Cloud Run 用于部署"
+  ],
+  "prosZh": [
+    "四个框架预集成，横评成本低",
+    "容器隔离，结果可复现",
+    "GitHub Actions 可自动触发评测",
+    "统一结果格式便于跨框架对比"
+  ],
+  "consZh": [
+    "强绑定 GCP，迁到其他云需改写",
+    "依赖另一个 neurosim 仓库才能跑",
+    "只评网页任务，桌面应用不在范围",
+    "仓库仅 4 星，社区几乎为零"
+  ],
+  "limitsZh": "只覆盖浏览器内任务，桌面客户端与本地应用完全不在范围；评测本身不含打分模型，必须配 neurosim 的 LLM judge 才能出分数。已知失败模式包括基础镜像构建时系统依赖缺失、GCS 凭证缺失导致结果上传中断、各框架对 Playwright 版本隐式依赖冲突，以及单 episode 超时后作业无重试。",
+  "wecomRelevance": "none",
+  "wecomUseZh": "与企业微信外部客户或外部群发消息无关。它评测的是网页浏览智能体，而企微外部消息走桌面客户端或企业接口，不在其任务域内。即便把企微网页后台当作评测站点，得到的也只是评测分数，不能完成消息发送，因此判定为 none。",
+  "maturityZh": "2025 年 10 月创建，创建次日即最后一次推送，4 星 2 fork，许可为 NOASSERTION，是一份短期交付的评测脚手架。没有测试与发布节奏，扩展性依赖作者未继续维护的 neurosim 包，长期使用风险高。",
+  "evidence": [
+    {
+      "claim": "面向网页浏览智能体的容器化持续评测平台",
+      "source": "README.md",
+      "quote": "**Agent-CE** is a containerized continuous evaluation (CE) platform for web browsing agents."
+    },
+    {
+      "claim": "每个 agent 在隔离容器中运行以保证一致性",
+      "source": "README.md",
+      "quote": "- **Dockerized Execution**: Each agent runs in isolated containers for consistency and reproducibility"
+    },
+    {
+      "claim": "预集成四个 agent 框架",
+      "source": "README.md",
+      "quote": "- **4 Pre-Integrated Agent Frameworks**:"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "browser-use__browser-use",
+      "xlang-ai__OSWorld",
+      "steel-dev__steel-browser"
+    ],
+    "whenZh": "要横向比较多个网页 agent 框架的稳定性，Agent-CE 提供容器与 CI 外壳；要直接做网页任务，browser-use 是框架本体；要标准桌面基准，OSWorld 覆盖更广；要可托管的浏览器环境，steel-browser 提供基础设施。四者中只有 Agent-CE 专注评测编排。"
+  },
+  "stepsZh": [
+    "准备 neurosim 包与 GCP 存储桶，配好服务账号与模型 Key",
+    "用 Dockerfile.base 构建基础镜像，再构建目标 agent 镜像",
+    "启动示范网页任务，传入任务描述与最大步数跑单 episode",
+    "检查截图与结构化结果是否完整上传，确认无凭证报错",
+    "把同一任务跑三次对比 token 与延迟，记录框架版本"
+  ],
+  "successRateZh": "无公开成功率数据。README 只描述评测流程与结果格式，未给出任何框架的任务成功率、方差或失败类型统计；四个框架的表现取决于外部模型与任务集，作者未发布基准表。自测可固定十个网页任务各跑 5 次，统计成功、超步数、页面异常三类占比，并按框架分组比较。",
+  "scores": {
+    "coverage": 2,
+    "usability": 2,
+    "docs": 3,
+    "maintenance": 1,
+    "performance": 2,
+    "stability": 2
+  }
+}

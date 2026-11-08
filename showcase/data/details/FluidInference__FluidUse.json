@@ -1,0 +1,80 @@
+{
+  "id": "FluidInference__FluidUse",
+  "taglineZh": "macOS 本地小模型读表单并自动填写的 Swift 库",
+  "summaryZh": "FluidUse 是跑在 Apple 芯片上的本地 computer use 组件。它不做通用界面操作，而是专攻一件事：通过 Accessibility API 读取正在运行的 Mac 应用或网页里的表单结构，问一个极小的本地模型每个字段该填什么，然后把答案直接键入真实应用。首个模型 CUA-S1-FORMS 只有 70 万参数，转成 Core ML 跑在神经引擎上，单次决策约 1 毫秒，数据不出本机。",
+  "whatItDoesZh": "以 Swift Package 形式集成，开发者给定一个正在运行的应用，driver.snapshot() 返回字段、标签与当前值，再对每个可操作字段调用模型打分，得到填写、勾选、点击或跳过的决策，最后由 driver.type 与 driver.click 落到真实控件。配套还能从 PDF 或纯文本的「标签: 值」清单生成填写资料，问题式字段可另配预设答案表。",
+  "useCasesZh": [
+    "给内部审批系统自动填重复的个人与公司信息。",
+    "在无法调用后端接口的老式桌面应用里批量录入数据。",
+    "把扫描件或 PDF 里的资料一键灌进表单页面。",
+    "离线环境做表单自动化，敏感信息不出本机。",
+    "给已有 RPA 流程补一层语义级的字段理解。"
+  ],
+  "appsZh": [
+    "macOS 原生应用的输入框与勾选框",
+    "Safari 等浏览器里的网页表单",
+    "嵌入的 WKWebView 页面",
+    "企业微信 Mac 客户端的表单类界面，非聊天区域"
+  ],
+  "platformsZh": [
+    "macOS"
+  ],
+  "techApproachZh": "无障碍树加本地小模型：用 macOS Accessibility API 把表单结构抽成字段与标签，把每个字段渲染成一段选择式上下文，交给 Core ML 上的小型决策模型做多项选择，输出字段该填哪个候选。模型只做判别不做生成，因此延迟低、结果可解释，也不需要联网。另含 laya 决策模型与 GLiNER 分类器的本地封装。",
+  "requirementsZh": [
+    "Apple Silicon 的 Mac，macOS 版本需支持所用 Core ML 模型",
+    "Swift Package 0.4.0 以上，Xcode 构建",
+    "首次使用需下载 Core ML 模型包，需网络",
+    "无需 API Key、无需独立显卡，全部本地推理"
+  ],
+  "prosZh": [
+    "完全本地，表单内容不出机器，适合敏感数据",
+    "单次决策约 1 毫秒，交互几乎无等待",
+    "模型体积小，端侧部署与分发成本低",
+    "只做判别不做生成，输出稳定可解释"
+  ],
+  "consZh": [
+    "只解决填表，不能做发消息、切窗口这类通用操作",
+    "强依赖应用提供规范的无障碍标签，自绘表单即失效",
+    "仅 macOS 与 Apple 芯片，跨平台无从谈起",
+    "文档偏研究笔记风格，接入示例少"
+  ],
+  "limitsZh": "边界非常窄：只有「按字段填值」这一种任务，非表单交互一律不支持。已知失败模式包括字段没有可读标签、同名标签无法区分、需要多步联动的表单（选省再选市）、以及模型给出置信度低的候选时没有兜底策略；端到端填写成功率未公开。",
+  "wecomRelevance": "none",
+  "wecomUseZh": "用不上：它只能读表单字段并填值，而给外部客户或外部群发消息属于会话操作与内容生成，两者不在一个能力面上。企业微信 Mac 客户端里也没有需要它来填的表单流程。",
+  "maturityZh": "Apache-2.0，543 星，2026 年 10 月仍在提交，版本 0.4.0，有 Benchmarks 与 Documentation 目录。属于小型团队的端侧推理工程，活跃度中等，模型矩阵仍在扩充，长期支持取决于 FluidInference 的模型供给。",
+  "evidence": [
+    {
+      "claim": "通过无障碍接口读表单，本地模型决策后键入真实应用",
+      "source": "README.md",
+      "quote": "app or browser through the Accessibility API, asks a small on-device model"
+    },
+    {
+      "claim": "神经引擎上单次决策约 1 毫秒，数据不出本机",
+      "source": "README.md",
+      "quote": "1 ms per decision on the Neural Engine, nothing leaves the machine."
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "vercel-labs__agent-desktop",
+      "alper-han__CrossMacro"
+    ],
+    "whenZh": "只是要填表单且数据敏感，FluidUse 最省算力；要做任意桌面操作，agent-desktop 覆盖面大得多；要录一遍人工操作再回放，CrossMacro 更直接。"
+  },
+  "stepsZh": [
+    "建一个 Xcode 工程，加 FluidUse 依赖，确认能加载 CUA-S1-FORMS 模型。",
+    "准备「标签: 值」的资料文本，用 DocumentEntities 解析成填写档案。",
+    "对目标 Mac 应用调用 driver.snapshot()，检查字段标签是否都能读到。",
+    "逐字段 score 后写入，写入完重新 snapshot 核对值与预期是否一致。",
+    "遇到低置信字段不自动填，标记为待人工处理并输出清单。"
+  ],
+  "successRateZh": "无公开的端到端填写成功率。可查的量化只有组件级基准：laya 决策模型在公开套件上与 PyTorch 参考精度一致（AG News 0.935、垃圾信息 0.993 等），以及约 1 毫秒的单次延迟，均为项目自述的本地测试。表单填写成功率需自行跑 50 次统计漏填与错填。",
+  "scores": {
+    "coverage": 2,
+    "usability": 2,
+    "docs": 3,
+    "maintenance": 3,
+    "performance": 5,
+    "stability": 3
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "id": "ghostwright__ghost-os",
+  "taglineZh": "免截图的 macOS 无障碍树 agent 运行时",
+  "summaryZh": "Ghost OS 给 AI agent 装上「眼睛和手」：通过 MCP 暴露 29 个工具，直接读取 macOS 无障碍树拿到每个应用的结构化控件信息，再执行点击、输入、悬停、拖拽、滚动与窗口管理。当无障碍树覆盖不到网页类应用时，才回退到本地视觉模型 ShowUI-2B 做视觉定位，因此默认不需要截图。与同类最本质的区别是自学习配方：记录一次人工操作，把动作序列与 AX 上下文整理成带参数的 JSON 配方，之后小模型即可复放，不必每步重新推理。",
+  "whatItDoesZh": "安装后用 ghost setup 自动配置权限、MCP、配方与视觉模型，Claude Code、Cursor、VS Code 等任何 MCP 客户端即可调用。三类学习工具可开始录制、停止并返回富化动作序列、查看录制进度；用户手动完成一次任务后，模型把原始观察合成为可复放配方，再用 ghost_run 传参数执行。除此之外还提供标注、悬停、长按、拖拽等工具，配方是 JSON，可逐步审阅后再运行。",
+  "useCasesZh": [
+    "让编码 agent 直接操作 Slack、Finder、邮件等原生应用",
+    "把一次人工演示固化成可参数化的重复流程",
+    "给内部团队做可审计的桌面自动化脚本",
+    "在 MCP 客户端里加桌面操作而无需写代码",
+    "用本地模型替代云端推理，保持数据不出机"
+  ],
+  "appsZh": [
+    "macOS 原生应用（Slack、Finder、Messages、邮件等）",
+    "网页应用（AX 树不足时回退到本地视觉模型）",
+    "支持 MCP 的客户端，如 Claude Code、Cursor、VS Code",
+    "不限具体应用：以系统无障碍接口为主，视觉为兜底"
+  ],
+  "platformsZh": ["macOS", "Windows"],
+  "techApproachZh": "无障碍优先、视觉兜底：通过 CGEvent tap 观察用户操作，并把每一步关联到 AX 树上下文，合成配方时保留元素语义而非像素坐标。执行时按配方步骤查 AX 元素，查不到再用 ShowUI-2B 在截图上定位。所有能力以 MCP 工具暴露，配方为 JSON，参数化后可在同应用的不同数据上复放；数据与推理默认留在本机。",
+  "requirementsZh": [
+    "macOS 系统，需授予辅助功能与输入监控权限",
+    "Homebrew 安装，或按发布包手动放置二进制",
+    "自学习配方需 Input Monitoring 权限",
+    "视觉兜底需下载 ShowUI-2B 本地权重",
+    "无需云端 API Key，模型推理在本机完成"
+  ],
+  "prosZh": [
+    "默认读无障碍树，不依赖截图，速度快",
+    "配方可读可审，避免黑盒重放",
+    "录制一次即可参数化复用",
+    "全部本地运行，数据不出机器",
+    "MCP 原生，接主流客户端成本低"
+  ],
+  "consZh": [
+    "仅 macOS 有实际实现，Windows 未见说明",
+    "29 个工具学习曲线偏陡",
+    "网页应用仍需视觉兜底，准确率受限",
+    "录制质量依赖用户操作是否规范"
+  ],
+  "limitsZh": "边界在平台与 AX 覆盖：README 全篇只描述 macOS，manifest 标注的 Windows 支持缺乏文档依据；自绘界面与部分网页控件读不到，只能走视觉兜底。已知失败模式包括录制时误捕获无关点击、配方元素在应用更新后失效、AX 元素同名导致选错，以及权限未授予时点击被系统静默丢弃。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可在 macOS 版企微上做一次人工演示并录成配方：搜索外部群、打开会话、输入消息、点击发送，之后用参数化配方复放给不同客户。但企微是网页技术栈，AX 树覆盖可能不足而频繁走视觉兜底，批量发送还需自建名单与校验，因此记为 partial。",
+  "maturityZh": "2026 年 2 月创建、3 月最后推送，1.6k 星 157 fork，MIT 许可，版本已到 2.2.1，README 与文档齐全，另有 Shadow 与 Specter 两个配套项目。风险在于更新已停三个月、核心只有 macOS 实现。",
+  "evidence": [
+    {
+      "claim": "默认读取 macOS 无障碍树获取结构化控件信息",
+      "source": "README.md",
+      "quote": "Ghost OS reads the macOS accessibility tree — structured, labeled data about every element in every app."
+    },
+    {
+      "claim": "演示一次即可记住流程",
+      "source": "README.md",
+      "quote": "Show Ghost OS how to do something once, and it remembers forever."
+    },
+    {
+      "claim": "通过 MCP 提供 29 个工具操作 Mac",
+      "source": "README.md",
+      "quote": "Ghost OS connects to your AI agent through [MCP](https://modelcontextprotocol.io) and gives it 29 tools to see and operate your Mac."
+    }
+  ],
+  "compareTips": {
+    "vs": ["microsoft__Hybrid-Computer-Use", "xa11y__xa11y", "awlevin__typesafe-computer-use"],
+    "whenZh": "要「演示一次就复用」的桌面自动化，Ghost OS 的配方机制最直接；要跨三平台且强调接口一致性，Hybrid-Computer-Use 更稳；要自己写控制逻辑并嵌入测试，xa11y 更轻；要极低成本逐步决策，typesafe-computer-use 的单位成本最低。"
+  },
+  "stepsZh": [
+    "在 macOS 安装 Ghost OS 并运行 ghost setup，授予辅助功能与输入监控",
+    "在企微里手动完整演示一次：搜索外部客户、打开会话、输入并发送",
+    "用 ghost_learn_stop 结束录制，检查返回的动作序列与 AX 上下文",
+    "让 agent 把动作合成为带 recipient、message 参数的配方并保存",
+    "用 ghost_run 传入新客户与消息内容复放，发送前截图核对会话",
+    "配方失效时重新录制该片段，并保留旧版本以便回滚"
+  ],
+  "successRateZh": "无公开成功率数据。README 只有演示动图与功能说明，未给出任务成功率、配方复放成功率或失败类型统计；自学习与视觉兜底的效果也没有量化。自测可对同一配方用 20 个不同客户复放，统计成功、元素失效、走视觉兜底、点错会话四类数量。",
+  "scores": {
+    "coverage": 4,
+    "usability": 4,
+    "docs": 3,
+    "maintenance": 3,
+    "performance": 4,
+    "stability": 3
+  }
+}

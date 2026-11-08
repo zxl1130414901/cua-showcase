@@ -1,0 +1,87 @@
+{
+  "id": "arcboxlabs__arcbox",
+  "taglineZh": "macOS 上跑代理沙箱的 Rust 容器运行时",
+  "summaryZh": "ArcBox 是一个用 Rust 从零实现的 macOS 容器与虚拟机运行时，定位是开源的 Docker Desktop 与 OrbStack 替代品。它在同一个守护进程与 CLI 下提供四类负载：兼容 Docker 的容器与原生 Kubernetes、给 AI 代理与不可信代码用的一次性 microVM 沙箱、完整 Linux 虚拟机与可丢弃的 macOS 客户机。与普通容器工具的区别是把「代理沙箱」做成一等能力：abctl claude 一条命令即可把编码代理放进独立内核的 microVM。",
+  "whatItDoesZh": "提供 abctl 命令行与守护进程，支持 docker 兼容命令、abctl k8s、abctl sandbox 创建一次性 microVM、abctl machine 管理 Linux 虚拟机、以及从基础镜像克隆的 macOS 客户机；可为 AI 代理提供隔离文件系统、网络与内核；支持与 Docker Desktop 类似的日常开发流程。",
+  "useCasesZh": [
+    "把编码代理放进一次性 microVM 里跑不可信代码",
+    "在 Mac 上用兼容 Docker 的容器做日常开发",
+    "为 CUA 代理准备可一键重置的隔离测试环境",
+    "用原生 Kubernetes 在本机验证部署",
+    "快速克隆 macOS 虚拟机做兼容性测试"
+  ],
+  "appsZh": [
+    "macOS 宿主机与虚拟化框架",
+    "Docker 兼容容器工作流",
+    "AI 代理与不可信代码沙箱",
+    "Linux 虚拟机与 Kubernetes",
+    "一次性 macOS 客户机"
+  ],
+  "platformsZh": [
+    "macOS"
+  ],
+  "techApproachZh": "自研 VMM、VirtIO 设备、文件共享与网络数据通路；守护进程统一调度容器、microVM 沙箱、Linux 与 macOS 虚拟机；沙箱用嵌套 Firecracker 在客户机内启动独立内核，缩短启动时间；CLI 兼容 docker 命令并扩展 abctl 子命令。",
+  "requirementsZh": [
+    "macOS 与 Apple 虚拟化支持（Linux 与 Windows 仅为客户机或容器，宿主仅 macOS）",
+    "从源码构建需 Rust 1.96+",
+    "安装运行时与桌面应用；无需 GPU",
+    "沙箱与虚拟机需足够磁盘与内存"
+  ],
+  "prosZh": [
+    "Rust 自研，非套壳开源方案",
+    "四类负载共用同一个守护进程与运行时",
+    "代理沙箱使用独立内核，隔离更彻底",
+    "兼容 Docker 命令，迁移成本低",
+    "启动速度快，适合短任务与 CI 流水线"
+  ],
+  "consZh": [
+    "仅 macOS，Windows 与 Linux 宿主不可用",
+    "项目较新，生态与 Docker 兼容性仍待补",
+    "嵌套虚拟化对 Mac 硬件与系统版本有要求",
+    "不是 CUA 工具，不能操作界面"
+  ],
+  "limitsZh": "它提供隔离环境而非界面自动化：没有截图、定位或输入能力，不能直接驱动企业微信；沙箱默认网络受限，云端服务不一定可访问；与 Docker Desktop 的边角兼容性仍有差距，Windows 与 Linux 宿主不支持。",
+  "wecomRelevance": "none",
+  "wecomUseZh": "不能发消息，也不提供 GUI 操作。价值在安全底座：把未经审计的 CUA 代理放进一次性 microVM，限制其网络与文件访问，再让它操作测试账号的企业微信，避免误发影响真实客户。",
+  "maturityZh": "2026-01 建仓，4253 stars、184 forks，MIT/Apache-2.0 双许可，最近提交 2026-11-05；发布与文档较勤，社区增长快，但作为 Docker Desktop 替代品仍需时间验证兼容性。",
+  "evidence": [
+    {
+      "claim": "面向 macOS 的快速开源容器与虚拟机运行时",
+      "source": "README.md",
+      "quote": "A fast, open-source container and VM runtime for macOS."
+    },
+    {
+      "claim": "为 AI 代理与不可信代码提供一次性 microVM",
+      "source": "README.md",
+      "quote": "Disposable microVMs for AI agents and untrusted code"
+    },
+    {
+      "claim": "兼容 Docker 并提供代理沙箱与虚拟机",
+      "source": "README.md",
+      "quote": "Drop-in Docker, agent sandboxes, native"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "xlang-ai__OSWorld",
+      "e2b-dev__open-computer-use"
+    ],
+    "whenZh": "要在本机给代理做强隔离沙箱，选 ArcBox；要做桌面任务评测，选 OSWorld；要用云端 Linux 桌面沙箱，选 E2B 的 open-computer-use。三者都提供环境，ArcBox 更偏运行时底座。"
+  },
+  "scores": {
+    "coverage": 2,
+    "usability": 3,
+    "docs": 4,
+    "maintenance": 4,
+    "performance": 4,
+    "stability": 3
+  },
+  "stepsZh": [
+    "在 macOS 安装 ArcBox 运行时与桌面应用，确认虚拟化可用",
+    "用 abctl sandbox 创建一次性 microVM，限制网络与挂载目录",
+    "把 CUA 代理与测试账号的企业微信装进沙箱并跑通只读任务",
+    "在沙箱内重复发送演练，确认越界动作被网络与文件限制拦住",
+    "演练通过后把流程迁到受控真机，全程保留人工发送确认"
+  ],
+  "successRateZh": "无公开成功率数据；README 未给沙箱任务的量化指标。可自测：连续创建 50 个沙箱并各跑一次只读任务，统计启动失败、网络受限导致的失败、文件挂载异常三类次数，并记录平均启动耗时。"
+}

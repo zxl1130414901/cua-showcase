@@ -1,0 +1,85 @@
+{
+  "id": "nano-muse__nanoMuse",
+  "taglineZh": "跨端开源个人智能体运行时",
+  "summaryZh": "nanoMuse 是一个开源的个人智能体运行时：同一套 Python 代码跑在手机、桌面、浏览器与服务器上，关掉应用后仍会继续执行定时任务，记得住人，也有权在手机上点按、在电脑上操作、在浏览器里导航。每个行为先经过一个叫 Sentinel 的策略层，决定哪些可以现在跑、哪些必须问人。与同类最本质的区别是「私人部署」：手机端、桌面端、Web 控制台与连接它们的 relay 全部在本仓库内，账号、凭证、对话与模型都归你所有，也能接自己的模型端点。",
+  "whatItDoesZh": "按平台安装客户端后，用 one-line installer 拉起 runtime，登录自己控制的 relay 并绑定设备。它提供会话与记忆、定时任务、通知、语音识别与合成、技能与 MCP 工具；设备能力分手机的手与电脑的手两组，可截屏、点按、滑动、输入。模型可以走自己的 OpenAI 兼容端点，也可用托管 provider，文档明确说明前者不产生第三方开销。项目另附论文与技术报告目录。",
+  "useCasesZh": [
+    "搭建只属于自己的跨设备个人助理",
+    "用定时任务在手机上自动处理日常事务",
+    "接入自建模型端点，数据不出自有服务器",
+    "让智能体在桌面与浏览器间连续完成任务",
+    "研究策略层如何拦截高风险自主行为"
+  ],
+  "appsZh": [
+    "Android 与 iOS 手机上的应用与系统界面",
+    "macOS、Windows、Linux 桌面应用",
+    "浏览器标签页与网页",
+    "Web 控制台中的会话与任务管理",
+    "通过 MCP 接入的第三方工具与服务",
+    "不限具体应用：以设备能力为主，不绑定单应用接口"
+  ],
+  "platformsZh": ["Windows", "macOS", "Linux", "Android", "iOS", "Web"],
+  "techApproachZh": "单运行时多端壳：Python 运行时承载会话、记忆、调度与工具调用，手机与桌面端只提供设备能力（截屏、点按、输入、通知、语音）；Sentinel 作为执行前策略层，按用户策略与风险分类决定放行、询问或拒绝；relay 负责设备与运行时的连接与消息转发，可自托管。模型通过 OpenAI 兼容接口接入，MCP 扩展工具面。",
+  "requirementsZh": [
+    "运行时需 Python 3.10 以上，按平台 one-line installer 安装",
+    "需一台可自托管的 relay 或使用官方托管实例",
+    "手机端需授予无障碍与截屏权限，桌面端需辅助功能权限",
+    "可自备 OpenAI 兼容模型端点，也可用托管 provider",
+    "定时任务与常驻运行需设备保持在线"
+  ],
+  "prosZh": [
+    "六端同一套运行时，行为一致",
+    "应用关闭后仍能执行定时任务",
+    "Sentinel 在动手前做策略判断",
+    "手机、桌面、Web 与 relay 全部开源",
+    "可接自建模型，凭证与对话归自己"
+  ],
+  "consZh": [
+    "GPL-3.0，商用集成需评估传染性",
+    "配置项多，自托管 relay 有门槛",
+    "设备权限缺失时能力静默降级",
+    "项目较新，接口仍在快速变化"
+  ],
+  "limitsZh": "能力依赖设备授权：未开无障碍或辅助功能的设备只能读不能操作；手机关闭后定时任务能否执行取决于系统后台策略与保活配置。已知失败模式包括截屏权限被回收后仍返回旧帧、策略层误判导致该问未问、relay 断连时任务排队丢失，以及自建模型端点不支持工具调用时能力退化。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可在手机或桌面端驱动企微客户端：用设备之手截图、定位会话、输入并发送，配合定时任务做低频率的外部客户触达。但它没有企微消息语义与客户管理能力，批量发送、发送前核对与失败重试需自建流程，且策略层可能要求人工确认，因此记为 partial。",
+  "maturityZh": "2026 年 1 月创建，2026 年 11 月仍在推送，1.2k 星 94 fork，GPL-3.0-or-later 许可，带论文、技术报告、SDK 与多端客户端。社区与发布节奏健康，风险在于 GPL 许可与快速演进带来的接口变动。",
+  "evidence": [
+    {
+      "claim": "面向所有设备的开源个人智能体",
+      "source": "README.md",
+      "quote": "**nanoMuse is an open-source personal agent for every device you own.**"
+    },
+    {
+      "claim": "应用关闭后仍继续工作并会先询问不可逆操作",
+      "source": "README.md",
+      "quote": "keeps working while the app is closed, remembers you, and stops to ask before anything you could not undo."
+    },
+    {
+      "claim": "手机、桌面、Web 控制台与 relay 都在仓库内并以 GPL-3.0 发布",
+      "source": "README.md",
+      "quote": "the phone app, the desktop app, the web console and the relay that joins them are all in this repository, under GPL-3.0-or-later."
+    }
+  ],
+  "compareTips": {
+    "vs": ["ComputerUseAgent__AutoCua", "TurixAI__TuriX-CUA", "agent-sh__computer-use-linux"],
+    "whenZh": "要一个可自托管、覆盖手机到桌面的个人 agent 平台，nanoMuse 的完整度最高；要现成的多端桌面代理选 AutoCua；要成功率有公开基准的桌面 agent 选 TuriX；只做 Linux 桌面控制则 computer-use-linux 更轻。"
+  },
+  "stepsZh": [
+    "在目标设备安装客户端，自托管 relay 并完成设备绑定",
+    "授予手机无障碍与截屏、桌面辅助功能等必要权限",
+    "配置自建模型端点或托管 provider，先跑一次只读任务",
+    "布置任务「打开企微，找到某外部群并输入消息」",
+    "在策略层确认发送动作属允许范围，避免每步人工确认",
+    "发送后回读界面核对消息，失败时缩小任务重试"
+  ],
+  "successRateZh": "无公开成功率数据。README 与技术报告未给出任务成功率、失败率或延迟数据，只有能力描述与论文级方法说明。自测可在同一设备对企微发送任务连跑 50 次，按权限不足、定位失败、策略拦截、发送未生效四类统计，并记录定时任务的实际触发次数。",
+  "scores": {
+    "coverage": 5,
+    "usability": 4,
+    "docs": 4,
+    "maintenance": 5,
+    "performance": 3,
+    "stability": 3
+  }
+}

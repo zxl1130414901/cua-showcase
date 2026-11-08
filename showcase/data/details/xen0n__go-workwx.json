@@ -1,0 +1,91 @@
+{
+  "id": "xen0n__go-workwx",
+  "taglineZh": "Go 企业微信 SDK，七牛生产验证",
+  "summaryZh": "go-workwx 是 Go 的企业微信客户端 SDK，自 2018 年末在七牛内部系统跑生产，覆盖通讯录、应用消息、客户联系、微信客服与会话存档的大部分接口。它把 access_token 管理、加解密与请求封装做进库，并提供强类型方法。与 PowerWeChat 相比，它只做企微、更轻，且 README 明确 v2 仍可能有破坏性 API 变更。",
+  "whatItDoesZh": "初始化 WorkwxApp 后调用通讯录、部门、标签接口，发应用消息到成员/部门/标签；管理外部联系人与客户标签、客户群，创建 add_msg_template 群发任务，处理客户继承与转移；接入微信客服与会话存档，解密回调事件。可作为 Go 服务里企微通知与客户管理的底座。",
+  "useCasesZh": [
+    "Go 服务把监控告警推送到企业微信内部成员",
+    "读取外部联系人与客户标签，支撑客户分层运营",
+    "创建客户群群发任务，并轮询任务发送结果状态",
+    "处理客户继承，以及员工离职后的客户转移流程",
+    "接入微信客服消息、会话存档等接口能力模块"
+  ],
+  "appsZh": [
+    "企业微信自建应用",
+    "企业微信外部联系人与客户群",
+    "企业微信通讯录与部门标签",
+    "企业微信微信客服",
+    "企业微信会话存档"
+  ],
+  "platformsZh": [
+    "Windows",
+    "macOS",
+    "Linux"
+  ],
+  "techApproachZh": "Go SDK，封装 token、JS-SDK 签名、消息加解密与回调解析，接口强类型化并带错误处理；纯官方 REST API，不做客户端自动化。v2 分支最低支持 Go 的上一个稳定版本，当前为 go1.24。",
+  "requirementsZh": [
+    "Go 1.24（当前 v2 最低要求）",
+    "企微 corp_id 与自建应用 secret",
+    "企业认证及客户联系权限",
+    "客服/存档功能需单独开通",
+    "无需 GPU 与桌面环境"
+  ],
+  "prosZh": [
+    "七牛生产环境长期使用，接口覆盖经过验证",
+    "Go 强类型接口，参数错误在编译期就能暴露",
+    "客户联系、群发任务与客户继承覆盖较完整",
+    "MIT 许可，中文注释与示例对国内团队友好",
+    "809 star，维护到 2026-06"
+  ],
+  "consZh": [
+    "v2 分支不保证测试版本之间的接口兼容",
+    "微信客服与会话存档接口只做了部分封装",
+    "文档以 godoc 为主，缺教程",
+    "客户群群发仍需员工在客户端手动确认"
+  ],
+  "limitsZh": "README 明确 v2 仍可能调整字段名与方法名，且不保证任意两个测试 tag 兼容；微信客服与会话存档只部分支持；客户群群发仍需成员在客户端确认；作者已转为业余维护，重要变更响应可能变慢。",
+  "stepsZh": [
+    "企微完成认证，并开通客户联系与群发所需权限",
+    "go get 引入 go-workwx v2 并初始化 WorkwxApp",
+    "拉取通讯录与外部联系人，验证凭证是否可用",
+    "调 AddMsgTemplate 创建客户群群发任务",
+    "成员在客户端确认后用 msgid 查询结果",
+    "记录接口错误码与 token 过期重试情况"
+  ],
+  "successRateZh": "无公开成功率数据；项目以生产使用背书，但没有量化指标。可自测 10 个客户建群发任务，统计任务创建成功、成员确认率与结果查询成功；连续跑 50 次记录 token 刷新与限流错误。",
+  "wecomRelevance": "direct",
+  "wecomUseZh": "它直接支持企业微信客户联系与 AddMsgTemplate，能在 Go 后端创建外部客户群发任务并查询结果，属于合规可用的底座。限制来自官方：群发要成员确认、外部群没有开放接口，SDK 也不会替你绕过。",
+  "maturityZh": "809 star、206 fork，MIT，2018-12 创建、2026-06 推送；七牛生产验证、代码质量高，但作者业余维护、v2 仍在演进，升级前要读迁移说明。",
+  "evidence": [
+    {
+      "claim": "Go 的企业微信客户端 SDK",
+      "source": "README.md",
+      "quote": "A Work Weixin (a.k.a.  Wechat Work) client SDK for Golang"
+    },
+    {
+      "claim": "自 2018 年末在七牛生产运行",
+      "source": "README.md",
+      "quote": "自 2018 年末以来，在七牛至少 2 个内部系统运转至今，推送各种通知、告警。"
+    },
+    {
+      "claim": "v2 不保证测试版本间兼容",
+      "source": "README.md",
+      "quote": "**我们不保证 v2 的任何两个测试版本 tags 之间的兼容性**"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "ArtisanCloud__PowerWeChat",
+      "wechatpy__wechatpy"
+    ],
+    "whenZh": "Go 后端只做企微、看重强类型与生产验证时选 go-workwx；要一套 SDK 同时覆盖小程序与支付选 PowerWeChat；Python 技术栈选 wechatpy。"
+  },
+  "scores": {
+    "coverage": 4,
+    "usability": 3,
+    "docs": 3,
+    "maintenance": 4,
+    "performance": 4,
+    "stability": 4
+  }
+}

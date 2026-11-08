@@ -1,0 +1,87 @@
+{
+  "id": "nanobrowser__nanobrowser",
+  "taglineZh": "Chrome 里的多代理浏览器自动化扩展",
+  "summaryZh": "Nanobrowser 是一个开源的 Chrome 扩展，在侧边栏里跑多代理浏览器自动化：Planner 负责规划，Navigator 负责逐步操作页面，二者协作完成跨站任务。它不卖订阅，用户自带 API Key 或接本地模型，密钥与页面数据只发往所选模型提供商，全部逻辑在浏览器内运行。与云端浏览器代理最本质的区别是零服务端、零账号体系，安装即用且成本只取决于自己的模型调用；并且在提交、发送、删除、上传前会先征求用户同意。",
+  "whatItDoesZh": "在 Chrome 侧边栏输入任务，Planner 拆解步骤，Navigator 执行点击、输入、翻页、提取内容；支持多模型切换与本地 Ollama、LM Studio；提供侧边栏交互、任务历史与语音输入；对提交、发送、删除、上传等动作弹出确认；可在多个标签页之间协作完成信息汇总。",
+  "useCasesZh": [
+    "在多个电商或资讯网站之间比价并汇总成表格",
+    "按关键词批量筛选多个列表页，并导出为表格",
+    "填完网页表单后先停下，等本人确认后再提交",
+    "用自己的模型跑重复网页查询，省下长期订阅费",
+    "让规划与执行两个代理分工完成复杂站点任务"
+  ],
+  "appsZh": [
+    "Chrome 浏览器内任意网页",
+    "需要登录的网页后台与表单",
+    "列表、详情与搜索结果页",
+    "本地模型服务（Ollama、LM Studio）",
+    "Chrome Web Store 安装的扩展侧边栏"
+  ],
+  "platformsZh": [
+    "Web"
+  ],
+  "techApproachZh": "Chrome 扩展架构，侧边栏 UI 加后台脚本；Planner 生成步骤，Navigator 把步骤翻译成页面操作并读取结果；模型调用由用户密钥直连各家 API 或本地端点，扩展只保存配置；敏感动作前插入确认环节，避免自动提交。",
+  "requirementsZh": [
+    "Chrome 或兼容 Chromium 浏览器",
+    "从 Chrome Web Store 安装扩展",
+    "自备模型 API Key，或本地 Ollama、LM Studio",
+    "本地模型建议 16k 以上上下文；无需 GPU"
+  ],
+  "prosZh": [
+    "完全免费开源，没有订阅与账号体系",
+    "密钥与页面只发所选模型，隐私可控",
+    "Planner 与 Navigator 分工，复杂任务更稳",
+    "提交、发送、删除前都会征求用户确认",
+    "支持本地模型，断网也能完成部分任务"
+  ],
+  "consZh": [
+    "仅限浏览器，无法操作桌面客户端",
+    "效果依赖模型质量，弱模型容易反复绕圈",
+    "长任务上下文压力大，需大窗口模型",
+    "扩展权限较宽，需要自行信任其代码"
+  ],
+  "limitsZh": "它只能操作浏览器内页面，桌面应用、系统弹窗与企业微信客户端都不在范围；登录态、验证码与强风控页面会中断；多步任务的上下文容易超限导致重复动作。仓库未声明任务成功率，效果随模型与站点差异很大。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可打开企业微信管理后台，按标签筛选客户、创建群发任务并在提交前弹出确认，适合把官方半自动群发的前几步固化；它不能操作企业微信 PC 客户端，也不能绕过官方外发限制，最终发送仍需人工。",
+  "maturityZh": "2024-12 建仓，14256 stars、1526 forks，Apache-2.0，最近提交 2026-10-24；Chrome Web Store 有正式分发，社区与文档较完整，是浏览器代理里维护较稳定的一档。",
+  "evidence": [
+    {
+      "claim": "扩展本身免费且开源",
+      "source": "README.md",
+      "quote": "Nanobrowser free and open source."
+    },
+    {
+      "claim": "可自带密钥或使用本地模型",
+      "source": "README.md",
+      "quote": "Use your own API key or a local model, and pay only for what you use."
+    },
+    {
+      "claim": "提交、发送、删除、上传前会询问用户",
+      "source": "README.md",
+      "quote": "it asks you before it submits, sends, deletes or uploads anything"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "browser-use__browser-use",
+      "sjkncs__gui-agent-framework"
+    ],
+    "whenZh": "要在日常 Chrome 里开箱即用，选 Nanobrowser；要在服务端用 Python 编排浏览器任务，选 browser-use；要固定流程加少量模型判断并支持桌面，选 gui-agent-framework。三者交付形态不同。"
+  },
+  "scores": {
+    "coverage": 3,
+    "usability": 4,
+    "docs": 4,
+    "maintenance": 4,
+    "performance": 4,
+    "stability": 4
+  },
+  "stepsZh": [
+    "从 Chrome Web Store 安装扩展，并在设置里填入自己的模型密钥",
+    "登录企业微信管理后台，先让代理只读浏览客户列表",
+    "用侧栏下达「按标签筛选外部客户并创建群发任务」的指令",
+    "在提交前利用扩展的确认弹窗停住，核对客户数量与话术",
+    "确认无误后由本人点击提交，失败时回看步骤并重试"
+  ],
+  "successRateZh": "无公开成功率数据；README 未给任务成功率，效果主要取决于所选模型与站点结构。可自测：对同一后台连续 50 次执行「筛选客户并创建群发任务」，统计登录失效、标签选错、提交前漏检三类失败，并换两个模型各跑 20 次对比。"
+}

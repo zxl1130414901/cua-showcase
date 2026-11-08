@@ -1,0 +1,81 @@
+{
+  "id": "microsoft__Mage",
+  "taglineZh": "微软 4B 轻量多模态模型，含 GUI 与终端 agent",
+  "summaryZh": "Mage 是微软推出的 4B 参数预算的多模态模型族，包含三支：Mage-VL 做图像与视频理解并支持主动流式感知，Mage-Flow 做文生图与指令编辑，Mage-VL-Cowork 做 GUI、代码与终端混合的 computer use。它围绕「把表征容量花在有信号的地方」这一思路，自研视觉编码器并对视觉 token 做大幅压缩，因此在同等硬件下能训更长视频、推理更快。与追求通用能力的大模型不同，它刻意把规模压到 4B，以便在受控实验与垂直领域后训练里反复试。",
+  "whatItDoesZh": "其中与本主题相关的是 Mage-VL-Cowork：它把点按、键入这类 GUI 动作与写代码、跑终端命令放在同一个策略里，能在 OSWorld 这类桌面任务基准上端到端完成操作。仓库提供各子模型的代码、训练配方与评测脚本，权重发布在 Hugging Face。Mage-Flow 部分则是图像生成与编辑，和 computer use 无关。",
+  "useCasesZh": [
+    "在单张消费级显卡上复现 4B 规模的 GUI agent 实验。",
+    "用公开配方在垂直行业界面数据上做后训练与消融。",
+    "作为自研桌面 agent 的策略模型，替代昂贵的闭源 API。",
+    "研究视觉 token 压缩对长视频理解与推理延迟的影响。",
+    "对比 GUI 专用动作空间与混合动作空间的效果差异。"
+  ],
+  "appsZh": [
+    "OSWorld 基准里的 Windows 与 Linux 桌面任务环境",
+    "可被截图与坐标动作覆盖的常见桌面软件",
+    "需要配合终端与代码执行的混合型操作界面",
+    "不限具体应用，但需自建截图采集与动作执行 harness"
+  ],
+  "platformsZh": [
+    "Windows",
+    "Linux"
+  ],
+  "techApproachZh": "模型层方案：Mage-ViT 视觉编码器完全从零训练，用仿生的 I/P 预测性 patch 机制把视觉 token 减少七成以上；理解侧接 Qwen3-4B 解码器。Cowork 侧把 GUI 坐标动作、代码与终端命令统一成一套动作空间，用五阶段课程从中训练到 SFT 再到在线混合 RL，教师轨迹由演化的 harness 采集。",
+  "requirementsZh": [
+    "推理需要 GPU，4B 规模可在单卡运行但需足够显存",
+    "权重从 Hugging Face 下载，仓库本身不含完整 checkpoint",
+    "无需 API Key，全部本地推理",
+    "复现 OSWorld 分数还需搭 OSWorld 环境与动作 harness"
+  ],
+  "prosZh": [
+    "4B 规模就能报出 66.0% 的 OSWorld-Verified 成绩",
+    "权重与训练配方公开，可做后训练与消融实验",
+    "视觉 token 压缩显著，长视频与推理成本更可控",
+    "论文与代码同仓，指标可追溯"
+  ],
+  "consZh": [
+    "研究仓库，没有可直接安装的 agent 产品与界面",
+    "三支模型混在一个仓库，与本主题相关的只有一支",
+    "部署要自行写截图采集、动作解码与环境封装",
+    "基准分数在受控环境取得，真实桌面差异大"
+  ],
+  "limitsZh": "能力边界首先是工程边界：仓库给的是模型与训练代码，没有服务端、没有会话管理、没有失败重试。已知弱点包括长任务步数预算有限（成绩按 50 步计）、需要动作 harness 才能落到真实应用、对高分辨率与多显示器适配未说明，且 Windows 与 Linux 只在 OSWorld 评测环境验证过。",
+  "wecomRelevance": "none",
+  "wecomUseZh": "用不上：它是模型与训练代码，不含任何消息发送通道或客户端操作封装。理论上可当桌面 agent 的策略模型，但要自己写截图、动作执行与企微会话选择逻辑，等于从零造一个 agent，和「给外部客户发消息」还隔着整层工程。",
+  "maturityZh": "MIT 与 Apache-2.0 混合许可（不同子模型不同），1.7 千星，2026 年 11 月仍在更新，配三篇 arXiv 报告。属于微软研究产出，代码质量高但工程化程度低，长期维护取决于研究团队是否继续投入。",
+  "evidence": [
+    {
+      "claim": "Mage-VL-Cowork 把 GUI 操作与代码、终端执行合成一个策略",
+      "source": "README.md",
+      "quote": "**Mage-VL-Cowork** is a 4B hybrid computer-use agent that combines visual GUI interaction with code and terminal execution in one policy."
+    },
+    {
+      "claim": "在 OSWorld-Verified 上 50 步预算内达到 66.0%",
+      "source": "README.md",
+      "quote": "- **66.0% on OSWorld-Verified** under a 50-step budget at 4B scale."
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "microsoft__OmniParser",
+      "777genius__os-ai-computer-use"
+    ],
+    "whenZh": "要做模型层研究或自建策略，选 Mage；只想把界面元素解析成可点结构、不换模型，用 OmniParser；要一个装完就能操作桌面的成品客户端，直接看 os-ai-computer-use。"
+  },
+  "stepsZh": [
+    "先按子目录说明下载 Mage-VL-Cowork 权重与推理依赖，确认单卡能起。",
+    "搭最小 harness：定时截图、把坐标动作映射到系统输入，先跑通点击一步。",
+    "在目标应用里录一批演示轨迹，用公开配方做小规模 SFT 适配界面风格。",
+    "接企微场景时只让它负责「选中外部群并输入文本」，发送动作留给人确认。",
+    "用固定 20 条任务回归，记录成功步数与失败类型，再决定是否扩大训练。"
+  ],
+  "successRateZh": "项目自述在 OSWorld-Verified、50 步预算、4B 规模下达到 66.0%，属作者在基准环境的评测，未见第三方独立复现；无真实企微或办公场景成功率。自测建议搭同版本 OSWorld 跑官方任务集，另在自建应用上跑 20 条任务统计逐步失败点。",
+  "scores": {
+    "coverage": 4,
+    "usability": 2,
+    "docs": 4,
+    "maintenance": 4,
+    "performance": 3,
+    "stability": 3
+  }
+}

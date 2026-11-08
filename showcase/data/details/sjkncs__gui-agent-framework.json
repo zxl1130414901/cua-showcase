@@ -1,0 +1,89 @@
+{
+  "id": "sjkncs__gui-agent-framework",
+  "taglineZh": "积木式 GUI 自动化框架，可接 VLM 决策",
+  "summaryZh": "GUI Agent Framework 是一个积木式 GUI 自动化框架，把每个操作封装成统一接口的 Block，再拼成 Pipeline 执行；关键节点可插入模型决策，遇到验证码、手动登录或确认弹窗会自动暂停等人处理。它同时覆盖浏览器（Playwright）与桌面（pyautogui）两条执行面，并带可视化流水线编辑器。与同类最本质的区别是把「规则编排」与「模型判断」混在同一条流水线：稳定步骤用 Block 固定，模糊步骤才调用模型，而不是让模型从第一帧接管全部操作。",
+  "whatItDoesZh": "内置浏览器操作、桌面操作、数据处理与控制流几类积木，可串联成流水线；AI 决策节点在流程中途调用 LLM/VLM 判断下一步；支持人工介入暂停与恢复；附带网页抓取型 GUI Agent（观察-思考-行动循环）、多代理串行/并行/监督编排、以及用 JSON-RPC/WebSocket 暴露 15 个工具的 MCP 服务。仓库还带有餐饮评论抓取与工单审批两个示例场景，便于照抄结构。",
+  "useCasesZh": [
+    "把每天固定的后台查询、导出、归档步骤拼成流水线",
+    "在流程中遇验证码时暂停并等人手动通过后继续",
+    "用 Playwright 抓取列表页再用 VLM 判断字段含义",
+    "把桌面客户端录入和网页核对串成同一条流水线",
+    "给外部 AI 客户端暴露工具集做多代理协作试验"
+  ],
+  "appsZh": [
+    "Chromium 系浏览器页面（Playwright 驱动）",
+    "Windows/macOS/Linux 桌面窗口（pyautogui 驱动）",
+    "需要人工登录或验证码的网页流程",
+    "Google Maps、OpenRice、美团等评论列表页",
+    "通过 MCP 接入的外部 AI 客户端"
+  ],
+  "platformsZh": [
+    "Web",
+    "Windows",
+    "macOS",
+    "Linux"
+  ],
+  "techApproachZh": "以 Block 为最小单元，统一输入输出契约，由 Pipeline 引擎顺序执行并共享上下文；AI 决策节点在指定位置调用 OpenAI 兼容的 LLM/VLM，返回结构化决策后再回到流水线；桌面动作走 pyautogui，浏览器动作走 Playwright；MCP 层用 JSON-RPC/WebSocket 暴露工具。人工介入通过暂停标记与恢复接口实现。",
+  "requirementsZh": [
+    "Python 环境并安装 requirements.txt 依赖",
+    "Playwright 及 Chromium 浏览器",
+    "AI 决策节点需 OPENAI_API_KEY 等模型密钥",
+    "桌面自动化需可交互图形会话；无需 GPU"
+  ],
+  "prosZh": [
+    "积木可复用，流程结构一眼能看懂",
+    "规则与模型混合，稳定步骤不烧 token",
+    "内置人工介入，验证码场景不至于卡死",
+    "浏览器与桌面共用同一套编排与调度"
+  ],
+  "consZh": [
+    "单次提交后未再更新，代码成熟度低",
+    "文档以结构说明为主，缺少端到端教程",
+    "示例偏评论抓取，通用业务验证不足",
+    "0 star、0 fork，几乎无外部使用证据"
+  ],
+  "limitsZh": "框架处于原型阶段：Block 覆盖的操作种类有限，复杂控件与拖拽支持不足；桌面坐标定位没有视觉回退，窗口一动就偏；模型决策缺少成功率评估与成本控制。仓库未声明任何成功率，也没有测试套件，直接用于生产需要自行补齐重试、日志与校验。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "它无法直接驱动企业微信客户端，但可用 Playwright 打开企业微信管理后台，把「选客户标签—创建群发任务—导出结果」拼成流水线，并在提交前暂停等人工确认。价值在于把官方半自动群发的操作步骤固化，而不是替代官方接口。",
+  "maturityZh": "2026-04 建仓，0 star、0 fork，仓库仅一次提交，MIT 许可；无 issue、无发布、无测试。属于个人原型，接口与目录结构都可能推倒重来，不建议作为长期依赖。",
+  "evidence": [
+    {
+      "claim": "用积木式 Block 组成流水线，并可插入 AI 决策节点",
+      "source": "README.md",
+      "quote": "Encapsulate every operation as a reusable Block with a unified interface; compose them into Pipelines like building with LEGO"
+    },
+    {
+      "claim": "遇到验证码或人工登录会自动暂停",
+      "source": "README.md",
+      "quote": "Auto-pause for CAPTCHAs, manual logins, or confirmation prompts; resume seamlessly"
+    },
+    {
+      "claim": "同时支持浏览器与桌面自动化",
+      "source": "README.md",
+      "quote": "A modular, block-based GUI automation framework combining **VLM vision understanding**, **LLM task planning**, **Playwright browser control**, and **pyautogui desktop automation**"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "nanobrowser__nanobrowser",
+      "browser-use__browser-use"
+    ],
+    "whenZh": "流程步骤固定、只想在少数节点用模型，选 gui-agent-framework；要开箱即用的浏览器代理，选 nanobrowser；要成熟的 Python 浏览器代理库，选 browser-use。前者强在人工介入与混合编排，弱在完整度。"
+  },
+  "scores": {
+    "coverage": 3,
+    "usability": 2,
+    "docs": 2,
+    "maintenance": 1,
+    "performance": 2,
+    "stability": 1
+  },
+  "stepsZh": [
+    "先在企业微信管理后台用 Playwright 登录并保存会话状态",
+    "把选标签、建群发任务、查看结果拆成三个 Block 并拼成流水线",
+    "在提交任务前插入人工确认节点，由成员本人点击确认",
+    "用模型节点校验客户名单与话术变量是否为空或错位",
+    "失败时回到上一步重试两次，仍失败则暂停并记录日志截图"
+  ],
+  "successRateZh": "无公开成功率数据，仓库未声明任何评测；仅一次提交，也没有测试。可自测：用同一后台连续跑 50 次「选 100 个客户并创建群发任务」，统计登录态失效、标签选择错、提交前校验漏检三类失败，再记录每步耗时。"
+}

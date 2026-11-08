@@ -1,0 +1,89 @@
+{
+  "id": "google-gemini__computer-use-preview",
+  "taglineZh": "Gemini 官方浏览器 CUA 参考实现",
+  "summaryZh": "这是 Google 的 Gemini Computer Use 官方参考实现：用 Gemini 模型观察浏览器截图、决定下一步动作，再由 Playwright 在 Chrome 里执行点击、输入与滚动。仓库给出可跑的 CLI 与示例，支持 Gemini Developer API 与 Vertex AI 两种接入，含多个支持 computer use 的模型版本。与第三方桌面 CUA 的本质区别是只作用于浏览器、由模型厂商维护，重点在展示官方动作空间与安全确认流程，不做长期无人值守的桌面操作。",
+  "whatItDoesZh": "安装 Python 依赖与 Playwright Chrome 后，用 main.py 下达任务；代理循环截图、请求模型、解析函数调用式动作并在浏览器执行；支持切换多个 Gemini 模型、Developer API 或 Vertex AI；动作包含点击、输入、滚动、等待与打开网址；示例日志可回放思考与动作，便于调试。",
+  "useCasesZh": [
+    "在 Chrome 里跑通官方 CUA 示例并观察动作序列",
+    "为浏览器任务选型时对比不同 Gemini 模型",
+    "在测试环境验证网页表单填写与页面跳转流程",
+    "把官方定义的动作空间接进自己的代理框架里",
+    "用 Vertex AI 做企业内网合规接入"
+  ],
+  "appsZh": [
+    "Chrome 浏览器与网页表单",
+    "需要登录态的网页后台",
+    "搜索、列表与导航页面",
+    "Gemini Developer API 与 Vertex AI",
+    "本地 Playwright 控制的 Chrome"
+  ],
+  "platformsZh": [
+    "Windows",
+    "macOS",
+    "Linux"
+  ],
+  "techApproachZh": "截图加 Gemini 函数调用：模型返回带坐标的动作与安全确认标记，宿主用 Playwright 执行并回传新截图；会话状态由客户端维护，模型侧只负责决策；API 层抽象 Developer API 与 Vertex AI 两种鉴权，动作空间与官方文档保持一致。",
+  "requirementsZh": [
+    "Python 3.10+ 与 requirements.txt 依赖",
+    "Playwright 与 Chrome 浏览器",
+    "GEMINI_API_KEY 或 Vertex AI 项目与区域",
+    "无需 GPU；需联网调用模型"
+  ],
+  "prosZh": [
+    "官方参考实现，动作空间与文档保持一致",
+    "只依赖浏览器与 Playwright，环境配置简单",
+    "支持 Developer API 与 Vertex AI",
+    "可切换多个 Gemini 模型比较",
+    "代码量小、结构清楚，便于改造复用"
+  ],
+  "consZh": [
+    "仅限浏览器，不能操作桌面客户端或系统弹窗",
+    "强绑定 Gemini，换模型需改适配",
+    "示例级工程，缺少重试、队列与任务编排",
+    "官方预览模型与接口可能随时变更"
+  ],
+  "limitsZh": "它不会操作桌面应用、系统弹窗与企业微信客户端；对需要强登录态与风控的页面容易被拦截；示例没有任务队列、成功率统计与失败恢复，长流程需自行补齐；预览版模型与接口可能调整。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可用 Playwright 驱动浏览器打开企业微信管理后台，按标签筛选客户并预填群发任务，提交前由人确认；不能操作 PC 客户端，也不能绕过官方发送限制，只适合把官方半自动群发的前几步自动化。",
+  "maturityZh": "2025-05 建仓，3268 stars、409 forks，Apache-2.0，最近提交 2026-07-28；由 Google 维护，随 Gemini 模型更新，属参考实现而非产品，接口变动风险中等。",
+  "evidence": [
+    {
+      "claim": "仓库是 Gemini Computer Use 的上手指南",
+      "source": "README.md",
+      "quote": "This section will guide you through setting up and running Gemini Computer Use"
+    },
+    {
+      "claim": "支持较早的 computer use 预览模型",
+      "source": "README.md",
+      "quote": "gemini-2.5-computer-use-preview-10-2025"
+    },
+    {
+      "claim": "用 Playwright 安装 Chrome 执行动作",
+      "source": "README.md",
+      "quote": "playwright install chrome"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "browser-use__browser-use",
+      "e2b-dev__open-computer-use"
+    ],
+    "whenZh": "要官方 Gemini 动作空间与 Vertex AI，选 computer-use-preview；要成熟的浏览器代理框架，选 browser-use；要云端隔离 Linux 桌面，选 open-computer-use。覆盖面都有限。"
+  },
+  "scores": {
+    "coverage": 2,
+    "usability": 3,
+    "docs": 3,
+    "maintenance": 3,
+    "performance": 4,
+    "stability": 3
+  },
+  "stepsZh": [
+    "按文档建虚拟环境，安装依赖、Playwright 与 Chrome",
+    "配置 GEMINI_API_KEY，或改用 Vertex AI 项目与区域",
+    "先用企业微信管理后台的只读页验证动作空间与截图",
+    "让代理按客户标签筛选并创建群发任务，提交前暂停",
+    "由本人核对客户数与话术，再手动点击提交并记录结果"
+  ],
+  "successRateZh": "无公开成功率数据；仓库是参考实现，未给出任务统计。可自测：对同一后台连续 30 次执行「筛客户并预填群发」，统计登录失效、元素定位失败、提交前漏检三类次数，并比较两个 Gemini 模型版本。"
+}

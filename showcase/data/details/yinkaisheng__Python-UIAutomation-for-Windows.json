@@ -1,0 +1,79 @@
+{
+  "id": "yinkaisheng__Python-UIAutomation-for-Windows",
+  "taglineZh": "Python 封装微软 UIAutomation 的老牌库",
+  "summaryZh": "把微软 UIAutomation 的 COM 接口包装成 Python 对象，用来遍历控件树、按名称或控件类型查找、点击、输入与读取属性。它支持所有实现 UIAutomation Provider 的应用，包括 MFC、WinForms、WPF、Metro 界面，以及部分 Qt、Firefox、Chrome 与 Electron 应用，后者需要加渲染进程可访问性参数。1.x 不依赖第三方包，2.0 起依赖 comtypes。",
+  "whatItDoesZh": "能获取桌面根节点并逐层遍历控件，按 Name、AutomationId、ControlType 等条件查找，读取与设置值、调用按钮、展开菜单、获取窗口与进程信息；也提供鼠标键盘模拟与简单的等待封装。对 Electron 应用需要以 force-renderer-accessibility 参数启动，才能看到内部控件。",
+  "useCasesZh": [
+    "用纯 Python 遍历桌面控件树并导出结构",
+    "按控件名称精确点击企业微信或办公客户端按钮",
+    "给自研 RPA 工具提供 UIAutomation 操作层",
+    "读取窗口中的文本与列表项并完成结构化数据抽取",
+    "让 Electron 应用在开启可访问性后被自动化"
+  ],
+  "appsZh": [
+    "MFC、WinForms 与 WPF 应用",
+    "Metro 与 UWP 界面",
+    "Chrome、Firefox 与 Electron 应用（需可访问性参数）",
+    "部分 Qt 应用，取决于其 UIA 实现"
+  ],
+  "platformsZh": [
+    "Windows"
+  ],
+  "techApproachZh": "通过 comtypes 调用 UIAutomation 的 COM 接口，用控件树遍历器与条件对象做查找，再以控件模式完成取值、设值与调用。库本身不注入目标进程，所有操作都走系统无障碍通道；提供的鼠标键盘模块只在控件无法覆盖时作为兜底，整体是典型的控件级而非像素级路线。",
+  "requirementsZh": [
+    "Windows XP SP3 及以上的系统",
+    "Python 3，2.0 起依赖 comtypes",
+    "pip install uiautomation 即可安装",
+    "Electron 应用需加 --force-renderer-accessibility 参数"
+  ],
+  "prosZh": [
+    "纯 Python 封装，接入成本很低",
+    "控件树完整，可按多种属性精确定位",
+    "同时覆盖传统桌面与 Electron 应用",
+    "自带中文说明，国内社区的参考资料多"
+  ],
+  "consZh": [
+    "仅支持 Windows，无法跨平台复用",
+    "comtypes 在个别 Python 版本上不可用",
+    "自绘界面与游戏画布拿不到任何控件"
+  ],
+  "limitsZh": "只能看见实现了 UIAutomation Provider 的控件，Chromium 自绘区域、游戏与部分 Qt 控件会缺失；Electron 不加可访问性参数就只有空壳；跨进程拖拽与复杂手势支持有限。仓库未提供任何成功率或稳定性测试数据。",
+  "stepsZh": [
+    "启动企业微信后遍历控件树，确认搜索框与输入框能按名称找到",
+    "按控件名定位搜索框，输入外部群名称并等待列表刷新",
+    "读取会话标题控件文本，核对确实是目标外部群",
+    "向输入框设置已审核文案，读回值确认写入成功",
+    "由人工确认后发送，再读取消息列表最后一项做校验"
+  ],
+  "successRateZh": "无公开成功率数据。README 只说明作者利用业余时间开发、供个人使用，没有任何批量测试或失败率统计。可自测：固定客户端版本，跑 50 次“找控件—设值—回读”，统计控件找不到与写入失败的比例。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可作为操作企业微信 Windows 客户端的控件级底座：遍历控件、定位会话、写入文案并回读。企微自绘部分较多时可能读不到内部控件，需要先验证控件树再决定是否采用。",
+  "maturityZh": "2015 年创建，最近推送在 2026 年 6 月，3594 星、900 余 fork，Apache-2.0 许可。作者个人维护、更新不频繁，但接口稳定、文档齐全，属于长期可用的老库。",
+  "evidence": [
+    {
+      "claim": "支持所有实现 UIAutomation Provider 的应用",
+      "source": "readme.md",
+      "quote": "It supports UIAutomation for applications that implemented UIAutomation Provider"
+    },
+    {
+      "claim": "以 Apache 2.0 许可共享",
+      "source": "readme.md",
+      "quote": "uiautomation is shared under the Apache License 2.0."
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "pywinauto__pywinauto",
+      "leexgone__uiautomation-rs"
+    ],
+    "whenZh": "只要 UIAutomation 且偏好纯 Python 单库，它最直接；需要 win32 后端与更完整的窗口操作，pywinauto 更全面；要用 Rust 写单二进制工具，则看 uiautomation-rs。"
+  },
+  "scores": {
+    "coverage": 4,
+    "usability": 4,
+    "docs": 4,
+    "maintenance": 3,
+    "performance": 4,
+    "stability": 4
+  }
+}

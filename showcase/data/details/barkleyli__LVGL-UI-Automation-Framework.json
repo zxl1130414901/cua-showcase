@@ -1,0 +1,87 @@
+{
+  "id": "barkleyli__LVGL-UI-Automation-Framework",
+  "taglineZh": "LVGL 界面自动化测试与截图框架",
+  "summaryZh": "这是一个面向 LVGL 嵌入式界面的测试与自动化框架：C++ 侧用 LVGL 加 SDL2 承载应用并开一个 TCP 服务，Python 侧提供面向对象的测试客户端，通过 JSON 协议发点击、长按、拖拽、滑动与读状态命令。它同时支持坐标级操作与控件 ID 语义操作，并能在每次用例之间自动重置界面状态。与同类最本质的区别是双轨定位：坐标命令让任何 LVGL 应用无需改代码即可测，控件 ID 命令则在自研界面上提供生产级可靠性，仓库还附一个可测的智能手表范例。",
+  "whatItDoesZh": "克隆仓库后按平台跑 build.bat 或 build.sh，进入 python-client 安装，再启动自动化服务端与 demo。客户端可截图保存 PNG、按控件 ID 点击或长按、按坐标点击与拖拽、发送按键与等待，也能读取控件状态断言文本。仓库自带智能手表应用，覆盖多屏导航、手势与状态管理，示范如何给控件分配 ID 与注册事件；pytest 夹具直接把客户端注入用例，失败时可截图留证。",
+  "useCasesZh": [
+    "给 LVGL 嵌入式界面写 pytest 回归用例",
+    "在开发机上验证多屏导航与手势逻辑",
+    "用截图比对做界面视觉回归",
+    "通过控件 ID 做稳定的语义化点击测试",
+    "给无源码的 LVGL 应用做坐标级兼容测试"
+  ],
+  "appsZh": [
+    "LVGL 9.x 构建的嵌入式界面",
+    "仓库自带的智能手表示范应用",
+    "经 SDL2 后端在桌面运行的 LVGL 程序",
+    "不限具体应用：坐标命令可驱动任意 LVGL 界面"
+  ],
+  "platformsZh": [
+    "Windows"
+  ],
+  "techApproachZh": "C++ 服务端把 LVGL 与 SDL2 组合成可运行宿主，内置测试钩子按控件 ID 或像素坐标分发事件，截图模块把当前帧导出为 PNG，TCP 服务以 JSON 收发命令并维护会话。Python 客户端封装连接、命令与断言，pytest 夹具负责隔离；每轮用例结束自动重置到主屏，避免连续运行卡死。",
+  "requirementsZh": [
+    "CMake 3.16 以上与 C 编译器，Windows 需 Visual Studio",
+    "LVGL 9.x 与 SDL2 开发库，仓库以子模块方式引入",
+    "Python 3.8 以上，客户端以可编辑模式安装",
+    "无需 GPU 与任何模型 API Key"
+  ],
+  "prosZh": [
+    "坐标与控件 ID 双轨，兼容性与稳定性兼顾",
+    "自带可测示范应用，最佳实践可直接抄",
+    "pytest 集成，用例之间自动重置状态",
+    "截图直出 PNG，便于视觉回归"
+  ],
+  "consZh": [
+    "只适用于 LVGL 界面，通用性有限",
+    "创建次日即停更，几乎无维护",
+    "文档以 README 为主，无独立手册",
+    "服务端需手工构建，跨平台未实测"
+  ],
+  "limitsZh": "能力锁定在 LVGL 生态：原生桌面应用、网页与手机客户端完全不覆盖。README 称跨三平台，但 manifest 只标 Windows，其他平台未实测。已知失败模式包括控件未注册 ID 时只能退回坐标、拖拽阈值配置不当导致手势不触发、TCP 端口被占用时客户端连接超时，以及连续用例未正确复位造成状态污染。",
+  "wecomRelevance": "none",
+  "wecomUseZh": "与企业微信外部客户或外部群发消息无关。它驱动的是 LVGL 嵌入式界面，无法操作企微桌面客户端或网页版，也没有消息发送语义。若要在企微场景使用，需要另建整套桌面控制链路，因此判定为 none。",
+  "maturityZh": "2025 年 9 月创建，次日最后一次推送，3 星 2 fork，MIT 许可，是一次性开源的小型框架。有构建脚本与完整示例，但无 issue 处理、无发布节奏，长期维护风险很高。",
+  "evidence": [
+    {
+      "claim": "面向 LVGL 界面的测试与自动化框架",
+      "source": "README.md",
+      "quote": "A comprehensive testing and automation framework for LVGL-based user interfaces. Enables automated UI testing, screenshot capture, and interaction simulation for embedded and desktop applications."
+    },
+    {
+      "claim": "同时提供控件 ID 与坐标两种自动化方式",
+      "source": "README.md",
+      "quote": "- **Hybrid Testing Approach**: Both widget ID-based and coordinate-based automation"
+    },
+    {
+      "claim": "Python 客户端通过 TCP 上的 JSON 协议通信",
+      "source": "README.md",
+      "quote": "- **Network Interface**: JSON-based TCP communication protocol"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "alper-han__CrossMacro",
+      "xa11y__xa11y",
+      "instavm__clickclickclick"
+    ],
+    "whenZh": "只在 LVGL 嵌入式界面上做自动化测试，本框架最贴场景且自带示范；要跨平台桌面测试选 xa11y；要做通用宏录制回放选 CrossMacro；要做沙箱内点击演示选 clickclickclick。四者目标层完全不同。"
+  },
+  "stepsZh": [
+    "装 CMake、SDL2 与 Visual Studio，递归克隆仓库初始化子模块",
+    "跑 build.bat 编译服务端，再安装 python-client 为可编辑包",
+    "启动 lvgl-ui-automation 服务端，确认 12345 端口可连",
+    "用客户端截图确认界面已渲染，再按控件 ID 点击心率页",
+    "长按测量区域后读取状态文本，断言进入 measuring",
+    "等待测量结束后截图并断言数值出现，失败时保留截图"
+  ],
+  "successRateZh": "无公开成功率数据。README 未给出用例通过率、重试成功率或稳定性统计，只有 API 说明与示例用例；3 星小项目也无第三方实测。自测可在本机连续跑整套 pytest 用例 20 轮，统计通过率与因状态未复位、端口占用、截图超时导致的失败次数。",
+  "scores": {
+    "coverage": 2,
+    "usability": 3,
+    "docs": 4,
+    "maintenance": 1,
+    "performance": 4,
+    "stability": 3
+  }
+}

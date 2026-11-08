@@ -1,0 +1,93 @@
+{
+  "id": "wq19901103wq__wechat-mac-rpa",
+  "taglineZh": "macOS 微信视觉识别 + LLM 的 RPA 助手",
+  "summaryZh": "wechat-mac-rpa 是 macOS 上的微信自动化：用窗口截图、像素 Diff 与多模态模型识别聊天界面，AppleScript 控制窗口输入，再由 LLM 结合人物卡与长期记忆生成回复，面向售前咨询与客服。它不 hook、不读协议，靠屏幕像素与辅助功能工作，因此对分辨率、主题与遮挡敏感。README 给出小样本自测的四项指标。",
+  "whatItDoesZh": "部署后由普通终端或 LaunchAgent 启动，轮询微信窗口截图，判断画面是否变化，再识别会话名、消息数与消息内容；按人设与知识库生成回复，通过剪贴板粘贴到输入框并回读校验；支持白名单会话、人工接管、记忆检索、对话日志与失败截图留存；任务失败会保存结构化日志，便于回归复现。",
+  "useCasesZh": [
+    "在 macOS 上自动回复客户售前咨询，无人值守",
+    "用视觉识别读取聊天内容，不碰协议也不改客户端",
+    "按预设人设与长期记忆生成更连贯自然的回复",
+    "夜间无人值守接待客户，并保留完整的操作日志",
+    "导出可追溯的对话记录与失败时截图便于复盘"
+  ],
+  "appsZh": [
+    "macOS 微信客户端",
+    "微信好友与群聊窗口",
+    "图片/文件消息（依赖 OCR 与多模态）",
+    "菜单栏或 LaunchAgent 后台服务"
+  ],
+  "platformsZh": [
+    "macOS"
+  ],
+  "techApproachZh": "Python + macOS 截图接口 + 像素哈希比对，画面无变化时零 API 调用；有变化才调多模态模型提取消息，再用 AppleScript 激活窗口、写剪贴板并粘贴发送，发送前回读剪贴板校验。LLM 负责人设、会话记忆与长期记忆；不注入进程、不读本地库。",
+  "requirementsZh": [
+    "macOS 13+ 与已登录微信",
+    "需授予屏幕录制与辅助功能权限",
+    "需多模态/文本模型 API Key",
+    "生产建议用普通终端或 LaunchAgent 启动",
+    "无需 GPU，但截图与推理有延迟"
+  ],
+  "prosZh": [
+    "macOS 上少见的微信自动化方案",
+    "视觉路线不依赖微信版本与控件树",
+    "人物卡 + 长期记忆，回复有上下文",
+    "发送前回读剪贴板内容，避免发错或漏字",
+    "失败截图与 tick_log 便于复盘"
+  ],
+  "consZh": [
+    "必须保持微信窗口可见，被遮挡或最小化即失败",
+    "截图走外部 API，存在隐私外发",
+    "仅 macOS，用户与生态很小",
+    "指标样本只有二三十条，代表性弱"
+  ],
+  "limitsZh": "README 的指标来自 22–29 条样本（Reply Quality 22/24、Memory Search 28/29），不是第三方大规模实测；窗口遮挡、深色模式、缩放、通知横幅都会让视觉识别出错；截图与对话会发给所配 API 服务商，敏感客户数据需先评估合规。",
+  "stepsZh": [
+    "在 macOS 登录微信，授予屏幕录制与辅助功能权限",
+    "配置多模态与文本模型 Key、人设与知识库",
+    "设置白名单会话、轮询间隔与人工接管触发规则",
+    "用测试号发一条咨询，观察截图、OCR 与识别结果",
+    "检查生成的回复与剪贴板回读内容是否完全一致",
+    "连续 20 轮对话，记录误识别、漏回与延迟"
+  ],
+  "successRateZh": "有项目自测：Reply Quality 91.7%（22/24）、Memory Search 96.6%（28/29）、OCR 93.1%（27/29），均为作者小样本自测、口径未公开，不能当线上成功率；建议自测 20 轮并保留失败截图。",
+  "wecomRelevance": "none",
+  "wecomUseZh": "它驱动的是 macOS 个人微信，不是企业微信，也没有客户联系接口，无法给企微外部客户或外部群发消息。视觉 + AppleScript 的思路可迁移到企微 Mac 客户端，但那需要重新采集界面样本并自行承担合规风险。",
+  "maturityZh": "137 star、42 fork，MIT，2026-05 创建、2026-11 仍高频推送；单人项目、文档写得像工程手册，但仅 macOS、样本小、依赖外部模型 API，长期维护取决于作者。",
+  "evidence": [
+    {
+      "claim": "感知-推理-行动-记忆闭环的认知型 RPA",
+      "source": "README.md",
+      "quote": "核心设计：**感知 → 推理 → 行动 → 记忆 → 数据飞轮**"
+    },
+    {
+      "claim": "截图变化才调多模态模型，节省调用",
+      "source": "README.md",
+      "quote": "先用像素 Diff 判断截图是否有实质变化，无变化时零 API 调用直接跳过"
+    },
+    {
+      "claim": "发送通过剪贴板并做回读验证",
+      "source": "README.md",
+      "quote": "文本通过 AppleScript 写入剪贴板并粘贴到输入框，发送前做剪贴板内容回读验证。"
+    },
+    {
+      "claim": "自测指标为小样本",
+      "source": "README.md",
+      "quote": "| **Reply Quality** | **91.7%**（22/24） |"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "cluic__wxauto",
+      "LAVARONG__wechat-automation-api"
+    ],
+    "whenZh": "只在 macOS 上、愿意为视觉识别与 LLM 付费时选它；Windows 且微信 3.9 选 wxauto；Windows 上要把发送做成 HTTP 服务选 wechat-automation-api。"
+  },
+  "scores": {
+    "coverage": 3,
+    "usability": 3,
+    "docs": 4,
+    "maintenance": 4,
+    "performance": 2,
+    "stability": 2
+  }
+}

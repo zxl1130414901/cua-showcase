@@ -1,0 +1,81 @@
+{
+  "id": "mrpulor-gh__nuphus-mcp",
+  "taglineZh": "Rust 单二进制的桌面与浏览器自动化 MCP 服务器",
+  "summaryZh": "把桌面与浏览器自动化拆成 45 个标准 MCP 工具，其中 22 个面向桌面、23 个面向浏览器，用 stdio 上的 JSON-RPC 2.0 通信，不需要守护进程也不需要 API Key。桌面侧直接调用系统能力截图、列窗口、发鼠标键盘；浏览器侧通过 CDP 驱动本地 Chrome。和纯视觉 CUA 最大的区别是它不把截图丢给模型猜坐标，而是提供确定性的窗口句柄与输入原语，由模型自己编排先后顺序。",
+  "whatItDoesZh": "桌面侧能列出并激活窗口、移动缩放窗口、截屏返回 PNG 或 base64、把鼠标移到指定坐标并点击拖拽、发送键盘输入、读写剪贴板；浏览器侧能开标签页、导航、抓取 DOM、执行脚本。Claude Desktop、Cursor、VS Code 等任意 MCP 客户端接上即可调用，完整工具说明放在 TOOLS.md 与中文版 TOOLS.zh-CN.md 里，按工具名就能查到参数。",
+  "useCasesZh": [
+    "把内部 ERP 的固定表单流程交给 agent 一步步点完",
+    "让模型读取本地窗口截图并做界面回归比对分析",
+    "批量整理多个窗口位置并统一标准化截图归档",
+    "给自研 agent 提供一套现成的鼠标键盘工具",
+    "在 Chrome 里跑数据采集并把结果回写本地文件"
+  ],
+  "appsZh": [
+    "任意 Win32 与 UWP 桌面窗口",
+    "Chrome、Edge 等 Chromium 浏览器（走 CDP）",
+    "Electron 应用窗口",
+    "不限具体应用，按窗口句柄与坐标操作"
+  ],
+  "platformsZh": [
+    "Windows",
+    "Web"
+  ],
+  "techApproachZh": "单个 Rust 二进制实现 MCP 服务器，内部拆成 desktop-api 与 nuphus-browser 两个 crate：前者封装系统级窗口、屏幕与输入调用，后者通过 Chrome DevTools Protocol 控制浏览器。工具面是扁平原语而不是高层任务，规划完全交给调用方模型；本地 OCR 内置，视觉理解可接入自己的 OpenAI 兼容或 Anthropic 视觉模型。",
+  "requirementsZh": [
+    "Windows 环境，清单声明平台为 Windows 与 Web",
+    "无需 API Key，桌面与浏览器自动化开箱可用",
+    "使用浏览器能力需本地安装 Chrome 并允许调试端口",
+    "客户端需通过 stdio 拉起该二进制"
+  ],
+  "prosZh": [
+    "单二进制、无守护进程，部署链最短",
+    "45 个工具同时覆盖桌面与浏览器两侧",
+    "桌面与浏览器共用同一个 MCP 入口",
+    "桌面与浏览器自动化不需要任何 Key",
+    "提供中文文档与国内 Gitee 镜像"
+  ],
+  "consZh": [
+    "只提供操作原语，不含任务规划与重试",
+    "视觉定位要自备 VLM 与对应 Key",
+    "文档偏工具清单，缺少端到端范例"
+  ],
+  "limitsZh": "定位依赖窗口句柄与屏幕坐标，窗口移动、DPI 缩放或分辨率变化后必须重新取坐标；没有元素语义回读，点偏了它不会自知；对自绘界面只能靠截图判断结果。README 只给出工具清单与性能声明，未提供成功率或压力测试数据。",
+  "stepsZh": [
+    "先在企业微信客户端上固定窗口位置与显示缩放，避免坐标漂移",
+    "用窗口列表工具确认 WXWork 窗口句柄，激活后截图核对当前会话",
+    "通过搜索框定位目标外部群，把已审核文案粘贴进输入框但不发送",
+    "截图留痕并交给人工确认，确认通过后才允许执行点击发送",
+    "发送后重新截图，比对最后一条气泡判断消息是否真的发出"
+  ],
+  "successRateZh": "无公开成功率数据。README 只有工具清单与能力声明，没有任何实测次数、失败分类或第三方复现，属于项目自述。可自测：锁定企微版本与 DPI，重复 50 次“定位会话—粘贴—发送”，按未发出、发错会话、重复发送三类统计。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可以做半自动辅助：激活企业微信窗口、切到指定外部群、把已审核文案粘进输入框、截图留痕，发送仍由本人点。它没有企微专用适配，也不校验消息是否送达，无法替代官方群发任务的人工确认环节。",
+  "maturityZh": "2026 年 8 月创建，11 月仍在提交，333 星、41 fork，MIT 许可。单人维护但迭代很快，工具名与参数仍可能变动，属于早期且活跃的项目，接入前建议锁版本。",
+  "evidence": [
+    {
+      "claim": "工具总数为 45 个，分桌面与浏览器两组",
+      "source": "README.md",
+      "quote": "22 desktop + 23 browser"
+    },
+    {
+      "claim": "实现形态是单二进制、无守护进程",
+      "source": "README.md",
+      "quote": "no daemon, no network service, one binary"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "betrayzl__windows-computer-use-mcp",
+      "sandraschi__windows-computer-use-mcp"
+    ],
+    "whenZh": "要稳定可控的窗口与输入原语、愿意自己写流程，选它；要开箱的自动任务规划，看 sandraschi 那套；要纯视觉硬啃游戏或自绘界面，则 betrayzl 更对路。"
+  },
+  "scores": {
+    "coverage": 4,
+    "usability": 3,
+    "docs": 3,
+    "maintenance": 4,
+    "performance": 4,
+    "stability": 3
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "id": "xlang-ai__CUA-Gym",
+  "taglineZh": "用编码代理批量合成可验证 CUA 训练数据",
+  "summaryZh": "CUA-Gym 是一条可扩展流水线，用编码代理为 computer-use agent 合成可验证的 RLVR 训练数据：任务指令、环境与奖励函数。三个代理分工：Generator 构造初始与黄金环境状态，Discriminator 在信息隔离下只依据任务描述写 reward.py，Orchestrator 反复驱动直到 reward(golden)=1.0 且 reward(initial)=0.0，再经多数投票过滤。与人工标注数据集最本质的区别是全流程自动生成、自带可执行判分。",
+  "whatItDoesZh": "给定一个主题，调用 task-gen 生成任务 JSON；运行 batch_orchestrator 进入对抗式协同生成循环，产出经过验证的元组；运行多数投票过滤器剔除奖励脆弱或歧义的任务；覆盖 110 个环境（16 个桌面应用与 94 个合成 mock Web 应用），数据集含 3 万余条验证过的元组；可直接用于强化学习训练，也可作为评测任务来源。",
+  "useCasesZh": [
+    "为桌面代理批量生成带程序化判分的训练任务",
+    "按 LibreOffice Calc 主题生成格式化与公式任务",
+    "为 mock Web 后台合成表单与数据录入任务",
+    "用过滤后的数据做强化学习冷启动与继续训练",
+    "作为自定义业务界面任务与奖励函数的模板库"
+  ],
+  "appsZh": [
+    "16 个桌面应用，含办公套件类界面",
+    "94 个合成的 mock Web 应用",
+    "表单、表格与数据录入类界面",
+    "需要程序化判分的文件与页面状态",
+    "可执行环境中任意可脚本化的界面"
+  ],
+  "platformsZh": [
+    "Linux"
+  ],
+  "techApproachZh": "三代理对抗：Generator 产出 initial_setup.py 与 golden_patch.py，Discriminator 只见任务描述写 reward.py，形成信息屏障，避免奖励与环境合谋；Orchestrator 实际执行两套状态并校验 reward 值，循环到条件满足；过滤层用多数投票和教师 rollout 双重筛选。",
+  "requirementsZh": [
+    "Python 3.10+ 与 pip 安装 dev 依赖",
+    "配置 OPENAI_API_KEY 与 ALIYUN 凭证",
+    "在 Claude Code 中调用 task-gen 代理",
+    "运行环境需可执行脚本与文件系统；无需 GPU"
+  ],
+  "prosZh": [
+    "任务、环境、奖励三元组成套生成",
+    "信息隔离编写奖励，减少判分与环境合谋",
+    "110 个环境与 3 万余条数据公开",
+    "程序化奖励比 VLM 打分更稳定"
+  ],
+  "consZh": [
+    "生成依赖模型与云凭证，有调用成本",
+    "合成 Web 应用与真实业务系统仍有差距",
+    "模型权重尚未发布，暂时只能造数据",
+    "流水线较重，单机跑大批量耗时长"
+  ],
+  "limitsZh": "它产出的是训练与评测资源，不是能直接操作界面的代理；合成环境的行为与真实企业软件不完全一致，迁移到企业微信这类客户端需重新做任务与判分；奖励函数只校验终态，无法判断操作过程是否合规。",
+  "wecomRelevance": "none",
+  "wecomUseZh": "不能直接用于企业微信外发。间接价值是提供可复用方法：把外部群发流程拆成「任务指令—初始会话状态—终态奖励」，用程序化校验替代人工抽查，从而批量评估代理在找群、填话术、避免错发上的可靠性。",
+  "maturityZh": "2026-01 建仓，227 stars、21 forks，Apache-2.0，最近提交 2026-08-13；论文、数据集与流水线齐全，模型尚未放出，属于研究型项目，维护节奏中等。",
+  "evidence": [
+    {
+      "claim": "它是为 CUA 合成可验证 RLVR 训练数据的流水线",
+      "source": "README.md",
+      "quote": "CUA-Gym is a scalable pipeline for synthesizing verifiable RLVR training data for computer-use agents (CUAs)."
+    },
+    {
+      "claim": "环境由 16 个桌面应用与 94 个合成 Web 应用构成",
+      "source": "README.md",
+      "quote": "CUA-Gym covers 110 environments: 16 desktop applications and 94 synthesized mock web applications"
+    },
+    {
+      "claim": "奖励由信息隔离的 Discriminator 独立编写",
+      "source": "README.md",
+      "quote": "without access to Generator's code (information barrier)"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "xlang-ai__OSWorld",
+      "yjyddq__RiOSWorld"
+    ],
+    "whenZh": "要现成、可对照榜单的评测任务，选 OSWorld；要自己批量造训练任务与奖励函数，选 CUA-Gym；要评估风险与越界行为，选 RiOSWorld。CUA-Gym 偏数据生产，不提供代理成品。"
+  },
+  "scores": {
+    "coverage": 3,
+    "usability": 2,
+    "docs": 4,
+    "maintenance": 3,
+    "performance": 2,
+    "stability": 3
+  },
+  "stepsZh": [
+    "明确要评估的流程，把外部群发拆成任务指令、初始状态与终态",
+    "在 Claude Code 里调用 task-gen，生成 50 条同类企业微信任务",
+    "运行 batch_orchestrator 触发两个代理的对抗校验",
+    "用多数投票过滤器剔除奖励脆弱、含义模糊的任务",
+    "用通过的元组重复评测代理，统计找群与错发类失败"
+  ],
+  "successRateZh": "无公开成功率数据；论文与数据集展示的是训练效果，不含企业微信场景统计。可自测：用生成的 50 条任务重复跑同一代理，按 reward 是否达到 1.0 计算成功率，并人工抽查被过滤的任务是否本就歧义，避免把判分问题当成代理问题。"
+}

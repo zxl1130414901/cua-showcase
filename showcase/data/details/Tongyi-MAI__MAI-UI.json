@@ -1,0 +1,91 @@
+{
+  "id": "Tongyi-MAI__MAI-UI",
+  "taglineZh": "统一移动/电脑/浏览器的 GUI 基础模型",
+  "summaryZh": "MAI-UI 是阿里通义实验室的 GUI 基础智能体仓库，后续演进为 Qwen-UI-Agent：用同一个模型统一移动端、电脑、浏览器与深度搜索四类场景。它不依赖固定应用接口，而是看屏幕截图理解界面；动作空间同时包含 GUI 操作与 Bash 命令，单次决策可批量下发多个动作。训练侧用真机集群采集轨迹并做长程在线强化学习。与同类最本质的区别是把「真机」和「混合动作空间」当作一等公民：既有 100 多台实体手机的评测环境，也允许 agent 直接调命令行。",
+  "whatItDoesZh": "仓库提供两套内容：技术报告、模型权重（MAI-UI-8B 与 2B 已在 Hugging Face 发布）、推理与训练代码，以及移动端与桌面端评测脚本。评测覆盖 MobileWorld、AndroidDaily、OSWorld-Verified、WebArena、ScreenSpot-Pro 等八个基准。演示含跨应用任务，例如从抖音取菜谱再跳到盒马下单，以及比价后生成桌面布局方案。",
+  "useCasesZh": [
+    "在真机上评测移动端 GUI 智能体的完成率",
+    "用混合动作空间让 agent 同时点击与执行命令",
+    "在 OSWorld 上对比不同模型的桌面任务表现",
+    "做跨应用的长流程任务，如取信息再下单",
+    "研究批量动作对步数与成功率的影响"
+  ],
+  "appsZh": [
+    "Android 真机与模拟器中的移动应用",
+    "Linux 桌面环境中的电脑操作任务",
+    "浏览器中的网页与检索任务",
+    "深度搜索类多轮检索场景",
+    "不限具体应用：模型看截图决策，不绑定单应用接口"
+  ],
+  "platformsZh": [
+    "Android",
+    "Web",
+    "Linux"
+  ],
+  "techApproachZh": "端到端视觉语言动作模型：输入屏幕截图与自然语言指令，输出结构化动作。动作空间混合 GUI 点击、滑动与 Bash 命令，并支持一轮输出多个动作以减少往返；训练用在线强化学习在超过 100 步的轨迹上优化，rollout 侧并行上万环境。数据侧由 agent 自建任务、环境与验证器，形成自动研究式数据飞轮，降低人工标注依赖。",
+  "requirementsZh": [
+    "需 GPU 推理，8B 权重按量化程度自备显存",
+    "模型权重从 Hugging Face 下载，需 Python 与 Transformers 环境",
+    "真机评测需 Android 设备与 ADB 连接，桌面评测需对应虚拟机",
+    "在线训练需大规模并行环境与集群调度，单机无法复现"
+  ],
+  "prosZh": [
+    "一个模型覆盖移动、电脑、浏览器与搜索",
+    "混合 GUI 与 CLI 动作，批量下发省步数",
+    "真机评测集，缩小仿真与现实的差距",
+    "公开八个基准分数，横向可比",
+    "权重已开源到 8B 与 2B 两档"
+  ],
+  "consZh": [
+    "训练与评测依赖大规模集群，个人难复现",
+    "仓库体积超 400MB，内容以报告与代码为主",
+    "移动端为主，桌面侧仅覆盖 Linux",
+    "许可为 NOASSERTION，商用需自行确认"
+  ],
+  "limitsZh": "能力边界首先是平台：桌面侧只在 Linux 评测环境验证，不包含 macOS 或 Windows 客户端；Android 与 Web 是主要标称平台。真机训练与在线 RL 需要集群，个人只能跑推理。已知失败模式包括长任务步数耗尽、跨应用跳转后上下文丢失、批量动作一步失败后整体偏移。README 的分数均为作者自测。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "理论上可用移动端能力操作企业微信 Android 客户端：模型看截图找到外部群会话、点击输入框并发送，适合做成演示或研究样例。但它不是可直接安装的工具，需要自行部署模型、接 ADB 注入动作并编写任务指令，外部客户名单与发送校验也要自建，因此记为 partial。",
+  "maturityZh": "2025 年 12 月创建、2026 年 8 月仍在更新，2.4k 星 222 fork，由通义实验室团队维护，技术报告与模型卡齐全，新闻节奏稳定。风险在于许可未明示、训练依赖集群、以及仓库同时承载两代项目导致结构略杂。",
+  "evidence": [
+    {
+      "claim": "一个模型统一移动、电脑、浏览器与深度搜索场景",
+      "source": "README.md",
+      "quote": "We present **Qwen-UI-Agent**, a real-world-centric foundation GUI agent that unifies **mobile**, **computer**, **browser**, and **DeepSearch** scenarios in a single model."
+    },
+    {
+      "claim": "已开源 MAI-UI-8B 与 2B 权重",
+      "source": "README.md",
+      "quote": "We are excited to release the weights for [MAI-UI-8B](https://huggingface.co/Tongyi-MAI/MAI-UI-8B) and [MAI-UI-2B](https://huggingface.co/Tongyi-MAI/MAI-UI-2B) on Hugging Face."
+    },
+    {
+      "claim": "在八项 GUI 基准上给出成绩",
+      "source": "README.md",
+      "quote": "- 🏆 **State-of-the-art performance**"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "showlab__ShowUI",
+      "zai-org__CogAgent",
+      "microsoft__OmniParser"
+    ],
+    "whenZh": "要覆盖移动端真机并兼顾电脑与浏览器，MAI-UI 的基准面最宽；只做轻量 GUI 定位与微调，ShowUI 更小更好部署；要成熟的中英双语桌面模型，CogAgent 生态更久；只需要感知层而不训练模型，OmniParser 更合适。"
+  },
+  "stepsZh": [
+    "下载 MAI-UI-8B 权重并准备可跑推理的 GPU 环境",
+    "用 ADB 连接一台 Android 手机，确认截图与注入可用",
+    "把「打开企业微信，进入某外部群并发送消息」写成任务指令",
+    "模型按截图输出动作，脚本用 ADB 执行点击与文本输入",
+    "发送前再次截图核对会话名与输入内容，不一致就回退",
+    "记录每次失败的动作序号，调整提示或改用更小步长重试"
+  ],
+  "successRateZh": "无逐次成功率数据。README 自述 MobileWorld 82.1%、MobileWorld-Real 92.2%、AndroidDaily 97.5%，均为作者在固定基准上的评测。自测可在同一台手机对企微发送任务连跑 50 次，按找错会话、输入失败、发送未生效归类。",
+  "scores": {
+    "coverage": 4,
+    "usability": 2,
+    "docs": 4,
+    "maintenance": 4,
+    "performance": 3,
+    "stability": 3
+  }
+}

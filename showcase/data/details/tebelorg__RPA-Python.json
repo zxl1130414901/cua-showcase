@@ -1,0 +1,81 @@
+{
+  "id": "tebelorg__RPA-Python",
+  "taglineZh": "pip 一行安装的 Python RPA 封装",
+  "summaryZh": "把 TagUI 包装成 Python 包的 RPA 工具，执行 pip install rpa 即可使用，封装了网页自动化、视觉自动化、OCR、键盘鼠标、截图、Excel 与邮件等常用动作。设计目标是用尽量少的代码完成跨系统流程，也可以在 Colab 里直接试跑；作者还维护了一个为 rpa 包优化的 TagUI 分支。",
+  "whatItDoesZh": "提供 init、url、click、type、read、snap、keyboard、mouse、ocr、email、excel 等简洁 API，能用几行代码走完“打开网页、填写表单、读取结果、截图存档”的流程；也支持在桌面应用上做基于图像识别的点击与输入，并把结果写回表格或邮件。",
+  "useCasesZh": [
+    "用几行 Python 完成网页表单的批量填写",
+    "在 Colab 里快速验证一段跨系统自动化流程",
+    "用 OCR 读取屏幕或图片文字并写入表格",
+    "把网页抓取结果自动整理成 Excel 并邮件发送",
+    "给内部的小工具加上桌面点击与键盘输入能力"
+  ],
+  "appsZh": [
+    "Chrome 浏览器与网页应用",
+    "Windows、macOS 与 Linux 桌面应用",
+    "Excel 表格与邮件客户端",
+    "不限具体应用，视觉部分按图像定位"
+  ],
+  "platformsZh": [
+    "Windows",
+    "macOS",
+    "Linux"
+  ],
+  "techApproachZh": "Python 层只做薄封装，真正执行交给作者优化的 TagUI 分支：网页走浏览器调试通道，桌面走图像识别加鼠标键盘注入，OCR 与表格、邮件由封装好的辅助函数处理。API 数量刻意保持很少，用统一入口降低学习成本。",
+  "requirementsZh": [
+    "Python 3 环境",
+    "pip install rpa 安装",
+    "首次使用需初始化 TagUI 运行时",
+    "视觉识别依赖 Java 与图像组件，不需要 GPU"
+  ],
+  "prosZh": [
+    "一行 pip 安装，接入成本极低",
+    "API 少而直观，几行代码就能跑通",
+    "网页、视觉、OCR、表格与邮件都有",
+    "可在 Colab 里直接试用，无需本地环境"
+  ],
+  "consZh": [
+    "底层依赖 TagUI，受其停止维护影响",
+    "图像识别比较脆弱，界面一变就要改",
+    "复杂流程出错时的调试信息还不够细致"
+  ],
+  "limitsZh": "能力上限由 TagUI 决定，桌面部分靠图像匹配，分辨率与主题变化会直接导致失败；官方 TagUI 停更后，兼容性问题的修复依赖作者的分支维护；不适合高并发或强校验的生产流程。仓库未提供成功率数据。",
+  "stepsZh": [
+    "先固定企业微信窗口大小与缩放，并截好搜索框模板图",
+    "用 rpa 初始化并打开浏览器或激活企微窗口",
+    "按模板点击搜索框，输入外部群名并确认会话标题",
+    "粘贴已审核文案后截图存档，由人工确认后发送",
+    "发送后再截图，用 OCR 读取最后一条消息做校验"
+  ],
+  "successRateZh": "无公开成功率数据。README 只列 API 与用例，没有任务次数、失败率或第三方实测。可自测：固定分辨率与主题，跑 50 次“找模板—点击—输入”，统计图像匹配失败与输入丢失的比例。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可用几行 Python 操作 Windows 版企业微信：点搜索框、进外部群、填文案、截图核对。它没有企微适配，视觉定位在界面变化时容易失败，发送必须人工确认。",
+  "maturityZh": "2019 年创建，最近推送在 2026 年 7 月，5503 星、724 fork，Apache-2.0 许可，版本 1.50。作者长期维护但节奏放缓，底层 TagUI 已停止官方支持，长期风险需评估。",
+  "evidence": [
+    {
+      "claim": "安装方式是一行 pip 命令",
+      "source": "README.md",
+      "quote": "pip install rpa"
+    },
+    {
+      "claim": "包本身构建在 TagUI 之上",
+      "source": "README.md",
+      "quote": "built on TagUI"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "aisingapore__TagUI",
+      "robotframework__robotframework"
+    ],
+    "whenZh": "已经在写 Python、只想快速加一点 RPA，它最省事；要可读的流程文件用 TagUI；要严谨的测试报告与库生态，Robot Framework 更合适。"
+  },
+  "scores": {
+    "coverage": 4,
+    "usability": 5,
+    "docs": 4,
+    "maintenance": 3,
+    "performance": 3,
+    "stability": 3
+  }
+}

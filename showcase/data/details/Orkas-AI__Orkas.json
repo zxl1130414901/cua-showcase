@@ -1,0 +1,88 @@
+{
+  "id": "Orkas-AI__Orkas",
+  "taglineZh": "桌面端本地优先的多代理 AI 团队",
+  "summaryZh": "Orkas 是一个开源的本地优先多代理桌面应用：Commander 接住你的目标，能自己完成的小任务直接做，大任务则拆成待办并调用专业代理，以及你已有的 Claude Code、Codex、OpenCode、OpenClaw、Hermes-Agent 一起推进。它以项目为单位保存目标、规则、记忆与文件，新对话能接续上次进度；待办在人机之间分配，Auto-advance 自动推进下一项，定时自动化按小时、天、周、月重复。与单次问答式助手的本质区别是把「持续把事做完」做成了产品结构。",
+  "whatItDoesZh": "创建项目并写入目标、规则与记忆；把工作拆成待办，分配给人员或代理；开启自动推进让团队自行取下一条；设置定时任务重复例行工作；接入已有编码代理与个人代理协作；结果回到桌面供审阅；数据保存在本机，内置模型送 500 credits，也可用自己的 API Key 或本地 OpenAI 兼容端点。",
+  "useCasesZh": [
+    "把一个持续数周的内容项目交给代理团队推进",
+    "让 Commander 拆解需求并分派给编码代理",
+    "配置每日定时任务，自动生成运营数据日报表",
+    "把待办在人机之间轮流推进，并保留完整上下文",
+    "用本地模型在断网环境中维护项目记忆与文件"
+  ],
+  "appsZh": [
+    "macOS 与 Windows 桌面应用",
+    "Claude Code、Codex 等编码代理",
+    "本地文件与项目工作区",
+    "定时任务与待办面板",
+    "本地 OpenAI 兼容模型端点"
+  ],
+  "platformsZh": [
+    "Windows",
+    "macOS"
+  ],
+  "techApproachZh": "本地桌面架构，项目对象保存目标、规则、记忆与文件；Commander 负责规划与分派，命名代理与匿名 worker 有独立并发控制与执行锁；代理通过 CLI 或运行时接入，Auto-advance 与调度器驱动待办流转，结果回流到审阅界面。",
+  "requirementsZh": [
+    "macOS 或 Windows 桌面环境",
+    "安装 Orkas 并登录内置模型或填 API Key",
+    "接入 Claude Code、Codex 需本机已安装",
+    "本地模型需 OpenAI 兼容端点；无需 GPU"
+  ],
+  "prosZh": [
+    "以项目为单位保存目标、规则与长期记忆",
+    "可调用已有的编码代理一起完成任务",
+    "待办与自动推进机制适合持续数周的任务",
+    "支持定时自动化与本地模型离线运行",
+    "MIT 许可，项目数据保存在本机"
+  ],
+  "consZh": [
+    "不擅长精细的屏幕点击与元素定位操作",
+    "依赖外部编码代理与模型调用额度",
+    "功能面较广，新用户学习成本较高",
+    "项目较新，迭代快，行为可能调整"
+  ],
+  "limitsZh": "Orkas 是任务编排与项目管理型代理，不是屏幕级 CUA：它没有截图定位、鼠标轨迹与元素校验能力，无法直接在企业微信客户端里点会话；定时与自动推进也可能在无人监督时放大错误。仓库未声明 GUI 任务成功率。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可用项目与待办把「整理外部客户名单—生成话术—人工审核—记录结果」编排起来，并把生成任务分派给代理；真正的企业微信发送仍需人工或另接 CUA 工具，它只覆盖准备与审阅环节。",
+  "maturityZh": "2026-04 建仓，9077 stars、523 forks，MIT，最近提交 2026-11-07；发布活跃、下载渠道齐全，但项目年轻，功能边界仍在扩张，长期稳定性待观察。",
+  "evidence": [
+    {
+      "claim": "它是 MIT 许可的本地优先多代理桌面应用",
+      "source": "README.md",
+      "quote": "Orkas is an open-source (MIT), local-first multi-agent desktop app"
+    },
+    {
+      "claim": "目标是把事情做完并持续推动",
+      "source": "README.md",
+      "quote": "turns your goals into finished work and keeps it moving"
+    },
+    {
+      "claim": "完成的工作会回到桌面等待审阅",
+      "source": "README.md",
+      "quote": "finished work comes back for your review"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "Anil-matcha__open-duet",
+      "milind-soni__OpenMausBot"
+    ],
+    "whenZh": "要本地项目制多代理团队，选 Orkas；要可自托管的代理工作台与审批，选 Open Duet；要聊天式机器人工作台，选 OpenMausBot。三者都偏编排，不做屏幕级点击。"
+  },
+  "scores": {
+    "coverage": 3,
+    "usability": 4,
+    "docs": 3,
+    "maintenance": 4,
+    "performance": 3,
+    "stability": 3
+  },
+  "stepsZh": [
+    "安装 Orkas 并新建「外部客户运营」项目，写入目标与规则",
+    "把整理名单、写话术、审核、记录拆成待办并分派人机",
+    "让 Commander 调用编码代理生成话术草稿与客户名单",
+    "审核通过后由本人复制到企业微信外部群发送",
+    "开启每日定时任务，自动汇总发送结果与失败清单"
+  ],
+  "successRateZh": "无公开成功率数据；README 未给出任务完成率统计。可自测：连续 10 天用同一项目推进固定待办，统计按时完成、需人工返工、卡在同一代理三类情况，再评估自动推进是否放大错误。"
+}

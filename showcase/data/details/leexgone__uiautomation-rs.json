@@ -1,0 +1,79 @@
+{
+  "id": "leexgone__uiautomation-rs",
+  "taglineZh": "Rust 封装的 Windows UIA 库",
+  "summaryZh": "一套 Windows 自动化体系的 Rust 封装包，用来加速 Windows 自动化程序开发：把 UIAutomation 的元素、遍历器、控件模式与事件监听包装成 Rust API，并用特性开关控制编译内容，默认只包含输入、控件与控件模式，进程、对话框、剪贴板、事件、截图等按需开启，适合写单二进制工具。",
+  "whatItDoesZh": "能创建 UIAutomation 实例、获取根元素与控件视图遍历器、递归打印控件树、按条件查找元素、读取名称与类名、调用控件模式执行动作；开启对应特性后还能做键盘输入、剪贴板操作、进程过滤、消息对话框、事件监听以及 BMP 与 PNG 格式的截图。",
+  "useCasesZh": [
+    "用 Rust 写一个单文件的 Windows 控件遍历工具",
+    "给自研 MCP 或 CUA 服务提供 UIA 操作层",
+    "按进程过滤控件树，只关注目标客户端的窗口",
+    "监听控件事件，实现对界面变化的被动触发响应",
+    "在 Rust 项目里按需裁剪自动化依赖体积"
+  ],
+  "appsZh": [
+    "实现 UIAutomation Provider 的 Windows 应用",
+    "WPF、WinForms 与 MFC 程序",
+    "浏览器与 Electron 客户端",
+    "不限具体应用，依赖 UIA 树"
+  ],
+  "platformsZh": [
+    "Windows"
+  ],
+  "techApproachZh": "通过 windows crate 调 COM 形式的 UIAutomation 接口，用 RAII 包装元素与遍历器；控件模式抽象成 Rust trait，特性开关决定哪些模块参与编译，从而在不牺牲能力的前提下控制二进制体积与依赖数量。",
+  "requirementsZh": [
+    "Rust 工具链与 Cargo",
+    "Windows 系统",
+    "在 Cargo.toml 中添加依赖并选择特性",
+    "无需 GPU 与模型 Key"
+  ],
+  "prosZh": [
+    "Rust 类型安全，适合长期维护的自动化工具",
+    "特性开关细，可按需裁剪依赖体积",
+    "示例覆盖控件遍历与控件模式调用",
+    "有中文文档，对国内开发者比较友好"
+  ],
+  "consZh": [
+    "仅支持 Windows，无法跨平台",
+    "偏底层 API，业务封装要自己做",
+    "版本升级过程中曾出现破坏性变更"
+  ],
+  "limitsZh": "只能在 UIAutomation 暴露控件的应用上工作，自绘界面与游戏无效；库只提供原语，不含重试、等待与目标校验；0.19 前后的兼容性变化需要留意。仓库未提供任务成功率或稳定性测试。",
+  "stepsZh": [
+    "先写一个小程序遍历 WXWork 控件树，确认输入框可见",
+    "开启 process 特性按进程过滤，缩小遍历范围",
+    "按控件名称与类型查找外部群会话并点击进入",
+    "用输入特性写入已审核文案，再读回名称校验",
+    "由人工确认后发送，失败则重取控件树重试一次"
+  ],
+  "successRateZh": "无公开成功率数据。README 只列特性表与示例代码，没有任何实测统计。可自测：固定客户端版本，跑 50 次“查找输入框—写入—回读”，统计查找失败与写入无效的次数。",
+  "wecomRelevance": "partial",
+  "wecomUseZh": "可用 Rust 写一个轻量企微辅助工具：按进程过滤控件树、定位外部群、写入文案并回读。是否可用取决于企微客户端的 UIA 暴露程度，需要先现场验证。",
+  "maturityZh": "2021 年创建，2026 年 9 月仍在更新，204 星、30 余 fork，Apache-2.0 许可。个人维护但节奏稳定，文档中英双语，适合作为 Rust 自动化项目的起点。",
+  "evidence": [
+    {
+      "claim": "帮助快速开发 Windows 自动化程序",
+      "source": "README.cn.md",
+      "quote": "可以辅助你快速进行Windows自动化程序的开发"
+    },
+    {
+      "claim": "control 特性依赖 pattern 特性",
+      "source": "README.cn.md",
+      "quote": "`control`特性依赖`pattern`特性"
+    }
+  ],
+  "compareTips": {
+    "vs": [
+      "pywinauto__pywinauto",
+      "wwwzzzxxx__winch-opencode-computer-use-mcp"
+    ],
+    "whenZh": "要 Rust 单二进制且只做 Windows，它是合适底座；要开箱可用的 MCP 服务，winch 已把树过滤与验证做好；要 Python 生态与更多示例，选 pywinauto。"
+  },
+  "scores": {
+    "coverage": 3,
+    "usability": 3,
+    "docs": 4,
+    "maintenance": 4,
+    "performance": 5,
+    "stability": 4
+  }
+}
